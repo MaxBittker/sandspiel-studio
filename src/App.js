@@ -21,17 +21,16 @@
  * @author samelh@google.com (Sam El-Husseini)
  */
 
-import React from 'react';
-import './App.css';
-import Sand from './Sand.js';
+import React from "react";
+import "./App.css";
+import Sand from "./Sand.js";
 
+import BlocklyComponent, { Block, Value, Field, Shadow } from "./Blockly";
 
-import BlocklyComponent, { Block, Value, Field, Shadow } from './Blockly';
+import BlocklyJS from "blockly/javascript";
 
-import BlocklyJS from 'blockly/javascript';
-
-import './blocks/customblocks';
-import './generator/generator';
+import "./blocks/customblocks";
+import "./generator/generator";
 
 class App extends React.Component {
   constructor(props) {
@@ -44,27 +43,31 @@ class App extends React.Component {
       this.simpleWorkspace.current.workspace
     );
     console.log(code);
-  }
+  };
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-        <Sand width={300} height={300}/>
+          <Sand width={300} height={300} />
 
           <button onClick={this.generateCode}>Convert</button>
-          <BlocklyComponent ref={this.simpleWorkspace}
-          readOnly={false} trashcan={true} media={'media/'}
-          move={{
-            scrollbars: true,
-            drag: true,
-            wheel: true
-          }}
-          initialXml={`
+          <BlocklyComponent
+            ref={this.simpleWorkspace}
+            readOnly={false}
+            trashcan={true}
+            media={"media/"}
+            move={{
+              scrollbars: true,
+              drag: true,
+              wheel: true,
+            }}
+            initialXml={`
 <xml xmlns="http://www.w3.org/1999/xhtml">
 <block type="controls_ifelse" x="0" y="0"></block>
 </xml>
-      `}>
+      `}
+          >
             <Block type="test_react_field" />
             <Block type="test_react_date_field" />
             <Block type="controls_ifelse" />

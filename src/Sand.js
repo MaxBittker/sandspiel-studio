@@ -17,9 +17,9 @@ function setSand(x, y, v) {
   sands[getIndex(x, y)] = v;
 }
 const tick = () => {
-  sands.forEach((e, i, array) => {
-    if (i % 4 !== 0) return;
+  for (var i = 0; i < sands.length; i += 4) {
     let index = i / 4;
+    let e = sands[i];
     let x = index % width;
     let y = Math.floor(index / width);
     let u = getSand(x, y + 1);
@@ -34,7 +34,7 @@ const tick = () => {
         setSand(x, y, ud);
       }
     }
-  });
+  }
 };
 
 const seed = () => {
