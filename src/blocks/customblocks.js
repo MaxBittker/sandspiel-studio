@@ -71,3 +71,92 @@ Blockly.Blocks["test_react_date_field"] = {
     this.setStyle("loop_blocks");
   },
 };
+
+Blockly.Blocks["sand_behavior_base"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "Sand Behavior %1 %2 %3",
+      colour: 60,
+      tooltip: "Behavior for the sand",
+      helpUrl: "",
+      args0: [
+        {
+          type: "field_colour",
+          name: "Color",
+          colour: "#fa7",
+        },
+        {
+          type: "input_value",
+          name: "Color2",
+          align: "CENTRE",
+        },
+        {
+          type: "input_statement",
+          name: "body",
+          align: "CENTRE",
+        },
+      ],
+      inputsInline: true,
+    });
+    this.setDeletable(false);
+    this.setMovable(false);
+    this.setStyle("loop_blocks");
+  },
+};
+
+Blockly.Blocks["get_cell"] = {
+  init: function () {
+    this.jsonInit({
+      type: "get_cell",
+      message0: "get cell: %1 %2",
+      args0: [
+        {
+          type: "input_value",
+          name: "x",
+          check: "Number",
+        },
+        {
+          type: "input_value",
+          name: "y",
+          check: "Number",
+        },
+      ],
+      inputsInline: true,
+      output: "Number",
+      colour: 230,
+      tooltip: "",
+      helpUrl: "",
+    });
+  },
+};
+Blockly.Blocks["set_cell"] = {
+  init: function () {
+    this.jsonInit({
+      type: "set_cell",
+      message0: "set cell%1 %2, %3",
+      args0: [
+        {
+          type: "input_value",
+          name: "x",
+          check: "Number",
+        },
+        {
+          type: "input_value",
+          name: "y",
+          check: "Number",
+        },
+        {
+          type: "input_value",
+          name: "cell",
+          check: "Number",
+        },
+      ],
+      inputsInline: true,
+      previousStatement: null,
+      nextStatement: null,
+      colour: 270,
+      tooltip: "",
+      helpUrl: "",
+    });
+  },
+};

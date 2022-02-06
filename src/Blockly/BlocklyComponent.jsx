@@ -41,6 +41,7 @@ let CustomConstantsProvider = function () {
   // Set up all of the constants from the base provider.
   CustomConstantsProvider.superClass_.constructor.call(this);
 
+  this.ADD_START_HATS = true;
   // Override a few properties.
   /**
    * The width of the notch used for previous and next connections.
@@ -88,6 +89,8 @@ class BlocklyComponent extends React.Component {
       toolbox: this.toolbox.current,
       ...rest,
     });
+
+    this.primaryWorkspace.addChangeListener(Blockly.Events.disableOrphans);
 
     if (initialXml) {
       Blockly.Xml.domToWorkspace(
