@@ -44,7 +44,7 @@ const seed = () => {
 };
 seed();
 
-const Sand = ({}) => {
+const Sand = () => {
   const canvas = React.useRef();
   const drawer = React.useRef();
   React.useEffect(() => {

@@ -21,55 +21,110 @@
  * @author samelh@google.com (Sam El-Husseini)
  */
 
-import React from 'react';
-import './BlocklyComponent.css';
+import React from "react";
+import "./BlocklyComponent.css";
 
-import Blockly from 'blockly/core';
-import locale from 'blockly/msg/en';
-import 'blockly/blocks';
+import Blockly from "blockly/core";
+import locale from "blockly/msg/en";
+import "blockly/blocks";
 
 Blockly.setLocale(locale);
 
+let CustomRenderer = function (name) {
+  CustomRenderer.superClass_.constructor.call(this, name);
+};
+Blockly.utils.object.inherits(CustomRenderer, Blockly.blockRendering.Renderer);
+CustomRenderer.prototype.makeConstants_ = function () {
+  return new CustomConstantsProvider();
+};
+let CustomConstantsProvider = function () {
+  // Set up all of the constants from the base provider.
+  CustomConstantsProvider.superClass_.constructor.call(this);
+
+  // Override a few properties.
+  /**
+   * The width of the notch used for previous and next connections.
+   * @type {number}
+   * @override
+   */
+  //   this.NOTCH_WIDTH = 20;
+
+  /**
+   * The height of the notch used for previous and next connections.
+   * @type {number}
+   * @override
+   */
+  //   this.NOTCH_HEIGHT = 10;
+
+  /**
+   * Rounded corner radius.
+   * @type {number}
+   * @override
+   */
+  this.CORNER_RADIUS = 0;
+  /**
+   * The height of the puzzle tab used for input and output connections.
+   * @type {number}
+   * @override
+   */
+  //   this.TAB_HEIGHT = 8;
+};
+Blockly.utils.object.inherits(
+  CustomConstantsProvider,
+  Blockly.blockRendering.ConstantProvider
+);
+Blockly.blockRendering.register("custom_renderer", CustomRenderer);
+
 class BlocklyComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.blocklyDiv = React.createRef();
-        this.toolbox = React.createRef();
+  constructor(props) {
+    super(props);
+    this.blocklyDiv = React.createRef();
+    this.toolbox = React.createRef();
+  }
+
+  componentDidMount() {
+    const { initialXml, children, ...rest } = this.props;
+    this.primaryWorkspace = Blockly.inject(this.blocklyDiv.current, {
+      toolbox: this.toolbox.current,
+      ...rest,
+    });
+
+    if (initialXml) {
+      Blockly.Xml.domToWorkspace(
+        Blockly.Xml.textToDom(initialXml),
+        this.primaryWorkspace
+      );
     }
+  }
 
-    componentDidMount() {
-        const { initialXml, children, ...rest } = this.props;
-        this.primaryWorkspace = Blockly.inject(
-            this.blocklyDiv.current,
-            {
-                toolbox: this.toolbox.current,
-                ...rest
-            },
-        );
+  get workspace() {
+    return this.primaryWorkspace;
+  }
 
-        if (initialXml) {
-            Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace);
-        }
-    }
+  setXml(xml) {
+    Blockly.Xml.domToWorkspace(
+      Blockly.Xml.textToDom(xml),
+      this.primaryWorkspace
+    );
+  }
 
-    get workspace() {
-        return this.primaryWorkspace;
-    }
+  render() {
+    const { children } = this.props;
 
-    setXml(xml) {
-        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), this.primaryWorkspace);
-    }
-
-    render() {
-        const { children } = this.props;
-
-        return <React.Fragment>
-            <div ref={this.blocklyDiv} id="blocklyDiv" />
-            <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{ display: 'none' }} ref={this.toolbox}>
-                {children}
-            </xml>
-        </React.Fragment>;
-    }
+    return (
+      <React.Fragment>
+        <div ref={this.blocklyDiv} id="blocklyDiv" />
+        <xml
+          xmlns="https://developers.google.com/blockly/xml"
+          is="blockly"
+          style={{ display: "none" }}
+          ref={this.toolbox}
+        >
+          {children}
+        </xml>
+      </React.Fragment>
+    );
+  }
 }
 
 export default BlocklyComponent;

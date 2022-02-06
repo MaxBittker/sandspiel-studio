@@ -25,7 +25,13 @@ import React from "react";
 import "./App.css";
 import Sand from "./Sand.js";
 
-import BlocklyComponent, { Block, Value, Field, Shadow } from "./Blockly";
+import BlocklyComponent, {
+  Block,
+  Category,
+  Value,
+  Field,
+  Shadow,
+} from "./Blockly";
 
 import BlocklyJS from "blockly/javascript";
 
@@ -57,10 +63,11 @@ class App extends React.Component {
             readOnly={false}
             trashcan={true}
             media={"media/"}
+            renderer={"custom_renderer"}
             move={{
-              scrollbars: true,
-              drag: true,
-              wheel: true,
+              scrollbars: false,
+              drag: false,
+              wheel: false,
             }}
             initialXml={`
 <xml xmlns="http://www.w3.org/1999/xhtml">
@@ -68,31 +75,104 @@ class App extends React.Component {
 </xml>
       `}
           >
-            <Block type="test_react_field" />
-            <Block type="test_react_date_field" />
+            {/* <Block type="test_react_field" /> */}
+            {/* <Block type="test_react_date_Field" /> */}
             <Block type="controls_ifelse" />
             <Block type="logic_compare" />
             <Block type="logic_operation" />
-            <Block type="controls_repeat_ext">
-              <Value name="TIMES">
+            <Block type="math_number" gap="32">
+              <Field name="NUM">123</Field>
+            </Block>
+            <Block type="math_arithmetic">
+              <Value name="A">
+                <Shadow type="math_number">
+                  <Field name="NUM">1</Field>
+                </Shadow>
+              </Value>
+              <Value name="B">
+                <Shadow type="math_number">
+                  <Field name="NUM">1</Field>
+                </Shadow>
+              </Value>
+            </Block>
+            <Block type="math_single">
+              <Value name="NUM">
+                <Shadow type="math_number">
+                  <Field name="NUM">9</Field>
+                </Shadow>
+              </Value>
+            </Block>
+
+            <Block type="math_number_property">
+              <Value name="NUMBER_TO_CHECK">
+                <Shadow type="math_number">
+                  <Field name="NUM">0</Field>
+                </Shadow>
+              </Value>
+            </Block>
+            <Block type="math_round">
+              <Value name="NUM">
+                <Shadow type="math_number">
+                  <Field name="NUM">3.1</Field>
+                </Shadow>
+              </Value>
+            </Block>
+            <Block type="math_modulo">
+              <Value name="DIVIDEND">
+                <Shadow type="math_number">
+                  <Field name="NUM">64</Field>
+                </Shadow>
+              </Value>
+              <Value name="DIVISOR">
                 <Shadow type="math_number">
                   <Field name="NUM">10</Field>
                 </Shadow>
               </Value>
             </Block>
-            <Block type="logic_operation" />
-            <Block type="logic_negate" />
-            <Block type="logic_boolean" />
-            <Block type="logic_null" disabled="true" />
-            <Block type="logic_ternary" />
-            <Block type="text_charAt">
+            <Block type="math_constrain">
               <Value name="VALUE">
-                <Block type="variables_get">
-                  <Field name="VAR">text</Field>
-                </Block>
+                <Shadow type="math_number">
+                  <Field name="NUM">50</Field>
+                </Shadow>
+              </Value>
+              <Value name="LOW">
+                <Shadow type="math_number">
+                  <Field name="NUM">1</Field>
+                </Shadow>
+              </Value>
+              <Value name="HIGH">
+                <Shadow type="math_number">
+                  <Field name="NUM">100</Field>
+                </Shadow>
               </Value>
             </Block>
+            <Block type="math_random_int">
+              <Value name="FROM">
+                <Shadow type="math_number">
+                  <Field name="NUM">1</Field>
+                </Shadow>
+              </Value>
+              <Value name="TO">
+                <Shadow type="math_number">
+                  <Field name="NUM">100</Field>
+                </Shadow>
+              </Value>
+            </Block>
+            <Block type="math_random_float"></Block>
+
+            <Block type="logic_negate" />
+            <Block type="logic_boolean" />
           </BlocklyComponent>
+          {/* <Category
+            name="Variables"
+            categorystyle="variable_category"
+            custom="VARIABLE"
+          ></Category>
+          <Category
+            name="Functions"
+            categorystyle="procedure_category"
+            custom="PROCEDURE"
+          ></Category> */}
         </header>
       </div>
     );
