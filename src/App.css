@@ -11,3 +11,11 @@ canvas{
   border:1px solid black;
 
 }
+
+button.selected{
+  filter: invert(1.0);
+}
+.element-tray{
+  display: flex;
+  flex-direction: column;
+}

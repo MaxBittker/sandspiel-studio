@@ -51,7 +51,9 @@ class App extends React.Component {
     var xml = Blockly.Xml.workspaceToDom(
       this.simpleWorkspace.current.workspace
     );
-    console.log(xml);
+    var xmlText = Blockly.Xml.domToPrettyText(xml);
+
+    console.log(xmlText);
     console.log(code);
   };
 
@@ -75,7 +77,7 @@ class App extends React.Component {
             }}
             initialXml={`
 <xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="sand_behavior_base" x="20" y="10"></block>
+<block type="sand_behavior_base" x="150" y="10"></block>
 </xml>
       `}
           >

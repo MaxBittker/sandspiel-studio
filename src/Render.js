@@ -60,9 +60,28 @@ vec3 hsl2rgb(float h, float s, float l) {
 }
 void main() {
   vec2 textCoord = ((uv * vec2(0.5, 0.5)) + vec2(0.5));
-  vec4 data = texture2D(data, textCoord)*255./8.;
+  vec4 data = texture2D(data, textCoord);
+  int type = int((data.r * 255.) + 0.1);
+  float hue = 0.0;
+  float saturation = 0.3;
+  float lightness = 0.25 + data.g * 0.2;
 
-  vec3 color = hsl2rgb(data.g,0.2, data.r+ 0.3);
+  if (type == 0) {
+    lightness= 1.0;
+  }else if(type==1){
+    hue= 0.65;
+    saturation = 0.7;
+    lightness += 0.3;
+
+
+  }else if(type==2){
+    hue= 0.15;
+    saturation = 0.7;
+    lightness += 0.3;
+
+
+  }
+    vec3 color = hsl2rgb(hue,saturation, lightness);
   gl_FragColor = vec4(color, 1.0);
 }`;
 let startWebGL = ({ canvas, width, height }) => {
