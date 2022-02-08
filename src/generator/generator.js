@@ -46,7 +46,8 @@ Blockly.JavaScript["get_cell"] = function (block) {
     "y",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  var code = `console.log("get: ${value_x}, ${value_y}")`;
+  var code = `window.getSandRelative(${value_x}, ${value_y})`;
+
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
@@ -67,7 +68,9 @@ Blockly.JavaScript["set_cell"] = function (block) {
     "cell",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  var code = `console.log("set: ${value_x} ${value_y}:  ${value_cell}")`;
+  var code = `window.setSandRelative(${value_x}, ${value_y}, ${value_cell});
+  `;
+
   // TODO: Change ORDER_NONE to the correct strength.
   return code;
 };
@@ -89,7 +92,7 @@ Blockly.JavaScript["sand_behavior_base"] = function (block) {
 
   console.log(body);
   let code = `
-this.color = ${color};
+this.color = "${color}";
 ${body}`;
   return code;
 };

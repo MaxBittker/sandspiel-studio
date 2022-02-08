@@ -24,6 +24,8 @@
 import React from "react";
 import "./App.css";
 import Sand from "./Sand.js";
+import prettier from "prettier";
+import parserBabel from "https://unpkg.com/prettier@2.5.1/esm/parser-babel.mjs";
 
 import BlocklyComponent, {
   Block,
@@ -35,9 +37,10 @@ import BlocklyComponent, {
 import Blockly from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 
+import starterFunction from "./starterblocks";
+
 import "./blocks/customblocks";
 import "./generator/generator";
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -45,16 +48,25 @@ class App extends React.Component {
   }
 
   generateCode = () => {
-    var code = BlocklyJS.workspaceToCode(
+    let code = BlocklyJS.workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
-    var xml = Blockly.Xml.workspaceToDom(
+
+    code = prettier.format(code, {
+      parser: "babel",
+      plugins: [parserBabel],
+    });
+    let xml = Blockly.Xml.workspaceToDom(
       this.simpleWorkspace.current.workspace
     );
-    var xmlText = Blockly.Xml.domToPrettyText(xml);
+    let xmlText = Blockly.Xml.domToPrettyText(xml);
 
     console.log(xmlText);
+    window.localStorage.setItem("code", xmlText);
     console.log(code);
+    let fn = Function(code);
+
+    window.sandUpdate = fn;
   };
 
   render() {
@@ -75,11 +87,7 @@ class App extends React.Component {
               drag: false,
               wheel: false,
             }}
-            initialXml={`
-<xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="sand_behavior_base" x="150" y="10"></block>
-</xml>
-      `}
+            initialXml={window.localStorage.getItem("code") || starterFunction}
           >
             <Category name="APIs">
               {/* <Block type="test_react_field" /> */}
@@ -92,7 +100,7 @@ class App extends React.Component {
               <Block type="logic_compare" />
               <Block type="logic_operation" />
               <Block type="math_number" gap="32">
-                <Field name="NUM">123</Field>
+                <Field name="NUM">1</Field>
               </Block>
               <Block type="math_arithmetic">
                 <Value name="A">
