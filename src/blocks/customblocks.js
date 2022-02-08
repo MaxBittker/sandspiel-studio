@@ -99,7 +99,7 @@ Blockly.Blocks["sand_behavior_base"] = {
       inputsInline: true,
     });
     this.setDeletable(false);
-    this.setMovable(false);
+    // this.setMovable(true);
     this.setStyle("loop_blocks");
   },
 };
@@ -129,6 +129,7 @@ Blockly.Blocks["get_cell"] = {
     });
   },
 };
+
 Blockly.Blocks["set_cell"] = {
   init: function () {
     this.jsonInit({
@@ -148,6 +149,33 @@ Blockly.Blocks["set_cell"] = {
         {
           type: "input_value",
           name: "cell",
+          check: "Number",
+        },
+      ],
+      inputsInline: true,
+      previousStatement: null,
+      nextStatement: null,
+      colour: 270,
+      tooltip: "",
+      helpUrl: "",
+    });
+  },
+};
+
+Blockly.Blocks["swap_cells"] = {
+  init: function () {
+    this.jsonInit({
+      type: "swap_cells",
+      message0: "swap cells %1 %2",
+      args0: [
+        {
+          type: "input_value",
+          name: "x",
+          check: "Number",
+        },
+        {
+          type: "input_value",
+          name: "y",
           check: "Number",
         },
       ],

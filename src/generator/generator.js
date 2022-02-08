@@ -75,6 +75,25 @@ Blockly.JavaScript["set_cell"] = function (block) {
   return code;
 };
 
+Blockly.JavaScript["swap_cells"] = function (block) {
+  var value_x = Blockly.JavaScript.valueToCode(
+    block,
+    "x",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  var value_y = Blockly.JavaScript.valueToCode(
+    block,
+    "y",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+
+  var code = `window.swapSandRelative(${value_x}, ${value_y});
+    `;
+
+  // TODO: Change ORDER_NONE to the correct strength.
+  return code;
+};
+
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
   var color = block.getFieldValue("Color");
   var value_name = Blockly.JavaScript.valueToCode(

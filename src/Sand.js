@@ -25,8 +25,16 @@ function getSandRelative(x, y) {
 function setSandRelative(x, y, v) {
   sands[getIndex(x + aX, y + aY)] = v;
 }
+
+function swapSandRelative(x, y) {
+  let a = getSandRelative(0, 0);
+  let b = getSandRelative(x, y);
+  setSandRelative(0, 0, b);
+  setSandRelative(x, y, a);
+}
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
+window.swapSandRelative = swapSandRelative;
 
 window.sandUpdate = (e) => {
   let u = getSandRelative(0, 1);

@@ -81,7 +81,7 @@ class App extends React.Component {
             readOnly={false}
             trashcan={true}
             media={"media/"}
-            renderer={"custom_renderer"}
+            renderer={"zelos"}
             move={{
               scrollbars: false,
               drag: false,
@@ -90,10 +90,11 @@ class App extends React.Component {
             initialXml={window.localStorage.getItem("code") || starterFunction}
           >
             <Category name="APIs">
-              {/* <Block type="test_react_field" /> */}
-              {/* <Block type="test_react_date_Field" /> */}
               <Block type="get_cell" />
               <Block type="set_cell" />
+              <Block type="swap_cells" />
+              <Block type="test_react_field" />
+              <Block type="test_react_date_field" />
             </Category>
             <Category name="Blocks">
               <Block type="controls_ifelse" />
