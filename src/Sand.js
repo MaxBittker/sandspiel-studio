@@ -1,29 +1,44 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import useAnimationFrame from "use-animation-frame";
 import { startWebGL } from "./Render";
 
-const width = 300;
+const width = 100;
+let dpi = 3;
 const height = width;
 const sands = new Uint8Array(width * height * 4);
 window.sands = sands;
 
+let clock = 0;
 let aX = 0;
 let aY = 0;
 function getIndex(x, y) {
   return (x + y * width) * 4;
 }
 function getSand(x, y) {
+  if (x < 0 || x >= width || y < 0 || y >= height) {
+    return 3; // wall?
+  }
   return sands[getIndex(x, y)];
 }
 function setSand(x, y, v) {
+  if (x < 0 || x >= width || y < 0 || y >= height) {
+    return;
+  }
   sands[getIndex(x, y)] = v;
 }
 function getSandRelative(x, y) {
   return getSand(x + aX, y + aY);
 }
 function setSandRelative(x, y, v) {
-  sands[getIndex(x + aX, y + aY)] = v;
+  x = x + aX;
+  y = y + aY;
+  if (x < 0 || x >= width || y < 0 || y >= height) {
+    return;
+  }
+  let i = getIndex(x, y);
+
+  sands[i] = v;
+  sands[i + 3] = clock;
 }
 
 function swapSandRelative(x, y) {
@@ -36,39 +51,34 @@ window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
 
-window.sandUpdate = (e) => {
-  let u = getSandRelative(0, 1);
-  if (u > e) {
-    setSandRelative(0, 1, e);
-    setSandRelative(0, 0, u);
-  } else {
-    let d = Math.random() > 0.5 ? -1 : 1;
-    let ud = getSandRelative(d, 1);
-    if (ud > e) {
-      setSandRelative(0, 0, ud);
-      setSandRelative(d, 1, e);
-    }
-  }
-};
+export let elements = ["Air", "Water", "Sand", "Wall"];
+
+window.updaters = elements.map(() => {
+  return () => {};
+});
+
 const tick = () => {
+  clock = (clock + 1) % 2;
   for (var i = 0; i < sands.length; i += 4) {
     let index = i / 4;
+    let c = sands[i + 3];
+    if (c === clock) continue;
     let e = sands[i];
     let x = index % width;
     let y = Math.floor(index / width);
     aX = x;
     aY = y;
-    if (e === 1) {
-      window.sandUpdate(e);
-    }
+
+    window.updaters[e](e);
   }
 };
 
-let elements = ["Air", "Water", "Sand", "Omega"];
-
 const seed = () => {
   for (var i = 0; i < sands.length; i += 4) {
-    sands[i] = (Math.random() * (elements.length - 1)) | 0;
+    sands[i] = 0;
+    if (Math.random() * i > width * height * 3) {
+      sands[i] = (Math.random() * (elements.length - 1)) | 0;
+    }
     sands[i + 1] = (Math.random() * 255) | 0;
     sands[i + 2] = 0;
     sands[i + 3] = 0;
@@ -123,6 +133,9 @@ const Sand = () => {
     drawer.current();
   }, []);
 
+  useEffect(() => {
+    window.selectedElement = selectedElement;
+  }, [selectedElement]);
   return (
     <>
       <UI selectedElement={selectedElement} setSelected={setSelected} />
@@ -134,20 +147,25 @@ const Sand = () => {
         onMouseMove={(e) => {
           if (isDrawing) {
             let bounds = canvas.current.getBoundingClientRect();
-            let eX = Math.round(e.clientX - bounds.left);
-            let eY = height - Math.round(e.clientY - bounds.top);
+            let eX = Math.round(
+              (e.clientX - bounds.left) * (width / bounds.width)
+            );
+            let eY = Math.round(
+              (e.clientY - bounds.top) * (height / bounds.height)
+            );
             setSand(eX, eY, selectedElement);
+            setSand(eX - 1, eY, selectedElement);
+            setSand(eX, eY - 1, selectedElement);
+            setSand(eX, eY + 1, selectedElement);
+            setSand(eX + 1, eY, selectedElement);
           }
         }}
         ref={canvas}
-        height={height}
-        width={width}
+        height={height * dpi}
+        width={width * dpi}
       />
     </>
   );
 };
-Sand.propTypes = {
-  height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
-};
+Sand.propTypes = {};
 export default Sand;

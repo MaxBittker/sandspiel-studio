@@ -25,7 +25,7 @@
 // https://developers.google.com/blockly/guides/create-custom-blocks/define-blocks
 
 import * as Blockly from "blockly/core";
-
+import { elements } from "../Sand";
 // Since we're using json to initialize the field, we'll need to import it.
 import "../fields/BlocklyReactField";
 import "../fields/DateField";
@@ -72,11 +72,23 @@ Blockly.Blocks["test_react_date_field"] = {
   },
 };
 
+Blockly.Blocks["element_dropdown"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("drop down:")
+      .appendField(
+        new Blockly.FieldDropdown(
+          elements.map((name, i) => [name, i.toString()])
+        ),
+        "FIELDNAME"
+      );
+  },
+};
+
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
     this.jsonInit({
       message0: "Sand Behavior %1 %2 %3",
-      colour: 60,
       tooltip: "Behavior for the sand",
       helpUrl: "",
       args0: [
@@ -99,7 +111,7 @@ Blockly.Blocks["sand_behavior_base"] = {
       inputsInline: true,
     });
     this.setDeletable(false);
-    // this.setMovable(true);
+    this.setMovable(true);
     this.setStyle("loop_blocks");
   },
 };

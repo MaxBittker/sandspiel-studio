@@ -59,7 +59,7 @@ vec3 hsl2rgb(float h, float s, float l) {
     return hsl2rgb(vec3(h, s, l));
 }
 void main() {
-  vec2 textCoord = ((uv * vec2(0.5, 0.5)) + vec2(0.5));
+  vec2 textCoord = ((uv * vec2(0.5, -0.5)) + vec2(0.5));
   vec4 data = texture2D(data, textCoord);
   int type = int((data.r * 255.) + 0.1);
   float hue = 0.0;

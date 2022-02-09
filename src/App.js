@@ -66,14 +66,14 @@ class App extends React.Component {
     console.log(code);
     let fn = Function(code);
 
-    window.sandUpdate = fn;
+    window.updaters[window.selectedElement] = fn;
   };
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <Sand width={300} height={300} />
+          <Sand />
 
           <button onClick={this.generateCode}>Convert</button>
           <BlocklyComponent
@@ -93,10 +93,13 @@ class App extends React.Component {
               <Block type="get_cell" />
               <Block type="set_cell" />
               <Block type="swap_cells" />
+              <Block type="element_dropdown"></Block>
+
               <Block type="test_react_field" />
               <Block type="test_react_date_field" />
             </Category>
             <Category name="Blocks">
+              <Block type="controls_if" />
               <Block type="controls_ifelse" />
               <Block type="logic_compare" />
               <Block type="logic_operation" />

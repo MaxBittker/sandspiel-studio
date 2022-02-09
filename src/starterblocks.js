@@ -2,7 +2,7 @@ export default `<xml xmlns="https://developers.google.com/blockly/xml">
 <variables>
   <variable id="JGbX*aLh3=rkcy]PDaZ)">dx</variable>
 </variables>
-<block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="150" y="10">
+<block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="0" y="10">
   <field name="Color">#ffaa77</field>
   <statement name="body">
     <block type="controls_ifelse" id="5:-U~W5:D=B4_5FUblC7">
@@ -31,41 +31,17 @@ export default `<xml xmlns="https://developers.google.com/blockly/xml">
         </block>
       </value>
       <statement name="DO0">
-        <block type="set_cell" id="!:RJR$gp)VC,!Mma+U+C">
+        <block type="swap_cells" id="~S2^esKGQmY*JV}tf+i">
           <value name="x">
-            <block type="math_number" id="o0i.r})#L[X:OGb(cyd!">
+            <block type="math_number" id="A7L#okBS+;23n5Yf^UI0">
               <field name="NUM">0</field>
             </block>
           </value>
           <value name="y">
-            <block type="math_number" id="lkh]T%d.A_DB7^1}Q$4#">
-              <field name="NUM">0</field>
+            <block type="math_number" id="L@WvLrm)Pnt!+#MsD:dh">
+              <field name="NUM">1</field>
             </block>
           </value>
-          <value name="cell">
-            <block type="math_number" id="ppG6:z{{OZ^HUWfjx)wT">
-              <field name="NUM">0</field>
-            </block>
-          </value>
-          <next>
-            <block type="set_cell" id="/r%~y}fC=69[=2m#y2Y6">
-              <value name="x">
-                <block type="math_number" id="A7L#okBS+;23n5Yf^UI0">
-                  <field name="NUM">0</field>
-                </block>
-              </value>
-              <value name="y">
-                <block type="math_number" id="L@WvLrm)Pnt!+#MsD:dh">
-                  <field name="NUM">1</field>
-                </block>
-              </value>
-              <value name="cell">
-                <block type="math_number" id="+qc~E{b4_OIG?$%O%*kO">
-                  <field name="NUM">1</field>
-                </block>
-              </value>
-            </block>
-          </next>
         </block>
       </statement>
       <statement name="ELSE">
@@ -112,41 +88,17 @@ export default `<xml xmlns="https://developers.google.com/blockly/xml">
                 </block>
               </value>
               <statement name="DO0">
-                <block type="set_cell" id="*(YJV9xbldj6v,}|!L@v">
+                <block type="swap_cells" id="%GYut^lHo6])jzZ7PF3">
                   <value name="x">
                     <block type="variables_get" id="4M62e?4nxu#xVjtqwiiH">
                       <field name="VAR" id="JGbX*aLh3=rkcy]PDaZ)">dx</field>
                     </block>
                   </value>
                   <value name="y">
-                    <block type="math_number" id="uUyrcOIsL[y;fynvdsu~">
-                      <field name="NUM">0</field>
+                    <block type="math_number" id="=S?#Z:oLpXMW%rMJu%VN">
+                      <field name="NUM">1</field>
                     </block>
                   </value>
-                  <value name="cell">
-                    <block type="math_number" id="(V93jvJAumQ+Y%^$fXm">
-                      <field name="NUM">0</field>
-                    </block>
-                  </value>
-                  <next>
-                    <block type="set_cell" id="HF9=j-[R,-G3t1lQP+;">
-                      <value name="x">
-                        <block type="variables_get" id="R}njc?:FNPl=i9EB2ND2">
-                          <field name="VAR" id="JGbX*aLh3=rkcy]PDaZ)">dx</field>
-                        </block>
-                      </value>
-                      <value name="y">
-                        <block type="math_number" id="=S?#Z:oLpXMW%rMJu%VN">
-                          <field name="NUM">1</field>
-                        </block>
-                      </value>
-                      <value name="cell">
-                        <block type="math_number" id="V6T2|mlc+oq-YmcrhQSR">
-                          <field name="NUM">1</field>
-                        </block>
-                      </value>
-                    </block>
-                  </next>
                 </block>
               </statement>
             </block>
@@ -156,5 +108,4 @@ export default `<xml xmlns="https://developers.google.com/blockly/xml">
     </block>
   </statement>
 </block>
-</xml>
-   `;
+</xml>`;
