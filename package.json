@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@blockly/block-plus-minus": "^3.0.6",
+    "@blockly/continuous-toolbox": "^2.0.24",
     "blockly": "^3.20200924.4",
     "prettier": "^2.5.1",
     "react": "^17.0.1",

@@ -25,6 +25,7 @@ import React from "react";
 import "./App.css";
 import Sand from "./Sand.js";
 import prettier from "prettier";
+
 import parserBabel from "https://unpkg.com/prettier@2.5.1/esm/parser-babel.mjs";
 
 import BlocklyComponent, {
@@ -34,7 +35,7 @@ import BlocklyComponent, {
   Field,
   Shadow,
 } from "./Blockly";
-import Blockly from "blockly/core";
+import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 
 import starterFunction from "./starterblocks";
@@ -56,10 +57,8 @@ class App extends React.Component {
       parser: "babel",
       plugins: [parserBabel],
     });
-    let xml = Blockly.Xml.workspaceToDom(
-      this.simpleWorkspace.current.workspace
-    );
-    let xmlText = Blockly.Xml.domToPrettyText(xml);
+    let xml = Xml.workspaceToDom(this.simpleWorkspace.current.workspace);
+    let xmlText = Xml.domToPrettyText(xml);
 
     console.log(xmlText);
     window.localStorage.setItem("code", xmlText);
@@ -100,7 +99,7 @@ class App extends React.Component {
             </Category>
             <Category name="Blocks">
               <Block type="controls_if" />
-              <Block type="controls_ifelse" />
+              {/* <Block type="controls_ifelse" /> */}
               <Block type="logic_compare" />
               <Block type="logic_operation" />
               <Block type="math_number" gap="32">
