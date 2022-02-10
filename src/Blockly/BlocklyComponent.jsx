@@ -25,6 +25,12 @@ import React from "react";
 import "./BlocklyComponent.css";
 
 import Blockly from "blockly/core";
+// import "@blockly/block-plus-minus";
+// import {
+//   ContinuousToolbox,
+//   ContinuousFlyout,
+//   ContinuousMetrics,
+// } from "@blockly/continuous-toolbox";
 import locale from "blockly/msg/en";
 import "blockly/blocks";
 

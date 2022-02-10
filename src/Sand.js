@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAnimationFrame from "use-animation-frame";
 import { startWebGL } from "./Render";
+import useStore from "./store";
 
 const width = 100;
 let dpi = 3;
@@ -85,11 +86,11 @@ const seed = () => {
   }
 };
 seed();
-const ElementButton = ({ i, setElement, selected }) => {
+const ElementButton = ({ i, setSelected, selected }) => {
   return (
     <button
       className={selected ? "selected" : ""}
-      onClick={() => setElement(i)}
+      onClick={() => setSelected(i)}
     >
       {elements[i]}
     </button>
@@ -103,7 +104,7 @@ const UI = ({ selectedElement, setSelected }) => {
           <ElementButton
             key={i}
             i={i}
-            setElement={setSelected}
+            setSelected={setSelected}
             selected={i === selectedElement}
           />
         );
@@ -119,8 +120,10 @@ const UI = ({ selectedElement, setSelected }) => {
     </div>
   );
 };
+
 const Sand = () => {
-  const [selectedElement, setSelected] = useState(1);
+  const selectedElement = useStore((state) => state.selectedElement);
+  const setSelected = useStore((state) => state.setSelected);
 
   const canvas = React.useRef();
   const drawer = React.useRef();
@@ -128,6 +131,7 @@ const Sand = () => {
   React.useEffect(() => {
     drawer.current = startWebGL({ canvas: canvas.current, width, height });
   });
+
   useAnimationFrame((e) => {
     tick();
     drawer.current();

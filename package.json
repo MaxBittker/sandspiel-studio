@@ -12,7 +12,8 @@
     "react-dom": "^17.0.1",
     "react-scripts": "^5.0.0",
     "regl": "^2.1.0",
-    "use-animation-frame": "^0.1.1"
+    "use-animation-frame": "^0.1.1",
+    "zustand": "^3.6.9"
   },
   "scripts": {
     "audit": "npm audit fix",

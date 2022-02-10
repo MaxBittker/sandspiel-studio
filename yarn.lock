@@ -1070,6 +1070,16 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@blockly/block-plus-minus@^3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@blockly/block-plus-minus/-/block-plus-minus-3.0.6.tgz#35b54484d4055880f373cda14abc4cf7a1c3418d"
+  integrity sha512-ujziiWkBoSf4pNrrVdQ5eMYkLIM25M2LbOBM6l+5MFOUv6IUmOCzjv1vNO+MzAi1+tkWXlid8jfIxogf+0BLOw==
+
+"@blockly/continuous-toolbox@^2.0.24":
+  version "2.0.24"
+  resolved "https://registry.yarnpkg.com/@blockly/continuous-toolbox/-/continuous-toolbox-2.0.24.tgz#b31b126687ab349736360c10cd58b36e707aaa4d"
+  integrity sha512-SkxWQeFxlfrftOrUdLAlLq0CJTbW4vEu7G5a79GqyYzSaC8C8OzllwUR0ZFYNknzGHgsaxqrhNDHYQw5mekcsw==
+
 "@csstools/normalize.css@*":
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-12.0.0.tgz#a9583a75c3f150667771f30b60d9f059473e62c4"
@@ -9028,3 +9038,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@^3.6.9:
+  version "3.6.9"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.6.9.tgz#f61a756ddea9f95c7ee7cfd3af2f88c10078afbc"
+  integrity sha512-OvDNu/jEWpRnEC7k8xh8GKjqYog7td6FZrLMuHs/IeI8WhrCwV+FngVuwMIFhp5kysZXr6emaeReMqjLGaldAQ==
