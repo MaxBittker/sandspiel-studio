@@ -6,9 +6,29 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+#root{
+  /* display: flex; */
+  /* flex-direction: column; */
+}
+body{
+  background-color: rgb(224, 207, 185);
+}
+button{
+  zoom:1.2;
+  border-radius: 3px;
+  border: 3px ridge white;
+  margin-right: 3p;
+}
 
-canvas{
-  border:1px solid black;
+.blocklySvg{
+  background-color: rgb(228, 199, 194);;
+}
+.blocklyBlockCanvas{
+  filter: drop-shadow(1px 4px 4px rgb(177, 158, 158));
+
+}
+.App-header canvas{
+  border: 3px ridge black;
 
 }
 

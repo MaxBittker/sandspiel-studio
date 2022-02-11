@@ -80,6 +80,27 @@ void main() {
     lightness += 0.3;
 
 
+  }else if(type==3){
+    hue= 0.15;
+  lightness-=.2;
+
+  } else if(type==4){
+    hue= 0.4;
+    saturation = 0.5;
+
+  } else if(type==5){
+    hue= 0.15;
+    saturation = 0.0;
+  lightness+=.2;
+
+  }else if(type==6){
+    hue= .8;
+    saturation *= 1.5;
+
+  }else if(type==7){
+    hue= data.g*0.1;
+    saturation *= 1.5;
+  lightness+=.2;
   }
     vec3 color = hsl2rgb(hue,saturation, lightness);
   gl_FragColor = vec4(color, 1.0);

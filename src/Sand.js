@@ -3,8 +3,8 @@ import useAnimationFrame from "use-animation-frame";
 import { startWebGL } from "./Render";
 import useStore from "./store";
 
-const width = 100;
-let dpi = 3;
+const width = 150;
+let dpi = 2;
 const height = width;
 const sands = new Uint8Array(width * height * 4);
 window.sands = sands;
@@ -15,11 +15,11 @@ let aY = 0;
 function getIndex(x, y) {
   return (x + y * width) * 4;
 }
-function getSand(x, y) {
+function getSand(x, y, o = 0) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return 3; // wall?
   }
-  return sands[getIndex(x, y)];
+  return sands[getIndex(x, y) + 0];
 }
 function setSand(x, y, v) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -41,6 +41,20 @@ function setSandRelative(x, y, v) {
   sands[i] = v;
   sands[i + 3] = clock;
 }
+function getSandRegisterRelative(x, y) {
+  return getSand(x + aX, y + aY, 2);
+}
+function setSandRegisterRelative(x, y, v) {
+  x = x + aX;
+  y = y + aY;
+  if (x < 0 || x >= width || y < 0 || y >= height) {
+    return;
+  }
+  let i = getIndex(x, y) + 2;
+
+  sands[i] = v;
+  sands[i + 3] = clock;
+}
 
 function swapSandRelative(x, y) {
   let a = getSandRelative(0, 0);
@@ -51,8 +65,18 @@ function swapSandRelative(x, y) {
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
-
-export let elements = ["Air", "Water", "Sand", "Wall"];
+window.getSandRegisterRelative = getSandRegisterRelative;
+window.setSandRegisterRelative = setSandRegisterRelative;
+export let elements = [
+  "Air",
+  "Water",
+  "Sand",
+  "Wall",
+  "Plant",
+  "Stone",
+  "Cloner",
+  "Fire",
+];
 
 window.updaters = elements.map(() => {
   return () => {};

@@ -1,14 +1,15 @@
-export default [
-  `<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="0" y="10">
-    <field name="Color">#ffaa77</field>
-  </block>
-</xml>`,
+let empty = `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="50" y="10">
+  <field name="Color">#ffaa77</field>
+</block>
+</xml>`;
+const a = [
+  empty,
   `<xml xmlns="https://developers.google.com/blockly/xml">
 <variables>
   <variable id="JGbX*aLh3=rkcy]PDaZ)">dx</variable>
 </variables>
-<block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="0" y="10">
+<block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="50" y="10">
   <field name="Color">#ffaa77</field>
   <statement name="body">
     <block type="controls_ifelse" id="5:-U~W5:D=B4_5FUblC7">
@@ -120,7 +121,7 @@ export default [
 <variables>
   <variable id="JGbX*aLh3=rkcy]PDaZ)">dx</variable>
 </variables>
-<block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="0" y="10">
+<block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="50" y="10">
   <field name="Color">#ffaa77</field>
   <statement name="body">
     <block type="controls_ifelse" id="5:-U~W5:D=B4_5FUblC7">
@@ -228,8 +229,19 @@ export default [
 </block>
 </xml>`,
   `<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="0" y="10">
+  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" movable="false" x="50" y="10">
     <field name="Color">#ffaa77</field>
   </block>
 </xml>`,
+  empty,
+  empty,
+  empty,
+  empty,
+  empty,
+  empty,
+  empty,
+  empty,
+  empty,
+  empty,
 ];
+export default a;

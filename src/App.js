@@ -71,11 +71,13 @@ const App = () => {
 
   useEffect(() => {
     if (simpleWorkspace.current) {
+      let ws = simpleWorkspace.current.primaryWorkspace;
+
       window.workspace = simpleWorkspace.current.primaryWorkspace;
       let cb = () => generateCode(selectedElement);
-      simpleWorkspace.current.primaryWorkspace.addChangeListener(cb);
+      ws.addChangeListener(cb);
       return () => {
-        simpleWorkspace.current.primaryWorkspace.removeChangeListener(cb);
+        ws.removeChangeListener(cb);
       };
     }
   }, [simpleWorkspace, selectedElement]);
