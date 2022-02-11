@@ -22,7 +22,7 @@
  */
 
 import React, { useRef, useEffect } from "react";
-import parserBabel from "https://unpkg.com/prettier@2.5.1/esm/parser-babel.mjs";
+import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks";
