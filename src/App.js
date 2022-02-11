@@ -44,7 +44,9 @@ import prettier from "prettier";
 import "./blocks/customblocks";
 import "./generator/generator";
 
-window.xmls = starterXMLs;
+window.xmls = starterXMLs.map((v, i) => {
+  return window.localStorage.getItem("code" + i) || v;
+});
 //todo generate all the code on start
 window.xmls.forEach((e, i) => {});
 function generateCode(element, dom) {
@@ -58,8 +60,9 @@ function generateCode(element, dom) {
   let xmlText = Xml.domToPrettyText(xml);
 
   console.log(xmlText);
-  window.localStorage.setItem("code", xmlText);
+  window.localStorage.setItem("code" + element, xmlText);
   console.log(code);
+  // eslint-disable-next-line no-new-func
   let fn = Function(code);
   window.xmls[element] = xmlText;
   window.updaters[element] = fn;
