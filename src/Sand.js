@@ -169,7 +169,7 @@ const Sand = () => {
       <UI selectedElement={selectedElement} setSelected={setSelected} />
 
       <canvas
-        class="worldCanvas"
+        className="worldCanvas"
         onMouseDown={() => setIsDrawing(true)}
         onMouseUp={() => setIsDrawing(false)}
         onMouseOut={() => setIsDrawing(false)}
