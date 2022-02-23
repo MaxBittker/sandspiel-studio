@@ -4,7 +4,7 @@ import { startWebGL } from "./Render";
 import useStore from "./store";
 
 const width = 150;
-let dpi = 2;
+let dpi = 4;
 const height = width;
 const sands = new Uint8Array(width * height * 4);
 window.sands = sands;
@@ -169,6 +169,7 @@ const Sand = () => {
       <UI selectedElement={selectedElement} setSelected={setSelected} />
 
       <canvas
+        class="worldCanvas"
         onMouseDown={() => setIsDrawing(true)}
         onMouseUp={() => setIsDrawing(false)}
         onMouseOut={() => setIsDrawing(false)}

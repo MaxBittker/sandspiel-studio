@@ -1,8 +1,8 @@
 
 .App-header {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: right;
+  justify-content: right;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -20,9 +20,23 @@ button{
   margin-right: 3p;
 }
 
-.blocklySvg{
-  background-color: rgb(228, 199, 194);;
+#blocklyDiv {
+  top: 0px !important;
 }
+
+.blocklySvg{
+  /*background-color: rgb(228, 199, 194);*/
+  background-color: rgb(228, 199, 194, 0);
+}
+
+.worldCanvas{
+  z-index: 1;
+}
+
+.blocklyMainBackground{
+  stroke: none;
+}
+
 .blocklyBlockCanvas{
   filter: drop-shadow(1px 4px 4px rgb(177, 158, 158));
 
