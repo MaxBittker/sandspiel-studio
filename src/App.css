@@ -22,6 +22,7 @@ button{
 
 #blocklyDiv {
   top: 0px !important;
+  pointer-events: none;
 }
 
 .blocklySvg{
@@ -29,12 +30,21 @@ button{
   background-color: rgb(228, 199, 194, 0);
 }
 
-.worldCanvas{
+/*.worldCanvas{
   z-index: 1;
+}
+
+.element-tray{
+  z-index: 1;
+}*/
+
+.blocklyDraggable{
+  pointer-events: all;
 }
 
 .blocklyMainBackground{
   stroke: none;
+  pointer-events: none;
 }
 
 .blocklyBlockCanvas{
