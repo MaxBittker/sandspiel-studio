@@ -39,11 +39,11 @@ button{
 }
 
 .blocklyDraggable{
-  pointer-events: all;
+  /*pointer-events: all;*/
 }
 
 .blocklyMainBackground{
-  stroke: none;
+  /*stroke: none;*/
   /*pointer-events: none;*/
 }
 
