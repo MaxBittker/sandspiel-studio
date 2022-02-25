@@ -4,7 +4,7 @@ import { startWebGL } from "./Render";
 import useStore from "./store";
 
 const width = 150;
-let dpi = 2;
+let dpi = 4;
 const height = width;
 const sands = new Uint8Array(width * height * 4);
 window.sands = sands;
@@ -113,7 +113,7 @@ seed();
 const ElementButton = ({ i, setSelected, selected }) => {
   return (
     <button
-      className={selected ? "selected" : ""}
+      className={selected ? "simulation-button selected" : "simulation-button"}
       onClick={() => setSelected(i)}
     >
       {elements[i]}
@@ -135,6 +135,7 @@ const UI = ({ selectedElement, setSelected }) => {
       })}
       <br></br>
       <button
+        className = "simulation-button"
         onClick={() => {
           seed();
         }}
@@ -169,6 +170,7 @@ const Sand = () => {
       <UI selectedElement={selectedElement} setSelected={setSelected} />
 
       <canvas
+        className="worldCanvas"
         onMouseDown={() => setIsDrawing(true)}
         onMouseUp={() => setIsDrawing(false)}
         onMouseOut={() => setIsDrawing(false)}
