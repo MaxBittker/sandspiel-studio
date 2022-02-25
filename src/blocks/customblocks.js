@@ -200,3 +200,22 @@ Blockly.Blocks["swap_cells"] = {
     });
   },
 };
+
+Blockly.Blocks['number_literal'] = {
+  init: function() {
+    this.jsonInit({
+      type: "number_literal",
+      output: "Number",
+      message0: "%1",
+      colour: 230,
+      args0: [
+        {
+          type: "field_number",
+          name: "VALUE",
+          value: 0,
+          precision: 1,
+        }
+      ],
+    })
+  },
+};

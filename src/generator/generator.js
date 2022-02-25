@@ -101,7 +101,7 @@ Blockly.JavaScript["sand_behavior_base"] = function (block) {
     "NAME",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  console.log(color, value_name);
+  //console.log(color, value_name);
 
   var body = Blockly.JavaScript.statementToCode(
     block,
@@ -109,9 +109,15 @@ Blockly.JavaScript["sand_behavior_base"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
 
-  console.log(body);
+  //console.log(body);
   let code = `
 this.color = "${color}";
 ${body}`;
   return code;
 };
+
+Blockly.JavaScript["number_literal"] = function (block) {
+  const value = block.getFieldValue("VALUE");
+  console.log(value)
+  return value.toString()
+}
