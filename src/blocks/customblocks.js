@@ -228,7 +228,7 @@ Blockly.Blocks['element_literal'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([["Air","0"], ["Water","1"], ["Sand","2"], ["Wall","3"], ["Plant","4"], ["Stone","5"], ["Cloner","6"], ["Fire","7"]]), "VALUE");
     this.setOutput(true, "Element");
-    this.setColour(230);
+    this.setColour(160);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -242,7 +242,7 @@ Blockly.Blocks['vector_literal'] = {
         .setCheck("Number");
     this.setInputsInline(true);
     this.setOutput(true, "Vector");
-    this.setColour(290);
+    this.setColour(260);
  this.setTooltip("");
  this.setHelpUrl("");
   }
