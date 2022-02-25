@@ -219,3 +219,15 @@ Blockly.Blocks['number_literal'] = {
     })
   },
 };
+
+Blockly.Blocks['number_literal'] = {
+  init: function() {
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "VALUE");
+    this.setOutput(true, "Number");
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
