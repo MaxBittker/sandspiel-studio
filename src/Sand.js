@@ -113,7 +113,7 @@ seed();
 const ElementButton = ({ i, setSelected, selected }) => {
   return (
     <button
-      className={selected ? "selected" : ""}
+      className={selected ? "simulation-button selected" : "simulation-button"}
       onClick={() => setSelected(i)}
     >
       {elements[i]}
@@ -135,6 +135,7 @@ const UI = ({ selectedElement, setSelected }) => {
       })}
       <br></br>
       <button
+        className = "simulation-button"
         onClick={() => {
           seed();
         }}
