@@ -88,20 +88,11 @@ Blockly.Blocks["element_dropdown"] = {
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
     this.jsonInit({
-      message0: "Sand Behavior %1 %2 %3",
-      tooltip: "Behavior for the sand",
+      message0: "Behavior",
+      message1: "%1",
+      tooltip: "Behavior for the element",
       helpUrl: "",
-      args0: [
-        {
-          type: "field_colour",
-          name: "Color",
-          colour: "#fa7",
-        },
-        {
-          type: "input_value",
-          name: "Color2",
-          align: "CENTRE",
-        },
+      args1: [
         {
           type: "input_statement",
           name: "body",
@@ -225,6 +216,17 @@ Blockly.Blocks['number_literal'] = {
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_CENTRE)
         .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "VALUE");
+    this.setOutput(true, "Number");
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['element_literal'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["Air","0"], ["Water","1"], ["Sand","2"], ["Wall","3"], ["Plant","4"], ["Stone","5"], ["Cloner","6"], ["Fire","7"]]), "VALUE");
     this.setOutput(true, "Number");
     this.setColour(230);
  this.setTooltip("");

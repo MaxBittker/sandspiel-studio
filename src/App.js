@@ -112,7 +112,10 @@ const App = () => {
           initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
         >
           <Category name="Number">
-            <Block type="number_literal">0</Block>
+            <Block type="number_literal"></Block>
+            <Block type="element_literal">
+              <Field name="VALUE">2</Field>
+            </Block>
           </Category>
 
         </BlocklyComponent>

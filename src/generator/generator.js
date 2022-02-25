@@ -118,6 +118,11 @@ ${body}`;
 
 Blockly.JavaScript["number_literal"] = function (block) {
   const value = block.getFieldValue("VALUE");
+  return value.toString()
+}
+
+Blockly.JavaScript["element_literal"] = function (block) {
+  const value = block.getFieldValue("VALUE");
   console.log(value)
   return value.toString()
 }
