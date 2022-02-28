@@ -181,23 +181,6 @@ const App = () => {
             <Field name="VALUE">[1, 0]</Field>
           </Block>
           
-          <Block type="get_vector_data_cell">
-            <Value name="CELL">
-            <Shadow type="vector_literal">
-                <Value name="X">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-                <Value name="Y">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>                
-              </Shadow>
-            </Value>
-          </Block>
-          
           <Block type="random_number">
             <Value name="MIN">
               <Shadow type="number_literal">
@@ -246,6 +229,54 @@ const App = () => {
             <Value name="VALUE">
               <Shadow type="number_literal">
                 <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+          </Block>
+
+          <Block type="get_vector_data_cell">
+            <Value name="CELL">
+            <Shadow type="vector_literal">
+                <Value name="X">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>
+                <Value name="Y">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>                
+              </Shadow>
+            </Value>
+          </Block>
+
+          <Block type="set_vector_data_cell">
+            <Value name="CELL">
+              <Shadow type="vector_literal">
+                <Value name="X">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>
+                <Value name="Y">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>
+              </Shadow>
+            </Value>
+            <Value name="VALUE">
+              <Shadow type="vector_literal">
+                <Value name="X">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>
+                <Value name="Y">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>
               </Shadow>
             </Value>
           </Block>
