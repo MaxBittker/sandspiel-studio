@@ -275,6 +275,9 @@ const App = () => {
           <Block type="bool_literal">
           </Block>
 
+          <Block type="not">
+          </Block>
+
         </BlocklyComponent>
       </header>
     </div>

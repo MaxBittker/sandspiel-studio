@@ -230,17 +230,6 @@ Blockly.Blocks['random_number'] = {
   }
 };
 
-Blockly.Blocks['bool_literal'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["true","TRUE"], ["false","FALSE"]]), "VALUE");
-    this.setOutput(true, "Boolean");
-    this.setColour(210);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
-
 Blockly.Blocks['string_literal'] = {
   init: function() {
     this.appendDummyInput()
@@ -262,6 +251,31 @@ Blockly.Blocks['print'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['bool_literal'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["true","TRUE"], ["false","FALSE"]]), "VALUE");
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['not'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("not");
+    this.appendValueInput("BOOL")
+        .setCheck("Boolean");
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
  this.setTooltip("");
  this.setHelpUrl("");
   }
