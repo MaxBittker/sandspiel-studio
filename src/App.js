@@ -111,8 +111,6 @@ const App = () => {
           }}
           initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
         >
-
-          <Block type="swap_cells"></Block>
           
           <Block type="number_literal">
             <Field name="VALUE">0</Field>
@@ -141,6 +139,47 @@ const App = () => {
           
           <Block type="change_into">
             <Value name="CELL">
+              <Shadow type="vector_literal">
+                <Value name="X">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>
+                <Value name="Y">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>
+              </Shadow>
+            </Value>
+            <Value name="ELEMENT">
+              <Shadow type="element_literal">
+                <Field name="VALUE">2</Field>
+              </Shadow>
+            </Value>
+          </Block>
+
+          <Block type="swap">
+            <Value name="A">
+              <Shadow type="vector_literal">
+                <Value name="X">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>
+                <Value name="Y">
+                  <Shadow type="number_literal">
+                    <Field name="VALUE">0</Field>
+                  </Shadow>
+                </Value>
+              </Shadow>
+            </Value>
+            <Value name="ELEMENT">
+              <Shadow type="element_literal">
+                <Field name="VALUE">2</Field>
+              </Shadow>
+            </Value>
+            <Value name="B">
               <Shadow type="vector_literal">
                 <Value name="X">
                   <Shadow type="number_literal">

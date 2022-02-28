@@ -30,61 +30,6 @@ import { elements } from "../Sand";
 import "../fields/BlocklyReactField";
 import "../fields/DateField";
 
-var testReactField = {
-  type: "test_react_field",
-  message0: "custom field %1",
-  args0: [
-    {
-      type: "field_react_component",
-      name: "FIELD",
-      text: "Click me",
-    },
-  ],
-  previousStatement: null,
-  nextStatement: null,
-};
-
-Blockly.Blocks["test_react_field"] = {
-  init: function () {
-    this.jsonInit(testReactField);
-    this.setStyle("loop_blocks");
-  },
-};
-
-var reactDateField = {
-  type: "test_react_date_field",
-  message0: "date field %1",
-  args0: [
-    {
-      type: "field_react_date",
-      name: "DATE",
-      date: "01/01/2020",
-    },
-  ],
-  previousStatement: null,
-  nextStatement: null,
-};
-
-Blockly.Blocks["test_react_date_field"] = {
-  init: function () {
-    this.jsonInit(reactDateField);
-    this.setStyle("loop_blocks");
-  },
-};
-
-Blockly.Blocks["element_dropdown"] = {
-  init: function () {
-    this.appendDummyInput()
-      .appendField("drop down:")
-      .appendField(
-        new Blockly.FieldDropdown(
-          elements.map((name, i) => [name, i.toString()])
-        ),
-        "FIELDNAME"
-      );
-  },
-};
-
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
     this.jsonInit({
@@ -104,110 +49,6 @@ Blockly.Blocks["sand_behavior_base"] = {
     this.setDeletable(false);
     this.setMovable(true);
     this.setStyle("loop_blocks");
-  },
-};
-
-Blockly.Blocks["get_cell"] = {
-  init: function () {
-    this.jsonInit({
-      type: "get_cell",
-      message0: "get cell: %1 %2",
-      args0: [
-        {
-          type: "input_value",
-          name: "x",
-          check: "Number",
-        },
-        {
-          type: "input_value",
-          name: "y",
-          check: "Number",
-        },
-      ],
-      inputsInline: true,
-      output: "Number",
-      colour: 230,
-      tooltip: "",
-      helpUrl: "",
-    });
-  },
-};
-
-Blockly.Blocks["set_cell"] = {
-  init: function () {
-    this.jsonInit({
-      type: "set_cell",
-      message0: "set cell%1 %2, %3",
-      args0: [
-        {
-          type: "input_value",
-          name: "x",
-          check: "Number",
-        },
-        {
-          type: "input_value",
-          name: "y",
-          check: "Number",
-        },
-        {
-          type: "input_value",
-          name: "cell",
-          check: "Number",
-        },
-      ],
-      inputsInline: true,
-      previousStatement: null,
-      nextStatement: null,
-      colour: 270,
-      tooltip: "",
-      helpUrl: "",
-    });
-  },
-};
-
-Blockly.Blocks["swap_cells"] = {
-  init: function () {
-    this.jsonInit({
-      type: "swap_cells",
-      message0: "swap cells %1 %2",
-      args0: [
-        {
-          type: "input_value",
-          name: "x",
-          check: "Number",
-        },
-        {
-          type: "input_value",
-          name: "y",
-          check: "Number",
-        },
-      ],
-      inputsInline: true,
-      previousStatement: null,
-      nextStatement: null,
-      colour: 270,
-      tooltip: "",
-      helpUrl: "",
-    });
-  },
-};
-
-Blockly.Blocks['number_literal'] = {
-  init: function() {
-    this.jsonInit({
-      type: "number_literal",
-      output: "Number",
-      message0: "%1",
-      colour: 230,
-      args0: [
-        {
-          type: "field_number",
-          name: "VALUE",
-          value: 0,
-          precision: 1,
-        }
-      ],
-    })
   },
 };
 
@@ -261,6 +102,25 @@ Blockly.Blocks['change_into'] = {
         .appendField("into");
     this.appendValueInput("ELEMENT")
         .setCheck("Element");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['swap'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("swap");
+    this.appendValueInput("A")
+        .setCheck("Vector");
+    this.appendDummyInput()
+        .appendField("with");
+    this.appendValueInput("B")
+        .setCheck("Vector");
+    this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(160);
