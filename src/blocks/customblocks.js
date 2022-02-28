@@ -237,7 +237,7 @@ Blockly.Blocks['element_literal'] = {
   }
 };
 
-Blockly.Blocks['element_of_cell'] = {
+Blockly.Blocks['element_at_cell'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("element of");
@@ -276,3 +276,13 @@ Blockly.Blocks['vector_constant'] = {
   }
 };
 
+Blockly.Blocks['me'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("me");
+    this.setOutput(true, "Vector");
+    this.setColour(260);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};

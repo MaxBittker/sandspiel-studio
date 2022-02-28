@@ -119,7 +119,7 @@ const App = () => {
             <Field name="VALUE">2</Field>
           </Block>
           
-          <Block type="element_of_cell">
+          <Block type="element_at_cell">
             <Value name="CELL">
               <Shadow type="vector_literal">
                 <Value name="X">
@@ -151,6 +151,9 @@ const App = () => {
 
           <Block type="vector_constant">
             <Field name="VALUE">[1, 0]</Field>
+          </Block>
+
+          <Block type="me">
           </Block>
 
         </BlocklyComponent>
