@@ -319,6 +319,7 @@ Blockly.Blocks['is_touching'] = {
         .appendField("is touching");
     this.appendValueInput("ELEMENT")
         .setCheck("Element");
+    this.setOutput(true, "Boolean");
     this.setColour(160);
  this.setTooltip("");
  this.setHelpUrl("");
