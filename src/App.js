@@ -111,6 +111,7 @@ const App = () => {
           }}
           initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
         >
+          
           <Block type="number_literal">
             <Field name="VALUE">0</Field>
           </Block>
@@ -135,8 +136,10 @@ const App = () => {
               </Shadow>
             </Value>
           </Block>
-          
 
+          <Block type="me">
+          </Block>
+          
           <Block type="vector_literal">
             <Value name="X">
               <Shadow type="number_literal">
@@ -153,8 +156,18 @@ const App = () => {
           <Block type="vector_constant">
             <Field name="VALUE">[1, 0]</Field>
           </Block>
-
-          <Block type="me">
+          
+          <Block type="random_number">
+            <Value name="MIN">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+            <Value name="MAX">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
           </Block>
 
           <Block type="get_data_cell">

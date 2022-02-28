@@ -334,3 +334,20 @@ Blockly.Blocks['set_data_cell'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['random_number'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("random number from");
+    this.appendValueInput("MIN")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField("to");
+    this.appendValueInput("MAX")
+        .setCheck("Number");
+    this.setOutput(true, "Number");
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
