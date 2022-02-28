@@ -295,3 +295,32 @@ Blockly.Blocks['comparison'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['boolean_operation'] = {
+  init: function() {
+    this.appendValueInput("A")
+        .setCheck("Boolean");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["and","AND"], ["or","OR"]]), "OPERATION");
+    this.appendValueInput("B")
+        .setCheck("Boolean");
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['is_touching'] = {
+  init: function() {
+    this.appendValueInput("CELL")
+        .setCheck("Vector");
+    this.appendDummyInput()
+        .appendField("is touching");
+    this.appendValueInput("ELEMENT")
+        .setCheck("Element");
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
