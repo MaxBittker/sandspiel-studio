@@ -149,7 +149,9 @@ const App = () => {
             </Value>
           </Block>
 
-
+          <Block type="vector_constant">
+            <Field name="VALUE">[1, 0]</Field>
+          </Block>
 
         </BlocklyComponent>
       </header>

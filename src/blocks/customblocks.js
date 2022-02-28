@@ -265,3 +265,14 @@ Blockly.Blocks['vector_literal'] = {
   }
 };
 
+Blockly.Blocks['vector_constant'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["Right","[1, 0]"], ["Down","[0, 1]"], ["Left","[-1, 0]"], ["Up","[0, -1]"]]), "VALUE");
+    this.setOutput(true, "Vector");
+    this.setColour(260);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
