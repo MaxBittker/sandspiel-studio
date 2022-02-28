@@ -342,3 +342,41 @@ Blockly.Blocks['one_in'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['if'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("if");
+    this.appendValueInput("CONDITION")
+        .setCheck("Boolean");
+    this.appendStatementInput("THEN")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(330);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['if_else'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("if");
+    this.appendValueInput("CONDITION")
+        .setCheck("Boolean");
+    this.appendStatementInput("THEN")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("else");
+    this.appendStatementInput("ELSE")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(330);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};

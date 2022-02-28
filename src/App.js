@@ -314,6 +314,12 @@ const App = () => {
           <Block type="comparison">
           </Block>
 
+          <Block type="if">
+          </Block>
+
+          <Block type="if_else">
+          </Block>
+
         </BlocklyComponent>
       </header>
     </div>
