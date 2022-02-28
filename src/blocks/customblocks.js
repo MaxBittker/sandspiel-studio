@@ -48,7 +48,8 @@ Blockly.Blocks["sand_behavior_base"] = {
     });
     this.setDeletable(false);
     this.setMovable(true);
-    this.setStyle("loop_blocks");
+    this.setColour(160);
+    //this.setStyle("loop_blocks");
   },
 };
 
@@ -235,7 +236,7 @@ Blockly.Blocks['string_literal'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput("Hello world!"), "VALUE");
     this.setOutput(true, "String");
-    this.setColour(0);
+    this.setColour(300);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -261,7 +262,7 @@ Blockly.Blocks['bool_literal'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([["true","TRUE"], ["false","FALSE"]]), "VALUE");
     this.setOutput(true, "Boolean");
-    this.setColour(210);
+    this.setColour(330);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -275,7 +276,7 @@ Blockly.Blocks['not'] = {
         .setCheck("Boolean");
     this.setInputsInline(true);
     this.setOutput(true, "Boolean");
-    this.setColour(210);
+    this.setColour(330);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -290,7 +291,7 @@ Blockly.Blocks['comparison'] = {
     this.appendValueInput("B")
         .setCheck(["Number", "String", "Vector", "Element"]);
     this.setOutput(true, "Boolean");
-    this.setColour(210);
+    this.setColour(330);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -305,7 +306,7 @@ Blockly.Blocks['boolean_operation'] = {
     this.appendValueInput("B")
         .setCheck("Boolean");
     this.setOutput(true, "Boolean");
-    this.setColour(210);
+    this.setColour(330);
  this.setTooltip("");
  this.setHelpUrl("");
   }
