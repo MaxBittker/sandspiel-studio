@@ -117,7 +117,7 @@ const App = () => {
           </Block>
 
           <Block type="element_literal">
-            <Field name="VALUE">2</Field>
+            <Field name="VALUE">SAND</Field>
           </Block>
           
           <Block type="element_cell">
@@ -154,7 +154,7 @@ const App = () => {
             </Value>
             <Value name="ELEMENT">
               <Shadow type="element_literal">
-                <Field name="VALUE">2</Field>
+                <Field name="VALUE">SAND</Field>
               </Shadow>
             </Value>
           </Block>
@@ -174,11 +174,6 @@ const App = () => {
                 </Value>
               </Shadow>
             </Value>
-            <Value name="ELEMENT">
-              <Shadow type="element_literal">
-                <Field name="VALUE">2</Field>
-              </Shadow>
-            </Value>
             <Value name="B">
               <Shadow type="vector_literal">
                 <Value name="X">
@@ -191,11 +186,6 @@ const App = () => {
                     <Field name="VALUE">0</Field>
                   </Shadow>
                 </Value>
-              </Shadow>
-            </Value>
-            <Value name="ELEMENT">
-              <Shadow type="element_literal">
-                <Field name="VALUE">2</Field>
               </Shadow>
             </Value>
           </Block>
@@ -217,7 +207,7 @@ const App = () => {
           </Block>
 
           <Block type="vector_constant">
-            <Field name="VALUE">[1, 0]</Field>
+            <Field name="VALUE">RIGHT</Field>
           </Block>
           
           <Block type="random_number">

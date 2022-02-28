@@ -70,7 +70,7 @@ Blockly.Blocks['number_literal'] = {
 Blockly.Blocks['element_literal'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["Air","0"], ["Water","1"], ["Sand","2"], ["Wall","3"], ["Plant","4"], ["Stone","5"], ["Cloner","6"], ["Fire","7"]]), "VALUE");
+        .appendField(new Blockly.FieldDropdown([["Air","AIR"], ["Water","WATER"], ["Sand","SAND"], ["Wall","WALL"], ["Plant","PLANT"], ["Stone","STONE"], ["Cloner","CLONER"], ["Fire","FIRE"]]), "VALUE");
     this.setOutput(true, "Element");
     this.setColour(160);
  this.setTooltip("");
@@ -146,7 +146,7 @@ Blockly.Blocks['vector_literal'] = {
 Blockly.Blocks['vector_constant'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["➡ right","[1, 0]"], ["⬅ left","[-1, 0]"], ["⬆ up","[0, -1]"], ["⬇ down","[0, 1]"]]), "VALUE");
+        .appendField(new Blockly.FieldDropdown([["➡ right","RIGHT"], ["⬅ left","LEFT"], ["⬆ up","UP"], ["⬇ down","DOWN"]]), "VALUE");
     this.setOutput(true, "Vector");
     this.setColour(260);
  this.setTooltip("");
@@ -177,7 +177,7 @@ Blockly.Blocks['vector_empty'] = {
 Blockly.Blocks['get_data_cell'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["⚡ energy","0"], ["⌛ age","1"], ["💥 pressure","2"], ["💫 density","3"], ["⭐ magic","4"], ["💨 wind","5"]]), "DATA");
+        .appendField(new Blockly.FieldDropdown([["⚡ energy","ENERGY"], ["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["⭐ magic","MAGIC"], ["💨 wind","WIND"]]), "DATA");
     this.appendDummyInput()
         .appendField("of");
     this.appendValueInput("CELL")
@@ -195,7 +195,7 @@ Blockly.Blocks['set_data_cell'] = {
     this.appendDummyInput()
         .appendField("set");
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["⚡ energy","0"], ["⌛ age","1"], ["💥 pressure","2"], ["💫 density","3"], ["⭐ magic","4"], ["💨 wind","5"]]), "DATA");
+        .appendField(new Blockly.FieldDropdown([["⚡ energy","ENERGY"], ["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["⭐ magic","MAGIC"], ["💨 wind","WIND"]]), "DATA");
     this.appendDummyInput()
         .appendField("of");
     this.appendValueInput("CELL")
@@ -244,7 +244,7 @@ Blockly.Blocks['bool_literal'] = {
 Blockly.Blocks['string_literal'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldTextInput("text"), "VALUE");
+        .appendField(new Blockly.FieldTextInput("Hello world!"), "VALUE");
     this.setOutput(true, "String");
     this.setColour(0);
  this.setTooltip("");
