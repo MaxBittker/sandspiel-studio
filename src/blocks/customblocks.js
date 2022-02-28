@@ -220,7 +220,7 @@ Blockly.Blocks['number_literal'] = {
         .setAlign(Blockly.ALIGN_CENTRE)
         .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "VALUE");
     this.setOutput(true, "Number");
-    this.setColour(230);
+    this.setColour(210);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -237,7 +237,7 @@ Blockly.Blocks['element_literal'] = {
   }
 };
 
-Blockly.Blocks['element_at_cell'] = {
+Blockly.Blocks['element_cell'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("element of");
@@ -282,6 +282,56 @@ Blockly.Blocks['me'] = {
         .appendField("me");
     this.setOutput(true, "Vector");
     this.setColour(260);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['vector_empty'] = {
+  init: function() {
+    this.setOutput(true, "Vector");
+    this.setColour(260);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['get_data_cell'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("get");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["⚡ energy","0"], ["⌛ age","1"], ["💥 pressure","2"], ["💫 density","3"], ["⭐ magic","4"]]), "DATA");
+    this.appendDummyInput()
+        .appendField("of");
+    this.appendValueInput("CELL")
+        .setCheck("Vector");
+    this.setInputsInline(true);
+    this.setOutput(true, "Element");
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['set_data_cell'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("set");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["⚡ energy","0"], ["⌛ age","1"], ["💥 pressure","2"], ["💫 density","3"], ["⭐ magic","4"]]), "DATA");
+    this.appendDummyInput()
+        .appendField("of");
+    this.appendValueInput("CELL")
+        .setCheck("Vector");
+    this.appendDummyInput()
+        .appendField("to");
+    this.appendValueInput("VALUE")
+        .setCheck("Number");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
  this.setTooltip("");
  this.setHelpUrl("");
   }
