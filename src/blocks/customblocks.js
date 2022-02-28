@@ -317,13 +317,13 @@ Blockly.Blocks['vector_empty'] = {
 Blockly.Blocks['get_data_cell'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["⚡ energy","0"], ["⌛ age","1"], ["💥 pressure","2"], ["💫 density","3"], ["⭐ magic","4"]]), "DATA");
+        .appendField(new Blockly.FieldDropdown([["⚡ energy","0"], ["⌛ age","1"], ["💥 pressure","2"], ["💫 density","3"], ["⭐ magic","4"], ["💨 wind","5"]]), "DATA");
     this.appendDummyInput()
         .appendField("of");
     this.appendValueInput("CELL")
         .setCheck("Vector");
     this.setInputsInline(true);
-    this.setOutput(true, "Number");
+    this.setOutput(true, ["Number", "Vector"]);
     this.setColour(210);
  this.setTooltip("");
  this.setHelpUrl("");
@@ -335,7 +335,7 @@ Blockly.Blocks['set_data_cell'] = {
     this.appendDummyInput()
         .appendField("set");
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["⚡ energy","0"], ["⌛ age","1"], ["💥 pressure","2"], ["💫 density","3"], ["⭐ magic","4"]]), "DATA");
+        .appendField(new Blockly.FieldDropdown([["⚡ energy","0"], ["⌛ age","1"], ["💥 pressure","2"], ["💫 density","3"], ["⭐ magic","4"], ["💨 wind","5"]]), "DATA");
     this.appendDummyInput()
         .appendField("of");
     this.appendValueInput("CELL")
@@ -343,44 +343,11 @@ Blockly.Blocks['set_data_cell'] = {
     this.appendDummyInput()
         .appendField("to");
     this.appendValueInput("VALUE")
-        .setCheck("Number");
+        .setCheck(["Number", "Vector"]);
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(210);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
-
-Blockly.Blocks['get_vector_data_cell'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("wind of");
-    this.appendValueInput("CELL")
-        .setCheck("Vector");
-    this.setInputsInline(true);
-    this.setOutput(true, "Vector");
-    this.setColour(260);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
-
-Blockly.Blocks['set_vector_data_cell'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("set wind of");
-    this.appendValueInput("CELL")
-        .setCheck("Vector");
-    this.appendDummyInput()
-        .appendField("to");
-    this.appendValueInput("VALUE")
-        .setCheck("Vector");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(260);
  this.setTooltip("");
  this.setHelpUrl("");
   }
