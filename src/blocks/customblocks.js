@@ -323,7 +323,7 @@ Blockly.Blocks['get_data_cell'] = {
     this.appendValueInput("CELL")
         .setCheck("Vector");
     this.setInputsInline(true);
-    this.setOutput(true, "Element");
+    this.setOutput(true, "Number");
     this.setColour(210);
  this.setTooltip("");
  this.setHelpUrl("");
@@ -348,6 +348,20 @@ Blockly.Blocks['set_data_cell'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['get_vector_data_cell'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💨 wind of");
+    this.appendValueInput("CELL")
+        .setCheck("Vector");
+    this.setInputsInline(true);
+    this.setOutput(true, "Vector");
+    this.setColour(260);
  this.setTooltip("");
  this.setHelpUrl("");
   }
