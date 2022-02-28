@@ -230,6 +230,17 @@ Blockly.Blocks['random_number'] = {
   }
 };
 
+Blockly.Blocks['bool_literal'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["true","TRUE"], ["false","FALSE"]]), "VALUE");
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['string_literal'] = {
   init: function() {
     this.appendDummyInput()

@@ -281,6 +281,9 @@ const App = () => {
               </Shadow>
             </Value>
           </Block>
+          
+          <Block type="bool_literal">
+          </Block>
 
         </BlocklyComponent>
       </header>
