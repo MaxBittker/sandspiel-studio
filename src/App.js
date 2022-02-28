@@ -111,11 +111,24 @@ const App = () => {
           }}
           initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
         >
-          <Block type="number_literal"></Block>
+          <Block type="number_literal">
+            <Field name="VALUE">0</Field>
+          </Block>
           <Block type="element_literal">
             <Field name="VALUE">2</Field>
           </Block>
-          <Block type="vector_literal"></Block>
+          <Block type="vector_literal">
+            <Value name="X">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+            <Value name="Y">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+          </Block>
 
         </BlocklyComponent>
       </header>
