@@ -211,6 +211,9 @@ Blockly.Blocks['number_literal'] = {
   },
 };
 
+//===================//
+// SAND-BLOCKS DRAFT //
+//===================//
 Blockly.Blocks['number_literal'] = {
   init: function() {
     this.appendDummyInput()
@@ -234,6 +237,20 @@ Blockly.Blocks['element_literal'] = {
   }
 };
 
+Blockly.Blocks['element_of_cell'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("element of");
+    this.appendValueInput("CELL")
+        .setCheck("Vector");
+    this.setInputsInline(true);
+    this.setOutput(true, "Element");
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['vector_literal'] = {
   init: function() {
     this.appendValueInput("X")
@@ -247,3 +264,4 @@ Blockly.Blocks['vector_literal'] = {
  this.setHelpUrl("");
   }
 };
+
