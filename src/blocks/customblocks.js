@@ -395,3 +395,37 @@ Blockly.Blocks['operation'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['in_a_random'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("in a random");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["⭯ rotation","ROTATION"], ["✥ reflection","REFLECTION"], ["⟷ horizontal reflection","HORIZONTAL_REFLECTION"], ["↕ vertical reflection","VERTICAL_REFLECTION"]]), "NAME");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(260);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['for_all'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("for all");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["⭯ rotations","ROTATION"], ["✥ reflections","REFLECTION"], ["⟷ horizontal reflections","HORIZONTAL_REFLECTION"], ["↕ vertical reflections","VERTICAL_REFLECTION"]]), "NAME");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(260);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};

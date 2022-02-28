@@ -112,10 +112,6 @@ const App = () => {
           initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
         >
           
-          <Block type="number_literal">
-            <Field name="VALUE">0</Field>
-          </Block>
-
           <Block type="element_literal">
             <Field name="VALUE">SAND</Field>
           </Block>
@@ -230,6 +226,16 @@ const App = () => {
 
           <Block type="vector_constant">
             <Field name="VALUE">RIGHT</Field>
+          </Block>
+
+          <Block type="in_a_random">
+          </Block>
+
+          <Block type="for_all">
+          </Block>
+
+          <Block type="number_literal">
+            <Field name="VALUE">0</Field>
           </Block>
 
           <Block type="operation">
