@@ -299,8 +299,6 @@ Blockly.Blocks['vector_empty'] = {
 Blockly.Blocks['get_data_cell'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("get");
-    this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([["⚡ energy","0"], ["⌛ age","1"], ["💥 pressure","2"], ["💫 density","3"], ["⭐ magic","4"]]), "DATA");
     this.appendDummyInput()
         .appendField("of");
