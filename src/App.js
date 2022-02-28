@@ -231,6 +231,19 @@ const App = () => {
           <Block type="vector_constant">
             <Field name="VALUE">RIGHT</Field>
           </Block>
+
+          <Block type="operation">
+            <Value name="A">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+            <Value name="B">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+          </Block>
           
           <Block type="random_number">
             <Value name="MIN">

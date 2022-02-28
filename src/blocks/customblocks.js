@@ -380,3 +380,18 @@ Blockly.Blocks['if_else'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['operation'] = {
+  init: function() {
+    this.appendValueInput("A")
+        .setCheck(["Number", "Vector"]);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["+","ADD"], ["-","SUBTRACT"], ["×","MULTIPLY"], ["÷","DIVIDE"]]), "OPERATION");
+    this.appendValueInput("B")
+        .setCheck(["Number", "Vector"]);
+    this.setOutput(true, ["Number", "Vector"]);
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
