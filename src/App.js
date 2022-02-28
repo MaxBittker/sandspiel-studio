@@ -244,6 +244,14 @@ const App = () => {
               </Shadow>
             </Value>
           </Block>
+          
+          <Block type="one_in">
+            <Value name="NUMBER">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+          </Block>
 
           <Block type="get_data_cell">
             <Value name="CELL">
@@ -284,8 +292,8 @@ const App = () => {
             </Value>
           </Block>
 
-          <Block type="string_literal">
-          </Block>
+          {/*<Block type="string_literal">
+          </Block>*/}
 
           <Block type="print">
             <Value name="MESSAGE">

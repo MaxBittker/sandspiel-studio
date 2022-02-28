@@ -325,3 +325,19 @@ Blockly.Blocks['is_touching'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['one_in'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("one in");
+    this.appendValueInput("NUMBER")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField("chance");
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
