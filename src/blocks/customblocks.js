@@ -251,6 +251,24 @@ Blockly.Blocks['element_cell'] = {
   }
 };
 
+Blockly.Blocks['change_into'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("change");
+    this.appendValueInput("CELL")
+        .setCheck("Vector");
+    this.appendDummyInput()
+        .appendField("into");
+    this.appendValueInput("ELEMENT")
+        .setCheck("Element");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['vector_literal'] = {
   init: function() {
     this.appendValueInput("X")
