@@ -272,6 +272,16 @@ const App = () => {
             </Value>
           </Block>
 
+          <Block type="string_literal">
+          </Block>
+
+          <Block type="print">
+            <Value name="MESSAGE">
+              <Shadow type="string_literal">
+              </Shadow>
+            </Value>
+          </Block>
+
         </BlocklyComponent>
       </header>
     </div>

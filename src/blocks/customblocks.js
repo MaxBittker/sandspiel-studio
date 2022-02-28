@@ -229,3 +229,29 @@ Blockly.Blocks['random_number'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['string_literal'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput("text"), "VALUE");
+    this.setOutput(true, "String");
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['print'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("print");
+    this.appendValueInput("MESSAGE")
+        .setCheck("String");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
