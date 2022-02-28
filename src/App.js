@@ -278,6 +278,9 @@ const App = () => {
           <Block type="not">
           </Block>
 
+          <Block type="comparison">
+          </Block>
+
         </BlocklyComponent>
       </header>
     </div>

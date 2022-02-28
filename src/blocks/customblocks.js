@@ -280,3 +280,18 @@ Blockly.Blocks['not'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['comparison'] = {
+  init: function() {
+    this.appendValueInput("A")
+        .setCheck(["Number", "String", "Vector", "Element"]);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["is","IS"], ["is bigger than","BIGGER"], ["is smaller than","SMALLER"]]), "COMPARISON");
+    this.appendValueInput("B")
+        .setCheck(["Number", "String", "Vector", "Element"]);
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
