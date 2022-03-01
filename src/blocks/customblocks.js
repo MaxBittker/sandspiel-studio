@@ -416,9 +416,9 @@ Blockly.Blocks['in_a_random'] = {
 Blockly.Blocks['for_all'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("for all");
+        .appendField("for each");
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["⭯ rotations","ROTATION"], ["✥ reflections","REFLECTION"], ["⟷ horizontal reflections","HORIZONTAL_REFLECTION"], ["↕ vertical reflections","VERTICAL_REFLECTION"]]), "NAME");
+        .appendField(new Blockly.FieldDropdown([["⭯ rotation","ROTATION"], ["✥ reflection","REFLECTION"], ["⟷ horizontal reflection","HORIZONTAL_REFLECTION"], ["↕ vertical reflection","VERTICAL_REFLECTION"]]), "NAME");
     this.appendStatementInput("NAME")
         .setCheck(null);
     this.setInputsInline(true);
