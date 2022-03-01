@@ -25,104 +25,27 @@
 // https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
 
 import * as Blockly from "blockly/core";
+import elements from "../Sand";
 import "blockly/javascript";
 
-Blockly.JavaScript["test_react_field"] = function (block) {
-  return "console.log('custom block');\n";
-};
-
-Blockly.JavaScript["test_react_date_field"] = function (block) {
-  return "console.log(" + block.getField("DATE").getText() + ");\n";
-};
-
-Blockly.JavaScript["get_cell"] = function (block) {
-  var value_x = Blockly.JavaScript.valueToCode(
-    block,
-    "x",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  var value_y = Blockly.JavaScript.valueToCode(
-    block,
-    "y",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  var code = `window.getSandRelative(${value_x}, ${value_y})`;
-
-  // TODO: Change ORDER_NONE to the correct strength.
-  return [code, Blockly.JavaScript.ORDER_NONE];
-};
-
-Blockly.JavaScript["set_cell"] = function (block) {
-  var value_x = Blockly.JavaScript.valueToCode(
-    block,
-    "x",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  var value_y = Blockly.JavaScript.valueToCode(
-    block,
-    "y",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  var value_cell = Blockly.JavaScript.valueToCode(
-    block,
-    "cell",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  var code = `window.setSandRelative(${value_x}, ${value_y}, ${value_cell});
-  `;
-
-  // TODO: Change ORDER_NONE to the correct strength.
-  return code;
-};
-
-Blockly.JavaScript["swap_cells"] = function (block) {
-  var value_x = Blockly.JavaScript.valueToCode(
-    block,
-    "x",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  var value_y = Blockly.JavaScript.valueToCode(
-    block,
-    "y",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-
-  var code = `window.swapSandRelative(${value_x}, ${value_y});
-    `;
-
-  // TODO: Change ORDER_NONE to the correct strength.
-  return code;
-};
-
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
-  var color = block.getFieldValue("Color");
-  var value_name = Blockly.JavaScript.valueToCode(
-    block,
-    "NAME",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  //console.log(color, value_name);
-
-  var body = Blockly.JavaScript.statementToCode(
-    block,
-    "body",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-
-  //console.log(body);
-  let code = `
-this.color = "${color}";
-${body}`;
-  return code;
+  const body = Blockly.JavaScript.statementToCode(block, "body");
+  return body;
 };
 
 Blockly.JavaScript["number_literal"] = function (block) {
-  const value = block.getFieldValue("VALUE");
-  return value.toString()
+  const number = block.getFieldValue("VALUE");
+  return [number, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+const ELEMENT_IDS = {}
+for (let i = 0; i < elements.length; i++) {
+  const elementName = elements[i];
+  ELEMENT_IDS[elementName.toUpperCase()] = i;
 }
 
 Blockly.JavaScript["element_literal"] = function (block) {
-  const value = block.getFieldValue("VALUE");
-  console.log(value)
-  return value.toString()
+  const elementName = block.getFieldValue("VALUE");
+  const elementId = ELEMENT_IDS[elementName];
+  return [elementId, Blockly.JavaScript.ORDER_ATOMIC];
 }
