@@ -464,3 +464,50 @@ Blockly.Blocks['macro_function'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['value_statement'] = {
+  init: function() {
+    this.appendStatementInput("STATEMENT")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['statement_value'] = {
+  init: function() {
+    this.appendValueInput("VALUE")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['value_statement_shadow'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("expression");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['statement_value_shadow'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("value");
+    this.setOutput(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};

@@ -343,6 +343,18 @@ const App = () => {
 
           <Block type="macro_function"></Block>
 
+          <Block type="value_statement">
+            <Value name="STATEMENT">
+              <Shadow type="value_statement_shadow"></Shadow>
+            </Value>
+          </Block>
+
+          <Block type="statement_value">
+            <Value name="VALUE">
+              <Shadow type="statement_value_shadow"></Shadow>
+            </Value>
+          </Block>
+
         </BlocklyComponent>
       </header>
     </div>
