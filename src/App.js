@@ -314,13 +314,6 @@ const App = () => {
           {/*<Block type="string_literal">
           </Block>*/}
 
-          <Block type="print">
-            <Value name="MESSAGE">
-              <Shadow type="string_literal">
-              </Shadow>
-            </Value>
-          </Block>
-          
           <Block type="bool_literal">
           </Block>
 
@@ -338,6 +331,17 @@ const App = () => {
 
           <Block type="if_else">
           </Block>
+
+          <Block type="print">
+            <Value name="MESSAGE">
+              <Shadow type="string_literal">
+              </Shadow>
+            </Value>
+          </Block>
+
+          <Block type="macro"></Block>
+
+          <Block type="macro_function"></Block>
 
         </BlocklyComponent>
       </header>

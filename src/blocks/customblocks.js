@@ -429,3 +429,38 @@ Blockly.Blocks['for_all'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['macro'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("make a block called")
+        .appendField(new Blockly.FieldTextInput("foo"), "NAME")
+        .appendField("that means");
+    this.appendValueInput("VALUE")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("➕");
+    this.setInputsInline(true);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['macro_function'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("make a block called")
+        .appendField(new Blockly.FieldTextInput("foo"), "NAME")
+        .appendField("that does");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("➕");
+    this.setInputsInline(true);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
