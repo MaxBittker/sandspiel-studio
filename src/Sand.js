@@ -27,10 +27,10 @@ function setSand(x, y, v) {
   }
   sands[getIndex(x, y)] = v;
 }
-function getSandRelative(x, y) {
+function getSandRelative([x, y]) {
   return getSand(x + aX, y + aY);
 }
-function setSandRelative(x, y, v) {
+function setSandRelative([x, y], v) {
   x = x + aX;
   y = y + aY;
   if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -56,11 +56,17 @@ function setSandRegisterRelative(x, y, v) {
   sands[i + 3] = clock;
 }
 
-function swapSandRelative(x, y) {
-  let a = getSandRelative(0, 0);
-  let b = getSandRelative(x, y);
-  setSandRelative(0, 0, b);
-  setSandRelative(x, y, a);
+function swapSandRelative([sx, sy], [bx, by]) {
+  if (aX+sx < 0 || aX+sx >= width || aY+sy < 0 || aY+sy >= height) {
+    return;
+  }
+  if (aX+bx < 0 || aX+bx >= width || aY+by < 0 || aY+by >= height) {
+    return;
+  }
+  let a = getSandRelative([sx, sy]);
+  let b = getSandRelative([bx, by]);
+  setSandRelative([sx, sy], b);
+  setSandRelative([bx, by], a);
 }
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;

@@ -26,6 +26,7 @@
 
 import * as Blockly from "blockly/core";
 import "blockly/javascript";
+import a from "../starterblocks";
 
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
   const body = Blockly.JavaScript.statementToCode(block, "body");
@@ -34,18 +35,19 @@ Blockly.JavaScript["sand_behavior_base"] = function (block) {
 
 Blockly.JavaScript["number_literal"] = function (block) {
   const number = block.getFieldValue("VALUE");
-  return [number, Blockly.JavaScript.ORDER_ATOMIC];
+  const code = parseInt(number);
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 const ELEMENTS = {
-  AIR: 0,
-  WATER: 1,
-  SAND: 2,
-  WALL: 3,
-  PLANT: 4,
-  STONE: 5,
-  CLONER: 6,
-  FIRE: 7,
+  AIR: "0",
+  WATER: "1",
+  SAND: "2",
+  WALL: "3",
+  PLANT: "4",
+  STONE: "5",
+  CLONER: "6",
+  FIRE: "7",
 };
 
 Blockly.JavaScript["element_literal"] = function (block) {
@@ -94,13 +96,63 @@ Blockly.JavaScript["string_literal"] = function (block) {
 Blockly.JavaScript["change_into"] = function (block) {
   const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
   const element = Blockly.JavaScript.valueToCode(block, "ELEMENT", Blockly.JavaScript.ORDER_ATOMIC);
-  console.log(element)
-  const code = `window.setSandRelative(...${cell}, ${element})`;
+  const code = `window.setSandRelative(${cell}, ${element});\n`;
   return code;
 }
 
 Blockly.JavaScript["element_cell"] = function (block) {
   const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
-  const code = `window.getSandRelative(...${cell})`;
+  const code = `window.getSandRelative(${cell})`;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
+}
+
+Blockly.JavaScript["swap"] = function (block) {
+  const a = Blockly.JavaScript.valueToCode(block, "A", Blockly.JavaScript.ORDER_MEMBER);
+  const b = Blockly.JavaScript.valueToCode(block, "B", Blockly.JavaScript.ORDER_MEMBER);
+  const code = `window.swapSandRelative(${a}, ${b});\n`;
+  return code;
+}
+
+Blockly.JavaScript["random_number"] = function (block) {
+  const min = Blockly.JavaScript.valueToCode(block, "MIN", Blockly.JavaScript.ORDER_ATOMIC);
+  const max = Blockly.JavaScript.valueToCode(block, "MAX", Blockly.JavaScript.ORDER_ATOMIC);
+  const range = max - min + 1
+  const code = `(${min} + Math.floor(Math.random() * ${range}))`;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+}
+
+Blockly.JavaScript["bool_literal"] = function (block) {
+  const boolName = block.getFieldValue("VALUE");
+  const code = boolName === "TRUE"? "true" : "false";
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+}
+
+Blockly.JavaScript["statement_value"] = function (block) {
+  const value = Blockly.JavaScript.valueToCode(block, "VALUE", Blockly.JavaScript.ORDER_ATOMIC);
+  return `window.returnValue = ${value};\n`;
+}
+
+Blockly.JavaScript["statement_value_shadow"] = function (block) {
+  return ["undefined", Blockly.JavaScript.ORDER_ATOMIC];
+}
+
+Blockly.JavaScript["not"] = function (block) {
+  const bool = Blockly.JavaScript.valueToCode(block, "BOOL", Blockly.JavaScript.ORDER_ATOMIC);
+  const code = `!${bool}`;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+}
+
+Blockly.JavaScript["if"] = function (block) {
+  const condition = Blockly.JavaScript.valueToCode(block, "CONDITION", Blockly.JavaScript.ORDER_ATOMIC);
+  const then = Blockly.JavaScript.statementToCode(block, "THEN");
+  const code = `if (${condition}) {\n${then}\n}`
+  return code;
+}
+
+Blockly.JavaScript["if_else"] = function (block) {
+  const condition = Blockly.JavaScript.valueToCode(block, "CONDITION", Blockly.JavaScript.ORDER_ATOMIC);
+  const then = Blockly.JavaScript.statementToCode(block, "THEN");
+  const else_ = Blockly.JavaScript.statementToCode(block, "ELSE");
+  const code = `if (${condition}) {\n${then}\n} else {\n${else_}\n}`
+  return code;
 }
