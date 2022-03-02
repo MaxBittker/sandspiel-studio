@@ -1070,10 +1070,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@blockly/block-plus-minus@^3.0.6":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@blockly/block-plus-minus/-/block-plus-minus-3.0.6.tgz#35b54484d4055880f373cda14abc4cf7a1c3418d"
-  integrity sha512-ujziiWkBoSf4pNrrVdQ5eMYkLIM25M2LbOBM6l+5MFOUv6IUmOCzjv1vNO+MzAi1+tkWXlid8jfIxogf+0BLOw==
+"@blockly/block-plus-minus@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@blockly/block-plus-minus/-/block-plus-minus-3.0.7.tgz#1b54fd598069b4bc8e73f64822a8f43776b508f1"
+  integrity sha512-0uQSCLMQHiDDxbf8Qrrs3PRe/qhcbOz+8gOwGINqDtv+iI7TUdW12pHfdcuI6POznp+9Rx1rtNNF2jdpUReNuw==
 
 "@blockly/continuous-toolbox@^2.0.24":
   version "2.0.24"
