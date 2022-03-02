@@ -166,15 +166,6 @@ Blockly.Blocks['me'] = {
   }
 };
 
-Blockly.Blocks['vector_empty'] = {
-  init: function() {
-    this.setOutput(true, "Vector");
-    this.setColour(260);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
-
 Blockly.Blocks['get_data_cell'] = {
   init: function() {
     this.appendDummyInput()

@@ -49,3 +49,12 @@ Blockly.JavaScript["element_literal"] = function (block) {
   const elementId = ELEMENT_IDS[elementName];
   return [elementId, Blockly.JavaScript.ORDER_ATOMIC];
 }
+
+Blockly.JavaScript["vector_literal"] = function (block) {
+  const x = Blockly.JavaScript.valueToCode(block, "X", Blockly.JavaScript.ORDER_ATOMIC);
+  const y = Blockly.JavaScript.valueToCode(block, "Y", Blockly.JavaScript.ORDER_ATOMIC);
+  const code = `[${x}, ${y}]`;
+  console.log(code)
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+}
+
