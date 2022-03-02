@@ -101,9 +101,9 @@ const tick = () => {
 const seed = () => {
   for (var i = 0; i < sands.length; i += 4) {
     sands[i] = 0;
-    if (Math.random() * i > width * height * 3) {
+    /*if (Math.random() * i > width * height * 3) {
       sands[i] = (Math.random() * (elements.length - 1)) | 0;
-    }
+    }*/
     sands[i + 1] = (Math.random() * 255) | 0;
     sands[i + 2] = 0;
     sands[i + 3] = 0;
