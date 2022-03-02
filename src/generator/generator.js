@@ -25,7 +25,6 @@
 // https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
 
 import * as Blockly from "blockly/core";
-import elements from "../Sand";
 import "blockly/javascript";
 
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
@@ -38,16 +37,21 @@ Blockly.JavaScript["number_literal"] = function (block) {
   return [number, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-const ELEMENT_IDS = {}
-for (let i = 0; i < elements.length; i++) {
-  const elementName = elements[i];
-  ELEMENT_IDS[elementName.toUpperCase()] = i;
-}
+const ELEMENTS = {
+  AIR: 0,
+  WATER: 1,
+  SAND: 2,
+  WALL: 3,
+  PLANT: 4,
+  STONE: 5,
+  CLONER: 6,
+  FIRE: 7,
+};
 
 Blockly.JavaScript["element_literal"] = function (block) {
   const elementName = block.getFieldValue("VALUE");
-  const elementId = ELEMENT_IDS[elementName];
-  return [elementId, Blockly.JavaScript.ORDER_ATOMIC];
+  const element = ELEMENTS[elementName];
+  return [element, Blockly.JavaScript.ORDER_ATOMIC];
 }
 
 Blockly.JavaScript["vector_literal"] = function (block) {
@@ -68,6 +72,7 @@ const DIRECTIONS = {
   RIGHT: "[1, 0]",
   UP: "[0, -1]",
 };
+
 Blockly.JavaScript["vector_constant"] = function (block) {
   const directionName = block.getFieldValue("VALUE");
   const code = DIRECTIONS[directionName];
@@ -85,3 +90,17 @@ Blockly.JavaScript["string_literal"] = function (block) {
   const code = "`" + string + "`";
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
+
+Blockly.JavaScript["change_into"] = function (block) {
+  const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
+  const element = Blockly.JavaScript.valueToCode(block, "ELEMENT", Blockly.JavaScript.ORDER_ATOMIC);
+  console.log(element)
+  const code = `window.setSandRelative(...${cell}, ${element})`;
+  return code;
+}
+
+Blockly.JavaScript["element_cell"] = function (block) {
+  const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
+  const code = `window.getSandRelative(...${cell})`;
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+}

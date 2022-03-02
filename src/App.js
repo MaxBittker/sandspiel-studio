@@ -62,7 +62,7 @@ function generateCode(element, dom) {
 
   //console.log(xmlText);
   window.localStorage.setItem("code" + element, xmlText);
-  //console.log(code);
+  console.log(code);
   // eslint-disable-next-line no-new-func
   let fn = Function(code);
   window.xmls[element] = xmlText;
