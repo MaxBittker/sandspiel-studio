@@ -50,8 +50,9 @@ window.xmls = starterXMLs.map((v, i) => {
 //todo generate all the code on start
 window.xmls.forEach((e, i) => {});
 function generateCode(element, dom) {
-  let code = BlocklyJS.workspaceToCode(window.workspace);
-
+  const baseBlock = window.workspace.topBlocks_[0];
+  let code = BlocklyJS.blockToCode(baseBlock);
+  
   code = prettier.format(code, {
     parser: "babel",
     plugins: [parserBabel],
@@ -332,6 +333,7 @@ const App = () => {
           <Block type="if_else">
           </Block>
 
+          <Block type="string_literal"></Block>
           <Block type="print">
             <Value name="MESSAGE">
               <Shadow type="string_literal">

@@ -54,7 +54,34 @@ Blockly.JavaScript["vector_literal"] = function (block) {
   const x = Blockly.JavaScript.valueToCode(block, "X", Blockly.JavaScript.ORDER_ATOMIC);
   const y = Blockly.JavaScript.valueToCode(block, "Y", Blockly.JavaScript.ORDER_ATOMIC);
   const code = `[${x}, ${y}]`;
-  console.log(code)
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 }
 
+Blockly.JavaScript["me"] = function (block) {
+  const code = `[0, 0]`;
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+}
+
+const DIRECTIONS = {
+  DOWN: "[0, 1]",
+  LEFT: "[-1, 0]",
+  RIGHT: "[1, 0]",
+  UP: "[0, -1]",
+};
+Blockly.JavaScript["vector_constant"] = function (block) {
+  const directionName = block.getFieldValue("VALUE");
+  const code = DIRECTIONS[directionName];
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+}
+
+Blockly.JavaScript["print"] = function (block) {
+  const message = Blockly.JavaScript.valueToCode(block, "MESSAGE", Blockly.JavaScript.ORDER_ATOMIC);
+  const code = `console.log(${message})`;
+  return code;
+}
+
+Blockly.JavaScript["string_literal"] = function (block) {
+  const string = block.getFieldValue("VALUE");
+  const code = "`" + string + "`";
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
