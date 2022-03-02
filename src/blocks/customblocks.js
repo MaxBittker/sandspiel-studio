@@ -158,7 +158,7 @@ Blockly.Blocks['vector_constant'] = {
 Blockly.Blocks['me'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("me");
+        .appendField("here");
     this.setOutput(true, "Vector");
     this.setColour(260);
  this.setTooltip("");

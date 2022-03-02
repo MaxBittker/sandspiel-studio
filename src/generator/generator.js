@@ -64,8 +64,8 @@ Blockly.JavaScript["vector_literal"] = function (block) {
 }
 
 Blockly.JavaScript["me"] = function (block) {
-  const code = `[0, 0]`;
-  return [code, Blockly.JavaScript.ORDER_MEMBER];
+  const code = `getRelativeToMe([0, 0])`;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 }
 
 const DIRECTIONS = {
@@ -77,7 +77,7 @@ const DIRECTIONS = {
 
 Blockly.JavaScript["vector_constant"] = function (block) {
   const directionName = block.getFieldValue("VALUE");
-  const code = DIRECTIONS[directionName];
+  const code = `getRelativeToMe(${DIRECTIONS[directionName]})`;
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 }
 

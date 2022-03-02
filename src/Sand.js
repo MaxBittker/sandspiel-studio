@@ -12,6 +12,8 @@ window.sands = sands;
 let clock = 0;
 let aX = 0;
 let aY = 0;
+let meX = 0;
+let meY = 0;
 function getIndex(x, y) {
   return (x + y * width) * 4;
 }
@@ -67,7 +69,24 @@ function swapSandRelative([sx, sy], [bx, by]) {
   let b = getSandRelative([bx, by]);
   setSandRelative([sx, sy], b);
   setSandRelative([bx, by], a);
+
+  // Update the position of 'me' if we moved it!
+  if (sx === meX && sy === meY) {
+    meX = bx;
+    meY = by;
+  } else if (bx === meX && by === meY) {
+    meX = sx;
+    meY = sy;
+  }
 }
+
+// TODO: unsure of which way to go with this
+function getRelativeToMe([x, y]) {
+  return [x, y];
+  //return [meX + x, meY + y];
+}
+
+window.getRelativeToMe = getRelativeToMe;
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
@@ -99,7 +118,9 @@ const tick = () => {
     let y = Math.floor(index / width);
     aX = x;
     aY = y;
-
+    meX = 0;
+    meY = 0;
+    window.returnValue = undefined;
     window.updaters[e](e);
   }
 };
