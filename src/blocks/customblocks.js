@@ -144,10 +144,20 @@ Blockly.Blocks['vector_literal'] = {
   }
 };
 
+Blockly.Blocks['vector_empty'] = {
+  init: function() {
+    this.appendDummyInput();
+    this.setOutput(true, "Vector");
+    this.setColour(260);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['vector_constant'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["➡ right","RIGHT"], ["⬅ left","LEFT"], ["⬆ up","UP"], ["⬇ down","DOWN"]]), "VALUE");
+        .appendField(new Blockly.FieldDropdown([["● here","HERE"], ["➡ right","RIGHT"], ["⬅ left","LEFT"], ["⬆ up","UP"], ["⬇ down","DOWN"]]), "VALUE");
     this.setOutput(true, "Vector");
     this.setColour(260);
  this.setTooltip("");

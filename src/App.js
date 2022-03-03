@@ -125,35 +125,13 @@ const App = () => {
           
           <Block type="element_cell">
             <Value name="CELL">
-              <Shadow type="vector_literal">
-                <Value name="X">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-                <Value name="Y">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>                
-              </Shadow>
+              <Shadow type="vector_constant"></Shadow>
             </Value>
           </Block>
           
           <Block type="change_into">
             <Value name="CELL">
-              <Shadow type="vector_literal">
-                <Value name="X">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-                <Value name="Y">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-              </Shadow>
+              <Shadow type="vector_constant"></Shadow>
             </Value>
             <Value name="ELEMENT">
               <Shadow type="element_literal">
@@ -164,49 +142,18 @@ const App = () => {
 
           <Block type="swap">
             <Value name="A">
-              <Shadow type="vector_literal">
-                <Value name="X">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-                <Value name="Y">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-              </Shadow>
+              <Shadow type="vector_constant"></Shadow>
             </Value>
             <Value name="B">
-              <Shadow type="vector_literal">
-                <Value name="X">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-                <Value name="Y">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
+              <Shadow type="vector_constant">
+                <Field name="VALUE">DOWN</Field>
               </Shadow>
             </Value>
           </Block>
 
           <Block type="is_touching">
             <Value name="CELL">
-              <Shadow type="vector_literal">
-                <Value name="X">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-                <Value name="Y">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-              </Shadow>
+              <Shadow type="vector_constant"></Shadow>
             </Value>
             <Value name="ELEMENT">
               <Shadow type="element_literal">
@@ -215,7 +162,11 @@ const App = () => {
             </Value>
           </Block>
 
-          <Block type="me">
+          {/*<Block type="me">
+          </Block>*/}
+
+          <Block type="vector_constant">
+            <Field name="VALUE">HERE</Field>
           </Block>
           
           <Block type="vector_literal">
@@ -229,10 +180,6 @@ const App = () => {
                 <Field name="VALUE">0</Field>
               </Shadow>
             </Value>
-          </Block>
-
-          <Block type="vector_constant">
-            <Field name="VALUE">RIGHT</Field>
           </Block>
 
           <Block type="in_a_random">
@@ -266,7 +213,7 @@ const App = () => {
             </Value>
             <Value name="MAX">
               <Shadow type="number_literal">
-                <Field name="VALUE">0</Field>
+                <Field name="VALUE">10</Field>
               </Shadow>
             </Value>
           </Block>
@@ -274,42 +221,20 @@ const App = () => {
           <Block type="one_in">
             <Value name="NUMBER">
               <Shadow type="number_literal">
-                <Field name="VALUE">0</Field>
+                <Field name="VALUE">2</Field>
               </Shadow>
             </Value>
           </Block>
 
           <Block type="get_data_cell">
             <Value name="CELL">
-            <Shadow type="vector_literal">
-                <Value name="X">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-                <Value name="Y">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>                
-              </Shadow>
+              <Shadow type="vector_constant"></Shadow>
             </Value>
           </Block>
 
           <Block type="set_data_cell">
             <Value name="CELL">
-              <Shadow type="vector_literal">
-                <Value name="X">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-                <Value name="Y">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">0</Field>
-                  </Shadow>
-                </Value>
-              </Shadow>
+              <Shadow type="vector_constant"></Shadow>
             </Value>
             <Value name="VALUE">
               <Shadow type="number_literal">
@@ -334,9 +259,15 @@ const App = () => {
           </Block>
 
           <Block type="if">
+            <Value name="CONDITION">
+              <Block type="comparison"></Block>
+            </Value>
           </Block>
 
           <Block type="if_else">
+            <Value name="CONDITION">
+              <Block type="comparison"></Block>
+            </Value>
           </Block>
 
           <Block type="string_literal"></Block>

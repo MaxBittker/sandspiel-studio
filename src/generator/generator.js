@@ -69,6 +69,7 @@ Blockly.JavaScript["me"] = function (block) {
 }
 
 const DIRECTIONS = {
+  HERE: "[0, 0]",
   DOWN: "[0, 1]",
   LEFT: "[-1, 0]",
   RIGHT: "[1, 0]",
