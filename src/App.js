@@ -242,6 +242,14 @@ const App = () => {
               </Shadow>
             </Value>
           </Block>
+          
+          <Block type="repeat">
+            <Value name="NUMBER">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+          </Block>
 
           {/*<Block type="string_literal">
           </Block>*/}

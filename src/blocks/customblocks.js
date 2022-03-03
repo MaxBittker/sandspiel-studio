@@ -512,3 +512,21 @@ Blockly.Blocks['statement_value_shadow'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['repeat'] = {
+  init: function() {
+    this.appendValueInput("NUMBER")
+        .setCheck("Number")
+        .appendField("repeat");
+    this.appendDummyInput()
+        .appendField("times");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
