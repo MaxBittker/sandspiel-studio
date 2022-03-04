@@ -14,6 +14,38 @@ let aX = 0;
 let aY = 0;
 let meX = 0;
 let meY = 0;
+
+function isTypeNumberlike(type) {
+  return type === "Number" || type === "Boolean" || type === "Element"
+}
+
+function eq(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return ax === bx && ay === by
+  }
+  return a === b
+}
+
+function greaterThan(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return ax > bx && ay > by
+  }
+  return a > b
+}
+
+function lessThan(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return ax < bx && ay < by
+  }
+  return a < b
+}
+
 function getIndex(x, y) {
   return (x + y * width) * 4;
 }
@@ -92,6 +124,9 @@ window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
 window.getSandRegisterRelative = getSandRegisterRelative;
 window.setSandRegisterRelative = setSandRegisterRelative;
+window.eq = eq;
+window.greaterThan = greaterThan;
+window.lessThan = lessThan;
 export let elements = [
   "Air",
   "Water",

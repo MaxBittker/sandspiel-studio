@@ -64,7 +64,7 @@ Blockly.JavaScript["vector_literal"] = function (block) {
 }
 
 Blockly.JavaScript["me"] = function (block) {
-  const code = `getRelativeToMe([0, 0])`;
+  const code = `[0, 0]`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 }
 
@@ -78,7 +78,7 @@ const DIRECTIONS = {
 
 Blockly.JavaScript["vector_constant"] = function (block) {
   const directionName = block.getFieldValue("VALUE");
-  const code = `getRelativeToMe(${DIRECTIONS[directionName]})`;
+  const code = `${DIRECTIONS[directionName]}`;
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 }
 
@@ -156,4 +156,46 @@ Blockly.JavaScript["if_else"] = function (block) {
   const else_ = Blockly.JavaScript.statementToCode(block, "ELSE");
   const code = `if (${condition}) {\n${then}\n} else {\n${else_}\n}`
   return code;
+}
+
+const getTypeOfCheck = (check) => {
+  if (check === undefined) return "Any";
+  if (check.length === 0) return "Void";
+  if (check.length === 1) return check[0];
+  if (check.length === 2) {
+    
+  }
+  throw new TypeError(`Could not resolve block check into a Sand-Blocks type: ${check}`)
+};
+
+const getTypeOfChild = (block, childNumber) => {
+  const child = block.childBlocks_[childNumber];
+  if (child === undefined) return "Void";
+  const check = child.outputConnection.check_;
+  const type = getTypeOfCheck(check);
+  return type;
+};
+
+const COMPARISON_FUNCTIONS = {
+  IS: "eq",
+  BIGGER: "greaterThan",
+  SMALLER: "lessThan",
+}
+
+Blockly.JavaScript["comparison"] = function (block) {
+  const aType = getTypeOfChild(block, 0);
+  const bType = getTypeOfChild(block, 1);
+  
+  let a = Blockly.JavaScript.valueToCode(block, "A", Blockly.JavaScript.ORDER_ATOMIC);
+  let b = Blockly.JavaScript.valueToCode(block, "B", Blockly.JavaScript.ORDER_ATOMIC);
+  if (a === "") a = "undefined"
+  if (b === "") b = "undefined"
+
+  const comparison = block.getFieldValue("COMPARISON");
+  const functionName = COMPARISON_FUNCTIONS[comparison];
+  
+
+  const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`
+
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 }

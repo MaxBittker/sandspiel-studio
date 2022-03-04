@@ -53,15 +53,10 @@ function generateCode(element, dom) {
   const baseBlock = window.workspace.topBlocks_[0];
   let code = BlocklyJS.blockToCode(baseBlock);
   
-  try {
-    code = prettier.format(code, {
-      parser: "babel",
-      plugins: [parserBabel],
-    });
-  } catch {
-    // TODO: what should we do if this happens?
-    return;
-  }
+  code = prettier.format(code, {
+    parser: "babel",
+    plugins: [parserBabel],
+  });
 
   let xml = Xml.workspaceToDom(window.workspace);
   let xmlText = Xml.domToPrettyText(xml);

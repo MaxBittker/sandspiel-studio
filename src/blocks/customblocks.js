@@ -248,7 +248,7 @@ Blockly.Blocks['print'] = {
     this.appendDummyInput()
         .appendField("print");
     this.appendValueInput("MESSAGE")
-        .setCheck("String");
+        .setCheck(null);
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
