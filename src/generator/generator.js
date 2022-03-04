@@ -26,7 +26,7 @@
 
 import * as Blockly from "blockly/core";
 import "blockly/javascript";
-import a from "../starterblocks";
+//import a from "../starterblocks";
 
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
   const body = Blockly.JavaScript.statementToCode(block, "body");

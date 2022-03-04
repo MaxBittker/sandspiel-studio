@@ -28,7 +28,7 @@ import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks";
 
 import "./App.css";
-import Sand, { elements } from "./Sand.js";
+import Sand from "./Sand.js";
 import useStore from "./store";
 
 import BlocklyComponent, {
@@ -221,7 +221,7 @@ const App = () => {
             </Value>
           </Block>
 
-          <Block type="get_data_cell">
+          {/*<Block type="get_data_cell">
             <Value name="CELL">
               <Shadow type="vector_constant"></Shadow>
             </Value>
@@ -236,7 +236,7 @@ const App = () => {
                 <Field name="VALUE">0</Field>
               </Shadow>
             </Value>
-          </Block>
+          </Block>*/}
           
           <Block type="repeat">
             <Value name="NUMBER">
@@ -281,7 +281,7 @@ const App = () => {
             </Value>
           </Block>
 
-          <Block type="macro"></Block>
+          {/*<Block type="macro"></Block>
 
           <Block type="macro_function"></Block>
 
@@ -295,7 +295,7 @@ const App = () => {
             <Value name="VALUE">
               <Shadow type="statement_value_shadow"></Shadow>
             </Value>
-          </Block>
+          </Block>*/}
 
         </BlocklyComponent>
       </header>

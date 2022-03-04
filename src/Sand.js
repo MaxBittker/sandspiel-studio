@@ -76,9 +76,17 @@ function setSand(x, y, v) {
   sands[getIndex(x, y)] = v;
 }
 function getSandRelative([x, y]) {
+
+  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
+  [x, y] = transform(x, y);
+
   return getSand(x + aX, y + aY);
 }
 function setSandRelative([x, y], v) {
+
+  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
+  [x, y] = transform(x, y);
+
   x = x + aX;
   y = y + aY;
   if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -89,22 +97,13 @@ function setSandRelative([x, y], v) {
   sands[i] = v;
   sands[i + 3] = clock;
 }
-function getSandRegisterRelative(x, y) {
-  return getSand(x + aX, y + aY, 2);
-}
-function setSandRegisterRelative(x, y, v) {
-  x = x + aX;
-  y = y + aY;
-  if (x < 0 || x >= width || y < 0 || y >= height) {
-    return;
-  }
-  let i = getIndex(x, y) + 2;
-
-  sands[i] = v;
-  sands[i + 3] = clock;
-}
 
 function swapSandRelative([sx, sy], [bx, by]) {
+
+  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
+  [sx, sy] = transform(sx, sy);
+  [bx, by] = transform(bx, by);
+
   if (aX+sx < 0 || aX+sx >= width || aY+sy < 0 || aY+sy >= height) {
     return;
   }
@@ -124,12 +123,6 @@ function swapSandRelative([sx, sy], [bx, by]) {
     meX = sx;
     meY = sy;
   }
-}
-
-// TODO: unsure of which way to go with this
-function getRelativeToMe([x, y]) {
-  return [x, y];
-  //return [meX + x, meY + y];
 }
 
 function add(a, b, aType, bType) {
@@ -200,11 +193,39 @@ function divide(a, b, aType, bType) {
   return a / b
 }
 
+const TRANSFORMATION_SETS = {
+  ROTATION: [
+    (x, y) => [ x, y],
+    (x, y) => [-y, x],
+    (x, y) => [-x,-y],
+    (x, y) => [ y,-x],
+  ],
+  REFLECTION: [
+    (x, y) => [ x, y],
+    (x, y) => [-x, y],
+    (x, y) => [ x,-y],
+    (x, y) => [-x,-y],
+  ],
+  HORIZONTAL_REFLECTION: [
+    (x, y) => [ x, y],
+    (x, y) => [-x, y],
+  ],
+  VERTICAL_REFLECTION: [
+    (x, y) => [ x, y],
+    (x, y) => [ x,-y],
+  ],
+};
+
+let transformationSet = "ROTATION"
+let transformationId = 0
+function setTransformation(set, id) {
+  transformationSet = set
+  transformationId = id
+}
+
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
-window.getSandRegisterRelative = getSandRegisterRelative;
-window.setSandRegisterRelative = setSandRegisterRelative;
 window.eq = eq;
 window.greaterThan = greaterThan;
 window.lessThan = lessThan;
@@ -213,6 +234,7 @@ window.add = add;
 window.subtract = subtract;
 window.multiply = multiply;
 window.divide = divide;
+window.setTransformation = setTransformation;
 export let elements = [
   "Air",
   "Water",
