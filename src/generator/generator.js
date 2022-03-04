@@ -163,6 +163,13 @@ Blockly.JavaScript["repeat"] = function (block) {
   return code;
 };
 
+Blockly.JavaScript["in_a_random"] = function (block) {
+  const name = block.getFieldValue("NAME");
+  const statement = Blockly.JavaScript.statementToCode(block, "NAME");
+  const code = `{const oldTransformation = window.getTransformation();\nwindow.setRandomTransformation("${name}");\n${statement}window.setTransformation(...oldTransformation);}\n`
+  return code;
+};
+
 Blockly.JavaScript["if_else"] = function (block) {
   const condition = Blockly.JavaScript.valueToCode(block, "CONDITION", Blockly.JavaScript.ORDER_ATOMIC);
   const then = Blockly.JavaScript.statementToCode(block, "THEN");

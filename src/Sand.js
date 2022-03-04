@@ -100,10 +100,6 @@ function setSandRelative([x, y], v) {
 
 function swapSandRelative([sx, sy], [bx, by]) {
 
-  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
-  [sx, sy] = transform(sx, sy);
-  [bx, by] = transform(bx, by);
-
   if (aX+sx < 0 || aX+sx >= width || aY+sy < 0 || aY+sy >= height) {
     return;
   }
@@ -219,8 +215,18 @@ const TRANSFORMATION_SETS = {
 let transformationSet = "ROTATION"
 let transformationId = 0
 function setTransformation(set, id) {
-  transformationSet = set
-  transformationId = id
+  transformationSet = set;
+  transformationId = id;
+}
+
+function setRandomTransformation(set) {
+  transformationSet = set;
+  const funcs = TRANSFORMATION_SETS[transformationSet];
+  transformationId = Math.floor(Math.random() * funcs.length);
+}
+
+function getTransformation() {
+  return [transformationSet, transformationId];
 }
 
 window.getSandRelative = getSandRelative;
@@ -235,6 +241,8 @@ window.subtract = subtract;
 window.multiply = multiply;
 window.divide = divide;
 window.setTransformation = setTransformation;
+window.setRandomTransformation = setRandomTransformation;
+window.getTransformation = getTransformation;
 export let elements = [
   "Air",
   "Water",
