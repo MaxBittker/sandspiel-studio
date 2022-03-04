@@ -241,7 +241,7 @@ const App = () => {
           <Block type="repeat">
             <Value name="NUMBER">
               <Shadow type="number_literal">
-                <Field name="VALUE">0</Field>
+                <Field name="VALUE">1</Field>
               </Shadow>
             </Value>
           </Block>

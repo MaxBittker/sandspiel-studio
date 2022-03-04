@@ -62,6 +62,8 @@ function getIndex(x, y) {
   return (x + y * width) * 4;
 }
 function getSand(x, y, o = 0) {
+  x = Math.round(x)
+  y = Math.round(y)
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return 3; // wall?
   }
@@ -130,7 +132,74 @@ function getRelativeToMe([x, y]) {
   //return [meX + x, meY + y];
 }
 
-window.getRelativeToMe = getRelativeToMe;
+function add(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return [ax+bx, ay+by]
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a
+    return [x+b, y+b]
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b
+    return [x+a, y+a]
+  }
+  return a + b
+}
+
+function subtract(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return [ax-bx, ay-by]
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a
+    return [x-b, y-b]
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b
+    return [x-a, y-a]
+  }
+  return a - b
+}
+
+function multiply(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return [ax*bx, ay*by]
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a
+    return [x*b, y*b]
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b
+    return [x*a, y*a]
+  }
+  return a * b
+}
+
+function divide(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return [ax/bx, ay/by]
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a
+    return [x/b, y/b]
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b
+    return [x/a, y/a]
+  }
+  return a / b
+}
+
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
@@ -140,6 +209,10 @@ window.eq = eq;
 window.greaterThan = greaterThan;
 window.lessThan = lessThan;
 window.isTouching = isTouching;
+window.add = add;
+window.subtract = subtract;
+window.multiply = multiply;
+window.divide = divide;
 export let elements = [
   "Air",
   "Water",

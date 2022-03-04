@@ -520,7 +520,7 @@ Blockly.Blocks['repeat'] = {
         .appendField("repeat");
     this.appendDummyInput()
         .appendField("times");
-    this.appendStatementInput("NAME")
+    this.appendStatementInput("STATEMENT")
         .setCheck(null);
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);

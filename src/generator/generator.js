@@ -156,6 +156,13 @@ Blockly.JavaScript["if"] = function (block) {
   return code;
 };
 
+Blockly.JavaScript["repeat"] = function (block) {
+  const n = Blockly.JavaScript.valueToCode(block, "NUMBER", Blockly.JavaScript.ORDER_ATOMIC);
+  const statement = Blockly.JavaScript.statementToCode(block, "STATEMENT");
+  const code = `for (let i = 0; i < ${n}; i++) {\n${statement}\n}`
+  return code;
+};
+
 Blockly.JavaScript["if_else"] = function (block) {
   const condition = Blockly.JavaScript.valueToCode(block, "CONDITION", Blockly.JavaScript.ORDER_ATOMIC);
   const then = Blockly.JavaScript.statementToCode(block, "THEN");
@@ -169,7 +176,7 @@ const getTypeOfCheck = (check) => {
   if (check.length === 0) return "Void";
   if (check.length === 1) return check[0];
   if (check.length === 2) {
-    
+    throw new Error("Unimplemented code - Lu is working on it")
   }
   throw new TypeError(`Could not resolve block check into a Sand-Blocks type: ${check}`)
 };
@@ -201,6 +208,31 @@ Blockly.JavaScript["comparison"] = function (block) {
   const functionName = COMPARISON_FUNCTIONS[comparison];
   
 
+  const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`
+
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+const OPERATION_FUNCTIONS = {
+  ADD: "add",
+  SUBTRACT: "subtract",
+  MULTIPLY: "multiply",
+  DIVIDE: "divide",
+};
+
+Blockly.JavaScript["operation"] = function (block) {
+  const aType = getTypeOfChild(block, 0);
+  const bType = getTypeOfChild(block, 1);
+  
+  let a = Blockly.JavaScript.valueToCode(block, "A", Blockly.JavaScript.ORDER_ATOMIC);
+  let b = Blockly.JavaScript.valueToCode(block, "B", Blockly.JavaScript.ORDER_ATOMIC);
+  if (a === "") a = "undefined"
+  if (b === "") b = "undefined"
+
+  const operation = block.getFieldValue("OPERATION");
+  const functionName = OPERATION_FUNCTIONS[operation];
+  
+  console.log(aType, bType)
   const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`
 
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
