@@ -15,8 +15,16 @@ let aY = 0;
 let meX = 0;
 let meY = 0;
 
-function isTypeNumberlike(type) {
-  return type === "Number" || type === "Boolean" || type === "Element"
+function isTouching([x, y], element) {
+  const right = [x+1, y]
+  const left = [x-1, y]
+  const up = [x, y-1]
+  const down = [x, y+1]
+  if (getSandRelative(right) === element) return true
+  if (getSandRelative(left) === element) return true
+  if (getSandRelative(up) === element) return true
+  if (getSandRelative(down) === element) return true
+  return false
 }
 
 function eq(a, b, aType, bType) {
@@ -131,6 +139,7 @@ window.setSandRegisterRelative = setSandRegisterRelative;
 window.eq = eq;
 window.greaterThan = greaterThan;
 window.lessThan = lessThan;
+window.isTouching = isTouching;
 export let elements = [
   "Air",
   "Water",

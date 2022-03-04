@@ -208,7 +208,7 @@ const App = () => {
             </Value>
             <Value name="MAX">
               <Shadow type="number_literal">
-                <Field name="VALUE">10</Field>
+                <Field name="VALUE">1</Field>
               </Shadow>
             </Value>
           </Block>

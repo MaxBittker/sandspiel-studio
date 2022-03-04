@@ -60,7 +60,7 @@ Blockly.Blocks['number_literal'] = {
   init: function() {
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField(new Blockly.FieldNumber(0, -Infinity, Infinity, 1), "VALUE");
+        .appendField(new Blockly.FieldNumber(0, -100, 100, 1), "VALUE");
     this.setOutput(true, "Number");
     this.setColour(210);
  this.setTooltip("");
