@@ -32,7 +32,9 @@ function greaterThan(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
     const [ax, ay] = a
     const [bx, by] = b
-    return ax > bx && ay > by
+    const aLength = Math.hypot(ax, ay)
+    const bLength = Math.hypot(bx, by)
+    return aLength > bLength
   }
   return a > b
 }
@@ -41,7 +43,9 @@ function lessThan(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
     const [ax, ay] = a
     const [bx, by] = b
-    return ax < bx && ay < by
+    const aLength = Math.hypot(ax, ay)
+    const bLength = Math.hypot(bx, by)
+    return aLength < bLength
   }
   return a < b
 }
