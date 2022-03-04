@@ -96,7 +96,7 @@ class BlocklyComponent extends React.Component {
       ...rest,
     });
 
-    this.primaryWorkspace.addChangeListener(Blockly.Events.disableOrphans);
+    //this.primaryWorkspace.addChangeListener(Blockly.Events.disableOrphans);
 
     if (initialXml) {
       Blockly.Xml.domToWorkspace(

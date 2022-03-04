@@ -12,10 +12,58 @@ window.sands = sands;
 let clock = 0;
 let aX = 0;
 let aY = 0;
+let meX = 0;
+let meY = 0;
+
+function isTouching([x, y], element) {
+  const right = [x+1, y]
+  const left = [x-1, y]
+  const up = [x, y-1]
+  const down = [x, y+1]
+  if (getSandRelative(right) === element) return true
+  if (getSandRelative(left) === element) return true
+  if (getSandRelative(up) === element) return true
+  if (getSandRelative(down) === element) return true
+  return false
+}
+
+function eq(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return ax === bx && ay === by
+  }
+  return a === b
+}
+
+function greaterThan(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    const aLength = Math.hypot(ax, ay)
+    const bLength = Math.hypot(bx, by)
+    return aLength > bLength
+  }
+  return a > b
+}
+
+function lessThan(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    const aLength = Math.hypot(ax, ay)
+    const bLength = Math.hypot(bx, by)
+    return aLength < bLength
+  }
+  return a < b
+}
+
 function getIndex(x, y) {
   return (x + y * width) * 4;
 }
 function getSand(x, y, o = 0) {
+  x = Math.round(x)
+  y = Math.round(y)
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return 3; // wall?
   }
@@ -27,10 +75,18 @@ function setSand(x, y, v) {
   }
   sands[getIndex(x, y)] = v;
 }
-function getSandRelative(x, y) {
+function getSandRelative([x, y]) {
+
+  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
+  [x, y] = transform(x, y);
+
   return getSand(x + aX, y + aY);
 }
-function setSandRelative(x, y, v) {
+function setSandRelative([x, y], v) {
+
+  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
+  [x, y] = transform(x, y);
+
   x = x + aX;
   y = y + aY;
   if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -41,32 +97,152 @@ function setSandRelative(x, y, v) {
   sands[i] = v;
   sands[i + 3] = clock;
 }
-function getSandRegisterRelative(x, y) {
-  return getSand(x + aX, y + aY, 2);
-}
-function setSandRegisterRelative(x, y, v) {
-  x = x + aX;
-  y = y + aY;
-  if (x < 0 || x >= width || y < 0 || y >= height) {
+
+function swapSandRelative([sx, sy], [bx, by]) {
+
+  if (aX+sx < 0 || aX+sx >= width || aY+sy < 0 || aY+sy >= height) {
     return;
   }
-  let i = getIndex(x, y) + 2;
+  if (aX+bx < 0 || aX+bx >= width || aY+by < 0 || aY+by >= height) {
+    return;
+  }
+  let a = getSandRelative([sx, sy]);
+  let b = getSandRelative([bx, by]);
+  setSandRelative([sx, sy], b);
+  setSandRelative([bx, by], a);
 
-  sands[i] = v;
-  sands[i + 3] = clock;
+  // Update the position of 'me' if we moved it!
+  if (sx === meX && sy === meY) {
+    meX = bx;
+    meY = by;
+  } else if (bx === meX && by === meY) {
+    meX = sx;
+    meY = sy;
+  }
 }
 
-function swapSandRelative(x, y) {
-  let a = getSandRelative(0, 0);
-  let b = getSandRelative(x, y);
-  setSandRelative(0, 0, b);
-  setSandRelative(x, y, a);
+function add(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return [ax+bx, ay+by]
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a
+    return [x+b, y+b]
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b
+    return [x+a, y+a]
+  }
+  return a + b
 }
+
+function subtract(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return [ax-bx, ay-by]
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a
+    return [x-b, y-b]
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b
+    return [x-a, y-a]
+  }
+  return a - b
+}
+
+function multiply(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return [ax*bx, ay*by]
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a
+    return [x*b, y*b]
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b
+    return [x*a, y*a]
+  }
+  return a * b
+}
+
+function divide(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a
+    const [bx, by] = b
+    return [ax/bx, ay/by]
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a
+    return [x/b, y/b]
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b
+    return [x/a, y/a]
+  }
+  return a / b
+}
+
+const TRANSFORMATION_SETS = {
+  ROTATION: [
+    (x, y) => [ x, y],
+    (x, y) => [-y, x],
+    (x, y) => [-x,-y],
+    (x, y) => [ y,-x],
+  ],
+  REFLECTION: [
+    (x, y) => [ x, y],
+    (x, y) => [-x, y],
+    (x, y) => [ x,-y],
+    (x, y) => [-x,-y],
+  ],
+  HORIZONTAL_REFLECTION: [
+    (x, y) => [ x, y],
+    (x, y) => [-x, y],
+  ],
+  VERTICAL_REFLECTION: [
+    (x, y) => [ x, y],
+    (x, y) => [ x,-y],
+  ],
+};
+
+let transformationSet = "ROTATION"
+let transformationId = 0
+function setTransformation(set, id) {
+  transformationSet = set;
+  transformationId = id;
+}
+
+function setRandomTransformation(set) {
+  transformationSet = set;
+  const funcs = TRANSFORMATION_SETS[transformationSet];
+  transformationId = Math.floor(Math.random() * funcs.length);
+}
+
+function getTransformation() {
+  return [transformationSet, transformationId];
+}
+
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
-window.getSandRegisterRelative = getSandRegisterRelative;
-window.setSandRegisterRelative = setSandRegisterRelative;
+window.eq = eq;
+window.greaterThan = greaterThan;
+window.lessThan = lessThan;
+window.isTouching = isTouching;
+window.add = add;
+window.subtract = subtract;
+window.multiply = multiply;
+window.divide = divide;
+window.setTransformation = setTransformation;
+window.setRandomTransformation = setRandomTransformation;
+window.getTransformation = getTransformation;
 export let elements = [
   "Air",
   "Water",
@@ -93,7 +269,9 @@ const tick = () => {
     let y = Math.floor(index / width);
     aX = x;
     aY = y;
-
+    meX = 0;
+    meY = 0;
+    window.returnValue = undefined;
     window.updaters[e](e);
   }
 };
@@ -101,9 +279,9 @@ const tick = () => {
 const seed = () => {
   for (var i = 0; i < sands.length; i += 4) {
     sands[i] = 0;
-    if (Math.random() * i > width * height * 3) {
+    /*if (Math.random() * i > width * height * 3) {
       sands[i] = (Math.random() * (elements.length - 1)) | 0;
-    }
+    }*/
     sands[i + 1] = (Math.random() * 255) | 0;
     sands[i + 2] = 0;
     sands[i + 3] = 0;

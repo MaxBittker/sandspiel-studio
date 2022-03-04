@@ -28,7 +28,7 @@ import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks";
 
 import "./App.css";
-import Sand, { elements } from "./Sand.js";
+import Sand from "./Sand.js";
 import useStore from "./store";
 
 import BlocklyComponent, {
@@ -50,18 +50,20 @@ window.xmls = starterXMLs.map((v, i) => {
 //todo generate all the code on start
 window.xmls.forEach((e, i) => {});
 function generateCode(element, dom) {
-  let code = BlocklyJS.workspaceToCode(window.workspace);
-
+  const baseBlock = window.workspace.topBlocks_[0];
+  let code = BlocklyJS.blockToCode(baseBlock);
+  
   code = prettier.format(code, {
     parser: "babel",
     plugins: [parserBabel],
   });
+
   let xml = Xml.workspaceToDom(window.workspace);
   let xmlText = Xml.domToPrettyText(xml);
 
-  console.log(xmlText);
+  //console.log(xmlText);
   window.localStorage.setItem("code" + element, xmlText);
-  //console.log(code);
+  console.log(code);
   // eslint-disable-next-line no-new-func
   let fn = Function(code);
   window.xmls[element] = xmlText;
@@ -111,145 +113,190 @@ const App = () => {
           }}
           initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
         >
-          <Category name="APIs">
-            <Block type="get_cell" />
-            <Block type="set_cell" />
-            <Block type="swap_cells" />
-            <Block type="element_dropdown"></Block>
-
-            <Block type="test_react_field" />
-            <Block type="test_react_date_field" />
-          </Category>
-          <Category name="Blocks">
-            <Block type="controls_if" />
-            {/* <Block type="controls_ifelse" /> */}
-            <Block type="logic_compare" />
-            <Block type="logic_operation" />
-            <Block type="math_number" gap="32">
-              <Field name="NUM">1</Field>
-            </Block>
-            <Block type="math_arithmetic">
-              <Value name="A">
-                <Shadow type="math_number">
-                  <Field name="NUM">1</Field>
-                </Shadow>
-              </Value>
-              <Value name="B">
-                <Shadow type="math_number">
-                  <Field name="NUM">1</Field>
-                </Shadow>
-              </Value>
-            </Block>
-            <Block type="math_single">
-              <Value name="NUM">
-                <Shadow type="math_number">
-                  <Field name="NUM">9</Field>
-                </Shadow>
-              </Value>
-            </Block>
-
-            <Block type="math_number_property">
-              <Value name="NUMBER_TO_CHECK">
-                <Shadow type="math_number">
-                  <Field name="NUM">0</Field>
-                </Shadow>
-              </Value>
-            </Block>
-            <Block type="math_round">
-              <Value name="NUM">
-                <Shadow type="math_number">
-                  <Field name="NUM">3.1</Field>
-                </Shadow>
-              </Value>
-            </Block>
-            <Block type="math_modulo">
-              <Value name="DIVIDEND">
-                <Shadow type="math_number">
-                  <Field name="NUM">64</Field>
-                </Shadow>
-              </Value>
-              <Value name="DIVISOR">
-                <Shadow type="math_number">
-                  <Field name="NUM">10</Field>
-                </Shadow>
-              </Value>
-            </Block>
-            <Block type="math_constrain">
-              <Value name="VALUE">
-                <Shadow type="math_number">
-                  <Field name="NUM">50</Field>
-                </Shadow>
-              </Value>
-              <Value name="LOW">
-                <Shadow type="math_number">
-                  <Field name="NUM">1</Field>
-                </Shadow>
-              </Value>
-              <Value name="HIGH">
-                <Shadow type="math_number">
-                  <Field name="NUM">100</Field>
-                </Shadow>
-              </Value>
-            </Block>
-            <Block type="math_random_int">
-              <Value name="FROM">
-                <Shadow type="math_number">
-                  <Field name="NUM">1</Field>
-                </Shadow>
-              </Value>
-              <Value name="TO">
-                <Shadow type="math_number">
-                  <Field name="NUM">100</Field>
-                </Shadow>
-              </Value>
-            </Block>
-            <Block type="math_random_float"></Block>
-
-            <Block type="logic_negate" />
-            <Block type="logic_boolean" />
-            <Block type="colour_picker"></Block>
-            <Block type="colour_random"></Block>
-            <Block type="colour_rgb">
-              <Value name="RED">
-                <Shadow type="math_number">
-                  <Field name="NUM">100</Field>
-                </Shadow>
-              </Value>
-              <Value name="GREEN">
-                <Shadow type="math_number">
-                  <Field name="NUM">50</Field>
-                </Shadow>
-              </Value>
-              <Value name="BLUE">
-                <Shadow type="math_number">
-                  <Field name="NUM">0</Field>
-                </Shadow>
-              </Value>
-            </Block>
-          </Category>
-
-          <Block type="colour_blend">
-            <Value name="COLOUR1">
-              <Shadow type="colour_picker">
-                <Field name="COLOUR">#ff0000</Field>
-              </Shadow>
+          
+          <Block type="element_literal">
+            <Field name="VALUE">SAND</Field>
+          </Block>
+          
+          <Block type="element_cell">
+            <Value name="CELL">
+              <Shadow type="vector_constant"></Shadow>
             </Value>
-            <Value name="COLOUR2">
-              <Shadow type="colour_picker">
-                <Field name="COLOUR">#3333ff</Field>
-              </Shadow>
+          </Block>
+          
+          <Block type="change_into">
+            <Value name="CELL">
+              <Shadow type="vector_constant"></Shadow>
             </Value>
-            <Value name="RATIO">
-              <Shadow type="math_number">
-                <Field name="NUM">0.5</Field>
+            <Value name="ELEMENT">
+              <Shadow type="element_literal">
+                <Field name="VALUE">SAND</Field>
               </Shadow>
             </Value>
           </Block>
-          <Category
-            name="Variables"
-            categorystyle="variable_category"
-            custom="VARIABLE"
-          ></Category>
+
+          <Block type="swap">
+            <Value name="A">
+              <Shadow type="vector_constant"></Shadow>
+            </Value>
+            <Value name="B">
+              <Shadow type="vector_constant">
+                <Field name="VALUE">DOWN</Field>
+              </Shadow>
+            </Value>
+          </Block>
+
+          <Block type="is_touching">
+            <Value name="CELL">
+              <Shadow type="vector_constant"></Shadow>
+            </Value>
+            <Value name="ELEMENT">
+              <Shadow type="element_literal">
+                <Field name="VALUE">SAND</Field>
+              </Shadow>
+            </Value>
+          </Block>
+
+          {/*<Block type="me">
+          </Block>*/}
+
+          <Block type="vector_constant">
+            <Field name="VALUE">HERE</Field>
+          </Block>
+          
+          <Block type="vector_literal">
+            <Value name="X">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+            <Value name="Y">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+          </Block>
+
+          <Block type="in_a_random">
+          </Block>
+
+          <Block type="for_all">
+          </Block>
+
+          <Block type="number_literal">
+            <Field name="VALUE">0</Field>
+          </Block>
+
+          <Block type="operation">
+            <Value name="A">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+            <Value name="B">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          
+          <Block type="random_number">
+            <Value name="MIN">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+            <Value name="MAX">
+              <Shadow type="number_literal">
+                <Field name="VALUE">1</Field>
+              </Shadow>
+            </Value>
+          </Block>
+          
+          <Block type="one_in">
+            <Value name="NUMBER">
+              <Shadow type="number_literal">
+                <Field name="VALUE">2</Field>
+              </Shadow>
+            </Value>
+          </Block>
+
+          {/*<Block type="get_data_cell">
+            <Value name="CELL">
+              <Shadow type="vector_constant"></Shadow>
+            </Value>
+          </Block>
+
+          <Block type="set_data_cell">
+            <Value name="CELL">
+              <Shadow type="vector_constant"></Shadow>
+            </Value>
+            <Value name="VALUE">
+              <Shadow type="number_literal">
+                <Field name="VALUE">0</Field>
+              </Shadow>
+            </Value>
+          </Block>*/}
+          
+          <Block type="repeat">
+            <Value name="NUMBER">
+              <Shadow type="number_literal">
+                <Field name="VALUE">1</Field>
+              </Shadow>
+            </Value>
+          </Block>
+
+          {/*<Block type="string_literal">
+          </Block>*/}
+
+          <Block type="bool_literal">
+          </Block>
+
+          <Block type="not">
+          </Block>
+
+          <Block type="boolean_operation">
+          </Block>
+
+          <Block type="comparison">
+          </Block>
+
+          <Block type="if">
+            <Value name="CONDITION">
+              <Block type="comparison"></Block>
+            </Value>
+          </Block>
+
+          <Block type="if_else">
+            <Value name="CONDITION">
+              <Block type="comparison"></Block>
+            </Value>
+          </Block>
+
+          <Block type="string_literal"></Block>
+          <Block type="print">
+            <Value name="MESSAGE">
+              <Shadow type="string_literal">
+              </Shadow>
+            </Value>
+          </Block>
+
+          {/*<Block type="macro"></Block>
+
+          <Block type="macro_function"></Block>
+
+          <Block type="value_statement">
+            <Value name="STATEMENT">
+              <Shadow type="value_statement_shadow"></Shadow>
+            </Value>
+          </Block>
+
+          <Block type="statement_value">
+            <Value name="VALUE">
+              <Shadow type="statement_value_shadow"></Shadow>
+            </Value>
+          </Block>*/}
+
         </BlocklyComponent>
       </header>
     </div>
