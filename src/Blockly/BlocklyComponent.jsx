@@ -24,8 +24,8 @@
 import React from "react";
 import "./BlocklyComponent.css";
 
-import Blockly from "blockly/core";
-//import "@blockly/block-plus-minus";
+import Blockly from "blockly";
+import "@blockly/block-plus-minus";
 // import {
 //   ContinuousToolbox,
 //   ContinuousFlyout,

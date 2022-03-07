@@ -261,6 +261,8 @@ const App = () => {
           <Block type="comparison">
           </Block>
 
+          <Block type="controls_if"></Block>
+
           <Block type="if">
             <Value name="CONDITION">
               <Block type="comparison"></Block>
