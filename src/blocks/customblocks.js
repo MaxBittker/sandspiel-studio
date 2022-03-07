@@ -71,7 +71,7 @@ Blockly.Blocks['number_literal'] = {
 Blockly.Blocks['element_literal'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["Air","AIR"], ["Water","WATER"], ["Sand","SAND"], ["Wall","WALL"], ["Plant","PLANT"], ["Stone","STONE"], ["Cloner","CLONER"], ["Fire","FIRE"]]), "VALUE");
+        .appendField(new Blockly.FieldDropdown([["Air","AIR"], ["Water","WATER"], ["Sand","SAND"], ["Wall","WALL"], ["Plant","PLANT"], ["Stone","STONE"], ["Cloner","CLONER"], ["Fire","FIRE"], ["Ice","ICE"], ["Gas","GAS"], ["Mite","MITE"], ["Wood","WOOD"], ["Fungus","FUNGUS"], ["Seed","SEED"], ["Lava","LAVA"], ["Acid","ACID"], ["Dust","DUST"], ["Oil","OIL"], ["Rocket","ROCKET"]]), "VALUE");
     this.setOutput(true, "Element");
     this.setColour(160);
  this.setTooltip("");

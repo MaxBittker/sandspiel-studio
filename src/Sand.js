@@ -252,6 +252,17 @@ export let elements = [
   "Stone",
   "Cloner",
   "Fire",
+  "Ice",
+  "Gas",
+  "Mite",
+  "Wood",
+  "Fungus",
+  "Seed",
+  "Lava",
+  "Acid",
+  "Dust",
+  "Oil",
+  "Rocket",
 ];
 
 window.updaters = elements.map(() => {
