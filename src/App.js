@@ -124,7 +124,7 @@ const App = () => {
     and copy-pasted here!
 
   */}
-  <block type="element_literal">
+ <block type="element_literal">
     <field name="VALUE">SAND</field>
   </block>
   <block type="element_cell">
@@ -250,14 +250,6 @@ const App = () => {
         <field name="VALUE">Hello world!</field>
       </shadow>
     </value>
-  </block>
-  <block type="procedures_defnoreturn">
-    <field name="NAME">do something</field>
-    <comment pinned="false" h="80" w="160">Describe this function...</comment>
-  </block>
-  <block type="procedures_defreturn">
-    <field name="NAME">get something</field>
-    <comment pinned="false" h="80" w="160">Describe this function...</comment>
   </block>
 
         </BlocklyComponent>
