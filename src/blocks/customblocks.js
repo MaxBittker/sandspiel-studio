@@ -554,3 +554,28 @@ Blockly.Blocks['repeat'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['boolean_operation_vertical'] = {
+  init: function() {
+    this.appendValueInput("A")
+        .setCheck("Boolean")
+        .setAlign(Blockly.ALIGN_CENTRE);
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField(new Blockly.FieldDropdown([["and","AND"], ["or","OR"]]), "OPERATION");
+    this.appendValueInput("B")
+        .setCheck("Boolean")
+        .setAlign(Blockly.ALIGN_CENTRE);
+    this.appendDummyInput()
+        .setAlign(Blockly.ALIGN_CENTRE)
+        .appendField(new Blockly.FieldDropdown([["and","AND"], ["or","OR"]]), "OPERATION2");
+    this.appendValueInput("C")
+        .setCheck("Boolean")
+        .setAlign(Blockly.ALIGN_CENTRE);
+    this.setInputsInline(false);
+    this.setOutput(true, "Boolean");
+    this.setColour(330);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
