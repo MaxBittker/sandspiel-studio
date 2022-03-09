@@ -344,6 +344,30 @@ Blockly.Blocks['one_in'] = {
   }
 };
 
+// Hacky - remove 'do' text
+/*const baseIfInit = Blockly.Blocks["controls_if"].init;
+Blockly.Blocks["controls_if"].init = function() {
+  baseIfInit.apply(this);
+  this.setColour(330);
+
+  const ifDoInput = this.getInput("DO0");
+  ifDoInput.fieldRow.length = 0;
+
+  this.setOnChange(function(e) {
+    for (let i = 0; i < this.elseifCount_; i++) {
+      const inputName = `DO${i+1}`
+      this.removeInput(inputName);
+      this.appendStatementInput(inputName)
+    }
+  });
+};*/
+
+const baseIfInit = Blockly.Blocks["controls_if"].init;
+Blockly.Blocks["controls_if"].init = function() {
+  baseIfInit.apply(this);
+  this.setColour(330);
+};
+
 Blockly.Blocks['if'] = {
   init: function() {
     this.appendDummyInput()

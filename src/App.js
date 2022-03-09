@@ -249,21 +249,21 @@ const App = () => {
           {/*<Block type="string_literal">
           </Block>*/}
 
-          <Block type="bool_literal">
-          </Block>
+          <Block type="controls_if"></Block>
 
-          <Block type="not">
+          <Block type="comparison">
           </Block>
 
           <Block type="boolean_operation">
           </Block>
 
-          <Block type="comparison">
+          <Block type="not">
           </Block>
 
-          <Block type="controls_if"></Block>
+          <Block type="bool_literal">
+          </Block>
 
-          <Block type="if">
+          {/*<Block type="if">
             <Value name="CONDITION">
               <Block type="comparison"></Block>
             </Value>
@@ -273,9 +273,9 @@ const App = () => {
             <Value name="CONDITION">
               <Block type="comparison"></Block>
             </Value>
-          </Block>
+          </Block>*/}
 
-          <Block type="string_literal"></Block>
+          {/*<Block type="string_literal"></Block>*/}
           <Block type="print">
             <Value name="MESSAGE">
               <Shadow type="string_literal">
