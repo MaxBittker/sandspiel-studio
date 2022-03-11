@@ -16,54 +16,60 @@ let meX = 0;
 let meY = 0;
 
 function isTouching([x, y], element) {
-  const right = [x+1, y]
-  const left = [x-1, y]
-  const up = [x, y-1]
-  const down = [x, y+1]
-  if (getSandRelative(right) === element) return true
-  if (getSandRelative(left) === element) return true
-  if (getSandRelative(up) === element) return true
-  if (getSandRelative(down) === element) return true
-  return false
+  const right = [x+1, y];
+  const left = [x-1, y];
+  const up = [x, y-1];
+  const down = [x, y+1];
+  if (getSandRelative(right) === element) return true;
+  if (getSandRelative(left) === element) return true;
+  if (getSandRelative(up) === element) return true;
+  if (getSandRelative(down) === element) return true;
+  return false;
 }
 
 function eq(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
-    const [ax, ay] = a
-    const [bx, by] = b
-    return ax === bx && ay === by
+    const [ax, ay] = a;
+    const [bx, by] = b;
+    return ax === bx && ay === by;
   }
-  return a === b
+  if (aType === "Group") {
+    return a.some(([value, type]) => eq(value, b, type, bType));
+  }
+  if (bType === "Group") {
+    return b.some(([value, type]) => eq(a, value, aType, type));
+  }
+  return a === b;
 }
 
 function greaterThan(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
-    const [ax, ay] = a
-    const [bx, by] = b
-    const aLength = Math.hypot(ax, ay)
-    const bLength = Math.hypot(bx, by)
-    return aLength > bLength
+    const [ax, ay] = a;
+    const [bx, by] = b;
+    const aLength = Math.hypot(ax, ay);
+    const bLength = Math.hypot(bx, by);
+    return aLength > bLength;
   }
-  return a > b
+  return a > b;
 }
 
 function lessThan(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
-    const [ax, ay] = a
-    const [bx, by] = b
-    const aLength = Math.hypot(ax, ay)
-    const bLength = Math.hypot(bx, by)
-    return aLength < bLength
+    const [ax, ay] = a;
+    const [bx, by] = b;
+    const aLength = Math.hypot(ax, ay);
+    const bLength = Math.hypot(bx, by);
+    return aLength < bLength;
   }
-  return a < b
+  return a < b;
 }
 
 function getIndex(x, y) {
   return (x + y * width) * 4;
 }
 function getSand(x, y, o = 0) {
-  x = Math.round(x)
-  y = Math.round(y)
+  x = Math.round(x);
+  y = Math.round(y);
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return 3; // wall?
   }

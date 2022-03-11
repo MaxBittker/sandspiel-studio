@@ -93,6 +93,53 @@ Blockly.Blocks['element_cell'] = {
   }
 };
 
+Blockly.Blocks['group'] = {
+  init: function() {
+    this.appendValueInput("ITEM0")
+        .setCheck(["Number", "String", "Boolean", "Vector", "Element", "Group"]);
+    this.appendDummyInput()
+        .appendField("or");
+    this.appendValueInput("ITEM1")
+        .setCheck(["Number", "String", "Boolean", "Vector", "Element", "Group"]);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("➕"), "NAME");
+    this.setInputsInline(true);
+    this.setOutput(true, "Group");
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['not_group'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("not");
+    this.appendValueInput("VALUE")
+        .setCheck(["Number", "String", "Boolean", "Vector", "Element", "Group"]);
+    this.setInputsInline(true);
+    this.setOutput(true, "Group");
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['comparison'] = {
+  init: function() {
+    this.appendValueInput("A")
+        .setCheck(["Number", "String", "Vector", "Element", "Group"]);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["is","IS"], ["is bigger than","BIGGER"], ["is smaller than","SMALLER"]]), "COMPARISON");
+    this.appendValueInput("B")
+        .setCheck(["Number", "String", "Vector", "Element", "Group"]);
+    this.setOutput(true, "Boolean");
+    this.setColour(330);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['change_into'] = {
   init: function() {
     this.appendDummyInput()
@@ -179,7 +226,7 @@ Blockly.Blocks['me'] = {
 Blockly.Blocks['get_data_cell'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["⚡ energy","ENERGY"], ["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["⭐ magic","MAGIC"], ["💨 wind","WIND"]]), "DATA");
+        .appendField(new Blockly.FieldDropdown([["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["💨 wind","WIND"], ["⭐ magic","MAGIC"], ["⚡ energy","ENERGY"]]), "DATA");
     this.appendDummyInput()
         .appendField("of");
     this.appendValueInput("CELL")
@@ -197,7 +244,7 @@ Blockly.Blocks['set_data_cell'] = {
     this.appendDummyInput()
         .appendField("set");
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["⚡ energy","ENERGY"], ["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["⭐ magic","MAGIC"], ["💨 wind","WIND"]]), "DATA");
+        .appendField(new Blockly.FieldDropdown([["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["💨 wind","WIND"], ["⭐ magic","MAGIC"], ["⚡ energy","ENERGY"]]), "DATA");
     this.appendDummyInput()
         .appendField("of");
     this.appendValueInput("CELL")
@@ -236,7 +283,7 @@ Blockly.Blocks['string_literal'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput("Hello world!"), "VALUE");
-    this.setOutput(true, "String");
+    this.setOutput(true, null);
     this.setColour(300);
  this.setTooltip("");
  this.setHelpUrl("");
@@ -283,21 +330,6 @@ Blockly.Blocks['not'] = {
   }
 };
 
-Blockly.Blocks['comparison'] = {
-  init: function() {
-    this.appendValueInput("A")
-        .setCheck(["Number", "String", "Vector", "Element"]);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["is","IS"], ["is bigger than","BIGGER"], ["is smaller than","SMALLER"]]), "COMPARISON");
-    this.appendValueInput("B")
-        .setCheck(["Number", "String", "Vector", "Element"]);
-    this.setOutput(true, "Boolean");
-    this.setColour(330);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
-
 Blockly.Blocks['boolean_operation'] = {
   init: function() {
     this.appendValueInput("A")
@@ -306,6 +338,9 @@ Blockly.Blocks['boolean_operation'] = {
         .appendField(new Blockly.FieldDropdown([["and","AND"], ["or","OR"]]), "OPERATION");
     this.appendValueInput("B")
         .setCheck("Boolean");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("➕"), "PLUS");
+    this.setInputsInline(true);
     this.setOutput(true, "Boolean");
     this.setColour(330);
  this.setTooltip("");
@@ -320,7 +355,7 @@ Blockly.Blocks['is_touching'] = {
     this.appendDummyInput()
         .appendField("is touching");
     this.appendValueInput("ELEMENT")
-        .setCheck("Element");
+        .setCheck(["Element", "Group"]);
     this.setOutput(true, "Boolean");
     this.setColour(160);
  this.setTooltip("");
@@ -376,9 +411,35 @@ Blockly.Blocks['if'] = {
         .setCheck("Boolean");
     this.appendStatementInput("THEN")
         .setCheck(null);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("➕"), "PLUS");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
+    this.setColour(330);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['if_value'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("if");
+    this.appendValueInput("CONDITION")
+        .setCheck("Boolean");
+    this.appendDummyInput()
+        .appendField("then");
+    this.appendValueInput("THEN")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("else");
+    this.appendValueInput("ELSE")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("➕"), "PLUS");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
     this.setColour(330);
  this.setTooltip("");
  this.setHelpUrl("");
@@ -414,6 +475,8 @@ Blockly.Blocks['operation'] = {
         .appendField(new Blockly.FieldDropdown([["+","ADD"], ["-","SUBTRACT"], ["×","MULTIPLY"], ["÷","DIVIDE"]]), "OPERATION");
     this.appendValueInput("B")
         .setCheck(["Number", "Vector"]);
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldLabelSerializable("➕"), "PLUS");
     this.setOutput(true, ["Number", "Vector"]);
     this.setColour(210);
  this.setTooltip("");
@@ -463,8 +526,21 @@ Blockly.Blocks['macro'] = {
         .appendField("that means");
     this.appendValueInput("VALUE")
         .setCheck(null);
+    this.setInputsInline(true);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['macro_function'] = {
+  init: function() {
     this.appendDummyInput()
-        .appendField("➕");
+        .appendField("make a block called")
+        .appendField(new Blockly.FieldTextInput("foo"), "NAME")
+        .appendField("that does");
+    this.appendStatementInput("NAME")
+        .setCheck(null);
     this.setInputsInline(true);
     this.setColour(0);
  this.setTooltip("");

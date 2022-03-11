@@ -67,6 +67,18 @@ Blockly.JavaScript["element_literal"] = function (block) {
   return [element, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+Blockly.JavaScript["group"] = function (block) {
+  let code = "[";
+  for (let i = 0; i < 2; i++) {
+    const itemType = getTypeOfChild(block, i);
+    const itemCode = Blockly.JavaScript.valueToCode(block, `ITEM${i}`, Blockly.JavaScript.ORDER_ATOMIC);
+    code += `[${itemCode}, "${itemType}"],`;
+  }
+  code += "]";
+  console.log(code)
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+}
+
 Blockly.JavaScript["vector_literal"] = function (block) {
   const x = Blockly.JavaScript.valueToCode(block, "X", Blockly.JavaScript.ORDER_ATOMIC);
   const y = Blockly.JavaScript.valueToCode(block, "Y", Blockly.JavaScript.ORDER_ATOMIC);

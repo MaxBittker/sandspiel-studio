@@ -124,8 +124,21 @@ const App = () => {
     and copy-pasted here!
 
   */}
- <block type="element_literal">
+<block type="element_literal">
     <field name="VALUE">SAND</field>
+  </block>
+  <block type="group">
+    <field name="NAME">➕</field>
+    <value name="ITEM0">
+      <shadow type="element_literal">
+        <field name="VALUE">SAND</field>
+      </shadow>
+    </value>
+    <value name="ITEM1">
+      <shadow type="element_literal">
+        <field name="VALUE">WATER</field>
+      </shadow>
+    </value>
   </block>
   <block type="element_cell">
     <value name="CELL">
@@ -196,6 +209,7 @@ const App = () => {
   </block>
   <block type="operation">
     <field name="OPERATION">ADD</field>
+    <field name="PLUS">➕</field>
     <value name="A">
       <shadow type="number_literal">
         <field name="VALUE">0</field>
@@ -233,16 +247,31 @@ const App = () => {
       </shadow>
     </value>
   </block>
-  <block type="controls_if"></block>
+  <block type="get_data_cell">
+    <field name="DATA">ENERGY</field>
+  </block>
+  <block type="set_data_cell">
+    <field name="DATA">ENERGY</field>
+  </block>
+  <block type="if">
+    <field name="PLUS">➕</field>
+  </block>
+  <block type="if_value">
+    <field name="PLUS">➕</field>
+  </block>
   <block type="comparison">
     <field name="COMPARISON">IS</field>
   </block>
   <block type="boolean_operation">
     <field name="OPERATION">AND</field>
+    <field name="PLUS">➕</field>
   </block>
   <block type="not"></block>
   <block type="bool_literal">
     <field name="VALUE">TRUE</field>
+  </block>
+  <block type="string_literal">
+    <field name="VALUE">Hello world!</field>
   </block>
   <block type="print">
     <value name="MESSAGE">
