@@ -63,7 +63,7 @@ function generateCode(element, dom) {
 
   //console.log(xmlText);
   window.localStorage.setItem("code" + element, xmlText);
-  console.log(code);
+  //console.log(code);
   // eslint-disable-next-line no-new-func
   let fn = Function(code);
   window.xmls[element] = xmlText;
@@ -118,12 +118,12 @@ const App = () => {
           initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
         >
 
-  {/*
-  
-    The toolbox below was made at https://blockly-demo.appspot.com/static/demos/blockfactory/index.html
-    and copy-pasted here!
+{/* =================================================
 
-  */}
+  The toolbox below was made at https://blockly-demo.appspot.com/static/demos/blockfactory/index.html
+  and copy-pasted here!
+
+================================================= */}
 <block type="element_literal">
     <field name="VALUE">SAND</field>
   </block>
@@ -224,12 +224,12 @@ const App = () => {
   <block type="random_number">
     <value name="MIN">
       <shadow type="number_literal">
-        <field name="VALUE">0</field>
+        <field name="VALUE">1</field>
       </shadow>
     </value>
     <value name="MAX">
       <shadow type="number_literal">
-        <field name="VALUE">0</field>
+        <field name="VALUE">10</field>
       </shadow>
     </value>
   </block>
@@ -249,9 +249,24 @@ const App = () => {
   </block>
   <block type="get_data_cell">
     <field name="DATA">ENERGY</field>
+    <value name="CELL">
+      <shadow type="vector_constant">
+        <field name="VALUE">HERE</field>
+      </shadow>
+    </value>
   </block>
   <block type="set_data_cell">
     <field name="DATA">ENERGY</field>
+    <value name="CELL">
+      <shadow type="vector_constant">
+        <field name="VALUE">HERE</field>
+      </shadow>
+    </value>
+    <value name="VALUE">
+      <shadow type="number_literal">
+        <field name="VALUE">0</field>
+      </shadow>
+    </value>
   </block>
   <block type="if">
     <field name="PLUS">➕</field>
@@ -280,7 +295,7 @@ const App = () => {
       </shadow>
     </value>
   </block>
-
+{/* ================================================= */}
         </BlocklyComponent>
       </header>
     </div>

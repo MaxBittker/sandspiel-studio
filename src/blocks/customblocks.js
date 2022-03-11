@@ -232,10 +232,22 @@ Blockly.Blocks['get_data_cell'] = {
     this.appendValueInput("CELL")
         .setCheck("Vector");
     this.setInputsInline(true);
-    this.setOutput(true, ["Number", "Vector"]);
+    this.setOutput(true, "Number");
     this.setColour(210);
- this.setTooltip("");
- this.setHelpUrl("");
+    this.setTooltip("");
+    this.setHelpUrl("");
+    this.setOnChange(e => {
+      if (e instanceof Blockly.Events.Change) {
+        if (e.newValue === "WIND") {
+          this.setColour(260);
+          this.setOutput(true, "Vector");
+        }
+        else {
+          this.setColour(210);
+          this.setOutput(true, "Number");
+        }
+      }
+    });
   }
 };
 
@@ -252,13 +264,81 @@ Blockly.Blocks['set_data_cell'] = {
     this.appendDummyInput()
         .appendField("to");
     this.appendValueInput("VALUE")
-        .setCheck(["Number", "Vector"]);
+        .setCheck("Number");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(210);
- this.setTooltip("");
- this.setHelpUrl("");
+    this.setTooltip("");
+    this.setHelpUrl("");
+    this.setOnChange(e => {
+      if (e instanceof Blockly.Events.Change) {
+        if (e.newValue === "WIND") {
+          this.setColour(260);
+          const input = this.getInput("VALUE");
+
+          const content = input.connection.targetBlock();
+          if (content !== null) {
+            input.connection.disconnect();
+          }
+          
+          const oldShadow = input.connection.targetBlock();
+          if (oldShadow !== null) {
+            oldShadow.dispose(true);
+          } else {
+            content.dispose(true);
+          }
+
+          input.setCheck("Vector");
+          
+          const shadow = window.workspace.newBlock("vector_literal");
+          shadow.initSvg();
+          input.connection.connect_(shadow.outputConnection);
+          shadow.setShadow(true);
+
+          const xInput = shadow.getInput("X");
+          const yInput = shadow.getInput("Y");
+          const x = window.workspace.newBlock("number_literal");
+          const y = window.workspace.newBlock("number_literal");
+          x.initSvg();
+          y.initSvg();
+          x.setShadow(true);
+          y.setShadow(true);
+          xInput.connection.connect_(x.outputConnection);
+          yInput.connection.connect_(y.outputConnection);
+          x.render();
+          y.render();
+
+          shadow.render();
+
+        }
+        else if (e.oldValue === "WIND") {
+          this.setColour(210);
+          const input = this.getInput("VALUE");
+
+          const content = input.connection.targetBlock();
+          if (content !== null) {
+            input.connection.disconnect();
+          }
+          
+          const oldShadow = input.connection.targetBlock();
+          if (oldShadow !== null) {
+            oldShadow.dispose(true);
+          } else {
+            content.dispose(true);
+          }
+
+          input.setCheck("Number");
+
+          const shadow = window.workspace.newBlock("number_literal");
+          shadow.initSvg();
+          input.connection.connect_(shadow.outputConnection);
+          shadow.setShadow(true);
+          shadow.render();
+
+        }
+      }
+    });
   }
 };
 
@@ -477,7 +557,7 @@ Blockly.Blocks['operation'] = {
         .setCheck(["Number", "Vector"]);
     this.appendDummyInput()
         .appendField(new Blockly.FieldLabelSerializable("➕"), "PLUS");
-    this.setOutput(true, ["Number", "Vector"]);
+    this.setOutput(true, "Number");
     this.setColour(210);
  this.setTooltip("");
  this.setHelpUrl("");
