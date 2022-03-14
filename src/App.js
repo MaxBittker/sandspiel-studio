@@ -268,6 +268,8 @@ const App = () => {
       </shadow>
     </value>
   </block>
+  <block type="controls_if">
+  </block>
   <block type="if">
     <field name="PLUS">➕</field>
   </block>

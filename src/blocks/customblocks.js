@@ -225,29 +225,33 @@ Blockly.Blocks['me'] = {
 
 Blockly.Blocks['get_data_cell'] = {
   init: function() {
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["💨 wind","WIND"], ["⭐ magic","MAGIC"], ["⚡ energy","ENERGY"]]), "DATA");
+    
+
+    const dataValidator = (newValue) => {
+      if (newValue === "WIND") {
+        this.setColour(260);
+        this.setOutput(true, "Vector");
+      } else {
+        this.setColour(210);
+        this.setOutput(true, "Number");
+      }
+    };
+
+    const dataField = new Blockly.FieldDropdown([["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["💨 wind","WIND"], ["⭐ magic","MAGIC"], ["⚡ energy","ENERGY"]]);
+    dataField.setValidator(dataValidator);
+
+    this.appendDummyInput().appendField(dataField, "DATA");
+
     this.appendDummyInput()
         .appendField("of");
     this.appendValueInput("CELL")
         .setCheck("Vector");
     this.setInputsInline(true);
-    this.setOutput(true, "Number");
+    this.setOutput(true, ["Number", "Vector"]);
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-    this.setOnChange(e => {
-      if (e instanceof Blockly.Events.Change) {
-        if (e.newValue === "WIND") {
-          this.setColour(260);
-          this.setOutput(true, "Vector");
-        }
-        else {
-          this.setColour(210);
-          this.setOutput(true, "Number");
-        }
-      }
-    });
+
   }
 };
 
@@ -255,8 +259,37 @@ Blockly.Blocks['set_data_cell'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("set");
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["💨 wind","WIND"], ["⭐ magic","MAGIC"], ["⚡ energy","ENERGY"]]), "DATA");
+
+    // TODO: finish this!
+    const dataValidator = (newValue) => {
+      if (newValue === "WIND") {
+        this.setColour(260);
+        const input = this.getInput("VALUE");
+
+        const content = input.connection.targetBlock();
+        if (content !== null) {
+          input.connection.disconnect();
+        }
+
+        const shadowContent = input.connection.targetBlock();
+        if (shadowContent !== null) {
+          shadowContent.dispose(true);
+        } else {
+          content.dispose(true);
+        }
+
+      } else {
+        this.setColour(210);
+        const input = this.getInput("VALUE");
+        input.setCheck("Number");
+      }
+    };
+
+    const dataField = new Blockly.FieldDropdown([["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["💨 wind","WIND"], ["⭐ magic","MAGIC"], ["⚡ energy","ENERGY"]]);
+    dataField.setValidator(dataValidator);
+
+    this.appendDummyInput().appendField(dataField, "DATA");
+
     this.appendDummyInput()
         .appendField("of");
     this.appendValueInput("CELL")
@@ -271,7 +304,10 @@ Blockly.Blocks['set_data_cell'] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-    this.setOnChange(e => {
+    /*this.setOnChange(e => {
+
+      if (e.blockId !== this.id) return;
+
       if (e instanceof Blockly.Events.Change) {
         if (e.newValue === "WIND") {
           this.setColour(260);
@@ -338,7 +374,7 @@ Blockly.Blocks['set_data_cell'] = {
 
         }
       }
-    });
+    });*/
   }
 };
 
