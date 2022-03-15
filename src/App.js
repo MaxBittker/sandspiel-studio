@@ -50,13 +50,23 @@ window.xmls = starterXMLs.map((v, i) => {
 //todo generate all the code on start
 window.xmls.forEach((e, i) => {});
 function generateCode(element, dom) {
-  const baseBlock = window.workspace.topBlocks_[0];
+
+  let baseBlock = undefined;
+  for (let i = 0; i < window.workspace.topBlocks_.length; i++) {
+    const block = window.workspace.topBlocks_[i];
+    if (block.type == "sand_behavior_base") {
+      baseBlock = block;
+      break;
+    }
+  }
+  
   let code = BlocklyJS.blockToCode(baseBlock);
   
   code = prettier.format(code, {
     parser: "babel",
     plugins: [parserBabel],
   });
+
 
   let xml = Xml.workspaceToDom(window.workspace);
   let xmlText = Xml.domToPrettyText(xml);

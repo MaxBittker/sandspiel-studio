@@ -260,29 +260,78 @@ Blockly.Blocks['set_data_cell'] = {
     this.appendDummyInput()
         .appendField("set");
 
-    // TODO: finish this!
-    const dataValidator = (newValue) => {
-      if (newValue === "WIND") {
-        this.setColour(260);
-        const input = this.getInput("VALUE");
+    const block = this
+    let oldValue = undefined
 
+    // TODO: finish this!
+    const dataValidator = function (newValue) {
+
+      const input = block.getInput("VALUE");
+      if (newValue === "WIND" && block.getColour() === "#5b80a5") {
+        block.setColour(260);
+        
         const content = input.connection.targetBlock();
         if (content !== null) {
           input.connection.disconnect();
-        }
 
-        const shadowContent = input.connection.targetBlock();
-        if (shadowContent !== null) {
-          shadowContent.dispose(true);
-        } else {
-          content.dispose(true);
+          const oldShadow = input.connection.targetBlock();
+          if (oldShadow !== null) {
+            oldShadow.dispose(true);
+          } else {
+            content.dispose(true);
+          }
         }
+        
+        input.setCheck("Vector");
+        
+        if (content !== null) {
+          const shadow = window.workspace.newBlock("vector_literal");
+          shadow.initSvg();
+          input.connection.connect_(shadow.outputConnection);
+          shadow.setShadow(true);
 
-      } else {
-        this.setColour(210);
-        const input = this.getInput("VALUE");
+          const xInput = shadow.getInput("X");
+          const yInput = shadow.getInput("Y");
+          const x = window.workspace.newBlock("number_literal");
+          const y = window.workspace.newBlock("number_literal");
+          x.initSvg();
+          y.initSvg();
+          x.setShadow(true);
+          y.setShadow(true);
+          xInput.connection.connect_(x.outputConnection);
+          yInput.connection.connect_(y.outputConnection);
+          x.render();
+          y.render();
+
+          shadow.render();
+        }
+        
+      } else if (newValue !== "WIND" && block.getColour() !== "#5b80a5") {
+        block.setColour(210);
+        
+        const content = input.connection.targetBlock();
+        if (content !== null) {
+          input.connection.disconnect();
+
+          const oldShadow = input.connection.targetBlock();
+          if (oldShadow !== null) {
+            oldShadow.dispose(true);
+          } else {
+            content.dispose(true);
+          }
+        }
+        
         input.setCheck("Number");
+        
+        if (content !== null) {
+          const shadow = window.workspace.newBlock("number_literal");
+          shadow.initSvg();
+          input.connection.connect_(shadow.outputConnection);
+          shadow.setShadow(true);
+          shadow.render();
+        }
       }
+
     };
 
     const dataField = new Blockly.FieldDropdown([["⌛ age","AGE"], ["💥 pressure","PRESSURE"], ["💫 density","DENSITY"], ["💨 wind","WIND"], ["⭐ magic","MAGIC"], ["⚡ energy","ENERGY"]]);
