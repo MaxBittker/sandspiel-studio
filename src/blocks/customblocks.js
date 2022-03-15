@@ -261,9 +261,7 @@ Blockly.Blocks['set_data_cell'] = {
         .appendField("set");
 
     const block = this
-    let oldValue = undefined
 
-    // TODO: finish this!
     const dataValidator = function (newValue) {
 
       const input = block.getInput("VALUE");
@@ -353,77 +351,6 @@ Blockly.Blocks['set_data_cell'] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-    /*this.setOnChange(e => {
-
-      if (e.blockId !== this.id) return;
-
-      if (e instanceof Blockly.Events.Change) {
-        if (e.newValue === "WIND") {
-          this.setColour(260);
-          const input = this.getInput("VALUE");
-
-          const content = input.connection.targetBlock();
-          if (content !== null) {
-            input.connection.disconnect();
-          }
-          
-          const oldShadow = input.connection.targetBlock();
-          if (oldShadow !== null) {
-            oldShadow.dispose(true);
-          } else {
-            content.dispose(true);
-          }
-
-          input.setCheck("Vector");
-          
-          const shadow = window.workspace.newBlock("vector_literal");
-          shadow.initSvg();
-          input.connection.connect_(shadow.outputConnection);
-          shadow.setShadow(true);
-
-          const xInput = shadow.getInput("X");
-          const yInput = shadow.getInput("Y");
-          const x = window.workspace.newBlock("number_literal");
-          const y = window.workspace.newBlock("number_literal");
-          x.initSvg();
-          y.initSvg();
-          x.setShadow(true);
-          y.setShadow(true);
-          xInput.connection.connect_(x.outputConnection);
-          yInput.connection.connect_(y.outputConnection);
-          x.render();
-          y.render();
-
-          shadow.render();
-
-        }
-        else if (e.oldValue === "WIND") {
-          this.setColour(210);
-          const input = this.getInput("VALUE");
-
-          const content = input.connection.targetBlock();
-          if (content !== null) {
-            input.connection.disconnect();
-          }
-          
-          const oldShadow = input.connection.targetBlock();
-          if (oldShadow !== null) {
-            oldShadow.dispose(true);
-          } else {
-            content.dispose(true);
-          }
-
-          input.setCheck("Number");
-
-          const shadow = window.workspace.newBlock("number_literal");
-          shadow.initSvg();
-          input.connection.connect_(shadow.outputConnection);
-          shadow.setShadow(true);
-          shadow.render();
-
-        }
-      }
-    });*/
   }
 };
 
