@@ -69,10 +69,12 @@ Blockly.JavaScript["element_literal"] = function (block) {
 
 Blockly.JavaScript["group"] = function (block) {
   let code = "[";
-  for (let i = 0; i < 2; i++) {
+  let i = 0;
+  while (block.getInput(`ITEM${i}`) !== null) {
     const itemType = getTypeOfChild(block, i);
     const itemCode = Blockly.JavaScript.valueToCode(block, `ITEM${i}`, Blockly.JavaScript.ORDER_ATOMIC);
     code += `[${itemCode}, "${itemType}"],`;
+    i++;
   }
   code += "]";
   console.log(code)

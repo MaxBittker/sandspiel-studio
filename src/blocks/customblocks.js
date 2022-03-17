@@ -144,14 +144,14 @@ Blockly.Extensions.registerMutator(
   {
     mutationToDom() {
       var container = Blockly.utils.xml.createElement('mutation');
-      container.setAttribute('extraItems', this.extraItems);
+      container.setAttribute('itemCount', this.itemCount);
       return container;
     },
     domToMutation(mutation) {
       const block = this;
-      block.extraItems = parseInt(mutation.getAttribute('extraItems'));
-      if (isNaN(block.extraItems)) {
-        block.extraItems = 0;
+      block.itemCount = parseInt(mutation.getAttribute('itemCount'));
+      if (isNaN(block.itemCount)) {
+        block.itemCount = 2;
       }
       
       block.rebuild();
@@ -162,23 +162,39 @@ Blockly.Extensions.registerMutator(
       block.removeInput("PLUS", true);
       block.removeInput("MINUS", true);
 
-      let extraItemId = 0;
-      while (block.getInput(`EXTRA_ITEM${extraItemId}`) !== null) {
-        block.removeInput(`EXTRA_ITEM_OR${extraItemId}`);
-        block.removeInput(`EXTRA_ITEM${extraItemId}`);
-        extraItemId++;
+      let itemId = 2;
+      const extraItemValues = [];
+      while (block.getInput(`ITEM${itemId}`) !== null) {
+        const value = block.getFieldValue(`ITEM${itemId}`);
+        console.log(block);
+        extraItemValues.push(value);
+        block.removeInput(`ITEM_OR${itemId}`);
+        block.removeInput(`ITEM${itemId}`);
+        itemId++;
       }
 
-      for (let i = 0; i < block.extraItems; i++) {
-        block.appendDummyInput(`EXTRA_ITEM_OR${i}`).appendField("or");
-        block.appendValueInput(`EXTRA_ITEM${i}`);
+      for (let i = 2; i < block.itemCount; i++) {
+        block.appendDummyInput(`ITEM_OR${i}`).appendField("or");
+        block.appendValueInput(`ITEM${i}`);
+
+        const value = extraItemValues[i];
+
+        const shadow = window.workspace.newBlock("element_literal");
+        const input = block.getInput(`ITEM${i}`);
+        shadow.setShadow(true);
+        shadow.initSvg();
+        shadow.render();
+
+        //console.log(value);
+
+        input.connection.connect(shadow.outputConnection);
       }
 
-      if (block.extraItems > 0) {
+      if (block.itemCount > 0) {
         const minusField = new Blockly.FieldImage("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K", 15, 15, { alt: "*", flipRtl: "FALSE" });
         block.appendDummyInput("MINUS").appendField(minusField);
         minusField.setOnClickHandler(function(e) {
-          block.extraItems--
+          block.itemCount--
           block.rebuild();
         });
         if (minusField.imageElement_ !== null) {
@@ -189,7 +205,7 @@ Blockly.Extensions.registerMutator(
       const plusField = new Blockly.FieldImage("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTBoLTR2LTRjMC0xLjEwNC0uODk2LTItMi0ycy0yIC44OTYtMiAybC4wNzEgNGgtNC4wNzFjLTEuMTA0IDAtMiAuODk2LTIgMnMuODk2IDIgMiAybDQuMDcxLS4wNzEtLjA3MSA0LjA3MWMwIDEuMTA0Ljg5NiAyIDIgMnMyLS44OTYgMi0ydi00LjA3MWw0IC4wNzFjMS4xMDQgMCAyLS44OTYgMi0ycy0uODk2LTItMi0yeiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+Cg==", 15, 15, { alt: "*", flipRtl: "FALSE" });
       block.appendDummyInput("PLUS").appendField(plusField);
       plusField.setOnClickHandler(function(e) {
-        block.extraItems++;
+        block.itemCount++;
         block.rebuild();
       });
       if (plusField.imageElement_ !== null) {
