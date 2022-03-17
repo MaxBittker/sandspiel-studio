@@ -96,7 +96,7 @@ Blockly.Blocks['element_cell'] = {
 Blockly.defineBlocksWithJsonArray([
   {
     "type": "group",
-    "message0": "%1 or %2 %3 %4 %5",
+    "message0": "%1 or %2 %3",
     "args0": [
       {
         "type": "input_value",
@@ -111,7 +111,7 @@ Blockly.defineBlocksWithJsonArray([
         "name": "ITEM1",
         "check": "Element"
       },
-      {
+      /*{
         "name": "MINUS",
         "type": "field_image",
         "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
@@ -119,8 +119,8 @@ Blockly.defineBlocksWithJsonArray([
         "height": 15,
         "alt": "*",
         "flipRtl": false,
-      },
-      {
+      },*/
+      /*{
         "name": "PLUS",
         "type": "field_image",
         "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTBoLTR2LTRjMC0xLjEwNC0uODk2LTItMi0ycy0yIC44OTYtMiAybC4wNzEgNGgtNC4wNzFjLTEuMTA0IDAtMiAuODk2LTIgMnMuODk2IDIgMiAybDQuMDcxLS4wNzEtLjA3MSA0LjA3MWMwIDEuMTA0Ljg5NiAyIDIgMnMyLS44OTYgMi0ydi00LjA3MWw0IC4wNzFjMS4xMDQgMCAyLS44OTYgMi0ycy0uODk2LTItMi0yeiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+Cg==",
@@ -128,7 +128,7 @@ Blockly.defineBlocksWithJsonArray([
         "height": 15,
         "alt": "*",
         "flipRtl": false,
-      }
+      }*/
     ],
     "inputsInline": true,
     "output": "Group",
@@ -153,26 +153,50 @@ Blockly.Extensions.registerMutator(
       if (isNaN(block.extraItems)) {
         block.extraItems = 0;
       }
+      
+      block.rebuild();
+    },
+    rebuild() {
+      const block = this;
+
+      block.removeInput("PLUS", true);
+      block.removeInput("MINUS", true);
+
+      let extraItemId = 0;
+      while (block.getInput(`EXTRA_ITEM${extraItemId}`) !== null) {
+        block.removeInput(`EXTRA_ITEM${extraItemId}`);
+        extraItemId++;
+      }
+
       for (let i = 0; i < block.extraItems; i++) {
         block.appendValueInput(`EXTRA_ITEM${i}`);
+      }
+
+      if (block.extraItems > 0) {
+        const minusField = new Blockly.FieldImage("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K", 15, 15, { alt: "*", flipRtl: "FALSE" });
+        block.appendDummyInput("MINUS").appendField(minusField);
+        minusField.setOnClickHandler(function(e) {
+          block.extraItems--
+          block.rebuild();
+        });
+        if (minusField.imageElement_ !== null) {
+          minusField.imageElement_.style["cursor"] = "pointer";
+        }
+      }
+
+      const plusField = new Blockly.FieldImage("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTBoLTR2LTRjMC0xLjEwNC0uODk2LTItMi0ycy0yIC44OTYtMiAybC4wNzEgNGgtNC4wNzFjLTEuMTA0IDAtMiAuODk2LTIgMnMuODk2IDIgMiAybDQuMDcxLS4wNzEtLjA3MSA0LjA3MWMwIDEuMTA0Ljg5NiAyIDIgMnMyLS44OTYgMi0ydi00LjA3MWw0IC4wNzFjMS4xMDQgMCAyLS44OTYgMi0ycy0uODk2LTItMi0yeiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+Cg==", 15, 15, { alt: "*", flipRtl: "FALSE" });
+      block.appendDummyInput("PLUS").appendField(plusField);
+      plusField.setOnClickHandler(function(e) {
+        block.extraItems++;
+        block.rebuild();
+      });
+      if (plusField.imageElement_ !== null) {
+        plusField.imageElement_.style["cursor"] = "pointer";
       }
     },
   },
   function() {
-    const block = this;
 
-    console.log(block);
-    const plusField = block.getField("PLUS");
-    plusField.setOnClickHandler(function(e) {
-      block.appendValueInput(`EXTRA_ITEM${block.extraItems}`);
-      block.extraItems++
-    });
-    
-    const minusField = block.getField("MINUS");
-    minusField.setOnClickHandler(function(e) {
-      block.extraItems--
-      block.removeInput(`EXTRA_ITEM${block.extraItems}`, true);
-    });
   },
 );
 
@@ -207,25 +231,13 @@ Blockly.Extensions.registerMutator(
     this.appendDummyInput()
         .appendField(plusFieldImage);
 
-    const block = this;
-    plusFieldImage.setOnClickHandler(function(e) {
-      block.appendValueInput(`FOO${block.inputList.length}`)
-    });
 
     this.setInputsInline(true);
     this.setOutput(true, "Group");
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
-  saveExtraState: function() {
-    console.log("yo")
-    return {
-      "extraItems": 2,
-    }
-  },
-  loadExtraState: function(state) {
-    console.log(state);
+    this.setMutator(new Blockly.Mutator([]))
   },
 };*/
 
