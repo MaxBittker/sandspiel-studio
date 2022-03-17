@@ -164,11 +164,13 @@ Blockly.Extensions.registerMutator(
 
       let extraItemId = 0;
       while (block.getInput(`EXTRA_ITEM${extraItemId}`) !== null) {
+        block.removeInput(`EXTRA_ITEM_OR${extraItemId}`);
         block.removeInput(`EXTRA_ITEM${extraItemId}`);
         extraItemId++;
       }
 
       for (let i = 0; i < block.extraItems; i++) {
+        block.appendDummyInput(`EXTRA_ITEM_OR${i}`).appendField("or");
         block.appendValueInput(`EXTRA_ITEM${i}`);
       }
 
