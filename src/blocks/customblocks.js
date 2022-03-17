@@ -96,7 +96,7 @@ Blockly.Blocks['element_cell'] = {
 Blockly.defineBlocksWithJsonArray([
   {
     "type": "group",
-    "message0": "%1 or %2 %3 %4",
+    "message0": "%1 or %2 %3 %4 %5",
     "args0": [
       {
         "type": "input_value",
@@ -110,6 +110,15 @@ Blockly.defineBlocksWithJsonArray([
         "type": "input_value",
         "name": "ITEM1",
         "check": "Element"
+      },
+      {
+        "name": "MINUS",
+        "type": "field_image",
+        "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
+        "width": 15,
+        "height": 15,
+        "alt": "*",
+        "flipRtl": false,
       },
       {
         "name": "PLUS",
@@ -126,17 +135,23 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 160,
     "tooltip": "",
     "helpUrl": "",
-    "extensions": ["group_mutator"],
+    "extensions": ["group_mutator_click"],
   }
 ])
 
 Blockly.Extensions.register(
-  "group_mutator",
+  "group_mutator_click",
   function() {
     const block = this;
+
     const plusField = block.getField("PLUS");
     plusField.setOnClickHandler(function(e) {
-      block.appendValueInput(`FOO${block.inputList.length}`)
+      block.appendValueInput(`FOO${block.inputList.length}`);
+    });
+    
+    const minusField = block.getField("MINUS");
+    minusField.setOnClickHandler(function(e) {
+      block.removeInput(`FOO${block.inputList.length-1}`, true);
     });
   },
 )
