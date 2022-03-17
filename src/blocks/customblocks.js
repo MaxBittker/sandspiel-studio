@@ -135,12 +135,49 @@ Blockly.defineBlocksWithJsonArray([
     "colour": 160,
     "tooltip": "",
     "helpUrl": "",
-    "extensions": ["group_mutator_click"],
+    "mutator": "group_mutator",
   }
 ])
 
-Blockly.Extensions.register(
-  "group_mutator_click",
+Blockly.Extensions.registerMutator(
+  "group_mutator",
+  {
+    mutationToDom() {
+      var container = Blockly.utils.xml.createElement('mutation');
+      container.setAttribute('extraItems', this.extraItems);
+      return container;
+    },
+    domToMutation(mutation) {
+      const block = this;
+      block.extraItems = parseInt(mutation.getAttribute('extraItems'));
+      if (isNaN(block.extraItems)) {
+        block.extraItems = 0;
+      }
+      for (let i = 0; i < block.extraItems; i++) {
+        block.appendValueInput(`EXTRA_ITEM${i}`);
+      }
+    },
+  },
+  function() {
+    const block = this;
+
+    console.log(block);
+    const plusField = block.getField("PLUS");
+    plusField.setOnClickHandler(function(e) {
+      block.appendValueInput(`EXTRA_ITEM${block.extraItems}`);
+      block.extraItems++
+    });
+    
+    const minusField = block.getField("MINUS");
+    minusField.setOnClickHandler(function(e) {
+      block.extraItems--
+      block.removeInput(`EXTRA_ITEM${block.extraItems}`, true);
+    });
+  },
+);
+
+/*Blockly.Extensions.register(
+  "group_click_extension",
   function() {
     const block = this;
 
@@ -154,7 +191,7 @@ Blockly.Extensions.register(
       block.removeInput(`FOO${block.inputList.length-1}`, true);
     });
   },
-)
+)*/
 
 /*Blockly.Blocks['group'] = {
   init: function() {
