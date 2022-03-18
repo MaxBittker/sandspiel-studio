@@ -163,21 +163,21 @@ Blockly.Extensions.registerMutator(
       block.removeInput("MINUS", true);
 
       let itemId = 2;
-      const extraItemValues = [];
       while (block.getInput(`ITEM${itemId}`) !== null) {
-        const value = block.getFieldValue(`ITEM${itemId}`);
-        console.log(block);
-        extraItemValues.push(value);
-        block.removeInput(`ITEM_OR${itemId}`);
-        block.removeInput(`ITEM${itemId}`);
+        if (itemId >= this.itemCount) {
+          block.removeInput(`ITEM_OR${itemId}`);
+          block.removeInput(`ITEM${itemId}`);
+        }
         itemId++;
       }
 
+
       for (let i = 2; i < block.itemCount; i++) {
+
+        if (block.getInput(`ITEM${i}`) !== null) continue;
+
         block.appendDummyInput(`ITEM_OR${i}`).appendField("or");
         block.appendValueInput(`ITEM${i}`);
-
-        const value = extraItemValues[i];
 
         const shadow = window.workspace.newBlock("element_literal");
         const input = block.getInput(`ITEM${i}`);
@@ -185,12 +185,10 @@ Blockly.Extensions.registerMutator(
         shadow.initSvg();
         shadow.render();
 
-        //console.log(value);
-
         input.connection.connect(shadow.outputConnection);
       }
 
-      if (block.itemCount > 0) {
+      if (block.itemCount > 2) {
         const minusField = new Blockly.FieldImage("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K", 15, 15, { alt: "*", flipRtl: "FALSE" });
         block.appendDummyInput("MINUS").appendField(minusField);
         minusField.setOnClickHandler(function(e) {

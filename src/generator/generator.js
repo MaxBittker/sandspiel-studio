@@ -77,7 +77,6 @@ Blockly.JavaScript["group"] = function (block) {
     i++;
   }
   code += "]";
-  console.log(code)
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 }
 
