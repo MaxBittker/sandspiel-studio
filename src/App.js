@@ -138,7 +138,6 @@ const App = () => {
     <field name="VALUE">SAND</field>
   </block>
   <block type="group">
-    <field name="NAME">➕</field>
     <value name="ITEM0">
       <shadow type="element_literal">
         <field name="VALUE">SAND</field>
@@ -257,35 +256,8 @@ const App = () => {
       </shadow>
     </value>
   </block>
-  <block type="get_data_cell">
-    <field name="DATA">ENERGY</field>
-    <value name="CELL">
-      <shadow type="vector_constant">
-        <field name="VALUE">HERE</field>
-      </shadow>
-    </value>
-  </block>
-  <block type="set_data_cell">
-    <field name="DATA">ENERGY</field>
-    <value name="CELL">
-      <shadow type="vector_constant">
-        <field name="VALUE">HERE</field>
-      </shadow>
-    </value>
-    <value name="VALUE">
-      <shadow type="number_literal">
-        <field name="VALUE">0</field>
-      </shadow>
-    </value>
-  </block>
-  <block type="controls_if">
-  </block>
-  <block type="if">
-    <field name="PLUS">➕</field>
-  </block>
-  <block type="if_value">
-    <field name="PLUS">➕</field>
-  </block>
+  <block type="controls_if"></block>
+  <block type="if"></block>
   <block type="comparison">
     <field name="COMPARISON">IS</field>
   </block>
@@ -294,19 +266,6 @@ const App = () => {
     <field name="PLUS">➕</field>
   </block>
   <block type="not"></block>
-  <block type="bool_literal">
-    <field name="VALUE">TRUE</field>
-  </block>
-  <block type="string_literal">
-    <field name="VALUE">Hello world!</field>
-  </block>
-  <block type="print">
-    <value name="MESSAGE">
-      <shadow type="string_literal">
-        <field name="VALUE">Hello world!</field>
-      </shadow>
-    </value>
-  </block>
 {/* ================================================= */}
         </BlocklyComponent>
       </header>

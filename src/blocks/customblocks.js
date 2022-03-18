@@ -95,6 +95,36 @@ Blockly.Blocks['element_cell'] = {
 
 Blockly.defineBlocksWithJsonArray([
   {
+    "type": "if",
+    "message0": "if %1 %2 then %3 %4",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_value",
+        "name": "CONDITION",
+        "check": "Boolean"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "THEN"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 330,
+    "tooltip": "",
+    "helpUrl": ""
+  }
+])
+
+Blockly.defineBlocksWithJsonArray([
+  {
     "type": "group",
     "message0": "%1 or %2 %3",
     "args0": [
@@ -111,24 +141,6 @@ Blockly.defineBlocksWithJsonArray([
         "name": "ITEM1",
         "check": "Element"
       },
-      /*{
-        "name": "MINUS",
-        "type": "field_image",
-        "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
-        "width": 15,
-        "height": 15,
-        "alt": "*",
-        "flipRtl": false,
-      },*/
-      /*{
-        "name": "PLUS",
-        "type": "field_image",
-        "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTBoLTR2LTRjMC0xLjEwNC0uODk2LTItMi0ycy0yIC44OTYtMiAybC4wNzEgNGgtNC4wNzFjLTEuMTA0IDAtMiAuODk2LTIgMnMuODk2IDIgMiAybDQuMDcxLS4wNzEtLjA3MSA0LjA3MWMwIDEuMTA0Ljg5NiAyIDIgMnMyLS44OTYgMi0ydi00LjA3MWw0IC4wNzFjMS4xMDQgMCAyLS44OTYgMi0ycy0uODk2LTItMi0yeiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+Cg==",
-        "width": 15,
-        "height": 15,
-        "alt": "*",
-        "flipRtl": false,
-      }*/
     ],
     "inputsInline": true,
     "output": "Group",
@@ -215,47 +227,6 @@ Blockly.Extensions.registerMutator(
 
   },
 );
-
-/*Blockly.Extensions.register(
-  "group_click_extension",
-  function() {
-    const block = this;
-
-    const plusField = block.getField("PLUS");
-    plusField.setOnClickHandler(function(e) {
-      block.appendValueInput(`FOO${block.inputList.length}`);
-    });
-    
-    const minusField = block.getField("MINUS");
-    minusField.setOnClickHandler(function(e) {
-      block.removeInput(`FOO${block.inputList.length-1}`, true);
-    });
-  },
-)*/
-
-/*Blockly.Blocks['group'] = {
-  init: function() {
-    this.appendValueInput("ITEM0")
-        .setCheck(["Element"]);
-    this.appendDummyInput()
-        .appendField("or");
-    this.appendValueInput("ITEM1")
-        .setCheck(["Element"]);
-
-    const plusFieldImage = new Blockly.FieldImage("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTBoLTR2LTRjMC0xLjEwNC0uODk2LTItMi0ycy0yIC44OTYtMiAybC4wNzEgNGgtNC4wNzFjLTEuMTA0IDAtMiAuODk2LTIgMnMuODk2IDIgMiAybDQuMDcxLS4wNzEtLjA3MSA0LjA3MWMwIDEuMTA0Ljg5NiAyIDIgMnMyLS44OTYgMi0ydi00LjA3MWw0IC4wNzFjMS4xMDQgMCAyLS44OTYgMi0ycy0uODk2LTItMi0yeiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+Cg==", 15, 15, { alt: "*", flipRtl: "FALSE" })
-
-    this.appendDummyInput()
-        .appendField(plusFieldImage);
-
-
-    this.setInputsInline(true);
-    this.setOutput(true, "Group");
-    this.setColour(160);
-    this.setTooltip("");
-    this.setHelpUrl("");
-    this.setMutator(new Blockly.Mutator([]))
-  },
-};*/
 
 Blockly.Blocks['not_group'] = {
   init: function() {
@@ -586,6 +557,47 @@ Blockly.Blocks['boolean_operation'] = {
   }
 };
 
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "boolean_operation",
+    "message0": "%1 %2 %3 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": "Boolean"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OPERATION",
+        "options": [
+          [
+            "and",
+            "AND"
+          ],
+          [
+            "or",
+            "OR"
+          ]
+        ]
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": 330,
+    "tooltip": "",
+    "helpUrl": ""
+  }
+])
+
 Blockly.Blocks['is_touching'] = {
   init: function() {
     this.appendValueInput("CELL")
@@ -617,50 +629,13 @@ Blockly.Blocks['one_in'] = {
   }
 };
 
-// Hacky - remove 'do' text
-/*const baseIfInit = Blockly.Blocks["controls_if"].init;
-Blockly.Blocks["controls_if"].init = function() {
-  baseIfInit.apply(this);
-  this.setColour(330);
-
-  const ifDoInput = this.getInput("DO0");
-  ifDoInput.fieldRow.length = 0;
-
-  this.setOnChange(function(e) {
-    for (let i = 0; i < this.elseifCount_; i++) {
-      const inputName = `DO${i+1}`
-      this.removeInput(inputName);
-      this.appendStatementInput(inputName)
-    }
-  });
-};*/
-
 const baseIfInit = Blockly.Blocks["controls_if"].init;
 Blockly.Blocks["controls_if"].init = function() {
   baseIfInit.apply(this);
   this.setColour(330);
 };
 
-Blockly.Blocks['if'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("if");
-    this.appendValueInput("CONDITION")
-        .setCheck("Boolean");
-    this.appendStatementInput("THEN")
-        .setCheck(null);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldLabelSerializable("➕"), "PLUS");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(330);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
-
-Blockly.Blocks['if_value'] = {
+/*Blockly.Blocks['if_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("if");
@@ -682,45 +657,61 @@ Blockly.Blocks['if_value'] = {
  this.setTooltip("");
  this.setHelpUrl("");
   }
-};
+};*/
 
-Blockly.Blocks['if_else'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("if");
-    this.appendValueInput("CONDITION")
-        .setCheck("Boolean");
-    this.appendStatementInput("THEN")
-        .setCheck(null);
-    this.appendDummyInput()
-        .appendField("else");
-    this.appendStatementInput("ELSE")
-        .setCheck(null);
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(330);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
-
-Blockly.Blocks['operation'] = {
-  init: function() {
-    this.appendValueInput("A")
-        .setCheck(["Number", "Vector"]);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["+","ADD"], ["-","SUBTRACT"], ["×","MULTIPLY"], ["÷","DIVIDE"]]), "OPERATION");
-    this.appendValueInput("B")
-        .setCheck(["Number", "Vector"]);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldLabelSerializable("➕"), "PLUS");
-    this.setOutput(true, "Number");
-    this.setColour(210);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "operation",
+    "message0": "%1 %2 %3 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": [
+          "Number",
+          "Vector"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OPERATION",
+        "options": [
+          [
+            "+",
+            "ADD"
+          ],
+          [
+            "-",
+            "SUBTRACT"
+          ],
+          [
+            "×",
+            "MULTIPLY"
+          ],
+          [
+            "÷",
+            "DIVIDE"
+          ]
+        ]
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": [
+          "Number",
+          "Vector"
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": 210,
+    "tooltip": "",
+    "helpUrl": ""
+  },
+]);
 
 Blockly.Blocks['in_a_random'] = {
   init: function() {
