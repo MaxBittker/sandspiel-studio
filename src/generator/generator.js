@@ -207,7 +207,7 @@ const getTypeOfCheck = (check) => {
   if (check.length === 0) return "Void";
   if (check.length === 1) return check[0];
   if (check.length === 2) {
-    throw new Error("Unimplemented code - Lu is working on it")
+    throw new Error("Block was more than one type! This shouldn't be allowed! Please tell @todepond that you saw this error :)")
   }
   throw new TypeError(`Could not resolve block check into a Sand-Blocks type: ${check}`)
 };

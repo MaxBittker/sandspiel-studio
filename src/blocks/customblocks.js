@@ -719,13 +719,22 @@ Blockly.Extensions.registerMutator(
   {
     mutationToDom() {
       var container = Blockly.utils.xml.createElement('mutation');
+      if (this.implicitType === undefined) this.implicitType = "Number";
+      container.setAttribute('implicitType', this.implicitType);
       return container;
     },
     domToMutation(mutation) {
+      this.implicitType = mutation.getAttribute('implicitType');
       this.rebuild();
     },
     rebuild() {
-
+      if (this.implicitType === "Vector") {
+        this.setColour(260);
+        this.setOutput(true, "Vector");
+      } else if (this.implicitType === "Number") {
+        this.setColour(210);
+        this.setOutput(true, "Number");
+      }
     },
   },
   function() {
@@ -733,13 +742,26 @@ Blockly.Extensions.registerMutator(
     const block = this;
     
     block.setOnChange(function(e) {
-      //console.log(e)
-      if (e.blockId === block.id) {
-        //console.log("I'M CHANGING")
-      }
+      if (e.blockId === block.id || e.newParentId === block.id) {
 
-      if (e.newParentId === block.id) {
-        //console.log("SOMETHING WAS PLACED IN ME");
+        const a = block.getInput("A");
+        const b = block.getInput("B");
+        
+        const aType = a.connection.targetConnection.check_[0];
+        const bType = b.connection.targetConnection.check_[0];
+        
+        if (aType === "Number" && bType === "Number") {
+          if (this.implicitType !== "Number") {
+            this.implicitType = "Number";
+            this.rebuild();
+          }
+        } else {
+          if (this.implicitType !== "Vector") {
+            this.implicitType = "Vector";
+            this.rebuild();
+          }
+        }
+
       }
 
       
