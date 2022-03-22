@@ -71,7 +71,7 @@ Blockly.JavaScript["group"] = function (block) {
   let code = "[";
   let i = 0;
   while (block.getInput(`ITEM${i}`) !== null) {
-    const itemType = getTypeOfChild(block, i);
+    const itemType = getTypeOfValue(block, `ITEM${i}`);
     const itemCode = Blockly.JavaScript.valueToCode(block, `ITEM${i}`, Blockly.JavaScript.ORDER_ATOMIC);
     code += `[${itemCode}, "${itemType}"],`;
     i++;
@@ -212,10 +212,11 @@ const getTypeOfCheck = (check) => {
   throw new TypeError(`Could not resolve block check into a Sand-Blocks type: ${check}`)
 };
 
-const getTypeOfChild = (block, childNumber) => {
-  const child = block.childBlocks_[childNumber];
-  if (child === undefined) return "Void";
-  const check = child.outputConnection.check_;
+const getTypeOfValue = (block, inputName) => {
+  const input = block.getInput(inputName);
+  const target = input.connection.targetConnection;
+  if (target === null) return "Void";
+  const check = target.check_;
   const type = getTypeOfCheck(check);
   return type;
 };
@@ -227,8 +228,8 @@ const COMPARISON_FUNCTIONS = {
 };
 
 Blockly.JavaScript["comparison"] = function (block) {
-  const aType = getTypeOfChild(block, 0);
-  const bType = getTypeOfChild(block, 1);
+  const aType = getTypeOfValue(block, "A");
+  const bType = getTypeOfValue(block, "B");
   
   let a = Blockly.JavaScript.valueToCode(block, "A", Blockly.JavaScript.ORDER_ATOMIC);
   let b = Blockly.JavaScript.valueToCode(block, "B", Blockly.JavaScript.ORDER_ATOMIC);
@@ -252,8 +253,8 @@ const OPERATION_FUNCTIONS = {
 };
 
 Blockly.JavaScript["operation"] = function (block) {
-  const aType = getTypeOfChild(block, 0);
-  const bType = getTypeOfChild(block, 1);
+  const aType = getTypeOfValue(block, "A");
+  const bType = getTypeOfValue(block, "B");
   
   let a = Blockly.JavaScript.valueToCode(block, "A", Blockly.JavaScript.ORDER_ATOMIC);
   let b = Blockly.JavaScript.valueToCode(block, "B", Blockly.JavaScript.ORDER_ATOMIC);
@@ -292,7 +293,7 @@ Blockly.JavaScript["boolean_operation"] = function (block) {
 Blockly.JavaScript["is_touching"] = function (block) {
   const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
   const element = Blockly.JavaScript.valueToCode(block, "ELEMENT", Blockly.JavaScript.ORDER_ATOMIC);
-  const type = getTypeOfChild(block, 1);
+  const type = getTypeOfValue(block, "ELEMENT");
   const code = `window.isTouching(${cell}, ${element}, "${type}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
