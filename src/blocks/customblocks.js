@@ -29,6 +29,7 @@ import * as Blockly from "blockly/core";
 // Since we're using json to initialize the field, we'll need to import it.
 import "../fields/BlocklyReactField";
 import "../fields/DateField";
+import {getTypeOfValue} from "../generator/generator.js";
 
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
@@ -744,11 +745,8 @@ Blockly.Extensions.registerMutator(
     block.setOnChange(function(e) {
       if (e.blockId === block.id || e.newParentId === block.id) {
 
-        const a = block.getInput("A");
-        const b = block.getInput("B");
-        
-        const aType = a.connection.targetConnection.check_[0];
-        const bType = b.connection.targetConnection.check_[0];
+        const aType = getTypeOfValue(block, "A");
+        const bType = getTypeOfValue(block, "B");
         
         if (aType === "Number" && bType === "Number") {
           if (this.implicitType !== "Number") {

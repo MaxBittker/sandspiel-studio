@@ -28,6 +28,25 @@ import * as Blockly from "blockly/core";
 import "blockly/javascript";
 //import a from "../starterblocks";
 
+const getTypeOfCheck = (check) => {
+  if (check === undefined) return "Any";
+  if (check.length === 0) return "Void";
+  if (check.length === 1) return check[0];
+  if (check.length === 2) {
+    throw new Error("Block was more than one type! This shouldn't be allowed! Please tell @todepond that you saw this error :)")
+  }
+  throw new TypeError(`Could not resolve block check into a Sand-Blocks type: ${check}`)
+};
+
+export const getTypeOfValue = (block, inputName) => {
+  const input = block.getInput(inputName);
+  const target = input.connection.targetConnection;
+  if (target === null) return "Void";
+  const check = target.check_;
+  const type = getTypeOfCheck(check);
+  return type;
+};
+
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
   const body = Blockly.JavaScript.statementToCode(block, "body");
   return body;
@@ -200,25 +219,6 @@ Blockly.JavaScript["if_else"] = function (block) {
   const else_ = Blockly.JavaScript.statementToCode(block, "ELSE");
   const code = `if (${condition}) {\n${then}\n} else {\n${else_}\n}`
   return code;
-};
-
-const getTypeOfCheck = (check) => {
-  if (check === undefined) return "Any";
-  if (check.length === 0) return "Void";
-  if (check.length === 1) return check[0];
-  if (check.length === 2) {
-    throw new Error("Block was more than one type! This shouldn't be allowed! Please tell @todepond that you saw this error :)")
-  }
-  throw new TypeError(`Could not resolve block check into a Sand-Blocks type: ${check}`)
-};
-
-const getTypeOfValue = (block, inputName) => {
-  const input = block.getInput(inputName);
-  const target = input.connection.targetConnection;
-  if (target === null) return "Void";
-  const check = target.check_;
-  const type = getTypeOfCheck(check);
-  return type;
 };
 
 const COMPARISON_FUNCTIONS = {
