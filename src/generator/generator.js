@@ -292,6 +292,7 @@ Blockly.JavaScript["boolean_operation"] = function (block) {
 Blockly.JavaScript["is_touching"] = function (block) {
   const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
   const element = Blockly.JavaScript.valueToCode(block, "ELEMENT", Blockly.JavaScript.ORDER_ATOMIC);
-  const code = `window.isTouching(${cell}, ${element})`;
+  const type = getTypeOfChild(block, 1);
+  const code = `window.isTouching(${cell}, ${element}, "${type}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };

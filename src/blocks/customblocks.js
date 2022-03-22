@@ -709,9 +709,44 @@ Blockly.defineBlocksWithJsonArray([
     "output": "Number",
     "colour": 210,
     "tooltip": "",
-    "helpUrl": ""
+    "helpUrl": "",
+    "mutator": "operation_mutator",
   },
 ]);
+
+Blockly.Extensions.registerMutator(
+  "operation_mutator",
+  {
+    mutationToDom() {
+      var container = Blockly.utils.xml.createElement('mutation');
+      return container;
+    },
+    domToMutation(mutation) {
+      this.rebuild();
+    },
+    rebuild() {
+
+    },
+  },
+  function() {
+
+    const block = this;
+    
+    block.setOnChange(function(e) {
+      //console.log(e)
+      if (e.blockId === block.id) {
+        //console.log("I'M CHANGING")
+      }
+
+      if (e.newParentId === block.id) {
+        //console.log("SOMETHING WAS PLACED IN ME");
+      }
+
+      
+
+    })
+  },
+);
 
 Blockly.Blocks['in_a_random'] = {
   init: function() {

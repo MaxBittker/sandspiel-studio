@@ -15,16 +15,29 @@ let aY = 0;
 let meX = 0;
 let meY = 0;
 
-function isTouching([x, y], element) {
+function isTouching([x, y], value, type) {
   const right = [x+1, y];
   const left = [x-1, y];
   const up = [x, y-1];
   const down = [x, y+1];
+
+  if (type === "Group") {
+    for (const [element] of value) {
+      if (getSandRelative(right) === element) return true;
+      if (getSandRelative(left) === element) return true;
+      if (getSandRelative(up) === element) return true;
+      if (getSandRelative(down) === element) return true;
+    }
+    return false;
+  }
+
+  const element = value;
   if (getSandRelative(right) === element) return true;
   if (getSandRelative(left) === element) return true;
   if (getSandRelative(up) === element) return true;
   if (getSandRelative(down) === element) return true;
   return false;
+  
 }
 
 function eq(a, b, aType, bType) {
