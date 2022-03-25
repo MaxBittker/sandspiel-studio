@@ -144,6 +144,23 @@ Blockly.JavaScript["change_into"] = function (block) {
   return code;
 };
 
+Blockly.JavaScript["set_r_cell"] = function (block) {
+  const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
+  const value = Blockly.JavaScript.valueToCode(block, "VALUE", Blockly.JavaScript.ORDER_ATOMIC);
+  const field = block.getFieldValue("DATA");
+  const valueCode = `clamp(${value}, -100, 100) + 100`
+  if (field === "RA") return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+  else if (field === "RB") return `window.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+};
+
+Blockly.JavaScript["get_r_cell"] = function (block) {
+  const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
+  const field = block.getFieldValue("DATA");
+  const offset = field === "RA"? 1 : 2;
+  const code = `window.getSandRelative(${cell}, ${offset}) - 100`;
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
 Blockly.JavaScript["element_cell"] = function (block) {
   const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
   const code = `window.getSandRelative(${cell})`;
@@ -264,9 +281,7 @@ Blockly.JavaScript["operation"] = function (block) {
   const operation = block.getFieldValue("OPERATION");
   const functionName = OPERATION_FUNCTIONS[operation];
   
-  console.log(aType, bType)
-  const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`
-
+  const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 

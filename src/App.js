@@ -137,18 +137,6 @@ const App = () => {
 <block type="element_literal">
     <field name="VALUE">SAND</field>
   </block>
-  <block type="group">
-    <value name="ITEM0">
-      <shadow type="element_literal">
-        <field name="VALUE">SAND</field>
-      </shadow>
-    </value>
-    <value name="ITEM1">
-      <shadow type="element_literal">
-        <field name="VALUE">WATER</field>
-      </shadow>
-    </value>
-  </block>
   <block type="element_cell">
     <value name="CELL">
       <shadow type="vector_constant">
@@ -192,6 +180,18 @@ const App = () => {
       </shadow>
     </value>
   </block>
+  <block type="group">
+    <value name="ITEM0">
+      <shadow type="element_literal">
+        <field name="VALUE">SAND</field>
+      </shadow>
+    </value>
+    <value name="ITEM1">
+      <shadow type="element_literal">
+        <field name="VALUE">WATER</field>
+      </shadow>
+    </value>
+  </block>
   <block type="vector_constant">
     <field name="VALUE">HERE</field>
   </block>
@@ -218,7 +218,6 @@ const App = () => {
   </block>
   <block type="operation">
     <field name="OPERATION">ADD</field>
-    <field name="PLUS">➕</field>
     <value name="A">
       <shadow type="number_literal">
         <field name="VALUE">0</field>
@@ -263,9 +262,32 @@ const App = () => {
   </block>
   <block type="boolean_operation">
     <field name="OPERATION">AND</field>
-    <field name="PLUS">➕</field>
+  </block>
+  <block type="bool_literal">
+    <field name="VALUE">TRUE</field>
   </block>
   <block type="not"></block>
+  <block type="set_r_cell">
+    <field name="DATA">RA</field>
+    <value name="CELL">
+      <shadow type="vector_constant">
+        <field name="VALUE">HERE</field>
+      </shadow>
+    </value>
+    <value name="VALUE">
+      <shadow type="number_literal">
+        <field name="VALUE">0</field>
+      </shadow>
+    </value>
+  </block>
+  <block type="get_r_cell">
+    <field name="DATA">RA</field>
+    <value name="CELL">
+      <shadow type="vector_constant">
+        <field name="VALUE">HERE</field>
+      </shadow>
+    </value>
+  </block>
 {/* ================================================= */}
         </BlocklyComponent>
       </header>

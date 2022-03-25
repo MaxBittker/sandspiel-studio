@@ -939,3 +939,42 @@ Blockly.Blocks['boolean_operation_vertical'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['get_r_cell'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["⭐ ra","RA"], ["⚡ rb","RB"]]), "DATA");
+    this.appendDummyInput()
+        .appendField("of");
+    this.appendValueInput("CELL")
+        .setCheck("Vector");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['set_r_cell'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("set");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["⭐ ra","RA"], ["⚡ rb","RB"]]), "DATA");
+    this.appendDummyInput()
+        .appendField("of");
+    this.appendValueInput("CELL")
+        .setCheck("Vector");
+    this.appendDummyInput()
+        .appendField("to");
+    this.appendValueInput("VALUE")
+        .setCheck("Number");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};

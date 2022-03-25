@@ -12,8 +12,6 @@ window.sands = sands;
 let clock = 0;
 let aX = 0;
 let aY = 0;
-let meX = 0;
-let meY = 0;
 
 function isTouching([x, y], value, type) {
   const right = [x+1, y];
@@ -80,28 +78,37 @@ function lessThan(a, b, aType, bType) {
 function getIndex(x, y) {
   return (x + y * width) * 4;
 }
+
 function getSand(x, y, o = 0) {
   x = Math.round(x);
   y = Math.round(y);
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return 3; // wall?
   }
-  return sands[getIndex(x, y) + 0];
+  return sands[getIndex(x, y) + o];
 }
-function setSand(x, y, v) {
+function setSand(x, y, v, ra, rb) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return;
   }
-  sands[getIndex(x, y)] = v;
-}
-function getSandRelative([x, y]) {
 
+  let i = getIndex(x, y);
+  if (v !== undefined) sands[i] = v;
+  if (ra !== undefined) sands[i + 1] = ra;
+  if (rb !== undefined) sands[i + 2] = rb;
+  sands[i + 3] = clock;
+}
+function getIndexRelative(x, y) {
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
   [x, y] = transform(x, y);
-
-  return getSand(x + aX, y + aY);
+  return getIndex(x + aX, y + aY);
 }
-function setSandRelative([x, y], v) {
+function getSandRelative([x, y], o = 0) {
+  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
+  [x, y] = transform(x, y);
+  return getSand(x + aX, y + aY, o);
+}
+function setSandRelative([x, y], v, ra, rb) {
 
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
   [x, y] = transform(x, y);
@@ -111,9 +118,11 @@ function setSandRelative([x, y], v) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return;
   }
-  let i = getIndex(x, y);
 
-  sands[i] = v;
+  let i = getIndex(x, y);
+  if (v !== undefined) sands[i] = v;
+  if (ra !== undefined) sands[i + 1] = ra;
+  if (rb !== undefined) sands[i + 2] = rb;
   sands[i + 3] = clock;
 }
 
@@ -125,19 +134,36 @@ function swapSandRelative([sx, sy], [bx, by]) {
   if (aX+bx < 0 || aX+bx >= width || aY+by < 0 || aY+by >= height) {
     return;
   }
-  let a = getSandRelative([sx, sy]);
-  let b = getSandRelative([bx, by]);
-  setSandRelative([sx, sy], b);
-  setSandRelative([bx, by], a);
 
-  // Update the position of 'me' if we moved it!
-  if (sx === meX && sy === meY) {
-    meX = bx;
-    meY = by;
-  } else if (bx === meX && by === meY) {
-    meX = sx;
-    meY = sy;
-  }
+  let aid = getIndexRelative(sx, sy);
+  let bid = getIndexRelative(bx, by);
+
+  let a = sands[aid];
+  let ara = sands[aid+1];
+  let arb = sands[aid+2];
+  let aclock = sands[aid+3];
+
+  let b = sands[bid];
+  let bra = sands[bid+1];
+  let brb = sands[bid+2];
+  let bclock = sands[bid+3];
+
+  sands[aid] = b;
+  sands[aid+1] = bra;
+  sands[aid+2] = brb;
+  sands[aid+3] = clock;
+
+  sands[bid] = a;
+  sands[bid+1] = ara;
+  sands[bid+2] = arb;
+  sands[bid+3] = clock;
+
+}
+
+function clamp(value, min, max) {
+  if (value < min) return min
+  if (value > max) return max
+  return value
 }
 
 function add(a, b, aType, bType) {
@@ -256,6 +282,7 @@ window.greaterThan = greaterThan;
 window.lessThan = lessThan;
 window.isTouching = isTouching;
 window.add = add;
+window.clamp = clamp;
 window.subtract = subtract;
 window.multiply = multiply;
 window.divide = divide;
@@ -299,8 +326,6 @@ const tick = () => {
     let y = Math.floor(index / width);
     aX = x;
     aY = y;
-    meX = 0;
-    meY = 0;
     window.returnValue = undefined;
     window.updaters[e](e);
   }
@@ -312,8 +337,8 @@ const seed = () => {
     /*if (Math.random() * i > width * height * 3) {
       sands[i] = (Math.random() * (elements.length - 1)) | 0;
     }*/
-    sands[i + 1] = (Math.random() * 255) | 0;
-    sands[i + 2] = 0;
+    sands[i + 1] = (Math.random() * 200) | 0;
+    sands[i + 2] = (Math.random() * 200) | 0;
     sands[i + 3] = 0;
   }
 };
