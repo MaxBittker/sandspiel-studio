@@ -328,6 +328,7 @@ const tick = () => {
     aY = y;
     window.returnValue = undefined;
     window.updaters[e](e);
+    sands[i + 3] = clock;
   }
 };
 
