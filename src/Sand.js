@@ -315,21 +315,47 @@ window.updaters = elements.map(() => {
 
 const UPDATE_SCHEMES = {}
 
-UPDATE_SCHEMES["T2B_L2R_TAGGED"] = () => {
+UPDATE_SCHEMES["ORDERED_TAGGED"] = () => {
   clock = (clock + 1) % 2;
   for (var i = 0; i < sands.length; i += 4) {
-    let index = i / 4;
     let c = sands[i + 3];
     if (c === clock) continue;
-    let e = sands[i];
-    let x = index % width;
-    let y = Math.floor(index / width);
-    aX = x;
-    aY = y;
-    window.returnValue = undefined;
-    window.updaters[e](e);
+    fireEvent(i);
     sands[i + 3] = clock;
   }
+}
+
+UPDATE_SCHEMES["REVERSE_ORDERED_TAGGED"] = () => {
+  clock = (clock + 1) % 2;
+  for (var i = sands.length-4; i >= 0; i -= 4) {
+    let c = sands[i + 3];
+    if (c === clock) continue;
+    fireEvent(i);
+    sands[i + 3] = clock;
+  }
+}
+
+UPDATE_SCHEMES["ORDERED"] = () => {
+  for (var i = 0; i < sands.length; i += 4) {
+    fireEvent(i);
+  }
+}
+
+UPDATE_SCHEMES["REVERSE_ORDERED"] = () => {
+  for (var i = sands.length-4; i >= 0; i -= 4) {
+    fireEvent(i);
+  }
+}
+
+const fireEvent = (cellOffset) => {
+  let index = cellOffset / 4;
+  let e = sands[cellOffset];
+  let x = index % width;
+  let y = Math.floor(index / width);
+  aX = x;
+  aY = y;
+  window.returnValue = undefined;
+  window.updaters[e](e);
 }
 
 const tick = () => {
@@ -385,6 +411,7 @@ const UI = ({ selectedElement, setSelected, updateScheme, setUpdateScheme }) => 
       {Object.keys(UPDATE_SCHEMES).map((key) => {
         return (
           <UpdateSchemeButton
+            key={key}
             setUpdateScheme={setUpdateScheme}
             name={key}
             selected={key === updateScheme}
