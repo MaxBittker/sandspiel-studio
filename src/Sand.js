@@ -141,12 +141,10 @@ function swapSandRelative([sx, sy], [bx, by]) {
   let a = sands[aid];
   let ara = sands[aid+1];
   let arb = sands[aid+2];
-  let aclock = sands[aid+3];
 
   let b = sands[bid];
   let bra = sands[bid+1];
   let brb = sands[bid+2];
-  let bclock = sands[bid+3];
 
   sands[aid] = b;
   sands[aid+1] = bra;
@@ -315,7 +313,9 @@ window.updaters = elements.map(() => {
   return () => {};
 });
 
-const tick = () => {
+const UPDATE_SCHEMES = {}
+
+UPDATE_SCHEMES["T2B_L2R_TAGGED"] = () => {
   clock = (clock + 1) % 2;
   for (var i = 0; i < sands.length; i += 4) {
     let index = i / 4;
@@ -330,6 +330,10 @@ const tick = () => {
     window.updaters[e](e);
     sands[i + 3] = clock;
   }
+}
+
+const tick = () => {
+  UPDATE_SCHEMES[window.updateScheme]()
 };
 
 const seed = () => {
@@ -354,7 +358,17 @@ const ElementButton = ({ i, setSelected, selected }) => {
     </button>
   );
 };
-const UI = ({ selectedElement, setSelected }) => {
+const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
+  return (
+    <button
+      className={`simulation-button update-scheme-button${selected? " selected" : ""}`}
+      onClick={() => setUpdateScheme(name)}
+    >
+      {name}
+    </button>
+  );
+};
+const UI = ({ selectedElement, setSelected, updateScheme, setUpdateScheme }) => {
   return (
     <div className="element-tray">
       {elements.map((e, i) => {
@@ -364,6 +378,16 @@ const UI = ({ selectedElement, setSelected }) => {
             i={i}
             setSelected={setSelected}
             selected={i === selectedElement}
+          />
+        );
+      })}
+      <br></br>
+      {Object.keys(UPDATE_SCHEMES).map((key) => {
+        return (
+          <UpdateSchemeButton
+            setUpdateScheme={setUpdateScheme}
+            name={key}
+            selected={key === updateScheme}
           />
         );
       })}
@@ -382,7 +406,9 @@ const UI = ({ selectedElement, setSelected }) => {
 
 const Sand = () => {
   const selectedElement = useStore((state) => state.selectedElement);
+  const updateScheme = useStore((state) => state.updateScheme);
   const setSelected = useStore((state) => state.setSelected);
+  const setUpdateScheme = useStore((state) => state.setUpdateScheme);
 
   const canvas = React.useRef();
   const drawer = React.useRef();
@@ -398,10 +424,11 @@ const Sand = () => {
 
   useEffect(() => {
     window.selectedElement = selectedElement;
-  }, [selectedElement]);
+    window.updateScheme = updateScheme;
+  }, [selectedElement, updateScheme]);
   return (
     <>
-      <UI selectedElement={selectedElement} setSelected={setSelected} />
+      <UI selectedElement={selectedElement} setSelected={setSelected} setUpdateScheme={setUpdateScheme} updateScheme={updateScheme} />
 
       <canvas
         className="worldCanvas"

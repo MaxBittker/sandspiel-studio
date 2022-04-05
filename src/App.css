@@ -64,6 +64,10 @@ button{
   z-index: 1;
 }
 
+.update-scheme-button{
+  font-size: 10px;
+}
+
 button.selected{
   filter: invert(1.0);
 }
