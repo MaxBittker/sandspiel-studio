@@ -418,18 +418,19 @@ const UI = ({
           />
         );
       })}
-      <br></br>
-      {Object.keys(UPDATE_SCHEMES).map((key) => {
-        return (
-          <UpdateSchemeButton
-            key={key}
-            setUpdateScheme={setUpdateScheme}
-            name={key}
-            selected={key === updateScheme}
-          />
-        );
-      })}
-      <br></br>
+      <div>
+        {Object.keys(UPDATE_SCHEMES).map((key) => {
+          return (
+            <UpdateSchemeButton
+              key={key}
+              setUpdateScheme={setUpdateScheme}
+              name={key}
+              selected={key === updateScheme}
+            />
+          );
+        })}
+      </div>
+
       <button
         className="simulation-button"
         onClick={() => {
@@ -465,14 +466,7 @@ const Sand = () => {
     window.updateScheme = updateScheme;
   }, [selectedElement, updateScheme]);
   return (
-    <>
-      <UI
-        selectedElement={selectedElement}
-        setSelected={setSelected}
-        setUpdateScheme={setUpdateScheme}
-        updateScheme={updateScheme}
-      />
-
+    <div id="world">
       <canvas
         className="worldCanvas"
         onMouseDown={() => setIsDrawing(true)}
@@ -498,7 +492,13 @@ const Sand = () => {
         height={height * dpi}
         width={width * dpi}
       />
-    </>
+      <UI
+        selectedElement={selectedElement}
+        setSelected={setSelected}
+        setUpdateScheme={setUpdateScheme}
+        updateScheme={updateScheme}
+      />
+    </div>
   );
 };
 Sand.propTypes = {};
