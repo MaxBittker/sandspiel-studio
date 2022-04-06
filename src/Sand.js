@@ -13,6 +13,19 @@ let clock = 0;
 let aX = 0;
 let aY = 0;
 
+function isBlock(pos, value, type) {
+  if (type === "Group") {
+    for (const [element] of value) {
+      if (getSandRelative(pos) === element) return true;
+    }
+    return false;
+  }
+
+  const element = value;
+  if (getSandRelative(pos) === element) return true;
+  return false;
+}
+
 function isTouching([x, y], value, type) {
   const right = [x + 1, y];
   const left = [x - 1, y];
@@ -269,6 +282,7 @@ window.eq = eq;
 window.greaterThan = greaterThan;
 window.lessThan = lessThan;
 window.isTouching = isTouching;
+window.isBlock = isBlock;
 window.add = add;
 window.clamp = clamp;
 window.subtract = subtract;

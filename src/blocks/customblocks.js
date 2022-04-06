@@ -654,6 +654,18 @@ Blockly.Blocks["is_touching"] = {
   },
 };
 
+Blockly.Blocks["is_block"] = {
+  init: function () {
+    this.appendValueInput("CELL").setCheck("Vector");
+    this.appendDummyInput().appendField("is");
+    this.appendValueInput("ELEMENT").setCheck(["Element", "Group"]);
+    this.setOutput(true, "Boolean");
+    this.setColour(160);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
 Blockly.Blocks["one_in"] = {
   init: function () {
     this.appendDummyInput().appendField("one in");

@@ -165,6 +165,18 @@ const App = () => {
               </shadow>
             </value>
           </block>
+          <block type="is_block">
+            <value name="CELL">
+              <shadow type="vector_constant">
+                <field name="VALUE">DOWN</field>
+              </shadow>
+            </value>
+            <value name="ELEMENT">
+              <shadow type="element_literal">
+                <field name="VALUE">AIR</field>
+              </shadow>
+            </value>
+          </block>
           <block type="is_touching">
             <value name="CELL">
               <shadow type="vector_constant">
