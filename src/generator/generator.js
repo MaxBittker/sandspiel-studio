@@ -33,9 +33,13 @@ const getTypeOfCheck = (check) => {
   if (check.length === 0) return "Void";
   if (check.length === 1) return check[0];
   if (check.length === 2) {
-    throw new Error("Block was more than one type! This shouldn't be allowed! Please tell @todepond that you saw this error :)")
+    throw new Error(
+      "Block was more than one type! This shouldn't be allowed! Please tell @todepond that you saw this error :)"
+    );
   }
-  throw new TypeError(`Could not resolve block check into a Sand-Blocks type: ${check}`)
+  throw new TypeError(
+    `Could not resolve block check into a Sand-Blocks type: ${check}`
+  );
 };
 
 export const getTypeOfValue = (block, inputName) => {
@@ -91,17 +95,29 @@ Blockly.JavaScript["group"] = function (block) {
   let i = 0;
   while (block.getInput(`ITEM${i}`) !== null) {
     const itemType = getTypeOfValue(block, `ITEM${i}`);
-    const itemCode = Blockly.JavaScript.valueToCode(block, `ITEM${i}`, Blockly.JavaScript.ORDER_ATOMIC);
+    const itemCode = Blockly.JavaScript.valueToCode(
+      block,
+      `ITEM${i}`,
+      Blockly.JavaScript.ORDER_ATOMIC
+    );
     code += `[${itemCode}, "${itemType}"],`;
     i++;
   }
   code += "]";
   return [code, Blockly.JavaScript.ORDER_MEMBER];
-}
+};
 
 Blockly.JavaScript["vector_literal"] = function (block) {
-  const x = Blockly.JavaScript.valueToCode(block, "X", Blockly.JavaScript.ORDER_ATOMIC);
-  const y = Blockly.JavaScript.valueToCode(block, "Y", Blockly.JavaScript.ORDER_ATOMIC);
+  const x = Blockly.JavaScript.valueToCode(
+    block,
+    "X",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const y = Blockly.JavaScript.valueToCode(
+    block,
+    "Y",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const code = `[${x}, ${y}]`;
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
@@ -126,7 +142,11 @@ Blockly.JavaScript["vector_constant"] = function (block) {
 };
 
 Blockly.JavaScript["print"] = function (block) {
-  const message = Blockly.JavaScript.valueToCode(block, "MESSAGE", Blockly.JavaScript.ORDER_ATOMIC);
+  const message = Blockly.JavaScript.valueToCode(
+    block,
+    "MESSAGE",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const code = `console.log(${message})`;
   return code;
 };
@@ -138,64 +158,114 @@ Blockly.JavaScript["string_literal"] = function (block) {
 };
 
 Blockly.JavaScript["change_into"] = function (block) {
-  const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
-  const element = Blockly.JavaScript.valueToCode(block, "ELEMENT", Blockly.JavaScript.ORDER_ATOMIC);
+  const cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+  const element = Blockly.JavaScript.valueToCode(
+    block,
+    "ELEMENT",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const code = `window.setSandRelative(${cell}, ${element});\n`;
   return code;
 };
 
 Blockly.JavaScript["set_r_cell"] = function (block) {
-  const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
-  const value = Blockly.JavaScript.valueToCode(block, "VALUE", Blockly.JavaScript.ORDER_ATOMIC);
+  const cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+  const value = Blockly.JavaScript.valueToCode(
+    block,
+    "VALUE",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const field = block.getFieldValue("DATA");
-  const valueCode = `clamp(${value}, -100, 100) + 100`
-  if (field === "RA") return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
-  else if (field === "RB") return `window.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  const valueCode = `clamp(${value}, -100, 100) + 100`;
+  if (field === "RA")
+    return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+  else if (field === "RB")
+    return `window.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
 };
 
 Blockly.JavaScript["get_r_cell"] = function (block) {
-  const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
+  const cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
   const field = block.getFieldValue("DATA");
-  const offset = field === "RA"? 1 : 2;
+  const offset = field === "RA" ? 1 : 2;
   const code = `window.getSandRelative(${cell}, ${offset}) - 100`;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript["element_cell"] = function (block) {
-  const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
+  const cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
   const code = `window.getSandRelative(${cell})`;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript["swap"] = function (block) {
-  const a = Blockly.JavaScript.valueToCode(block, "A", Blockly.JavaScript.ORDER_MEMBER);
-  const b = Blockly.JavaScript.valueToCode(block, "B", Blockly.JavaScript.ORDER_MEMBER);
+  const a = Blockly.JavaScript.valueToCode(
+    block,
+    "A",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+  const b = Blockly.JavaScript.valueToCode(
+    block,
+    "B",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
   const code = `window.swapSandRelative(${a}, ${b});\n`;
   return code;
 };
 
 Blockly.JavaScript["random_number"] = function (block) {
-  const min = Blockly.JavaScript.valueToCode(block, "MIN", Blockly.JavaScript.ORDER_ATOMIC);
-  const max = Blockly.JavaScript.valueToCode(block, "MAX", Blockly.JavaScript.ORDER_ATOMIC);
-  const range = max - min + 1
+  const min = Blockly.JavaScript.valueToCode(
+    block,
+    "MIN",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const max = Blockly.JavaScript.valueToCode(
+    block,
+    "MAX",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const range = max - min + 1;
   const code = `(${min} + Math.floor(Math.random() * ${range}))`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript["one_in"] = function (block) {
-  const n = Blockly.JavaScript.valueToCode(block, "NUMBER", Blockly.JavaScript.ORDER_ATOMIC);
+  const n = Blockly.JavaScript.valueToCode(
+    block,
+    "NUMBER",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const code = `(Math.random() < 1/${n})`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript["bool_literal"] = function (block) {
   const boolName = block.getFieldValue("VALUE");
-  const code = boolName === "TRUE"? "true" : "false";
+  const code = boolName === "TRUE" ? "true" : "false";
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
 Blockly.JavaScript["statement_value"] = function (block) {
-  const value = Blockly.JavaScript.valueToCode(block, "VALUE", Blockly.JavaScript.ORDER_ATOMIC);
+  const value = Blockly.JavaScript.valueToCode(
+    block,
+    "VALUE",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   return `window.returnValue = ${value};\n`;
 };
 
@@ -204,37 +274,53 @@ Blockly.JavaScript["statement_value_shadow"] = function (block) {
 };
 
 Blockly.JavaScript["not"] = function (block) {
-  const bool = Blockly.JavaScript.valueToCode(block, "BOOL", Blockly.JavaScript.ORDER_ATOMIC);
+  const bool = Blockly.JavaScript.valueToCode(
+    block,
+    "BOOL",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const code = `!${bool}`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript["if"] = function (block) {
-  const condition = Blockly.JavaScript.valueToCode(block, "CONDITION", Blockly.JavaScript.ORDER_ATOMIC);
+  const condition = Blockly.JavaScript.valueToCode(
+    block,
+    "CONDITION",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const then = Blockly.JavaScript.statementToCode(block, "THEN");
-  const code = `if (${condition}) {\n${then}\n}`
+  const code = `if (${condition}) {\n${then}\n}`;
   return code;
 };
 
 Blockly.JavaScript["repeat"] = function (block) {
-  const n = Blockly.JavaScript.valueToCode(block, "NUMBER", Blockly.JavaScript.ORDER_ATOMIC);
+  const n = Blockly.JavaScript.valueToCode(
+    block,
+    "NUMBER",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const statement = Blockly.JavaScript.statementToCode(block, "STATEMENT");
-  const code = `for (let i = 0; i < ${n}; i++) {\n${statement}\n}`
+  const code = `for (let i = 0; i < ${n}; i++) {\n${statement}\n}`;
   return code;
 };
 
 Blockly.JavaScript["in_a_random"] = function (block) {
   const name = block.getFieldValue("NAME");
   const statement = Blockly.JavaScript.statementToCode(block, "NAME");
-  const code = `{const oldTransformation = window.getTransformation();\nwindow.setRandomTransformation("${name}");\n${statement}window.setTransformation(...oldTransformation);}\n`
+  const code = `{const oldTransformation = window.getTransformation();\nwindow.setRandomTransformation("${name}");\n${statement}window.setTransformation(...oldTransformation);}\n`;
   return code;
 };
 
 Blockly.JavaScript["if_else"] = function (block) {
-  const condition = Blockly.JavaScript.valueToCode(block, "CONDITION", Blockly.JavaScript.ORDER_ATOMIC);
+  const condition = Blockly.JavaScript.valueToCode(
+    block,
+    "CONDITION",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const then = Blockly.JavaScript.statementToCode(block, "THEN");
   const else_ = Blockly.JavaScript.statementToCode(block, "ELSE");
-  const code = `if (${condition}) {\n${then}\n} else {\n${else_}\n}`
+  const code = `if (${condition}) {\n${then}\n} else {\n${else_}\n}`;
   return code;
 };
 
@@ -247,17 +333,24 @@ const COMPARISON_FUNCTIONS = {
 Blockly.JavaScript["comparison"] = function (block) {
   const aType = getTypeOfValue(block, "A");
   const bType = getTypeOfValue(block, "B");
-  
-  let a = Blockly.JavaScript.valueToCode(block, "A", Blockly.JavaScript.ORDER_ATOMIC);
-  let b = Blockly.JavaScript.valueToCode(block, "B", Blockly.JavaScript.ORDER_ATOMIC);
-  if (a === "") a = "undefined"
-  if (b === "") b = "undefined"
+
+  let a = Blockly.JavaScript.valueToCode(
+    block,
+    "A",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  let b = Blockly.JavaScript.valueToCode(
+    block,
+    "B",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  if (a === "") a = "undefined";
+  if (b === "") b = "undefined";
 
   const comparison = block.getFieldValue("COMPARISON");
   const functionName = COMPARISON_FUNCTIONS[comparison];
-  
 
-  const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`
+  const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`;
 
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
@@ -272,15 +365,23 @@ const OPERATION_FUNCTIONS = {
 Blockly.JavaScript["operation"] = function (block) {
   const aType = getTypeOfValue(block, "A");
   const bType = getTypeOfValue(block, "B");
-  
-  let a = Blockly.JavaScript.valueToCode(block, "A", Blockly.JavaScript.ORDER_ATOMIC);
-  let b = Blockly.JavaScript.valueToCode(block, "B", Blockly.JavaScript.ORDER_ATOMIC);
-  if (a === "") a = "undefined"
-  if (b === "") b = "undefined"
+
+  let a = Blockly.JavaScript.valueToCode(
+    block,
+    "A",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  let b = Blockly.JavaScript.valueToCode(
+    block,
+    "B",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  if (a === "") a = "undefined";
+  if (b === "") b = "undefined";
 
   const operation = block.getFieldValue("OPERATION");
   const functionName = OPERATION_FUNCTIONS[operation];
-  
+
   const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
@@ -291,23 +392,38 @@ const BOOLEAN_OPERATORS = {
 };
 
 Blockly.JavaScript["boolean_operation"] = function (block) {
-  
-  let a = Blockly.JavaScript.valueToCode(block, "A", Blockly.JavaScript.ORDER_ATOMIC);
-  let b = Blockly.JavaScript.valueToCode(block, "B", Blockly.JavaScript.ORDER_ATOMIC);
-  if (a === "") a = "false"
-  if (b === "") b = "false"
+  let a = Blockly.JavaScript.valueToCode(
+    block,
+    "A",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  let b = Blockly.JavaScript.valueToCode(
+    block,
+    "B",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  if (a === "") a = "false";
+  if (b === "") b = "false";
 
   let operatorName = block.getFieldValue("OPERATION");
   const operator = BOOLEAN_OPERATORS[operatorName];
 
-  const code = `${a} ${operator} ${b}`
+  const code = `${a} ${operator} ${b}`;
 
   return [code, Blockly.JavaScript.ORDER_LOGICAL_AND];
 };
 
 Blockly.JavaScript["is_touching"] = function (block) {
-  const cell = Blockly.JavaScript.valueToCode(block, "CELL", Blockly.JavaScript.ORDER_MEMBER);
-  const element = Blockly.JavaScript.valueToCode(block, "ELEMENT", Blockly.JavaScript.ORDER_ATOMIC);
+  const cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+  const element = Blockly.JavaScript.valueToCode(
+    block,
+    "ELEMENT",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
   const type = getTypeOfValue(block, "ELEMENT");
   const code = `window.isTouching(${cell}, ${element}, "${type}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];

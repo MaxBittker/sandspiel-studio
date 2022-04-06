@@ -14,10 +14,10 @@ let aX = 0;
 let aY = 0;
 
 function isTouching([x, y], value, type) {
-  const right = [x+1, y];
-  const left = [x-1, y];
-  const up = [x, y-1];
-  const down = [x, y+1];
+  const right = [x + 1, y];
+  const left = [x - 1, y];
+  const up = [x, y - 1];
+  const down = [x, y + 1];
 
   if (type === "Group") {
     for (const [element] of value) {
@@ -35,7 +35,6 @@ function isTouching([x, y], value, type) {
   if (getSandRelative(up) === element) return true;
   if (getSandRelative(down) === element) return true;
   return false;
-  
 }
 
 function eq(a, b, aType, bType) {
@@ -109,7 +108,6 @@ function getSandRelative([x, y], o = 0) {
   return getSand(x + aX, y + aY, o);
 }
 function setSandRelative([x, y], v, ra, rb) {
-
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
   [x, y] = transform(x, y);
 
@@ -127,11 +125,10 @@ function setSandRelative([x, y], v, ra, rb) {
 }
 
 function swapSandRelative([sx, sy], [bx, by]) {
-
-  if (aX+sx < 0 || aX+sx >= width || aY+sy < 0 || aY+sy >= height) {
+  if (aX + sx < 0 || aX + sx >= width || aY + sy < 0 || aY + sy >= height) {
     return;
   }
-  if (aX+bx < 0 || aX+bx >= width || aY+by < 0 || aY+by >= height) {
+  if (aX + bx < 0 || aX + bx >= width || aY + by < 0 || aY + by >= height) {
     return;
   }
 
@@ -139,124 +136,117 @@ function swapSandRelative([sx, sy], [bx, by]) {
   let bid = getIndexRelative(bx, by);
 
   let a = sands[aid];
-  let ara = sands[aid+1];
-  let arb = sands[aid+2];
+  let ara = sands[aid + 1];
+  let arb = sands[aid + 2];
 
   let b = sands[bid];
-  let bra = sands[bid+1];
-  let brb = sands[bid+2];
+  let bra = sands[bid + 1];
+  let brb = sands[bid + 2];
 
   sands[aid] = b;
-  sands[aid+1] = bra;
-  sands[aid+2] = brb;
-  sands[aid+3] = clock;
+  sands[aid + 1] = bra;
+  sands[aid + 2] = brb;
+  sands[aid + 3] = clock;
 
   sands[bid] = a;
-  sands[bid+1] = ara;
-  sands[bid+2] = arb;
-  sands[bid+3] = clock;
-
+  sands[bid + 1] = ara;
+  sands[bid + 2] = arb;
+  sands[bid + 3] = clock;
 }
 
 function clamp(value, min, max) {
-  if (value < min) return min
-  if (value > max) return max
-  return value
+  if (value < min) return min;
+  if (value > max) return max;
+  return value;
 }
 
 function add(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
-    const [ax, ay] = a
-    const [bx, by] = b
-    return [ax+bx, ay+by]
+    const [ax, ay] = a;
+    const [bx, by] = b;
+    return [ax + bx, ay + by];
   }
   if (aType === "Vector" && bType !== "Vector") {
-    const [x, y] = a
-    return [x+b, y+b]
+    const [x, y] = a;
+    return [x + b, y + b];
   }
   if (aType !== "Vector" && bType === "Vector") {
-    const [x, y] = b
-    return [x+a, y+a]
+    const [x, y] = b;
+    return [x + a, y + a];
   }
-  return a + b
+  return a + b;
 }
 
 function subtract(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
-    const [ax, ay] = a
-    const [bx, by] = b
-    return [ax-bx, ay-by]
+    const [ax, ay] = a;
+    const [bx, by] = b;
+    return [ax - bx, ay - by];
   }
   if (aType === "Vector" && bType !== "Vector") {
-    const [x, y] = a
-    return [x-b, y-b]
+    const [x, y] = a;
+    return [x - b, y - b];
   }
   if (aType !== "Vector" && bType === "Vector") {
-    const [x, y] = b
-    return [x-a, y-a]
+    const [x, y] = b;
+    return [x - a, y - a];
   }
-  return a - b
+  return a - b;
 }
 
 function multiply(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
-    const [ax, ay] = a
-    const [bx, by] = b
-    return [ax*bx, ay*by]
+    const [ax, ay] = a;
+    const [bx, by] = b;
+    return [ax * bx, ay * by];
   }
   if (aType === "Vector" && bType !== "Vector") {
-    const [x, y] = a
-    return [x*b, y*b]
+    const [x, y] = a;
+    return [x * b, y * b];
   }
   if (aType !== "Vector" && bType === "Vector") {
-    const [x, y] = b
-    return [x*a, y*a]
+    const [x, y] = b;
+    return [x * a, y * a];
   }
-  return a * b
+  return a * b;
 }
 
 function divide(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
-    const [ax, ay] = a
-    const [bx, by] = b
-    return [ax/bx, ay/by]
+    const [ax, ay] = a;
+    const [bx, by] = b;
+    return [ax / bx, ay / by];
   }
   if (aType === "Vector" && bType !== "Vector") {
-    const [x, y] = a
-    return [x/b, y/b]
+    const [x, y] = a;
+    return [x / b, y / b];
   }
   if (aType !== "Vector" && bType === "Vector") {
-    const [x, y] = b
-    return [x/a, y/a]
+    const [x, y] = b;
+    return [x / a, y / a];
   }
-  return a / b
+  return a / b;
 }
 
 const TRANSFORMATION_SETS = {
   ROTATION: [
-    (x, y) => [ x, y],
+    (x, y) => [x, y],
     (x, y) => [-y, x],
-    (x, y) => [-x,-y],
-    (x, y) => [ y,-x],
+    (x, y) => [-x, -y],
+    (x, y) => [y, -x],
   ],
   REFLECTION: [
-    (x, y) => [ x, y],
+    (x, y) => [x, y],
     (x, y) => [-x, y],
-    (x, y) => [ x,-y],
-    (x, y) => [-x,-y],
+    (x, y) => [x, -y],
+    (x, y) => [-x, -y],
   ],
-  HORIZONTAL_REFLECTION: [
-    (x, y) => [ x, y],
-    (x, y) => [-x, y],
-  ],
-  VERTICAL_REFLECTION: [
-    (x, y) => [ x, y],
-    (x, y) => [ x,-y],
-  ],
+  HORIZONTAL_REFLECTION: [(x, y) => [x, y], (x, y) => [-x, y]],
+  VERTICAL_REFLECTION: [(x, y) => [x, y], (x, y) => [x, -y]],
 };
 
-let transformationSet = "ROTATION"
-let transformationId = 0
+let transformationSet = "ROTATION";
+let transformationId = 0;
 function setTransformation(set, id) {
   transformationSet = set;
   transformationId = id;
@@ -313,7 +303,7 @@ window.updaters = elements.map(() => {
   return () => {};
 });
 
-const UPDATE_SCHEMES = {}
+const UPDATE_SCHEMES = {};
 
 UPDATE_SCHEMES["ORDERED_TAGGED"] = () => {
   clock = (clock + 1) % 2;
@@ -323,29 +313,29 @@ UPDATE_SCHEMES["ORDERED_TAGGED"] = () => {
     fireEvent(i);
     sands[i + 3] = clock;
   }
-}
+};
 
 UPDATE_SCHEMES["REVERSE_ORDERED_TAGGED"] = () => {
   clock = (clock + 1) % 2;
-  for (var i = sands.length-4; i >= 0; i -= 4) {
+  for (var i = sands.length - 4; i >= 0; i -= 4) {
     let c = sands[i + 3];
     if (c === clock) continue;
     fireEvent(i);
     sands[i + 3] = clock;
   }
-}
+};
 
 UPDATE_SCHEMES["ORDERED"] = () => {
   for (var i = 0; i < sands.length; i += 4) {
     fireEvent(i);
   }
-}
+};
 
 UPDATE_SCHEMES["REVERSE_ORDERED"] = () => {
-  for (var i = sands.length-4; i >= 0; i -= 4) {
+  for (var i = sands.length - 4; i >= 0; i -= 4) {
     fireEvent(i);
   }
-}
+};
 
 const fireEvent = (cellOffset) => {
   let index = cellOffset / 4;
@@ -356,10 +346,10 @@ const fireEvent = (cellOffset) => {
   aY = y;
   window.returnValue = undefined;
   window.updaters[e](e);
-}
+};
 
 const tick = () => {
-  UPDATE_SCHEMES[window.updateScheme]()
+  UPDATE_SCHEMES[window.updateScheme]();
 };
 
 const seed = () => {
@@ -387,14 +377,21 @@ const ElementButton = ({ i, setSelected, selected }) => {
 const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
   return (
     <button
-      className={`simulation-button update-scheme-button${selected? " selected" : ""}`}
+      className={`simulation-button update-scheme-button${
+        selected ? " selected" : ""
+      }`}
       onClick={() => setUpdateScheme(name)}
     >
       {name}
     </button>
   );
 };
-const UI = ({ selectedElement, setSelected, updateScheme, setUpdateScheme }) => {
+const UI = ({
+  selectedElement,
+  setSelected,
+  updateScheme,
+  setUpdateScheme,
+}) => {
   return (
     <div className="element-tray">
       {elements.map((e, i) => {
@@ -420,7 +417,7 @@ const UI = ({ selectedElement, setSelected, updateScheme, setUpdateScheme }) => 
       })}
       <br></br>
       <button
-        className = "simulation-button"
+        className="simulation-button"
         onClick={() => {
           seed();
         }}
@@ -455,7 +452,12 @@ const Sand = () => {
   }, [selectedElement, updateScheme]);
   return (
     <>
-      <UI selectedElement={selectedElement} setSelected={setSelected} setUpdateScheme={setUpdateScheme} updateScheme={updateScheme} />
+      <UI
+        selectedElement={selectedElement}
+        setSelected={setSelected}
+        setUpdateScheme={setUpdateScheme}
+        updateScheme={updateScheme}
+      />
 
       <canvas
         className="worldCanvas"
