@@ -49,5 +49,9 @@
       "build/index.html",
       "build/**/*"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^8.12.0",
+    "eslint-plugin-react": "^7.29.4"
   }
 }

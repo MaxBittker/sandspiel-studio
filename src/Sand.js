@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import useAnimationFrame from "use-animation-frame";
 import { startWebGL } from "./Render";
 import useStore from "./store";
@@ -465,8 +465,40 @@ const Sand = () => {
     window.selectedElement = selectedElement;
     window.updateScheme = updateScheme;
   }, [selectedElement, updateScheme]);
+
+  const [drawerWidth, setWidth] = useState(Math.floor(window.innerWidth / 2));
+  const [isDragging, setIsDragging] = useState(false);
+  let mouseMove = useCallback((e) => {
+    e.preventDefault();
+    let x = window.innerWidth - e.pageX;
+    setWidth(x);
+  }, []);
+  let mouseUp = useCallback(
+    (e) => {
+      setIsDragging(false);
+    },
+    [setIsDragging]
+  );
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener("mousemove", mouseMove);
+      window.addEventListener("mouseup", mouseUp);
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+    };
+  }, [isDragging, mouseMove, mouseUp]);
   return (
-    <div id="world">
+    <div id="world" style={{ width: drawerWidth }}>
+      <div
+        className="resizeHandle"
+        onMouseDown={() => {
+          setIsDragging(true);
+        }}
+      ></div>
       <canvas
         className="worldCanvas"
         onMouseDown={() => setIsDrawing(true)}

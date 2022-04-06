@@ -98,6 +98,17 @@ class BlocklyComponent extends React.Component {
 
     //this.primaryWorkspace.addChangeListener(Blockly.Events.disableOrphans);
 
+    const resize_ob = new ResizeObserver((entries)=> {
+
+
+      console.log("resize!")
+      console.log(this.primaryWorkspace)
+      Blockly.svgResize(this.primaryWorkspace)
+    });
+
+    resize_ob.observe(document.querySelector("#blocklyDiv"));
+
+    
     if (initialXml) {
       Blockly.Xml.domToWorkspace(
         Blockly.Xml.textToDom(initialXml),
