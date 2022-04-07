@@ -517,24 +517,43 @@ const Sand = () => {
       ></div>
       <canvas
         className="worldCanvas"
-        onMouseDown={() => setIsDrawing(true)}
+        onMouseDown={(e) => {
+          let bounds = canvas.current.getBoundingClientRect();
+          let eX = Math.round(
+            (e.clientX - bounds.left) * (width / bounds.width)
+          );
+          let eY = Math.round(
+            (e.clientY - bounds.top) * (height / bounds.height)
+          );
+
+          prevPos = [eX, eY];
+          setIsDrawing(true);
+        }}
         onMouseUp={() => setIsDrawing(false)}
         onMouseOut={() => setIsDrawing(false)}
         onMouseMove={(e) => {
-          if (isDrawing) {
-            let bounds = canvas.current.getBoundingClientRect();
-            let eX = Math.round(
-              (e.clientX - bounds.left) * (width / bounds.width)
-            );
-            let eY = Math.round(
-              (e.clientY - bounds.top) * (height / bounds.height)
-            );
-            setSand(eX, eY, selectedElement);
-            setSand(eX - 1, eY, selectedElement);
-            setSand(eX, eY - 1, selectedElement);
-            setSand(eX, eY + 1, selectedElement);
-            setSand(eX + 1, eY, selectedElement);
+          if (!isDrawing) {
+            return;
           }
+          let bounds = canvas.current.getBoundingClientRect();
+          let eX = Math.round(
+            (e.clientX - bounds.left) * (width / bounds.width)
+          );
+          let eY = Math.round(
+            (e.clientY - bounds.top) * (height / bounds.height)
+          );
+          let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
+
+          points.forEach(({ x, y }) => {
+            x = Math.round(x);
+            y = Math.round(y);
+            setSand(x, y, selectedElement);
+            setSand(x - 1, y, selectedElement);
+            setSand(x, y - 1, selectedElement);
+            setSand(x, y + 1, selectedElement);
+            setSand(x + 1, y, selectedElement);
+          });
+          prevPos = [eX, eY];
         }}
         ref={canvas}
         height={height * dpi}
@@ -549,5 +568,25 @@ const Sand = () => {
     </div>
   );
 };
+let prevPos = [0, 0];
+function distance(aX, aY, bX, bY) {
+  return Math.sqrt(Math.pow(aX - bX, 2) + Math.pow(aY - bY, 2));
+}
+
+function pointsAlongLine(startx, starty, endx, endy, spacing) {
+  let dist = distance(startx, starty, endx, endy);
+  let steps = dist / spacing;
+
+  let points = [];
+  for (var d = 0; d <= 1; d += 1 / steps) {
+    let point = {
+      x: startx * d + endx * (1 - d),
+      y: starty * d + endy * (1 - d),
+    };
+    points.push(point);
+  }
+  return points;
+}
+
 Sand.propTypes = {};
 export default Sand;
