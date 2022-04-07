@@ -116,9 +116,9 @@ const App = () => {
         media={"media/"}
         renderer={"zelos"}
         move={{
-          scrollbars: true,
-          drag: true,
-          wheel: false,
+          scrollbars: false,
+          // drag: true,
+          // wheel: true,
         }}
         initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
       >

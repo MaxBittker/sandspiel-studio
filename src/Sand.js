@@ -466,7 +466,9 @@ const Sand = () => {
     window.updateScheme = updateScheme;
   }, [selectedElement, updateScheme]);
 
-  const [drawerWidth, setWidth] = useState(Math.floor(window.innerWidth / 2));
+  const [drawerWidth, setWidth] = useState(
+    Math.min(window.innerWidth / 2, 400)
+  );
   const [isDragging, setIsDragging] = useState(false);
   let mouseMove = useCallback((e) => {
     e.preventDefault();

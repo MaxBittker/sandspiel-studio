@@ -4,3 +4,22 @@
   bottom: 0;
   top:310px;*/
 }
+.blocklyFlyout{
+  height: 200vh;
+  transform: scale(.8) !important;
+  transform-origin: top left;
+  transition: transform 60ms ease-in-out;
+}
+
+.blocklyFlyout:hover{
+  transform: scale(1) !important;
+}
+
+.blocklyFlyoutScrollbar{
+  display: none;
+}
+.blocklyFlyoutBackground {
+  transform: scaleY(2) !important;
+
+
+}

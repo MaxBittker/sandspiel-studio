@@ -1,3 +1,4 @@
+
 /**
  * @license
  *
@@ -23,6 +24,7 @@
 
 import React from "react";
 import "./BlocklyComponent.css";
+import throttle from 'lodash/throttle';
 
 import Blockly from "blockly";
 import "@blockly/block-plus-minus";
@@ -98,13 +100,13 @@ class BlocklyComponent extends React.Component {
 
     //this.primaryWorkspace.addChangeListener(Blockly.Events.disableOrphans);
 
-    const resize_ob = new ResizeObserver((entries)=> {
+    let callback = (entries)=> {
 
 
-      console.log("resize!")
-      console.log(this.primaryWorkspace)
       Blockly.svgResize(this.primaryWorkspace)
-    });
+    };
+    callback = throttle(callback,100);
+    const resize_ob = new ResizeObserver(callback);
 
     resize_ob.observe(document.querySelector("#blocklyDiv"));
 

@@ -6,6 +6,7 @@
     "@blockly/block-plus-minus": "^3.0.7",
     "@blockly/continuous-toolbox": "^2.0.24",
     "blockly": "^3.20200924.4",
+    "lodash": "^4.17.21",
     "prettier": "^2.5.1",
     "raw.macro": "^0.4.2",
     "react": "^17.0.1",
