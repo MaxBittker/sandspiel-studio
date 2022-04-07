@@ -334,6 +334,21 @@ Blockly.Blocks["swap"] = {
   },
 };
 
+Blockly.Blocks['move'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("move");
+    this.appendValueInput("DIRECTION")
+        .setCheck("Vector");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks["vector_literal"] = {
   init: function () {
     this.appendValueInput("X").setCheck("Number");

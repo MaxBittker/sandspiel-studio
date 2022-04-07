@@ -148,6 +148,37 @@ const App = () => {
         <block type="element_literal">
           <field name="VALUE">SAND</field>
         </block>
+        <block type="move">
+          <value name="DIRECTION">
+            <shadow type="vector_constant">
+              <field name="VALUE">DOWN</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="is_block">
+          <value name="CELL">
+            <shadow type="vector_constant">
+              <field name="VALUE">DOWN</field>
+            </shadow>
+          </value>
+          <value name="ELEMENT">
+            <shadow type="element_literal">
+              <field name="VALUE">AIR</field>
+            </shadow>
+          </value>
+        </block>
+        <block type="is_touching">
+          <value name="CELL">
+            <shadow type="vector_constant">
+              <field name="VALUE">HERE</field>
+            </shadow>
+          </value>
+          <value name="ELEMENT">
+            <shadow type="element_literal">
+              <field name="VALUE">SAND</field>
+            </shadow>
+          </value>
+        </block>
         <block type="element_cell">
           <value name="CELL">
             <shadow type="vector_constant">
@@ -176,30 +207,6 @@ const App = () => {
           <value name="B">
             <shadow type="vector_constant">
               <field name="VALUE">DOWN</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="is_block">
-          <value name="CELL">
-            <shadow type="vector_constant">
-              <field name="VALUE">DOWN</field>
-            </shadow>
-          </value>
-          <value name="ELEMENT">
-            <shadow type="element_literal">
-              <field name="VALUE">AIR</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="is_touching">
-          <value name="CELL">
-            <shadow type="vector_constant">
-              <field name="VALUE">HERE</field>
-            </shadow>
-          </value>
-          <value name="ELEMENT">
-            <shadow type="element_literal">
-              <field name="VALUE">SAND</field>
             </shadow>
           </value>
         </block>
