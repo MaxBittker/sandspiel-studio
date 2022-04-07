@@ -31,13 +31,7 @@ import "./App.css";
 import Sand from "./Sand.js";
 import useStore from "./store";
 
-import BlocklyComponent, {
-  Block,
-  Category,
-  Value,
-  Field,
-  Shadow,
-} from "./Blockly";
+import BlocklyComponent, { Block, Value, Field, Shadow } from "./Blockly";
 
 import prettier from "prettier";
 
@@ -63,7 +57,7 @@ function generateCode(element, dom) {
 
   code = prettier.format(code, {
     parser: "babel",
-    plugins: [parserBabel],
+    plugins: [parserBabel]
   });
 
   let xml = Xml.workspaceToDom(window.workspace);
@@ -133,7 +127,7 @@ const App = () => {
         media={"media/"}
         renderer={"zelos"}
         move={{
-          scrollbars: false,
+          scrollbars: false
           // drag: true,
           // wheel: true,
         }}
@@ -145,179 +139,179 @@ const App = () => {
   and copy-pasted here!
 
 ================================================= */}
-        <block type="element_literal">
-          <field name="VALUE">SAND</field>
-        </block>
-        <block type="move">
-          <value name="DIRECTION">
-            <shadow type="vector_constant">
-              <field name="VALUE">DOWN</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="is_block">
-          <value name="CELL">
-            <shadow type="vector_constant">
-              <field name="VALUE">DOWN</field>
-            </shadow>
-          </value>
-          <value name="ELEMENT">
-            <shadow type="element_literal">
-              <field name="VALUE">AIR</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="is_touching">
-          <value name="CELL">
-            <shadow type="vector_constant">
-              <field name="VALUE">HERE</field>
-            </shadow>
-          </value>
-          <value name="ELEMENT">
-            <shadow type="element_literal">
-              <field name="VALUE">SAND</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="element_cell">
-          <value name="CELL">
-            <shadow type="vector_constant">
-              <field name="VALUE">HERE</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="change_into">
-          <value name="CELL">
-            <shadow type="vector_constant">
-              <field name="VALUE">HERE</field>
-            </shadow>
-          </value>
-          <value name="ELEMENT">
-            <shadow type="element_literal">
-              <field name="VALUE">SAND</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="swap">
-          <value name="A">
-            <shadow type="vector_constant">
-              <field name="VALUE">HERE</field>
-            </shadow>
-          </value>
-          <value name="B">
-            <shadow type="vector_constant">
-              <field name="VALUE">DOWN</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="group">
-          <value name="ITEM0">
-            <shadow type="element_literal">
-              <field name="VALUE">SAND</field>
-            </shadow>
-          </value>
-          <value name="ITEM1">
-            <shadow type="element_literal">
-              <field name="VALUE">WATER</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="vector_constant">
-          <field name="VALUE">HERE</field>
-        </block>
-        <block type="vector_literal">
-          <value name="X">
-            <shadow type="number_literal">
-              <field name="VALUE">0</field>
-            </shadow>
-          </value>
-          <value name="Y">
-            <shadow type="number_literal">
-              <field name="VALUE">0</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="in_a_random">
-          <field name="NAME">ROTATION</field>
-        </block>
-        <block type="for_all">
-          <field name="NAME">ROTATION</field>
-        </block>
-        <block type="number_literal">
-          <field name="VALUE">0</field>
-        </block>
-        <block type="operation">
-          <field name="OPERATION">ADD</field>
-          <value name="A">
-            <shadow type="number_literal">
-              <field name="VALUE">0</field>
-            </shadow>
-          </value>
-          <value name="B">
-            <shadow type="number_literal">
-              <field name="VALUE">0</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="random_number">
-          <value name="MIN">
-            <shadow type="number_literal">
-              <field name="VALUE">1</field>
-            </shadow>
-          </value>
-          <value name="MAX">
-            <shadow type="number_literal">
-              <field name="VALUE">10</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="one_in">
-          <value name="NUMBER">
-            <shadow type="number_literal">
-              <field name="VALUE">2</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="repeat">
-          <value name="NUMBER">
-            <shadow type="number_literal">
-              <field name="VALUE">2</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="controls_if"></block>
-        <block type="if"></block>
-        <block type="comparison">
-          <field name="COMPARISON">IS</field>
-        </block>
-        <block type="boolean_operation">
-          <field name="OPERATION">AND</field>
-        </block>
-        <block type="bool_literal">
-          <field name="VALUE">TRUE</field>
-        </block>
-        <block type="not"></block>
-        <block type="set_r_cell">
-          <field name="DATA">RA</field>
-          <value name="CELL">
-            <shadow type="vector_constant">
-              <field name="VALUE">HERE</field>
-            </shadow>
-          </value>
-          <value name="VALUE">
-            <shadow type="number_literal">
-              <field name="VALUE">0</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="get_r_cell">
-          <field name="DATA">RA</field>
-          <value name="CELL">
-            <shadow type="vector_constant">
-              <field name="VALUE">HERE</field>
-            </shadow>
-          </value>
-        </block>
+        <Block type="element_literal">
+          <Field name="VALUE">SAND</Field>
+        </Block>
+        <Block type="move">
+          <Value name="DIRECTION">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">DOWN</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="is_block">
+          <Value name="CELL">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">DOWN</Field>
+            </Shadow>
+          </Value>
+          <Value name="ELEMENT">
+            <Shadow type="element_literal">
+              <Field name="VALUE">AIR</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="is_touching">
+          <Value name="CELL">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">HERE</Field>
+            </Shadow>
+          </Value>
+          <Value name="ELEMENT">
+            <Shadow type="element_literal">
+              <Field name="VALUE">SAND</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="element_cell">
+          <Value name="CELL">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">HERE</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="change_into">
+          <Value name="CELL">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">HERE</Field>
+            </Shadow>
+          </Value>
+          <Value name="ELEMENT">
+            <Shadow type="element_literal">
+              <Field name="VALUE">SAND</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="swap">
+          <Value name="A">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">HERE</Field>
+            </Shadow>
+          </Value>
+          <Value name="B">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">DOWN</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="group">
+          <Value name="ITEM0">
+            <Shadow type="element_literal">
+              <Field name="VALUE">SAND</Field>
+            </Shadow>
+          </Value>
+          <Value name="ITEM1">
+            <Shadow type="element_literal">
+              <Field name="VALUE">WATER</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="vector_constant">
+          <Field name="VALUE">HERE</Field>
+        </Block>
+        <Block type="vector_literal">
+          <Value name="X">
+            <Shadow type="number_literal">
+              <Field name="VALUE">0</Field>
+            </Shadow>
+          </Value>
+          <Value name="Y">
+            <Shadow type="number_literal">
+              <Field name="VALUE">0</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="in_a_random">
+          <Field name="NAME">ROTATION</Field>
+        </Block>
+        <Block type="for_all">
+          <Field name="NAME">ROTATION</Field>
+        </Block>
+        <Block type="number_literal">
+          <Field name="VALUE">0</Field>
+        </Block>
+        <Block type="operation">
+          <Field name="OPERATION">ADD</Field>
+          <Value name="A">
+            <Shadow type="number_literal">
+              <Field name="VALUE">0</Field>
+            </Shadow>
+          </Value>
+          <Value name="B">
+            <Shadow type="number_literal">
+              <Field name="VALUE">0</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="random_number">
+          <Value name="MIN">
+            <Shadow type="number_literal">
+              <Field name="VALUE">1</Field>
+            </Shadow>
+          </Value>
+          <Value name="MAX">
+            <Shadow type="number_literal">
+              <Field name="VALUE">10</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="one_in">
+          <Value name="NUMBER">
+            <Shadow type="number_literal">
+              <Field name="VALUE">2</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="repeat">
+          <Value name="NUMBER">
+            <Shadow type="number_literal">
+              <Field name="VALUE">2</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="controls_if"></Block>
+        <Block type="if"></Block>
+        <Block type="comparison">
+          <Field name="COMPARISON">IS</Field>
+        </Block>
+        <Block type="boolean_operation">
+          <Field name="OPERATION">AND</Field>
+        </Block>
+        <Block type="bool_literal">
+          <Field name="VALUE">TRUE</Field>
+        </Block>
+        <Block type="not"></Block>
+        <Block type="set_r_cell">
+          <Field name="DATA">RA</Field>
+          <Value name="CELL">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">HERE</Field>
+            </Shadow>
+          </Value>
+          <Value name="VALUE">
+            <Shadow type="number_literal">
+              <Field name="VALUE">0</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="get_r_cell">
+          <Field name="DATA">RA</Field>
+          <Value name="CELL">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">HERE</Field>
+            </Shadow>
+          </Value>
+        </Block>
         {/* ================================================= */}
       </BlocklyComponent>
       <Sand />
