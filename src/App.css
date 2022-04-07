@@ -1,5 +1,4 @@
-
-*{
+* {
   box-sizing: border-box;
 }
 #root {
@@ -20,8 +19,7 @@ button {
 
 #blocklyDiv {
   width: 100%;
-  height:100vh;
-
+  height: 100vh;
 }
 
 .blocklySvg {
@@ -29,16 +27,14 @@ button {
   /*background-color: rgb(228, 199, 194, 0);*/
 }
 
-#world{
+#world {
   position: relative;
   flex-shrink: 0;
-
 }
 .worldCanvas {
   z-index: 1;
   width: 100%;
   border-bottom: 3px ridge black;
-
 }
 
 .element-tray {
@@ -57,8 +53,8 @@ button {
 .blocklyBlockCanvas {
   filter: drop-shadow(1px 4px 4px rgb(177, 158, 158));
 }
-.App{
-display: flex;
+.App {
+  display: flex;
 }
 
 .simulation-button {
@@ -89,7 +85,7 @@ button.selected {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.resizeHandle{
+.resizeHandle {
   width: 5px;
   height: 100%;
   /* border-radius: 6px 0 0 6px; */
@@ -103,10 +99,10 @@ button.selected {
     white 3px
   );
   /* box-shadow: 0px 0px 3px rgba(0,0,0,.3); */
-  border:2px ridge gray;
+  border: 2px ridge gray;
   position: absolute;
-  left:-5px;
-  top:0;
+  left: -5px;
+  top: 0;
   z-index: 2000;
-  cursor:ew-resize;
+  cursor: ew-resize;
 }
