@@ -1,9 +1,9 @@
 const a = [
   `<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="44" y="10"></block>
+  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="189" y="104"></block>
 </xml>`,
   `<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="93" y="66">
+  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="0" y="66">
     <statement name="body">
       <block type="controls_if" id="0MLT7JYus%h4e0-n4-L$">
         <mutation elseif="1"></mutation>
@@ -135,27 +135,66 @@ const a = [
 </xml>`,
   `<xml xmlns="https://developers.google.com/blockly/xml">
   <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="44" y="10"></block>
+  <block type="if" id="x)L%dP1W:yp(B.U%$9@J" x="0" y="675"></block>
 </xml>`,
   `<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="50" y="10"></block>
-</xml>`,
-  `<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="44" y="10"></block>
-</xml>`,
-  `<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="50" y="10"></block>
+  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="47" y="10"></block>
 </xml>`,
   `<xml xmlns="https://developers.google.com/blockly/xml">
   <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="44" y="10"></block>
 </xml>`,
   `<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="50" y="10"></block>
+  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="47" y="10"></block>
 </xml>`,
   `<xml xmlns="https://developers.google.com/blockly/xml">
   <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="44" y="10"></block>
 </xml>`,
   `<xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="50" y="10"></block>
+  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="0" y="10">
+    <statement name="body">
+      <block type="in_a_random" id=",$9-o4R1JBE{F8]sz]K.">
+        <field name="NAME">ROTATION</field>
+        <statement name="NAME">
+          <block type="if" id="/!Pf1agID-KbgN)=3hyo">
+            <value name="CONDITION">
+              <block type="is_block" id="=tICE3Jq$|m0,(x;Ev9O">
+                <value name="CELL">
+                  <shadow type="vector_constant" id="iPJ]]Ja2@~{I*Ma*4|T_">
+                    <field name="VALUE">DOWN</field>
+                  </shadow>
+                </value>
+                <value name="ELEMENT">
+                  <shadow type="element_literal" id="W*#O0NjV]:f5$Sf(noL|">
+                    <field name="VALUE">AIR</field>
+                  </shadow>
+                </value>
+              </block>
+            </value>
+            <statement name="THEN">
+              <block type="swap" id="WBR5R[ET/$/~u1{~TPuV">
+                <value name="A">
+                  <shadow type="vector_constant" id="Q1CPC;sD-^3#r!-[FuEl">
+                    <field name="VALUE">HERE</field>
+                  </shadow>
+                </value>
+                <value name="B">
+                  <shadow type="vector_constant" id="vO-u-q,G(}n*(cLdhdGJ">
+                    <field name="VALUE">DOWN</field>
+                  </shadow>
+                </value>
+              </block>
+            </statement>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+</xml>`,
+  `<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="44" y="10"></block>
+</xml>`,
+  `<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="47" y="10"></block>
 </xml>`,
   `<xml xmlns="https://developers.google.com/blockly/xml">
   <block type="sand_behavior_base" id="bC9LUZ}BSdnWHY-T#Xw-" deletable="false" x="50" y="10"></block>
