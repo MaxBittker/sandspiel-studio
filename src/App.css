@@ -37,7 +37,7 @@ button {
 .worldCanvas {
   z-index: 1;
   width: 100%;
-  border: 3px ridge black;
+  border-bottom: 3px ridge black;
 
 }
 
@@ -64,7 +64,9 @@ display: flex;
 .simulation-button {
   z-index: 1;
 }
-
+.element-tray button {
+  min-width: 80px;
+}
 .update-scheme-button {
   font-size: 8px;
 }

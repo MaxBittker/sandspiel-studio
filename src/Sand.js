@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import useAnimationFrame from "use-animation-frame";
+import { downloadElements } from "./App";
 import { startWebGL } from "./Render";
 import useStore from "./store";
 
@@ -313,6 +314,7 @@ export let elements = [
   "Rocket",
 ];
 
+let disabledElements = ["Mite", "Fungus", "Oil", "Rocket", "Seed"];
 window.updaters = elements.map(() => {
   return () => {};
 });
@@ -409,6 +411,9 @@ const UI = ({
   return (
     <div className="element-tray">
       {elements.map((e, i) => {
+        if (disabledElements.indexOf(e) >= 0) {
+          return null;
+        }
         return (
           <ElementButton
             key={i}
@@ -438,6 +443,15 @@ const UI = ({
         }}
       >
         Reset
+      </button>
+
+      <button
+        className="simulation-button"
+        onClick={() => {
+          downloadElements();
+        }}
+      >
+        Export
       </button>
     </div>
   );
