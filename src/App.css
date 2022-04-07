@@ -68,7 +68,8 @@ display: flex;
   min-width: 80px;
 }
 .update-scheme-button {
-  font-size: 8px;
+  font-size: 10px;
+  min-width: 200px !important;
 }
 
 button.selected {
@@ -79,6 +80,14 @@ button.selected {
   flex-wrap: wrap;
   flex-direction: column;
   align-items: flex-start;
+}
+.update-scheme-tray {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .resizeHandle{
   width: 5px;

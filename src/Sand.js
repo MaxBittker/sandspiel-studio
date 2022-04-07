@@ -423,7 +423,7 @@ const UI = ({
           />
         );
       })}
-      <div>
+      <div className="update-scheme-tray">
         {Object.keys(UPDATE_SCHEMES).map((key) => {
           return (
             <UpdateSchemeButton
