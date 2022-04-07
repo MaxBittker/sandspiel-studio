@@ -321,23 +321,9 @@ window.updaters = elements.map(() => {
 
 const UPDATE_SCHEMES = {};
 
-UPDATE_SCHEMES["ORDERED_TAGGED"] = () => {
-  clock = (clock + 1) % 2;
-  for (var i = 0; i < sands.length; i += 4) {
-    fireEvent(i, { tagged: true });
-  }
-};
-
 UPDATE_SCHEMES["ORDERED"] = () => {
   for (var i = 0; i < sands.length; i += 4) {
     fireEvent(i);
-  }
-};
-
-UPDATE_SCHEMES["REVERSE_ORDERED_TAGGED"] = () => {
-  clock = (clock + 1) % 2;
-  for (var i = sands.length - 4; i >= 0; i -= 4) {
-    fireEvent(i, { tagged: true });
   }
 };
 
@@ -345,27 +331,6 @@ UPDATE_SCHEMES["REVERSE_ORDERED"] = () => {
   for (var i = sands.length - 4; i >= 0; i -= 4) {
     fireEvent(i);
   }
-};
-
-UPDATE_SCHEMES["ALTERNATE_ORDERED_TAGGED"] = () => {
-  const scheme = UPDATE_SCHEMES["ALTERNATE_ORDERED_TAGGED"];
-  if (scheme.direction === undefined) {
-    scheme.direction = true;
-  }
-
-  clock = (clock + 1) % 2;
-
-  if (scheme.direction) {
-    for (var i = 0; i < sands.length; i += 4) {
-      fireEvent(i, { tagged: true });
-    }
-  } else {
-    for (var i = sands.length - 4; i >= 0; i -= 4) {
-      fireEvent(i, { tagged: true });
-    }
-  }
-
-  scheme.direction = !scheme.direction;
 };
 
 UPDATE_SCHEMES["ALTERNATE_ORDERED"] = () => {
@@ -387,10 +352,11 @@ UPDATE_SCHEMES["ALTERNATE_ORDERED"] = () => {
   scheme.direction = !scheme.direction;
 };
 
-const fireEvent = (cellOffset, { tagged = false } = {}) => {
+const fireEvent = (cellOffset, { tagged = window.taggedMode } = {}) => {
   if (tagged) {
     let c = sands[cellOffset + 3];
     if (c === clock) return;
+    sands[cellOffset + 3] = clock;
   }
 
   let index = cellOffset / 4;
@@ -404,6 +370,7 @@ const fireEvent = (cellOffset, { tagged = false } = {}) => {
 };
 
 const tick = () => {
+  clock = (clock + 1) % 2;
   UPDATE_SCHEMES[window.updateScheme]();
 };
 
@@ -441,11 +408,23 @@ const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
     </button>
   );
 };
+const TaggedModeCheckbox = ({ setTaggedMode, selected }) => {
+  return (
+    <input
+      id="taggedModeCheckbox"
+      type="checkbox"
+      checked={selected}
+      onChange={() => setTaggedMode(!selected)}
+    ></input>
+  );
+};
 const UI = ({
   selectedElement,
   setSelected,
   updateScheme,
   setUpdateScheme,
+  taggedMode,
+  setTaggedMode,
 }) => {
   return (
     <div className="element-tray">
@@ -473,6 +452,13 @@ const UI = ({
             />
           );
         })}
+        <div className="tagged-mode-tray">
+          <TaggedModeCheckbox
+            setTaggedMode={setTaggedMode}
+            selected={taggedMode}
+          ></TaggedModeCheckbox>
+          <label htmlFor="taggedModeCheckbox">TAGGED</label>
+        </div>
       </div>
 
       <button
@@ -499,8 +485,10 @@ const UI = ({
 const Sand = () => {
   const selectedElement = useStore((state) => state.selectedElement);
   const updateScheme = useStore((state) => state.updateScheme);
+  const taggedMode = useStore((state) => state.taggedMode);
   const setSelected = useStore((state) => state.setSelected);
   const setUpdateScheme = useStore((state) => state.setUpdateScheme);
+  const setTaggedMode = useStore((state) => state.setTaggedMode);
 
   const canvas = React.useRef();
   const drawer = React.useRef();
@@ -517,7 +505,8 @@ const Sand = () => {
   useEffect(() => {
     window.selectedElement = selectedElement;
     window.updateScheme = updateScheme;
-  }, [selectedElement, updateScheme]);
+    window.taggedMode = taggedMode;
+  }, [selectedElement, updateScheme, taggedMode]);
 
   const [drawerWidth, setWidth] = useState(
     Math.min(window.innerWidth / 2, 400)
@@ -601,8 +590,10 @@ const Sand = () => {
       <UI
         selectedElement={selectedElement}
         setSelected={setSelected}
-        setUpdateScheme={setUpdateScheme}
         updateScheme={updateScheme}
+        setUpdateScheme={setUpdateScheme}
+        taggedMode={taggedMode}
+        setTaggedMode={setTaggedMode}
       />
     </div>
   );

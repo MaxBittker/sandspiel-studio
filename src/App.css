@@ -106,3 +106,8 @@ button.selected {
   z-index: 2000;
   cursor: ew-resize;
 }
+
+label {
+  color: black;
+  font-size: 16px;
+}
