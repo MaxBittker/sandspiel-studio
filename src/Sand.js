@@ -324,20 +324,7 @@ const UPDATE_SCHEMES = {};
 UPDATE_SCHEMES["ORDERED_TAGGED"] = () => {
   clock = (clock + 1) % 2;
   for (var i = 0; i < sands.length; i += 4) {
-    let c = sands[i + 3];
-    if (c === clock) continue;
-    fireEvent(i);
-    sands[i + 3] = clock;
-  }
-};
-
-UPDATE_SCHEMES["REVERSE_ORDERED_TAGGED"] = () => {
-  clock = (clock + 1) % 2;
-  for (var i = sands.length - 4; i >= 0; i -= 4) {
-    let c = sands[i + 3];
-    if (c === clock) continue;
-    fireEvent(i);
-    sands[i + 3] = clock;
+    fireEvent(i, { tagged: true });
   }
 };
 
@@ -347,13 +334,65 @@ UPDATE_SCHEMES["ORDERED"] = () => {
   }
 };
 
+UPDATE_SCHEMES["REVERSE_ORDERED_TAGGED"] = () => {
+  clock = (clock + 1) % 2;
+  for (var i = sands.length - 4; i >= 0; i -= 4) {
+    fireEvent(i, { tagged: true });
+  }
+};
+
 UPDATE_SCHEMES["REVERSE_ORDERED"] = () => {
   for (var i = sands.length - 4; i >= 0; i -= 4) {
     fireEvent(i);
   }
 };
 
-const fireEvent = (cellOffset) => {
+UPDATE_SCHEMES["ALTERNATE_ORDERED_TAGGED"] = () => {
+  const scheme = UPDATE_SCHEMES["ALTERNATE_ORDERED_TAGGED"];
+  if (scheme.direction === undefined) {
+    scheme.direction = true;
+  }
+
+  clock = (clock + 1) % 2;
+
+  if (scheme.direction) {
+    for (var i = 0; i < sands.length; i += 4) {
+      fireEvent(i, { tagged: true });
+    }
+  } else {
+    for (var i = sands.length - 4; i >= 0; i -= 4) {
+      fireEvent(i, { tagged: true });
+    }
+  }
+
+  scheme.direction = !scheme.direction;
+};
+
+UPDATE_SCHEMES["ALTERNATE_ORDERED"] = () => {
+  const scheme = UPDATE_SCHEMES["ALTERNATE_ORDERED"];
+  if (scheme.direction === undefined) {
+    scheme.direction = true;
+  }
+
+  if (scheme.direction) {
+    for (var i = 0; i < sands.length; i += 4) {
+      fireEvent(i);
+    }
+  } else {
+    for (var i = sands.length - 4; i >= 0; i -= 4) {
+      fireEvent(i);
+    }
+  }
+
+  scheme.direction = !scheme.direction;
+};
+
+const fireEvent = (cellOffset, { tagged = false } = {}) => {
+  if (tagged) {
+    let c = sands[cellOffset + 3];
+    if (c === clock) return;
+  }
+
   let index = cellOffset / 4;
   let e = sands[cellOffset];
   let x = index % width;
