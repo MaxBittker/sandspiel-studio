@@ -362,7 +362,7 @@ export const seed = () => {
       sands[i] = (Math.random() * (elements.length - 1)) | 0;
     }*/
     sands[i + 1] = (Math.random() * 200) | 0;
-    sands[i + 2] = (Math.random() * 200) | 0;
+    sands[i + 2] = 0;
     sands[i + 3] = 0;
   }
 };
