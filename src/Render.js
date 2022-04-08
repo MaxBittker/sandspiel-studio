@@ -64,8 +64,8 @@ function pallette() {
     let idx = i * 4;
     sands[idx] = i;
 
-    sands[idx + 1] = 100;
-    sands[idx + 2] = 100;
+    sands[idx + 1] = 50;
+    sands[idx + 2] = 50;
     sands[idx + 3] = 0;
   });
 

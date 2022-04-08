@@ -12,6 +12,7 @@ button {
   fill: black;
   line-height: 0px;
   cursor: pointer;
+  user-select: none;
 }
 .simulation-button {
   z-index: 1;

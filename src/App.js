@@ -192,7 +192,7 @@ const App = () => {
             </Shadow>
           </Value>
         </Block>
-        <Block type="swap">
+        {/* <Block type="swap">
           <Value name="A">
             <Shadow type="vector_constant">
               <Field name="VALUE">HERE</Field>
@@ -203,7 +203,7 @@ const App = () => {
               <Field name="VALUE">DOWN</Field>
             </Shadow>
           </Value>
-        </Block>
+        </Block> */}
         <Block type="group">
           <Value name="ITEM0">
             <Shadow type="element_literal">
@@ -272,15 +272,15 @@ const App = () => {
             </Shadow>
           </Value>
         </Block>
-        <Block type="repeat">
+        {/* <Block type="repeat">
           <Value name="NUMBER">
             <Shadow type="number_literal">
               <Field name="VALUE">2</Field>
             </Shadow>
           </Value>
-        </Block>
+        </Block> */}
         <Block type="controls_if"></Block>
-        <Block type="if"></Block>
+        {/* <Block type="if"></Block> */}
         <Block type="comparison">
           <Field name="COMPARISON">IS</Field>
         </Block>

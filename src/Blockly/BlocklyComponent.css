@@ -6,13 +6,13 @@
 }
 .blocklyFlyout {
   height: 200vh;
-  transform: scale(0.9) !important;
+  /* transform: scale(0.9) !important; */
   transform-origin: top left;
   transition: transform 40ms ease-in-out;
 }
 
 .blocklyFlyout:hover {
-  transform: scale(1) !important;
+  /* transform: scale(1) !important; */
 }
 
 .blocklyFlyoutScrollbar {

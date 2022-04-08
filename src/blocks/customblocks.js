@@ -42,16 +42,16 @@ Blockly.Blocks["sand_behavior_base"] = {
         {
           type: "input_statement",
           name: "body",
-          align: "CENTRE",
-        },
+          align: "CENTRE"
+        }
       ],
-      inputsInline: true,
+      inputsInline: true
     });
     this.setDeletable(false);
     this.setMovable(true);
     this.setColour(160);
     //this.setStyle("loop_blocks");
-  },
+  }
 };
 
 //===================//
@@ -66,7 +66,7 @@ Blockly.Blocks["number_literal"] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["element_literal"] = {
@@ -91,7 +91,7 @@ Blockly.Blocks["element_literal"] = {
         ["Acid", "ACID"],
         ["Dust", "DUST"],
         ["Oil", "OIL"],
-        ["Rocket", "ROCKET"],
+        ["Rocket", "ROCKET"]
       ]),
       "VALUE"
     );
@@ -99,7 +99,7 @@ Blockly.Blocks["element_literal"] = {
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["element_cell"] = {
@@ -111,7 +111,7 @@ Blockly.Blocks["element_cell"] = {
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.defineBlocksWithJsonArray([
@@ -120,28 +120,28 @@ Blockly.defineBlocksWithJsonArray([
     message0: "if %1 %2 then %3 %4",
     args0: [
       {
-        type: "input_dummy",
+        type: "input_dummy"
       },
       {
         type: "input_value",
         name: "CONDITION",
-        check: "Boolean",
+        check: "Boolean"
       },
       {
-        type: "input_dummy",
+        type: "input_dummy"
       },
       {
         type: "input_statement",
-        name: "THEN",
-      },
+        name: "THEN"
+      }
     ],
     inputsInline: true,
     previousStatement: null,
     nextStatement: null,
     colour: 330,
     tooltip: "",
-    helpUrl: "",
-  },
+    helpUrl: ""
+  }
 ]);
 
 Blockly.defineBlocksWithJsonArray([
@@ -152,24 +152,24 @@ Blockly.defineBlocksWithJsonArray([
       {
         type: "input_value",
         name: "ITEM0",
-        check: "Element",
+        check: "Element"
       },
       {
-        type: "input_dummy",
+        type: "input_dummy"
       },
       {
         type: "input_value",
         name: "ITEM1",
-        check: "Element",
-      },
+        check: "Element"
+      }
     ],
     inputsInline: true,
     output: "Group",
     colour: 160,
     tooltip: "",
     helpUrl: "",
-    mutator: "group_mutator",
-  },
+    mutator: "group_mutator"
+  }
 ]);
 
 Blockly.Extensions.registerMutator(
@@ -250,7 +250,7 @@ Blockly.Extensions.registerMutator(
       if (plusField.imageElement_ !== null) {
         plusField.imageElement_.style["cursor"] = "pointer";
       }
-    },
+    }
   },
   function () {}
 );
@@ -264,14 +264,14 @@ Blockly.Blocks["not_group"] = {
       "Boolean",
       "Vector",
       "Element",
-      "Group",
+      "Group"
     ]);
     this.setInputsInline(true);
     this.setOutput(true, "Group");
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["comparison"] = {
@@ -281,13 +281,13 @@ Blockly.Blocks["comparison"] = {
       "String",
       "Vector",
       "Element",
-      "Group",
+      "Group"
     ]);
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
         ["is", "IS"],
         ["is bigger than", "BIGGER"],
-        ["is smaller than", "SMALLER"],
+        ["is smaller than", "SMALLER"]
       ]),
       "COMPARISON"
     );
@@ -296,13 +296,13 @@ Blockly.Blocks["comparison"] = {
       "String",
       "Vector",
       "Element",
-      "Group",
+      "Group"
     ]);
     this.setOutput(true, "Boolean");
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["change_into"] = {
@@ -316,7 +316,7 @@ Blockly.Blocks["change_into"] = {
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["swap"] = {
@@ -331,21 +331,19 @@ Blockly.Blocks["swap"] = {
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
-Blockly.Blocks['move'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("move");
-    this.appendValueInput("DIRECTION")
-        .setCheck("Vector");
+Blockly.Blocks["move"] = {
+  init: function () {
+    this.appendDummyInput().appendField("swap");
+    this.appendValueInput("DIRECTION").setCheck("Vector");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(160);
- this.setTooltip("");
- this.setHelpUrl("");
+    this.setTooltip("");
+    this.setHelpUrl("");
   }
 };
 
@@ -358,7 +356,7 @@ Blockly.Blocks["vector_literal"] = {
     this.setColour(260);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["vector_empty"] = {
@@ -368,18 +366,18 @@ Blockly.Blocks["vector_empty"] = {
     this.setColour(260);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["vector_constant"] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["● here", "HERE"],
+        ["● me", "HERE"],
         ["➡ right", "RIGHT"],
         ["⬅ left", "LEFT"],
         ["⬆ up", "UP"],
-        ["⬇ down", "DOWN"],
+        ["⬇ down", "DOWN"]
       ]),
       "VALUE"
     );
@@ -387,7 +385,7 @@ Blockly.Blocks["vector_constant"] = {
     this.setColour(260);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["me"] = {
@@ -397,7 +395,7 @@ Blockly.Blocks["me"] = {
     this.setColour(260);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["get_data_cell"] = {
@@ -418,7 +416,7 @@ Blockly.Blocks["get_data_cell"] = {
       ["💫 density", "DENSITY"],
       ["💨 wind", "WIND"],
       ["⭐ magic", "MAGIC"],
-      ["⚡ energy", "ENERGY"],
+      ["⚡ energy", "ENERGY"]
     ]);
     dataField.setValidator(dataValidator);
 
@@ -431,7 +429,7 @@ Blockly.Blocks["get_data_cell"] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["set_data_cell"] = {
@@ -513,7 +511,7 @@ Blockly.Blocks["set_data_cell"] = {
       ["💫 density", "DENSITY"],
       ["💨 wind", "WIND"],
       ["⭐ magic", "MAGIC"],
-      ["⚡ energy", "ENERGY"],
+      ["⚡ energy", "ENERGY"]
     ]);
     dataField.setValidator(dataValidator);
 
@@ -529,7 +527,7 @@ Blockly.Blocks["set_data_cell"] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["random_number"] = {
@@ -542,7 +540,7 @@ Blockly.Blocks["random_number"] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["string_literal"] = {
@@ -555,7 +553,7 @@ Blockly.Blocks["string_literal"] = {
     this.setColour(300);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["print"] = {
@@ -568,7 +566,7 @@ Blockly.Blocks["print"] = {
     this.setColour(0);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["bool_literal"] = {
@@ -576,7 +574,7 @@ Blockly.Blocks["bool_literal"] = {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
         ["true", "TRUE"],
-        ["false", "FALSE"],
+        ["false", "FALSE"]
       ]),
       "VALUE"
     );
@@ -584,7 +582,7 @@ Blockly.Blocks["bool_literal"] = {
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["not"] = {
@@ -596,7 +594,7 @@ Blockly.Blocks["not"] = {
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["boolean_operation"] = {
@@ -605,7 +603,7 @@ Blockly.Blocks["boolean_operation"] = {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
         ["and", "AND"],
-        ["or", "OR"],
+        ["or", "OR"]
       ]),
       "OPERATION"
     );
@@ -619,7 +617,7 @@ Blockly.Blocks["boolean_operation"] = {
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.defineBlocksWithJsonArray([
@@ -630,31 +628,31 @@ Blockly.defineBlocksWithJsonArray([
       {
         type: "input_value",
         name: "A",
-        check: "Boolean",
+        check: "Boolean"
       },
       {
         type: "field_dropdown",
         name: "OPERATION",
         options: [
           ["and", "AND"],
-          ["or", "OR"],
-        ],
+          ["or", "OR"]
+        ]
       },
       {
-        type: "input_dummy",
+        type: "input_dummy"
       },
       {
         type: "input_value",
         name: "B",
-        check: "Boolean",
-      },
+        check: "Boolean"
+      }
     ],
     inputsInline: true,
     output: "Boolean",
     colour: 330,
     tooltip: "",
-    helpUrl: "",
-  },
+    helpUrl: ""
+  }
 ]);
 
 Blockly.Blocks["is_touching"] = {
@@ -666,7 +664,7 @@ Blockly.Blocks["is_touching"] = {
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["is_block"] = {
@@ -678,7 +676,7 @@ Blockly.Blocks["is_block"] = {
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["one_in"] = {
@@ -691,7 +689,7 @@ Blockly.Blocks["one_in"] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 const baseIfInit = Blockly.Blocks["controls_if"].init;
@@ -732,7 +730,7 @@ Blockly.defineBlocksWithJsonArray([
       {
         type: "input_value",
         name: "A",
-        check: ["Number", "Vector"],
+        check: ["Number", "Vector"]
       },
       {
         type: "field_dropdown",
@@ -741,24 +739,24 @@ Blockly.defineBlocksWithJsonArray([
           ["+", "ADD"],
           ["-", "SUBTRACT"],
           ["×", "MULTIPLY"],
-          ["÷", "DIVIDE"],
-        ],
+          ["÷", "DIVIDE"]
+        ]
       },
       {
-        type: "input_dummy",
+        type: "input_dummy"
       },
       {
         type: "input_value",
         name: "B",
-        check: ["Number", "Vector"],
-      },
+        check: ["Number", "Vector"]
+      }
     ],
     output: "Number",
     colour: 210,
     tooltip: "",
     helpUrl: "",
-    mutator: "operation_mutator",
-  },
+    mutator: "operation_mutator"
+  }
 ]);
 
 Blockly.Extensions.registerMutator(
@@ -782,7 +780,7 @@ Blockly.Extensions.registerMutator(
         this.setColour(210);
         this.setOutput(true, "Number");
       }
-    },
+    }
   },
   function () {
     const block = this;
@@ -813,10 +811,10 @@ Blockly.Blocks["in_a_random"] = {
     this.appendDummyInput().appendField("in a random");
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭯ rotation", "ROTATION"],
+        ["↻ rotation", "ROTATION"],
         ["✥ reflection", "REFLECTION"],
         ["⟷ horizontal reflection", "HORIZONTAL_REFLECTION"],
-        ["↕ vertical reflection", "VERTICAL_REFLECTION"],
+        ["↕ vertical reflection", "VERTICAL_REFLECTION"]
       ]),
       "NAME"
     );
@@ -827,7 +825,7 @@ Blockly.Blocks["in_a_random"] = {
     this.setColour(260);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["for_all"] = {
@@ -835,10 +833,10 @@ Blockly.Blocks["for_all"] = {
     this.appendDummyInput().appendField("for each");
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭯ rotation", "ROTATION"],
+        ["↻ rotation", "ROTATION"],
         ["✥ reflection", "REFLECTION"],
         ["⟷ horizontal reflection", "HORIZONTAL_REFLECTION"],
-        ["↕ vertical reflection", "VERTICAL_REFLECTION"],
+        ["↕ vertical reflection", "VERTICAL_REFLECTION"]
       ]),
       "NAME"
     );
@@ -849,7 +847,7 @@ Blockly.Blocks["for_all"] = {
     this.setColour(260);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["macro"] = {
@@ -863,7 +861,7 @@ Blockly.Blocks["macro"] = {
     this.setColour(0);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["macro_function"] = {
@@ -877,7 +875,7 @@ Blockly.Blocks["macro_function"] = {
     this.setColour(0);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["macro_function"] = {
@@ -892,7 +890,7 @@ Blockly.Blocks["macro_function"] = {
     this.setColour(0);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["value_statement"] = {
@@ -903,7 +901,7 @@ Blockly.Blocks["value_statement"] = {
     this.setColour(0);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["statement_value"] = {
@@ -914,7 +912,7 @@ Blockly.Blocks["statement_value"] = {
     this.setColour(0);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["value_statement_shadow"] = {
@@ -925,7 +923,7 @@ Blockly.Blocks["value_statement_shadow"] = {
     this.setColour(0);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["statement_value_shadow"] = {
@@ -935,7 +933,7 @@ Blockly.Blocks["statement_value_shadow"] = {
     this.setColour(0);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["repeat"] = {
@@ -949,7 +947,7 @@ Blockly.Blocks["repeat"] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["boolean_operation_vertical"] = {
@@ -962,7 +960,7 @@ Blockly.Blocks["boolean_operation_vertical"] = {
       .appendField(
         new Blockly.FieldDropdown([
           ["and", "AND"],
-          ["or", "OR"],
+          ["or", "OR"]
         ]),
         "OPERATION"
       );
@@ -974,7 +972,7 @@ Blockly.Blocks["boolean_operation_vertical"] = {
       .appendField(
         new Blockly.FieldDropdown([
           ["and", "AND"],
-          ["or", "OR"],
+          ["or", "OR"]
         ]),
         "OPERATION2"
       );
@@ -986,7 +984,7 @@ Blockly.Blocks["boolean_operation_vertical"] = {
     this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["get_r_cell"] = {
@@ -994,7 +992,7 @@ Blockly.Blocks["get_r_cell"] = {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
         ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["⚡ rb", "RB"]
       ]),
       "DATA"
     );
@@ -1005,7 +1003,7 @@ Blockly.Blocks["get_r_cell"] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
 
 Blockly.Blocks["set_r_cell"] = {
@@ -1014,7 +1012,7 @@ Blockly.Blocks["set_r_cell"] = {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
         ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["⚡ rb", "RB"]
       ]),
       "DATA"
     );
@@ -1028,5 +1026,5 @@ Blockly.Blocks["set_r_cell"] = {
     this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
-  },
+  }
 };
