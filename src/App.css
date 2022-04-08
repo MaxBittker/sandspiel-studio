@@ -9,12 +9,7 @@
   /* flex-direction: column; */
 }
 body {
-  background-color: rgb(224, 207, 185);
-}
-button {
-  border-radius: 3px;
-  border: 3px ridge white;
-  margin-right: 3p;
+  background-color: rgb(208, 198, 185);
 }
 
 #blocklyDiv {
@@ -30,11 +25,6 @@ button {
 #world {
   position: relative;
   flex-shrink: 0;
-}
-.worldCanvas {
-  z-index: 1;
-  width: 100%;
-  border-bottom: 3px ridge black;
 }
 
 .element-tray {
@@ -57,26 +47,6 @@ button {
   display: flex;
 }
 
-.simulation-button {
-  z-index: 1;
-}
-.element-tray button {
-  min-width: 80px;
-}
-.update-scheme-button {
-  font-size: 10px;
-  min-width: 200px !important;
-}
-
-button.selected {
-  filter: invert(1);
-}
-.element-tray {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-items: flex-start;
-}
 .update-scheme-tray {
   display: flex;
   flex-wrap: wrap;

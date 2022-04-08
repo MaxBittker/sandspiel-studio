@@ -1,0 +1,47 @@
+button {
+  height: 30px;
+  min-width: 30px;
+  font-size: 19px;
+  padding: 1px 5px;
+  background-color: whitesmoke;
+  color: black;
+  border: 2px solid whitesmoke;
+  border-color: gainsboro;
+  flex-grow: 1;
+  max-width: 150px;
+  fill: black;
+  line-height: 0px;
+  cursor: pointer;
+}
+.simulation-button {
+  z-index: 1;
+}
+.worldCanvas {
+  z-index: 1;
+  width: 100%;
+  border: 3px ridge black;
+  border-left: 1px solid black;
+}
+
+.element-tray button {
+  min-width: 80px;
+}
+.update-scheme-button {
+  font-size: 10px;
+  min-width: 200px !important;
+}
+
+button.selected {
+  border-color: black;
+  background: black;
+  color: white;
+  /* border-radius: 6px; */
+  text-shadow: 1px 0px rgba(0, 0, 0, 0.5), -1px 0px rgba(0, 0, 0, 0.5),
+    0px 1px rgba(0, 0, 0, 0.5), 0px -1px rgba(0, 0, 0, 0.5);
+}
+.element-tray {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-bottom: 3px;
+}

@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import useAnimationFrame from "use-animation-frame";
-import { downloadElements } from "./App";
 import { startWebGL } from "./Render";
 import useStore from "./store";
+import "./game.css";
+import ElementButtons from "./ElementButtons";
+import elements from "./elements";
+import ExtraUI from "./ExtraUI";
 
 const width = 150;
 let dpi = 4;
@@ -247,16 +250,16 @@ const TRANSFORMATION_SETS = {
     (x, y) => [x, y],
     (x, y) => [-y, x],
     (x, y) => [-x, -y],
-    (x, y) => [y, -x],
+    (x, y) => [y, -x]
   ],
   REFLECTION: [
     (x, y) => [x, y],
     (x, y) => [-x, y],
     (x, y) => [x, -y],
-    (x, y) => [-x, -y],
+    (x, y) => [-x, -y]
   ],
   HORIZONTAL_REFLECTION: [(x, y) => [x, y], (x, y) => [-x, y]],
-  VERTICAL_REFLECTION: [(x, y) => [x, y], (x, y) => [x, -y]],
+  VERTICAL_REFLECTION: [(x, y) => [x, y], (x, y) => [x, -y]]
 };
 
 let transformationSet = "ROTATION";
@@ -292,64 +295,42 @@ window.divide = divide;
 window.setTransformation = setTransformation;
 window.setRandomTransformation = setRandomTransformation;
 window.getTransformation = getTransformation;
-export let elements = [
-  "Air",
-  "Water",
-  "Sand",
-  "Wall",
-  "Plant",
-  "Stone",
-  "Cloner",
-  "Fire",
-  "Ice",
-  "Gas",
-  "Mite",
-  "Wood",
-  "Fungus",
-  "Seed",
-  "Lava",
-  "Acid",
-  "Dust",
-  "Oil",
-  "Rocket",
-];
 
-let disabledElements = ["Mite", "Fungus", "Oil", "Rocket", "Seed"];
 window.updaters = elements.map(() => {
   return () => {};
 });
 
-const UPDATE_SCHEMES = {};
-
-UPDATE_SCHEMES["ORDERED"] = () => {
-  for (var i = 0; i < sands.length; i += 4) {
-    fireEvent(i);
-  }
-};
-
-UPDATE_SCHEMES["REVERSE_ORDERED"] = () => {
-  for (var i = sands.length - 4; i >= 0; i -= 4) {
-    fireEvent(i);
-  }
-};
-
-UPDATE_SCHEMES["ALTERNATE_ORDERED"] = () => {
-  const scheme = UPDATE_SCHEMES["ALTERNATE_ORDERED"];
-  if (scheme.direction === undefined) {
-    scheme.direction = true;
-  }
-
-  if (scheme.direction) {
+export const UPDATE_SCHEMES = {
+  ["ORDERED"]: () => {
     for (var i = 0; i < sands.length; i += 4) {
       fireEvent(i);
     }
-  } else {
+  },
+
+  ["REVERSE_ORDERED"]: () => {
     for (var i = sands.length - 4; i >= 0; i -= 4) {
       fireEvent(i);
     }
-  }
+  },
 
-  scheme.direction = !scheme.direction;
+  ["ALTERNATE_ORDERED"]: () => {
+    const scheme = UPDATE_SCHEMES["ALTERNATE_ORDERED"];
+    if (scheme.direction === undefined) {
+      scheme.direction = true;
+    }
+
+    if (scheme.direction) {
+      for (var i = 0; i < sands.length; i += 4) {
+        fireEvent(i);
+      }
+    } else {
+      for (var i = sands.length - 4; i >= 0; i -= 4) {
+        fireEvent(i);
+      }
+    }
+
+    scheme.direction = !scheme.direction;
+  }
 };
 
 const fireEvent = (cellOffset, { tagged = window.taggedMode } = {}) => {
@@ -374,7 +355,7 @@ const tick = () => {
   UPDATE_SCHEMES[window.updateScheme]();
 };
 
-const seed = () => {
+export const seed = () => {
   for (var i = 0; i < sands.length; i += 4) {
     sands[i] = 0;
     /*if (Math.random() * i > width * height * 3) {
@@ -386,101 +367,6 @@ const seed = () => {
   }
 };
 seed();
-const ElementButton = ({ i, setSelected, selected }) => {
-  return (
-    <button
-      className={selected ? "simulation-button selected" : "simulation-button"}
-      onClick={() => setSelected(i)}
-    >
-      {elements[i]}
-    </button>
-  );
-};
-const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
-  return (
-    <button
-      className={`simulation-button update-scheme-button${
-        selected ? " selected" : ""
-      }`}
-      onClick={() => setUpdateScheme(name)}
-    >
-      {name}
-    </button>
-  );
-};
-const TaggedModeCheckbox = ({ setTaggedMode, selected }) => {
-  return (
-    <input
-      id="taggedModeCheckbox"
-      type="checkbox"
-      checked={selected}
-      onChange={() => setTaggedMode(!selected)}
-    ></input>
-  );
-};
-const UI = ({
-  selectedElement,
-  setSelected,
-  updateScheme,
-  setUpdateScheme,
-  taggedMode,
-  setTaggedMode,
-}) => {
-  return (
-    <div className="element-tray">
-      {elements.map((e, i) => {
-        if (disabledElements.indexOf(e) >= 0) {
-          return null;
-        }
-        return (
-          <ElementButton
-            key={i}
-            i={i}
-            setSelected={setSelected}
-            selected={i === selectedElement}
-          />
-        );
-      })}
-      <div className="update-scheme-tray">
-        {Object.keys(UPDATE_SCHEMES).map((key) => {
-          return (
-            <UpdateSchemeButton
-              key={key}
-              setUpdateScheme={setUpdateScheme}
-              name={key}
-              selected={key === updateScheme}
-            />
-          );
-        })}
-        <div className="tagged-mode-tray">
-          <TaggedModeCheckbox
-            setTaggedMode={setTaggedMode}
-            selected={taggedMode}
-          ></TaggedModeCheckbox>
-          <label htmlFor="taggedModeCheckbox">TAGGED</label>
-        </div>
-      </div>
-
-      <button
-        className="simulation-button"
-        onClick={() => {
-          seed();
-        }}
-      >
-        Reset
-      </button>
-
-      <button
-        className="simulation-button"
-        onClick={() => {
-          downloadElements();
-        }}
-      >
-        Export
-      </button>
-    </div>
-  );
-};
 
 const Sand = () => {
   const selectedElement = useStore((state) => state.selectedElement);
@@ -494,7 +380,12 @@ const Sand = () => {
   const drawer = React.useRef();
   const [isDrawing, setIsDrawing] = useState(false);
   React.useEffect(() => {
-    drawer.current = startWebGL({ canvas: canvas.current, width, height });
+    drawer.current = startWebGL({
+      canvas: canvas.current,
+      width,
+      height,
+      sands
+    });
   });
 
   useAnimationFrame((e) => {
@@ -543,6 +434,10 @@ const Sand = () => {
           setIsDragging(true);
         }}
       ></div>
+      <ElementButtons
+        selectedElement={selectedElement}
+        setSelected={setSelected}
+      />
       <canvas
         className="worldCanvas"
         onMouseDown={(e) => {
@@ -587,9 +482,7 @@ const Sand = () => {
         height={height * dpi}
         width={width * dpi}
       />
-      <UI
-        selectedElement={selectedElement}
-        setSelected={setSelected}
+      <ExtraUI
         updateScheme={updateScheme}
         setUpdateScheme={setUpdateScheme}
         taggedMode={taggedMode}
@@ -611,7 +504,7 @@ function pointsAlongLine(startx, starty, endx, endy, spacing) {
   for (var d = 0; d <= 1; d += 1 / steps) {
     let point = {
       x: startx * d + endx * (1 - d),
-      y: starty * d + endy * (1 - d),
+      y: starty * d + endy * (1 - d)
     };
     points.push(point);
   }
