@@ -88,7 +88,7 @@ void main() {
   } else if (type == 8) { // ICE
     hue = 0.6;
     saturation = 0.4;
-    lightness = 0.7 + data.g * 0.5;
+    lightness = 0.6 + data.g * 0.1;
 
   } else if (type == 9) { // Gas
 

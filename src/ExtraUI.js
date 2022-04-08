@@ -65,7 +65,7 @@ const ExtraUI = ({
         <button
           className="simulation-button"
           onClick={() => {
-            let json = JSON.stringify(window.xmls);
+            let json = JSON.stringify(window.xmls, null, " ");
 
             var data = [
               new ClipboardItem({

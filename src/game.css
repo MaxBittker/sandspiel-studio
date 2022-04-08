@@ -19,7 +19,7 @@ button {
 .worldCanvas {
   z-index: 1;
   width: 100%;
-  border: 3px ridge black;
+  border: 3px ridge gray;
   border-left: 1px solid black;
 }
 
