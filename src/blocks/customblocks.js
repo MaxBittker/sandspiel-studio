@@ -377,7 +377,11 @@ Blockly.Blocks["vector_constant"] = {
         ["➡ right", "RIGHT"],
         ["⬅ left", "LEFT"],
         ["⬆ up", "UP"],
-        ["⬇ down", "DOWN"]
+        ["⬇ down", "DOWN"],
+        ["⬈ NE ", "NE"],
+        ["⬊ SE", "SE"],
+        ["⬋ SW", "SW"],
+        ["⬉ NW", "NW"]
       ]),
       "VALUE"
     );

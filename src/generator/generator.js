@@ -81,7 +81,7 @@ const ELEMENTS = {
   ACID: "15",
   DUST: "16",
   OIL: "17",
-  ROCKET: "18",
+  ROCKET: "18"
 };
 
 Blockly.JavaScript["element_literal"] = function (block) {
@@ -133,6 +133,10 @@ const DIRECTIONS = {
   LEFT: "[-1, 0]",
   RIGHT: "[1, 0]",
   UP: "[0, -1]",
+  NW: "[1, -1]",
+  NE: "[-1, -1]",
+  SW: "[1, 1]",
+  SE: "[-1, 1]"
 };
 
 Blockly.JavaScript["vector_constant"] = function (block) {
@@ -337,7 +341,7 @@ Blockly.JavaScript["if_else"] = function (block) {
 const COMPARISON_FUNCTIONS = {
   IS: "eq",
   BIGGER: "greaterThan",
-  SMALLER: "lessThan",
+  SMALLER: "lessThan"
 };
 
 Blockly.JavaScript["comparison"] = function (block) {
@@ -369,7 +373,7 @@ const OPERATION_FUNCTIONS = {
   ADD: "add",
   SUBTRACT: "subtract",
   MULTIPLY: "multiply",
-  DIVIDE: "divide",
+  DIVIDE: "divide"
 };
 
 Blockly.JavaScript["operation"] = function (block) {
@@ -398,7 +402,7 @@ Blockly.JavaScript["operation"] = function (block) {
 
 const BOOLEAN_OPERATORS = {
   AND: "&&",
-  OR: "||",
+  OR: "||"
 };
 
 Blockly.JavaScript["boolean_operation"] = function (block) {
