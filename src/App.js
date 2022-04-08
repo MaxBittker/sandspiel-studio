@@ -25,7 +25,7 @@ import React, { useRef, useEffect } from "react";
 import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
-import starterXMLs from "./starterblocks";
+import starterXMLs from "./starterblocks.json";
 
 import "./App.css";
 import Sand from "./Sand.js";
@@ -70,23 +70,6 @@ function generateCode(element, dom) {
   let fn = Function(code);
   window.xmls[element] = xmlText;
   window.updaters[element] = fn;
-}
-export function downloadElements() {
-  let starterblocks = `
-const a = [
-  \`${window.xmls.map((a) => a.replaceAll("`", "-")).join("`,\n`")}\`
-];
-export default a;
-
-`;
-
-  let a = document.createElement("a");
-  let blob = new Blob([starterblocks], { type: "octet/stream" }),
-    url = window.URL.createObjectURL(blob);
-  a.href = url;
-  a.download = `blocks-${Date.now()}.js`;
-  a.click();
-  window.URL.revokeObjectURL(url);
 }
 
 const App = () => {

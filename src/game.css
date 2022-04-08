@@ -8,7 +8,6 @@ button {
   border: 2px solid whitesmoke;
   border-color: gainsboro;
   flex-grow: 1;
-  max-width: 150px;
   fill: black;
   line-height: 0px;
   cursor: pointer;
@@ -45,4 +44,16 @@ button.selected {
   flex-wrap: wrap;
   align-items: flex-start;
   margin-bottom: 3px;
+}
+.update-scheme-tray {
+  display: flex;
+}
+.extras-tray {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+textarea#json {
+  width: 100%;
+  height: 60px;
 }

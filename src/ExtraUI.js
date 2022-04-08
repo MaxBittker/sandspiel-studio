@@ -1,5 +1,5 @@
 import { UPDATE_SCHEMES, seed } from "./Sand.js";
-import { downloadElements } from "./App";
+import React, { useState } from "react";
 
 const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
   return (
@@ -29,6 +29,7 @@ const ExtraUI = ({
   taggedMode,
   setTaggedMode
 }) => {
+  let [copiedState, setCopiedState] = useState(null);
   return (
     <div className="extras-tray">
       <div className="update-scheme-tray">
@@ -50,7 +51,7 @@ const ExtraUI = ({
           <label htmlFor="taggedModeCheckbox">TAGGED</label>
         </div>
       </div>
-
+      {/* 
       <button
         className="simulation-button"
         onClick={() => {
@@ -58,17 +59,39 @@ const ExtraUI = ({
         }}
       >
         Reset
-      </button>
+      </button> */}
 
-      <button
-        className="simulation-button"
-        onClick={() => {
-          downloadElements();
-        }}
-      >
-        Export
-      </button>
-      {/* <textarea>{blocksAsJson()}</textarea> */}
+      <div>
+        <button
+          className="simulation-button"
+          onClick={() => {
+            let json = JSON.stringify(window.xmls);
+
+            var data = [
+              new ClipboardItem({
+                "text/plain": new Blob([json], { type: "text/plain" })
+              })
+            ];
+            navigator.clipboard
+              .write(data)
+              .then(
+                function () {
+                  setCopiedState(" ✓");
+                },
+                function () {
+                  setCopiedState("...Error");
+                }
+              )
+              .finally(() => {
+                window.setTimeout(() => {
+                  setCopiedState(null);
+                }, 3000);
+              });
+          }}
+        >
+          Export to Clipboard {copiedState}
+        </button>
+      </div>
     </div>
   );
 };
