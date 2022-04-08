@@ -317,7 +317,7 @@ export const UPDATE_SCHEMES = {
     fireEventPhase({ xFirst: true });
   },
 
-  ["ALTERNATE_ORDERED"]: {
+  ["REVERSE_ALTERNATE_ORDERED"]: {
     direction: true,
     tick: (scheme) => {
       if (scheme.direction) {
@@ -334,7 +334,7 @@ export const UPDATE_SCHEMES = {
     },
   },
 
-  ["X_ALTERNATE_ORDERED"]: {
+  ["XREVERSE_ALTERNATE_ORDERED"]: {
     phase: 0,
     phases: [
       {
@@ -357,7 +357,7 @@ export const UPDATE_SCHEMES = {
     },
   },
 
-  ["XY_ALTERNATE_ORDERED"]: {
+  ["XYREVERSE_ALTERNATE_ORDERED"]: {
     phase: 0,
     phases: [
       {
@@ -412,6 +412,80 @@ export const UPDATE_SCHEMES = {
       }
     },
   },
+
+  ["XFIRST_REVERSE_ALTERNATE_ORDERED"]: {
+    phase: 0,
+    phases: [
+      {
+        xFirst: false,
+        aDirection: 1,
+        bDirection: 1,
+      },
+      {
+        xFirst: false,
+        aDirection: -1,
+        bDirection: -1,
+      },
+      {
+        xFirst: true,
+        aDirection: 1,
+        bDirection: 1,
+      },
+      {
+        xFirst: true,
+        aDirection: -1,
+        bDirection: -1,
+      },
+    ],
+    tick: (scheme) => {
+      const phase = scheme.phases[scheme.phase];
+      fireEventPhase(phase);
+
+      scheme.phase++;
+      if (scheme.phase >= scheme.phases.length) {
+        scheme.phase = 0;
+      }
+    },
+  },
+
+  ["XFIRST_XYREVERSE_ALTERNATE_ORDERED"]: {
+    xFirst: false,
+    xFirstTimer: 0,
+    phase: 0,
+    phases: [
+      {
+        aDirection: 1,
+        bDirection: 1,
+      },
+      {
+        aDirection: -1,
+        bDirection: 1,
+      },
+      {
+        aDirection: -1,
+        bDirection: -1,
+      },
+      {
+        aDirection: 1,
+        bDirection: -1,
+      },
+    ],
+    tick: (scheme) => {
+      const phase = scheme.phases[scheme.phase];
+      const { xFirst } = scheme;
+      fireEventPhase({ ...phase, xFirst });
+
+      scheme.xFirstTimer--;
+      if (scheme.xFirstTimer <= 0) {
+        scheme.xFirstTimer = 3;
+      }
+
+      scheme.phase++;
+      if (scheme.phase >= scheme.phases.length) {
+        scheme.phase = 0;
+      }
+    },
+  },
 };
 
 const fireEventPhase = ({
@@ -438,7 +512,7 @@ const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
   if (tagged) {
     let c = sands[offset + 3];
     if (c === clock) return;
-    sands[offset + 3] = clock;
+    //sands[offset + 3] = clock;
   }
 
   let index = offset / 4;
