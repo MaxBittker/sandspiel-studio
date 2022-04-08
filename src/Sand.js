@@ -313,75 +313,125 @@ export const UPDATE_SCHEMES = {
     }
   },
 
-  ["ALTERNATE_ORDERED"]: () => {
-    const scheme = UPDATE_SCHEMES["ALTERNATE_ORDERED"];
-    if (scheme.direction === undefined) {
-      scheme.direction = true;
-    }
-
-    if (scheme.direction) {
-      for (var i = 0; i < sands.length; i += 4) {
-        fireEvent(i);
-      }
-    } else {
-      for (var i = sands.length - 4; i >= 0; i -= 4) {
-        fireEvent(i);
-      }
-    }
-
-    scheme.direction = !scheme.direction;
+  ["XFIRST_ORDERED"]: () => {
+    fireEventPhase({ xFirst: true });
   },
 
-  ["XY_ALTERNATE_ORDERED"]: () => {
-    const scheme = UPDATE_SCHEMES["ALTERNATE_ORDERED"];
-    if (scheme.phase === undefined) {
-      scheme.phase = 0;
-      scheme.phases = [
-        {
-          xFirst: false,
-          aDirection: 1,
-          bDirection: 1,
-        },
-        {
-          xFirst: false,
-          aDirection: -1,
-          bDirection: 1,
-        },
-        {
-          xFirst: false,
-          aDirection: -1,
-          bDirection: -1,
-        },
-        {
-          xFirst: false,
-          aDirection: 1,
-          bDirection: -1,
-        },
-      ];
-    }
-
-    const phase = scheme.phases[scheme.phase];
-    const { xFirst, aDirection, bDirection } = phase;
-
-    const size = width;
-    const aStart = aDirection === 1 ? 0 : size - 1;
-    const bStart = bDirection === 1 ? 0 : size - 1;
-    const aCond = aDirection === 1 ? (a) => a < size : (a) => a >= 0;
-    const bCond = bDirection === 1 ? (b) => b < size : (b) => b >= 0;
-
-    for (let a = aStart; aCond(a); a += aDirection) {
-      for (let b = bStart; bCond(b); b += bDirection) {
-        const [x, y] = xFirst ? [a, b] : [b, a];
-        const index = getIndex(x, y);
-        fireEvent(index);
+  ["ALTERNATE_ORDERED"]: {
+    direction: true,
+    tick: (scheme) => {
+      if (scheme.direction) {
+        for (var i = 0; i < sands.length; i += 4) {
+          fireEvent(i);
+        }
+      } else {
+        for (var i = sands.length - 4; i >= 0; i -= 4) {
+          fireEvent(i);
+        }
       }
-    }
 
-    scheme.phase++;
-    if (scheme.phase >= scheme.phases.length) {
-      scheme.phase = 0;
-    }
+      scheme.direction = !scheme.direction;
+    },
   },
+
+  ["X_ALTERNATE_ORDERED"]: {
+    phase: 0,
+    phases: [
+      {
+        aDirection: 1,
+        bDirection: 1,
+      },
+      {
+        aDirection: 1,
+        bDirection: -1,
+      },
+    ],
+    tick: (scheme) => {
+      const phase = scheme.phases[scheme.phase];
+      fireEventPhase(phase);
+
+      scheme.phase++;
+      if (scheme.phase >= scheme.phases.length) {
+        scheme.phase = 0;
+      }
+    },
+  },
+
+  ["XY_ALTERNATE_ORDERED"]: {
+    phase: 0,
+    phases: [
+      {
+        xFirst: false,
+        aDirection: 1,
+        bDirection: 1,
+      },
+      {
+        xFirst: false,
+        aDirection: -1,
+        bDirection: 1,
+      },
+      {
+        xFirst: false,
+        aDirection: -1,
+        bDirection: -1,
+      },
+      {
+        xFirst: false,
+        aDirection: 1,
+        bDirection: -1,
+      },
+    ],
+    tick: (scheme) => {
+      const phase = scheme.phases[scheme.phase];
+      fireEventPhase(phase);
+
+      scheme.phase++;
+      if (scheme.phase >= scheme.phases.length) {
+        scheme.phase = 0;
+      }
+    },
+  },
+
+  ["XFIRST_ALTERNATE_ORDERED"]: {
+    phase: 0,
+    phases: [
+      {
+        xFirst: false,
+      },
+      {
+        xFirst: true,
+      },
+    ],
+    tick: (scheme) => {
+      const phase = scheme.phases[scheme.phase];
+      fireEventPhase(phase);
+
+      scheme.phase++;
+      if (scheme.phase >= scheme.phases.length) {
+        scheme.phase = 0;
+      }
+    },
+  },
+};
+
+const fireEventPhase = ({
+  xFirst = false,
+  aDirection = 1,
+  bDirection = 1,
+} = {}) => {
+  const size = width;
+  const aStart = aDirection === 1 ? 0 : size - 1;
+  const bStart = bDirection === 1 ? 0 : size - 1;
+  const aCond = aDirection === 1 ? (a) => a < size : (a) => a >= 0;
+  const bCond = bDirection === 1 ? (b) => b < size : (b) => b >= 0;
+
+  for (let a = aStart; aCond(a); a += aDirection) {
+    for (let b = bStart; bCond(b); b += bDirection) {
+      const [x, y] = xFirst ? [a, b] : [b, a];
+      const index = getIndex(x, y);
+      fireEvent(index);
+    }
+  }
 };
 
 const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
@@ -403,7 +453,9 @@ const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
 
 const tick = () => {
   clock = (clock + 1) % 2;
-  UPDATE_SCHEMES[window.updateScheme]();
+  const scheme = UPDATE_SCHEMES[window.updateScheme];
+  if (typeof scheme === "function") scheme(scheme);
+  else scheme.tick(scheme);
 };
 
 export const seed = () => {
