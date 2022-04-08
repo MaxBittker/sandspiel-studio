@@ -250,16 +250,16 @@ const TRANSFORMATION_SETS = {
     (x, y) => [x, y],
     (x, y) => [-y, x],
     (x, y) => [-x, -y],
-    (x, y) => [y, -x]
+    (x, y) => [y, -x],
   ],
   REFLECTION: [
     (x, y) => [x, y],
     (x, y) => [-x, y],
     (x, y) => [x, -y],
-    (x, y) => [-x, -y]
+    (x, y) => [-x, -y],
   ],
   HORIZONTAL_REFLECTION: [(x, y) => [x, y], (x, y) => [-x, y]],
-  VERTICAL_REFLECTION: [(x, y) => [x, y], (x, y) => [x, -y]]
+  VERTICAL_REFLECTION: [(x, y) => [x, y], (x, y) => [x, -y]],
 };
 
 let transformationSet = "ROTATION";
@@ -330,18 +330,69 @@ export const UPDATE_SCHEMES = {
     }
 
     scheme.direction = !scheme.direction;
-  }
+  },
+
+  ["XY_ALTERNATE_ORDERED"]: () => {
+    const scheme = UPDATE_SCHEMES["ALTERNATE_ORDERED"];
+    if (scheme.phase === undefined) {
+      scheme.phase = 0;
+      scheme.phases = [
+        {
+          xFirst: false,
+          aDirection: 1,
+          bDirection: 1,
+        },
+        {
+          xFirst: false,
+          aDirection: -1,
+          bDirection: 1,
+        },
+        {
+          xFirst: false,
+          aDirection: -1,
+          bDirection: -1,
+        },
+        {
+          xFirst: false,
+          aDirection: 1,
+          bDirection: -1,
+        },
+      ];
+    }
+
+    const phase = scheme.phases[scheme.phase];
+    const { xFirst, aDirection, bDirection } = phase;
+
+    const size = width;
+    const aStart = aDirection === 1 ? 0 : size - 1;
+    const bStart = bDirection === 1 ? 0 : size - 1;
+    const aCond = aDirection === 1 ? (a) => a < size : (a) => a >= 0;
+    const bCond = bDirection === 1 ? (b) => b < size : (b) => b >= 0;
+
+    for (let a = aStart; aCond(a); a += aDirection) {
+      for (let b = bStart; bCond(b); b += bDirection) {
+        const [x, y] = xFirst ? [a, b] : [b, a];
+        const index = getIndex(x, y);
+        fireEvent(index);
+      }
+    }
+
+    scheme.phase++;
+    if (scheme.phase >= scheme.phases.length) {
+      scheme.phase = 0;
+    }
+  },
 };
 
-const fireEvent = (cellOffset, { tagged = window.taggedMode } = {}) => {
+const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
   if (tagged) {
-    let c = sands[cellOffset + 3];
+    let c = sands[offset + 3];
     if (c === clock) return;
-    sands[cellOffset + 3] = clock;
+    sands[offset + 3] = clock;
   }
 
-  let index = cellOffset / 4;
-  let e = sands[cellOffset];
+  let index = offset / 4;
+  let e = sands[offset];
   let x = index % width;
   let y = Math.floor(index / width);
   aX = x;
@@ -384,7 +435,7 @@ const Sand = () => {
       canvas: canvas.current,
       width,
       height,
-      sands
+      sands,
     });
   });
 
@@ -504,7 +555,7 @@ function pointsAlongLine(startx, starty, endx, endy, spacing) {
   for (var d = 0; d <= 1; d += 1 / steps) {
     let point = {
       x: startx * d + endx * (1 - d),
-      y: starty * d + endy * (1 - d)
+      y: starty * d + endy * (1 - d),
     };
     points.push(point);
   }
