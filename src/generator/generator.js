@@ -444,17 +444,17 @@ Blockly.JavaScript["is_block"] = function (block) {
 };
 
 Blockly.JavaScript["is_touching"] = function (block) {
-  const cell = Blockly.JavaScript.valueToCode(
+  /*const cell = Blockly.JavaScript.valueToCode(
     block,
     "CELL",
     Blockly.JavaScript.ORDER_MEMBER
-  );
+  );*/
   const element = Blockly.JavaScript.valueToCode(
     block,
     "ELEMENT",
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const type = getTypeOfValue(block, "ELEMENT");
-  const code = `window.isTouching(${cell}, ${element}, "${type}")`;
+  const code = `window.isTouching([0, 0], ${element}, "${type}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };

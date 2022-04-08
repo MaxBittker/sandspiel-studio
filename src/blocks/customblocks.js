@@ -661,13 +661,13 @@ Blockly.defineBlocksWithJsonArray([
 
 Blockly.Blocks["is_touching"] = {
   init: function () {
-    this.appendValueInput("CELL").setCheck("Vector");
     this.appendDummyInput().appendField("is touching");
     this.appendValueInput("ELEMENT").setCheck(["Element", "Group"]);
     this.setOutput(true, "Boolean");
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
+    this.setInputsInline(true);
   }
 };
 
