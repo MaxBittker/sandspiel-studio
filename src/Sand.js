@@ -337,14 +337,8 @@ export const UPDATE_SCHEMES = {
   ["XREVERSE_ALTERNATE_ORDERED"]: {
     phase: 0,
     phases: [
-      {
-        aDirection: 1,
-        bDirection: 1,
-      },
-      {
-        aDirection: 1,
-        bDirection: -1,
-      },
+      { aDirection: 1, bDirection: 1 },
+      { aDirection: 1, bDirection: -1 },
     ],
     tick: (scheme) => {
       const phase = scheme.phases[scheme.phase];
@@ -360,26 +354,10 @@ export const UPDATE_SCHEMES = {
   ["XYREVERSE_ALTERNATE_ORDERED"]: {
     phase: 0,
     phases: [
-      {
-        xFirst: false,
-        aDirection: 1,
-        bDirection: 1,
-      },
-      {
-        xFirst: false,
-        aDirection: -1,
-        bDirection: 1,
-      },
-      {
-        xFirst: false,
-        aDirection: -1,
-        bDirection: -1,
-      },
-      {
-        xFirst: false,
-        aDirection: 1,
-        bDirection: -1,
-      },
+      { xFirst: false, aDirection: 1, bDirection: 1 },
+      { xFirst: false, aDirection: -1, bDirection: 1 },
+      { xFirst: false, aDirection: -1, bDirection: -1 },
+      { xFirst: false, aDirection: 1, bDirection: -1 },
     ],
     tick: (scheme) => {
       const phase = scheme.phases[scheme.phase];
@@ -394,14 +372,7 @@ export const UPDATE_SCHEMES = {
 
   ["XFIRST_ALTERNATE_ORDERED"]: {
     phase: 0,
-    phases: [
-      {
-        xFirst: false,
-      },
-      {
-        xFirst: true,
-      },
-    ],
+    phases: [{ xFirst: false }, { xFirst: true }],
     tick: (scheme) => {
       const phase = scheme.phases[scheme.phase];
       fireEventPhase(phase);
@@ -416,26 +387,10 @@ export const UPDATE_SCHEMES = {
   ["XFIRST_REVERSE_ALTERNATE_ORDERED"]: {
     phase: 0,
     phases: [
-      {
-        xFirst: false,
-        aDirection: 1,
-        bDirection: 1,
-      },
-      {
-        xFirst: false,
-        aDirection: -1,
-        bDirection: -1,
-      },
-      {
-        xFirst: true,
-        aDirection: 1,
-        bDirection: 1,
-      },
-      {
-        xFirst: true,
-        aDirection: -1,
-        bDirection: -1,
-      },
+      { xFirst: false, aDirection: 1, bDirection: 1 },
+      { xFirst: false, aDirection: -1, bDirection: -1 },
+      { xFirst: true, aDirection: 1, bDirection: 1 },
+      { xFirst: true, aDirection: -1, bDirection: -1 },
     ],
     tick: (scheme) => {
       const phase = scheme.phases[scheme.phase];
@@ -453,22 +408,10 @@ export const UPDATE_SCHEMES = {
     xFirstTimer: 0,
     phase: 0,
     phases: [
-      {
-        aDirection: 1,
-        bDirection: 1,
-      },
-      {
-        aDirection: -1,
-        bDirection: 1,
-      },
-      {
-        aDirection: -1,
-        bDirection: -1,
-      },
-      {
-        aDirection: 1,
-        bDirection: -1,
-      },
+      { aDirection: 1, bDirection: 1 },
+      { aDirection: -1, bDirection: 1 },
+      { aDirection: -1, bDirection: -1 },
+      { aDirection: 1, bDirection: -1 },
     ],
     tick: (scheme) => {
       const phase = scheme.phases[scheme.phase];
@@ -486,24 +429,84 @@ export const UPDATE_SCHEMES = {
       }
     },
   },
+
+  ["YSNAKE_ORDERED"]: {
+    tick: () => {
+      fireEventPhase({ snake: true, xFirst: true });
+    },
+  },
+
+  ["SNAKE_ORDERED"]: {
+    phase: 0,
+    phases: [
+      { snake: true, xFirst: true },
+      { snake: true, xFirst: false },
+    ],
+    tick: (scheme) => {
+      const phase = scheme.phases[scheme.phase];
+      fireEventPhase(phase);
+
+      scheme.phase++;
+      if (scheme.phase >= scheme.phases.length) {
+        scheme.phase = 0;
+      }
+    },
+  },
+
+  ["SNAKE_REVERSE_ALTERNATE_ORDERED"]: {
+    phase: 0,
+    phases: [
+      { snake: true, xFirst: true },
+      { snake: true, xFirst: false, aDirection: -1 },
+      { snake: true, xFirst: false },
+      { snake: true, xFirst: true, aDirection: -1 },
+    ],
+    tick: (scheme) => {
+      const phase = scheme.phases[scheme.phase];
+      fireEventPhase(phase);
+
+      scheme.phase++;
+      if (scheme.phase >= scheme.phases.length) {
+        scheme.phase = 0;
+      }
+    },
+  },
 };
 
 const fireEventPhase = ({
   xFirst = false,
   aDirection = 1,
   bDirection = 1,
+  snake = false,
 } = {}) => {
   const size = width;
   const aStart = aDirection === 1 ? 0 : size - 1;
   const bStart = bDirection === 1 ? 0 : size - 1;
+  const bSnakeStart = bDirection === -1 ? 0 : size - 1;
+
   const aCond = aDirection === 1 ? (a) => a < size : (a) => a >= 0;
   const bCond = bDirection === 1 ? (b) => b < size : (b) => b >= 0;
+  const bSnakeCond = bDirection === -1 ? (b) => b < size : (b) => b >= 0;
+
+  let bIsSnaking = false;
 
   for (let a = aStart; aCond(a); a += aDirection) {
-    for (let b = bStart; bCond(b); b += bDirection) {
-      const [x, y] = xFirst ? [a, b] : [b, a];
-      const index = getIndex(x, y);
-      fireEvent(index);
+    if (!bIsSnaking) {
+      for (let b = bStart; bCond(b); b += bDirection) {
+        const [x, y] = xFirst ? [a, b] : [b, a];
+        const index = getIndex(x, y);
+        fireEvent(index);
+      }
+    } else {
+      for (let b = bSnakeStart; bSnakeCond(b); b -= bDirection) {
+        const [x, y] = xFirst ? [a, b] : [b, a];
+        const index = getIndex(x, y);
+        fireEvent(index);
+      }
+    }
+
+    if (snake) {
+      bIsSnaking = !bIsSnaking;
     }
   }
 };
