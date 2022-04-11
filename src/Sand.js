@@ -10,7 +10,8 @@ import ExtraUI from "./ExtraUI";
 const width = 150;
 let dpi = 4;
 const height = width;
-const sands = new Uint8Array(width * height * 4);
+const cellCount = width * height;
+const sands = new Uint8Array(cellCount * 4);
 window.sands = sands;
 
 let clock = 0;
@@ -300,6 +301,14 @@ window.updaters = elements.map(() => {
   return () => {};
 });
 
+const shuffle = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const r = Math.floor(Math.random() * (i + 1));
+    [array[i], array[r]] = [array[r], array[i]];
+  }
+  return array;
+};
+
 export const UPDATE_SCHEMES = {
   ["ORDERED"]: () => {
     for (var i = 0; i < sands.length; i += 4) {
@@ -468,6 +477,52 @@ export const UPDATE_SCHEMES = {
       scheme.phase++;
       if (scheme.phase >= scheme.phases.length) {
         scheme.phase = 0;
+      }
+    },
+  },
+
+  ["RANDOM_INDEPENDENT"]: () => {
+    for (let i = 0; i < cellCount; i++) {
+      const index = Math.floor(Math.random() * cellCount) * 4;
+      fireEvent(index);
+    }
+  },
+
+  ["CYCLIC"]: {
+    order: [],
+    isSetup: false,
+    setup: (scheme) => {
+      for (let i = 0; i < cellCount; i++) {
+        scheme.order.push(i * 4);
+      }
+      shuffle(scheme.order);
+      scheme.isSetup = true;
+    },
+    tick: (scheme) => {
+      if (!scheme.isSetup) scheme.setup(scheme);
+
+      for (const index of scheme.order) {
+        fireEvent(index);
+      }
+    },
+  },
+
+  ["RANDOM_CYCLIC"]: {
+    order: [],
+    isSetup: false,
+    setup: (scheme) => {
+      for (let i = 0; i < cellCount; i++) {
+        scheme.order.push(i * 4);
+      }
+      shuffle(scheme.order);
+      scheme.isSetup = true;
+    },
+    tick: (scheme) => {
+      if (!scheme.isSetup) scheme.setup(scheme);
+
+      shuffle(scheme.order);
+      for (const index of scheme.order) {
+        fireEvent(index);
       }
     },
   },
