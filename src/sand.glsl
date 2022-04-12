@@ -121,11 +121,11 @@ void main() {
     lightness = 1.5 - (data.g * 0.2);
     hue = 0.18;
     saturation = 0.9;
-    lightness = 0.8 + data.g * 0.2;
+    lightness = 0.6 + data.g * 0.2;
   } else if (type == 16) { // dust
     hue = (data.g * 2.0) + t * .0008;
-    saturation = 0.4;
-    lightness = 0.8;
+    saturation = 0.7;
+    lightness = 0.7;
   } else if (type == 17) { // OIL
     hue = (data.g * 5.0) + t * .008;
     saturation = 0.2;
