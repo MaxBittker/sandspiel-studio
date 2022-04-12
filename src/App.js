@@ -57,7 +57,7 @@ function generateCode(element, dom) {
 
   code = prettier.format(code, {
     parser: "babel",
-    plugins: [parserBabel]
+    plugins: [parserBabel],
   });
 
   let xml = Xml.workspaceToDom(window.workspace);
@@ -110,7 +110,7 @@ const App = () => {
         media={"media/"}
         renderer={"zelos"}
         move={{
-          scrollbars: false
+          scrollbars: false,
           // drag: true,
           // wheel: true,
         }}

@@ -52,8 +52,15 @@ export const getTypeOfValue = (block, inputName) => {
 };
 
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
+  const lines = [];
+
+  lines.push(`const swaps = [];`);
   const body = Blockly.JavaScript.statementToCode(block, "body");
-  return body;
+  lines.push(body);
+  lines.push(`return swaps;`);
+
+  const code = lines.join("\n");
+  return code;
 };
 
 Blockly.JavaScript["number_literal"] = function (block) {
@@ -81,7 +88,7 @@ const ELEMENTS = {
   ACID: "15",
   DUST: "16",
   OIL: "17",
-  ROCKET: "18"
+  ROCKET: "18",
 };
 
 Blockly.JavaScript["element_literal"] = function (block) {
@@ -136,7 +143,7 @@ const DIRECTIONS = {
   NW: "[1, -1]",
   NE: "[-1, -1]",
   SW: "[1, 1]",
-  SE: "[-1, 1]"
+  SE: "[-1, 1]",
 };
 
 Blockly.JavaScript["vector_constant"] = function (block) {
@@ -228,7 +235,7 @@ Blockly.JavaScript["swap"] = function (block) {
     "B",
     Blockly.JavaScript.ORDER_MEMBER
   );
-  const code = `window.swapSandRelative(${a}, ${b});\n`;
+  const code = `window.swapSandRelative(${a}, ${b}, swaps);\n`;
   return code;
 };
 
@@ -238,7 +245,7 @@ Blockly.JavaScript["move"] = function (block) {
     "DIRECTION",
     Blockly.JavaScript.ORDER_MEMBER
   );
-  const code = `window.swapSandRelative([0, 0], ${direction});\n`;
+  const code = `window.swapSandRelative([0, 0], ${direction}, swaps);\n`;
   return code;
 };
 
@@ -341,7 +348,7 @@ Blockly.JavaScript["if_else"] = function (block) {
 const COMPARISON_FUNCTIONS = {
   IS: "eq",
   BIGGER: "greaterThan",
-  SMALLER: "lessThan"
+  SMALLER: "lessThan",
 };
 
 Blockly.JavaScript["comparison"] = function (block) {
@@ -373,7 +380,7 @@ const OPERATION_FUNCTIONS = {
   ADD: "add",
   SUBTRACT: "subtract",
   MULTIPLY: "multiply",
-  DIVIDE: "divide"
+  DIVIDE: "divide",
 };
 
 Blockly.JavaScript["operation"] = function (block) {
@@ -402,7 +409,7 @@ Blockly.JavaScript["operation"] = function (block) {
 
 const BOOLEAN_OPERATORS = {
   AND: "&&",
-  OR: "||"
+  OR: "||",
 };
 
 Blockly.JavaScript["boolean_operation"] = function (block) {

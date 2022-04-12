@@ -113,7 +113,10 @@ function setSand(x, y, v, ra, rb) {
   if (v !== undefined) sands[i] = v;
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
-  sands[i + 3] = clock;
+  
+  if (!UPDATE_SCHEMES[window.updateScheme].manualTagging) {
+    sands[i + 3] = clock;
+  }
 }
 function getIndexRelative(x, y) {
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
@@ -140,9 +143,12 @@ function setSandRelative([x, y], v, ra, rb) {
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
   sands[i + 3] = clock;
+  /*if (!UPDATE_SCHEMES[window.updateScheme].manualTagging) {
+    sands[i + 3] = clock;
+  }*/
 }
 
-function swapSandRelative([sx, sy], [bx, by]) {
+function swapSandRelative([sx, sy], [bx, by], swaps) {
   if (aX + sx < 0 || aX + sx >= width || aY + sy < 0 || aY + sy >= height) {
     return;
   }
@@ -164,12 +170,17 @@ function swapSandRelative([sx, sy], [bx, by]) {
   sands[aid] = b;
   sands[aid + 1] = bra;
   sands[aid + 2] = brb;
-  sands[aid + 3] = clock;
 
   sands[bid] = a;
   sands[bid + 1] = ara;
   sands[bid + 2] = arb;
-  sands[bid + 3] = clock;
+
+  if (!UPDATE_SCHEMES[window.updateScheme].manualTagging) {
+    sands[aid + 3] = clock;
+    sands[bid + 3] = clock;
+  }
+
+  swaps.push([aid, bid]);
 }
 
 function clamp(value, min, max) {
@@ -514,7 +525,6 @@ export const UPDATE_SCHEMES = {
       for (let i = 0; i < cellCount; i++) {
         scheme.order.push(i * 4);
       }
-      shuffle(scheme.order);
       scheme.isSetup = true;
     },
     tick: (scheme) => {
@@ -526,6 +536,41 @@ export const UPDATE_SCHEMES = {
       }
     },
   },
+
+  /*["ATOM_ORDERED"]: {
+    manualTagging: true,
+    orderMap: new Map(),
+    isSetup: false,
+    setup: (scheme) => {
+      for (let i = 0; i < cellCount; i++) {
+        scheme.orderMap.set(i * 4, i * 4);
+      }
+      scheme.isSetup = true;
+    },
+    tick: (scheme) => {
+      if (!scheme.isSetup) scheme.setup(scheme);
+
+      for (let i = 0; i < sands.length; i += 4) {
+        const index = scheme.orderMap.get(i);
+        scheme.fireAtomEvent(scheme, index);
+      }
+    },
+    fireAtomEvent: (scheme, index) => {
+      const swaps = fireEvent(index);
+      sands[index + 3] = clock;
+
+      if (swaps === undefined) return;
+      for (const [a, b] of swaps) {
+        const aclock = sands[a + 3];
+        const bclock = sands[b + 3];
+        sands[a + 3] = bclock;
+        sands[b + 3] = aclock;
+
+        if (a !== index) scheme.fireAtomEvent(scheme, b);
+        if (b !== index) scheme.fireAtomEvent(scheme, a);
+      }
+    },
+  },*/
 };
 
 const fireEventPhase = ({
@@ -580,7 +625,8 @@ const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
   aX = x;
   aY = y;
   window.returnValue = undefined;
-  window.updaters[e](e);
+  const swaps = window.updaters[e](e);
+  return swaps;
 };
 
 const tick = () => {
