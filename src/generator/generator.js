@@ -349,6 +349,21 @@ Blockly.JavaScript["in_a_random"] = function (block) {
   return code;
 };
 
+Blockly.JavaScript["for_all"] = function (block) {
+  const name = block.getFieldValue("NAME");
+  const statement = Blockly.JavaScript.statementToCode(block, "NAME");
+  const lines = [];
+  lines.push(`{`);
+  lines.push(`  const oldTransformation = window.getTransformation();`);
+  lines.push(
+    `  window.loopThroughTransformation("${name}", () => {${statement}});`
+  );
+  lines.push(`  window.setTransformation(...oldTransformation);`);
+  lines.push(`}`);
+  const code = lines.join("\n");
+  return code;
+};
+
 Blockly.JavaScript["if_else"] = function (block) {
   const condition = Blockly.JavaScript.valueToCode(
     block,

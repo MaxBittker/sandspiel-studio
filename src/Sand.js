@@ -300,6 +300,15 @@ function setRandomTransformation(set) {
   transformationId = Math.floor(Math.random() * funcs.length);
 }
 
+function loopThroughTransformation(set, func) {
+  transformationSet = set;
+  const transformFuncs = TRANSFORMATION_SETS[transformationSet];
+  for (let i = 0; i < transformFuncs.length; i++) {
+    transformationId = i;
+    func();
+  }
+}
+
 function getTransformation() {
   return [transformationSet, transformationId];
 }
@@ -319,6 +328,7 @@ window.multiply = multiply;
 window.divide = divide;
 window.setTransformation = setTransformation;
 window.setRandomTransformation = setRandomTransformation;
+window.loopThroughTransformation = loopThroughTransformation;
 window.getTransformation = getTransformation;
 
 window.updaters = elements.map(() => {
