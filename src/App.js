@@ -275,7 +275,7 @@ const App = () => {
         </Block>
         <Block type="not"></Block>
         <Block type="set_r_cell">
-          <Field name="DATA">RA</Field>
+          <Field name="DATA">ELEMENT</Field>
           <Value name="CELL">
             <Shadow type="vector_constant">
               <Field name="VALUE">HERE</Field>
@@ -288,7 +288,7 @@ const App = () => {
           </Value>
         </Block>
         <Block type="get_r_cell">
-          <Field name="DATA">RA</Field>
+          <Field name="DATA">ELEMENT</Field>
           <Value name="CELL">
             <Shadow type="vector_constant">
               <Field name="VALUE">HERE</Field>
