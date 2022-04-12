@@ -16,7 +16,7 @@ void main() {
 let fsh = sandShader;
 let startWebGL = ({ canvas, width, height, sands }) => {
   const regl = reglBuilder({
-    canvas
+    canvas,
   });
   const dataTexture = regl.texture({ width, height, data: window.sands });
 
@@ -28,7 +28,7 @@ let startWebGL = ({ canvas, width, height, sands }) => {
         return dataTexture({ width, height, data: sands });
       },
 
-      dpi: window.devicePixelRatio * 2
+      dpi: window.devicePixelRatio * 2,
     },
 
     vert: vsh,
@@ -37,11 +37,11 @@ let startWebGL = ({ canvas, width, height, sands }) => {
       position: [
         [-1, 4],
         [-1, -1],
-        [4, -1]
-      ]
+        [4, -1],
+      ],
     },
     // Our triangle has 3 vertices
-    count: 3
+    count: 3,
   });
 
   return () => {
@@ -79,7 +79,7 @@ function pallette() {
     height: 4,
     height: 1,
     isSnapshot: true,
-    sands
+    sands,
   });
   render();
   let ctx = canvas.getContext("webgl");

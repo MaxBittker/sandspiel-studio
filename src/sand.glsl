@@ -51,9 +51,10 @@ void main() {
   float hue = 0.0;
   float saturation = 0.3;
   float lightness = 0.25 + data.g * 0.2;
-
+float a = 1.0;
   if (type == 0) {
     lightness = 1.0;
+    //  a = 0.;
   } else if (type == 1) {
     hue = 0.65;
     saturation = 0.7;
@@ -134,5 +135,5 @@ void main() {
   } else if (type == 18) { // Rocket
   }
   vec3 color = hsl2rgb(hue, saturation, lightness);
-  gl_FragColor = vec4(color, 1.0);
+  gl_FragColor = vec4(color, a);
 }

@@ -3,6 +3,7 @@ import useAnimationFrame from "use-animation-frame";
 import { startWebGL } from "./Render";
 import useStore from "./store";
 import "./game.css";
+import { fps } from "./fps";
 import ElementButtons from "./ElementButtons";
 import elements from "./elements";
 import ExtraUI from "./ExtraUI";
@@ -34,8 +35,12 @@ const Sand = () => {
   });
 
   useAnimationFrame((e) => {
+    const t0 = performance.now();
     tick();
     drawer.current();
+    const t1 = performance.now();
+    let d = t1 - t0;
+    fps.render(d);
   }, []);
 
   useEffect(() => {

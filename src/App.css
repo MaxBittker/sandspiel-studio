@@ -15,6 +15,10 @@
 body {
   background-color: rgb(225, 222, 218);
   font-family: "Inconsolata", monospace;
+  /* background-image: url("/public/tiles/Brain.png"); */
+  background-image: url("/public/tiles/ScatterGray.png");
+
+  background-size: 70px;
 }
 
 #blocklyDiv {
@@ -28,7 +32,7 @@ body {
 .blocklySvg {
   background-color: rgb(228, 199, 194);
 
-  background-image: url("/public/tiles/Brain.png");
+  /* background-image: url("/public/tiles/Brain.png"); */
   /* background-image: url("/public/tiles/Linen.png"); */
   /* background-image: url("/public/tiles/Scatter Purple.png"); */
   /* background-image: url("/public/tiles/Bulge.png"); */
@@ -52,7 +56,8 @@ body {
   /* background-image: url("/public/tiles/Granite.png"); */
   /* background-image: url("/public/tiles/Scatter Green.png"); */
   background-image: url("/public/tiles/Scatter Pink.png");
-  /* background-size: 80px; */
+  background-size: 80px;
+  /* filter: brightness(1.1); */
   /*background-color: rgb(228, 199, 194, 0);*/
 }
 
@@ -115,4 +120,15 @@ body {
 label {
   color: black;
   font-size: 16px;
+}
+#fps {
+  position: fixed;
+  display: block;
+  align-content: right;
+  text-align: right;
+  width: 100px;
+  right: 5px;
+  bottom: 40px;
+  z-index: 2000;
+  color: darkslateblue;
 }
