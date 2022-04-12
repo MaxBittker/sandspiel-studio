@@ -27,6 +27,32 @@ body {
 }
 .blocklySvg {
   background-color: rgb(228, 199, 194);
+
+  background-image: url("/public/tiles/Brain.png");
+  /* background-image: url("/public/tiles/Linen.png"); */
+  /* background-image: url("/public/tiles/Scatter Purple.png"); */
+  /* background-image: url("/public/tiles/Bulge.png"); */
+  /* background-image: url("/public/tiles/Scatter.png"); */
+  /* background-image: url("/public/tiles/Burlap.png"); */
+  /* background-image: url("/public/tiles/Scribble.png"); */
+  /* background-image: url("/public/tiles/Cirrostratus.png"); */
+  /* background-image: url("/public/tiles/Nebula.png"); */
+  /* background-image: url("/public/tiles/Cracked.png"); */
+  /* background-image: url("/public/tiles/Rhodo.png"); */
+  /* background-image: url("/public/tiles/Rockface.png"); */
+  /* background-image: url("/public/tiles/Swirl.png"); */
+  /* background-image: url("/public/tiles/Dither 1x1.png"); */
+  /* background-image: url("/public/tiles/Tide Pool.png"); */
+  /* background-image: url("/public/tiles/Dither 2x2.png"); */
+  /* background-image: url("/public/tiles/Scallop.png"); */
+  /* background-image: url("/public/tiles/Verde Marble.png"); */
+  /* background-image: url("/public/tiles/Scatter Blue.png"); */
+  /* background-image: url("/public/tiles/Fabric.png"); */
+  /* background-image: url("/public/tiles/Scatter Classic.png"); */
+  /* background-image: url("/public/tiles/Granite.png"); */
+  /* background-image: url("/public/tiles/Scatter Green.png"); */
+  background-image: url("/public/tiles/Scatter Pink.png");
+  /* background-size: 80px; */
   /*background-color: rgb(228, 199, 194, 0);*/
 }
 
@@ -45,11 +71,12 @@ body {
 
 .blocklyMainBackground {
   stroke: none;
+  fill: transparent !important;
   /*pointer-events: none;*/
 }
 
 .blocklyBlockCanvas {
-  filter: drop-shadow(1px 4px 4px rgb(177, 158, 158));
+  filter: drop-shadow(1px 4px 8px rgba(46, 44, 44, 0.528));
 }
 .App {
   display: flex;
@@ -73,8 +100,8 @@ body {
     gray,
     gray 1px,
     gray 2px,
-    transparent 2px,
-    transparent 3px
+    gainsboro 2px,
+    gainsboro 3px
   );
   /* box-shadow: 0px 0px 3px rgba(0,0,0,.3); */
   border: 0px ridge gray;

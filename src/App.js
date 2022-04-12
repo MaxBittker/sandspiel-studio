@@ -39,7 +39,8 @@ import "./blocks/customblocks";
 import "./generator/generator";
 
 window.xmls = starterXMLs.map((v, i) => {
-  return window.localStorage.getItem("code" + i) || v;
+  return v;
+  // return window.localStorage.getItem("code" + i) || v;
 });
 //todo generate all the code on start
 window.xmls.forEach((e, i) => {});
