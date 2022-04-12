@@ -305,7 +305,7 @@ Blockly.Blocks["change_into"] = {
     this.appendDummyInput().appendField("change");
     this.appendValueInput("CELL").setCheck("Vector");
     this.appendDummyInput().appendField("into");
-    this.appendValueInput("ELEMENT").setCheck("Element");
+    this.appendValueInput("ELEMENT").setCheck(["Element", "Number"]);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(160);
