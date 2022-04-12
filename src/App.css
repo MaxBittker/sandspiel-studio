@@ -1,6 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;400&family=Inter&display=swap");
 * {
   box-sizing: border-box;
+  /* font-family: "Inconsolata", monospace !important; */
 }
+
 #root {
   justify-content: right;
   font-size: calc(10px + 2vmin);
@@ -10,6 +14,7 @@
 }
 body {
   background-color: rgb(225, 222, 218);
+  font-family: "Inconsolata", monospace;
 }
 
 #blocklyDiv {
@@ -17,6 +22,9 @@ body {
   height: 100vh;
 }
 
+#blocklyDiv * {
+  font-family: "Inter", sans-serif;
+}
 .blocklySvg {
   background-color: rgb(228, 199, 194);
   /*background-color: rgb(228, 199, 194, 0);*/

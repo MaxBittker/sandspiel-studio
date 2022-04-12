@@ -51,6 +51,7 @@ button.selected {
 }
 .extras-tray {
   display: flex;
+  padding: 5px;
   flex-direction: column;
   flex-wrap: wrap;
 }
@@ -61,4 +62,12 @@ textarea#json {
 summary {
   font-size: 1rem;
   color: black;
+}
+.wordmark {
+  position: fixed;
+  bottom: 5px;
+  width: 180px;
+  right: 2px;
+  margin-bottom: 0;
+  /* opacity: 0.5; */
 }

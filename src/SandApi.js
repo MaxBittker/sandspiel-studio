@@ -306,7 +306,19 @@ function loopThroughTransformation(set, func) {
 function getTransformation() {
   return [transformationSet, transformationId];
 }
-
+function randomOffset() {
+  let options = [
+    [0, 1],
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [1, -1],
+    [-1, -1],
+    [1, 1],
+    [-1, 1],
+  ];
+  return options[Math.floor(Math.random() * options.length)];
+}
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
@@ -321,6 +333,7 @@ window.subtract = subtract;
 window.multiply = multiply;
 window.divide = divide;
 window.setTransformation = setTransformation;
+window.randomOffset = randomOffset;
 window.setRandomTransformation = setRandomTransformation;
 window.loopThroughTransformation = loopThroughTransformation;
 window.getTransformation = getTransformation;

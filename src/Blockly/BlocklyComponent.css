@@ -6,13 +6,21 @@
 }
 .blocklyFlyout {
   height: 200vh;
-  /* transform: scale(0.9) !important; */
+  /* transform: translateX(-10%) !important; */
   transform-origin: top left;
   transition: transform 40ms ease-in-out;
+  background-color: rgba(225, 222, 218, 0.632);
+
+  /* background: linear-gradient(-90deg, rgb(178, 172, 172), transparent); */
+  /* box-shadow: 2px 2px 4px rgba(141, 125, 125, 0.325); */
+  border-right: 2px solid rgba(141, 125, 125, 0.725);
+}
+.blocklyFlyoutBackground {
+  fill: transparent;
 }
 
 .blocklyFlyout:hover {
-  /* transform: scale(1) !important; */
+  /* transform: translateX(0%) !important; */
 }
 
 .blocklyFlyoutScrollbar {
