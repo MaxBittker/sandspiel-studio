@@ -377,6 +377,7 @@ Blockly.Blocks["vector_constant"] = {
         ["⬊ SE", "SE"],
         ["⬋ SW", "SW"],
         ["⬉ NW", "NW"],
+        ["? Neighbor", "RAND"],
       ]),
       "VALUE"
     );
@@ -992,7 +993,7 @@ Blockly.Blocks["get_r_cell"] = {
       new Blockly.FieldDropdown([
         ["⭐ ra", "RA"],
         ["⚡ rb", "RB"],
-        ["💎 element", "ELEMENT"],
+        ["💎 type", "ELEMENT"],
       ]),
       "DATA"
     );
@@ -1013,7 +1014,7 @@ Blockly.Blocks["set_r_cell"] = {
       new Blockly.FieldDropdown([
         ["⭐ ra", "RA"],
         ["⚡ rb", "RB"],
-        ["💎 element", "ELEMENT"],
+        ["💎 type", "ELEMENT"],
       ]),
       "DATA"
     );

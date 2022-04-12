@@ -133,7 +133,6 @@ Blockly.JavaScript["me"] = function (block) {
   const code = `[0, 0]`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
-
 const DIRECTIONS = {
   HERE: "[0, 0]",
   DOWN: "[0, 1]",
@@ -144,6 +143,7 @@ const DIRECTIONS = {
   NE: "[-1, -1]",
   SW: "[1, 1]",
   SE: "[-1, 1]",
+  RAND: "window.randomOffset()",
 };
 
 Blockly.JavaScript["vector_constant"] = function (block) {
