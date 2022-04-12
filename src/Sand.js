@@ -37,12 +37,21 @@ function isTouching([x, y], value, type) {
   const up = [x, y - 1];
   const down = [x, y + 1];
 
+  const upRight = [x + 1, y - 1];
+  const upleft = [x - 1, y - 1];
+  const downRight = [x + 1, y + 1];
+  const downLeft = [x - 1, y + 1];
+
   if (type === "Group") {
     for (const [element] of value) {
       if (getSandRelative(right) === element) return true;
       if (getSandRelative(left) === element) return true;
       if (getSandRelative(up) === element) return true;
       if (getSandRelative(down) === element) return true;
+      if (getSandRelative(upRight) === element) return true;
+      if (getSandRelative(upleft) === element) return true;
+      if (getSandRelative(downRight) === element) return true;
+      if (getSandRelative(downLeft) === element) return true;
     }
     return false;
   }
@@ -52,6 +61,10 @@ function isTouching([x, y], value, type) {
   if (getSandRelative(left) === element) return true;
   if (getSandRelative(up) === element) return true;
   if (getSandRelative(down) === element) return true;
+  if (getSandRelative(upRight) === element) return true;
+  if (getSandRelative(upleft) === element) return true;
+  if (getSandRelative(downRight) === element) return true;
+  if (getSandRelative(downLeft) === element) return true;
   return false;
 }
 
