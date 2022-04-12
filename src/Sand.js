@@ -126,7 +126,7 @@ function setSand(x, y, v, ra, rb) {
   if (v !== undefined) sands[i] = v;
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
-  
+
   if (!UPDATE_SCHEMES[window.updateScheme].manualTagging) {
     sands[i + 3] = clock;
   }
@@ -638,7 +638,9 @@ const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
   aX = x;
   aY = y;
   window.returnValue = undefined;
-  const swaps = window.updaters[e](e);
+  const behaveFunction = window.updaters[e];
+  if (behaveFunction === undefined) return [];
+  const swaps = behaveFunction(e);
   return swaps;
 };
 

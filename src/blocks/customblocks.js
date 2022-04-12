@@ -992,6 +992,7 @@ Blockly.Blocks["get_r_cell"] = {
       new Blockly.FieldDropdown([
         ["⭐ ra", "RA"],
         ["⚡ rb", "RB"],
+        ["💎 element", "ELEMENT"],
       ]),
       "DATA"
     );
@@ -1012,13 +1013,14 @@ Blockly.Blocks["set_r_cell"] = {
       new Blockly.FieldDropdown([
         ["⭐ ra", "RA"],
         ["⚡ rb", "RB"],
+        ["💎 element", "ELEMENT"],
       ]),
       "DATA"
     );
     this.appendDummyInput().appendField("of");
     this.appendValueInput("CELL").setCheck("Vector");
     this.appendDummyInput().appendField("to");
-    this.appendValueInput("VALUE").setCheck("Number");
+    this.appendValueInput("VALUE").setCheck(["Number", "Element"]);
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
