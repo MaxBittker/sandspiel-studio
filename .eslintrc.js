@@ -20,6 +20,8 @@ module.exports = {
   plugins: ["react", "import", "react-hooks"],
   ignorePatterns: ["node_modules/"],
   rules: {
+    "no-alert": "off",
+    "no-debugger": "off",
     "no-unused-vars": "off",
     "react/prop-types": "off",
   },

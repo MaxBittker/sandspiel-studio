@@ -13,7 +13,6 @@ let dpi = 4;
 window.updaters = elements.map(() => {
   return () => {};
 });
-
 const Sand = () => {
   const selectedElement = useStore((state) => state.selectedElement);
   const updateScheme = useStore((state) => state.updateScheme);
@@ -34,20 +33,22 @@ const Sand = () => {
     });
   });
 
-  useAnimationFrame((e) => {
-    const t0 = performance.now();
-    tick();
-    drawer.current();
-    const t1 = performance.now();
-    let d = t1 - t0;
-    fps.render(d);
-  }, []);
-
   useEffect(() => {
     window.selectedElement = selectedElement;
     window.updateScheme = updateScheme;
     window.taggedMode = taggedMode;
   }, [selectedElement, updateScheme, taggedMode]);
+
+  useAnimationFrame((e) => {
+    const t0 = performance.now();
+    tick();
+    if (drawer.current) {
+      drawer.current();
+    }
+    const t1 = performance.now();
+    let d = t1 - t0;
+    fps.render(d);
+  }, []);
 
   const [drawerWidth, setWidth] = useState(
     Math.min(window.innerWidth / 2, 400)

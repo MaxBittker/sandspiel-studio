@@ -397,7 +397,7 @@ export const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
 
 export const tick = () => {
   clock = (clock + 1) % 2;
-  const scheme = UPDATE_SCHEMES[window.updateScheme];
+  const scheme = UPDATE_SCHEMES[window.updateScheme || "RANDOM_CYCLIC"];
   if (typeof scheme === "function") scheme(scheme);
   else scheme.tick(scheme);
 };
