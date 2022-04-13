@@ -16,7 +16,6 @@ body {
   background-color: rgb(225, 222, 218);
   font-family: "Inconsolata", monospace;
   /* background-image: url("/public/tiles/Brain.png"); */
-  background-image: url("/public/tiles/ScatterGray.png");
 
   background-size: 70px;
 }
@@ -30,7 +29,7 @@ body {
   font-family: "Inter", sans-serif;
 }
 .blocklySvg {
-  background-color: rgb(228, 199, 194);
+  /* background-color: rgb(228, 199, 194); */
 
   /* background-image: url("/public/tiles/Brain.png"); */
   /* background-image: url("/public/tiles/Linen.png"); */
@@ -62,8 +61,14 @@ body {
 }
 
 #world {
-  position: relative;
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
   flex-shrink: 0;
+  background-image: url("/public/tiles/ScatterGray.png");
+  background-size: 30px;
+  box-shadow: -8px 0px 8px rgba(46, 44, 44, 0.328);
 }
 
 .element-tray {
@@ -76,15 +81,15 @@ body {
 
 .blocklyMainBackground {
   stroke: none;
-  fill: transparent !important;
+  /* fill: transparent !important; */
   /*pointer-events: none;*/
 }
 
 .blocklyBlockCanvas {
-  filter: drop-shadow(1px 4px 8px rgba(46, 44, 44, 0.528));
+  filter: drop-shadow(1px 4px 4px rgba(46, 44, 44, 0.228));
 }
 .App {
-  display: flex;
+  /* display: flex; */
 }
 
 .update-scheme-tray {

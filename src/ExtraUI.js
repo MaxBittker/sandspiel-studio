@@ -40,29 +40,7 @@ const ExtraUI = ({
       >
         Reset
       </button>
-      <details>
-        <summary>Update Order</summary>
 
-        <div className="update-scheme-tray">
-          {Object.keys(UPDATE_SCHEMES).map((key) => {
-            return (
-              <UpdateSchemeButton
-                key={key}
-                setUpdateScheme={setUpdateScheme}
-                name={key}
-                selected={key === updateScheme}
-              />
-            );
-          })}
-          <div className="tagged-mode-tray">
-            <TaggedModeCheckbox
-              setTaggedMode={setTaggedMode}
-              selected={taggedMode}
-            ></TaggedModeCheckbox>
-            <label htmlFor="taggedModeCheckbox">TAGGED</label>
-          </div>
-        </div>
-      </details>
       <div>
         <button
           className="simulation-button"
@@ -93,6 +71,28 @@ const ExtraUI = ({
         >
           Export to Clipboard {copiedState}
         </button>
+        <details>
+          <summary>Update Order</summary>
+          <div className="update-scheme-tray">
+            {Object.keys(UPDATE_SCHEMES).map((key) => {
+              return (
+                <UpdateSchemeButton
+                  key={key}
+                  setUpdateScheme={setUpdateScheme}
+                  name={key}
+                  selected={key === updateScheme}
+                />
+              );
+            })}
+            <div className="tagged-mode-tray">
+              <TaggedModeCheckbox
+                setTaggedMode={setTaggedMode}
+                selected={taggedMode}
+              ></TaggedModeCheckbox>
+              <label htmlFor="taggedModeCheckbox">TAGGED</label>
+            </div>
+          </div>
+        </details>
         <svg
           width="300"
           height="39"

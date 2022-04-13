@@ -10,9 +10,13 @@ const ElementButton = ({ i, setSelected, selected }) => {
   return (
     <button
       className={selected ? "simulation-button selected" : "simulation-button"}
-      onClick={() => setSelected(i)}
+      onClick={() => {
+        document.querySelector(".blocklyMainBackground").style.fill =
+          pallette_data[i].replace("0.5", "0.3");
+        setSelected(i);
+      }}
       style={{
-        backgroundColor: selected ? color.replace("0.5", "1.5") : color
+        backgroundColor: selected ? color.replace("0.5", "1.5") : color,
       }}
     >
       {elements[i]}

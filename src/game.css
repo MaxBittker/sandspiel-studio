@@ -40,6 +40,9 @@ button.selected {
   text-shadow: 1px 0px rgba(0, 0, 0, 0.5), -1px 0px rgba(0, 0, 0, 0.5),
     0px 1px rgba(0, 0, 0, 0.5), 0px -1px rgba(0, 0, 0, 0.5);
 }
+button:hover {
+  filter: brightness(0.9);
+}
 .element-tray {
   display: flex;
   flex-wrap: wrap;
