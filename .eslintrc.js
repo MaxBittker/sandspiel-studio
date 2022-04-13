@@ -8,20 +8,24 @@ module.exports = {
   },
   extends: ["eslint:recommended", "plugin:react/recommended"],
   globals: {},
-  parser: "babel-eslint",
+  parser: "@babel/eslint-parser",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 2018,
     sourceType: "module",
+    requireConfigFile: false,
   },
   plugins: ["react", "import", "react-hooks"],
   ignorePatterns: ["node_modules/"],
-  rules: {},
+  rules: {
+    "no-unused-vars": "off",
+    "react/prop-types": "off",
+  },
   settings: {
     react: {
-      version: "latest", // "detect" automatically picks the version you have installed.
+      version: "detect", // "detect" automatically picks the version you have installed.
     },
   },
 };

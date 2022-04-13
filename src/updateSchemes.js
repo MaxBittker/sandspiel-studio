@@ -1,5 +1,6 @@
 import { cellCount } from "./SandApi";
-import { fireEvent, fireEventPhase } from "./SandApi";
+import { sands, fireEvent, fireEventPhase } from "./SandApi";
+
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const r = Math.floor(Math.random() * (i + 1));
@@ -29,11 +30,11 @@ export const UPDATE_SCHEMES = {
     direction: true,
     tick: (scheme) => {
       if (scheme.direction) {
-        for (var i = 0; i < sands.length; i += 4) {
+        for (let i = 0; i < sands.length; i += 4) {
           fireEvent(i);
         }
       } else {
-        for (var i = sands.length - 4; i >= 0; i -= 4) {
+        for (let i = sands.length - 4; i >= 0; i -= 4) {
           fireEvent(i);
         }
       }

@@ -1,3 +1,4 @@
+import React from "react";
 import { pallette } from "./Render";
 import elements from "./elements";
 

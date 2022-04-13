@@ -1,4 +1,3 @@
-
 /**
  * @license
  *
@@ -24,7 +23,7 @@
 
 import React from "react";
 import "./BlocklyComponent.css";
-import throttle from 'lodash/throttle';
+import throttle from "lodash/throttle";
 
 import Blockly from "blockly";
 import "@blockly/block-plus-minus";
@@ -34,7 +33,7 @@ import "@blockly/block-plus-minus";
 //   ContinuousMetrics,
 // } from "@blockly/continuous-toolbox";
 import locale from "blockly/msg/en";
-import "blockly/blocks";
+// import "blockly/blocks";
 
 Blockly.setLocale(locale);
 
@@ -100,17 +99,14 @@ class BlocklyComponent extends React.Component {
 
     //this.primaryWorkspace.addChangeListener(Blockly.Events.disableOrphans);
 
-    let callback = (entries)=> {
-
-
-      Blockly.svgResize(this.primaryWorkspace)
+    let callback = (entries) => {
+      Blockly.svgResize(this.primaryWorkspace);
     };
-    callback = throttle(callback,100);
+    callback = throttle(callback, 100);
     const resize_ob = new ResizeObserver(callback);
 
     resize_ob.observe(document.querySelector("#blocklyDiv"));
 
-    
     if (initialXml) {
       Blockly.Xml.domToWorkspace(
         Blockly.Xml.textToDom(initialXml),

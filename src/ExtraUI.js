@@ -48,6 +48,7 @@ const ExtraUI = ({
             let json = JSON.stringify(window.xmls, null, " ");
 
             var data = [
+              // eslint-disable-next-line no-undef
               new ClipboardItem({
                 "text/plain": new Blob([json], { type: "text/plain" }),
               }),

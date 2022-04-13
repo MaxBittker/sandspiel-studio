@@ -1,6 +1,6 @@
 import raw from "raw.macro";
 import elements from "./elements";
-const reglBuilder = require("regl");
+import * as reglBuilder from "regl";
 
 const sandShader = raw("./sand.glsl");
 let vsh = `
@@ -76,7 +76,6 @@ function pallette() {
   let render = startWebGL({
     canvas,
     width: range,
-    height: 4,
     height: 1,
     isSnapshot: true,
     sands,
