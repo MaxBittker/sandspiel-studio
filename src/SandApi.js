@@ -1,4 +1,5 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
+import elements from "./elements";
 
 let clock = 0;
 let aX = 0;
@@ -405,9 +406,9 @@ export const tick = () => {
 export const seed = () => {
   for (var i = 0; i < sands.length; i += 4) {
     sands[i] = 0;
-    /*if (Math.random() * i > width * height * 3) {
-        sands[i] = (Math.random() * (elements.length - 1)) | 0;
-      }*/
+    // if (Math.random() * i > width * height * 3) {
+    //   sands[i] = (Math.random() * (elements.length - 1)) | 0;
+    // }
     sands[i + 1] = (Math.random() * 200) | 0;
     sands[i + 2] = 100;
     sands[i + 3] = 0;

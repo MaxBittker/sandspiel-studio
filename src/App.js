@@ -1,27 +1,5 @@
-/**
- * @license
- *
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * @fileoverview Main React component that includes the Blockly component.
- * @author samelh@google.com (Sam El-Husseini)
- */
-
-import React, { useRef, useEffect } from "react";
+import elements from "./elements";
+import React, { useRef, useState, useEffect } from "react";
 import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
@@ -42,12 +20,10 @@ window.xmls = starterXMLs.map((v, i) => {
   return v;
   // return window.localStorage.getItem("code" + i) || v;
 });
-//todo generate all the code on start
-window.xmls.forEach((e, i) => {});
-function generateCode(element, dom) {
+function generateCode(element, ws) {
   let baseBlock = undefined;
-  for (let i = 0; i < window.workspace.topBlocks_.length; i++) {
-    const block = window.workspace.topBlocks_[i];
+  for (let i = 0; i < ws.topBlocks_.length; i++) {
+    const block = ws.topBlocks_[i];
     if (block.type == "sand_behavior_base") {
       baseBlock = block;
       break;
@@ -61,7 +37,7 @@ function generateCode(element, dom) {
     plugins: [parserBabel],
   });
 
-  let xml = Xml.workspaceToDom(window.workspace);
+  let xml = Xml.workspaceToDom(ws);
   let xmlText = Xml.domToPrettyText(xml);
 
   //console.log(xmlText);
@@ -76,28 +52,55 @@ function generateCode(element, dom) {
 const App = () => {
   let simpleWorkspace = useRef();
   const selectedElement = useStore((state) => state.selectedElement);
+  const setSelected = useStore((state) => state.setSelected);
+  const [loaded, setLoaded] = useState(false);
+
+  // generate all the code on start
+  useEffect(async () => {
+    if (!simpleWorkspace.current) {
+      return;
+    }
+    for (let i = elements.length - 1; i > 0; i--) {
+      setSelected(i);
+
+      let ws = simpleWorkspace.current.primaryWorkspace;
+      window.workspace = ws;
+      ws.clear();
+
+      await new Promise((resolve) => {
+        let cb = () => {
+          generateCode(i, ws);
+          ws.removeChangeListener(cb);
+          resolve();
+        };
+        ws.addChangeListener(cb);
+        Xml.domToWorkspace(Xml.textToDom(window.xmls[i]), ws);
+      });
+    }
+    setSelected(1);
+    setLoaded(true);
+  }, [simpleWorkspace]);
 
   useEffect(() => {
-    if (simpleWorkspace.current) {
+    if (simpleWorkspace.current && loaded) {
       let ws = simpleWorkspace.current.primaryWorkspace;
-
-      window.workspace = simpleWorkspace.current.primaryWorkspace;
-      let cb = () => generateCode(selectedElement);
+      window.workspace = ws;
+      let cb = () => generateCode(selectedElement, ws);
       ws.addChangeListener(cb);
       return () => {
         ws.removeChangeListener(cb);
       };
     }
-  }, [simpleWorkspace, selectedElement]);
+  }, [simpleWorkspace, selectedElement, loaded]);
 
   useEffect(() => {
-    if (!simpleWorkspace.current) return;
+    if (!simpleWorkspace.current || !loaded) return;
     simpleWorkspace.current.primaryWorkspace.clear();
     Xml.domToWorkspace(
       Xml.textToDom(window.xmls[window.selectedElement]),
       simpleWorkspace.current.primaryWorkspace
     );
-  }, [selectedElement]);
+  }, [selectedElement, loaded]);
   return (
     <div className="App">
       <BlocklyComponent
