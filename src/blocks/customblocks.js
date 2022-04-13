@@ -532,9 +532,9 @@ Blockly.Blocks["set_data_cell"] = {
 
 Blockly.Blocks["random_number"] = {
   init: function () {
-    this.appendDummyInput().appendField("random number from");
+    this.appendDummyInput().appendField("random between");
     this.appendValueInput("MIN").setCheck("Number");
-    this.appendDummyInput().appendField("to");
+    this.appendDummyInput().appendField("and");
     this.appendValueInput("MAX").setCheck("Number");
     this.setOutput(true, "Number");
     this.setColour(210);
