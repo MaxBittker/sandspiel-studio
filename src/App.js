@@ -4,7 +4,7 @@ import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks.json";
-
+import { disabledElements } from "./ElementButtons";
 import "./App.css";
 import Sand from "./Sand.js";
 import useStore from "./store";
@@ -61,6 +61,9 @@ const App = () => {
       return;
     }
     for (let i = elements.length - 1; i > 0; i--) {
+      if (disabledElements.indexOf(elements[i]) >= 0) {
+        continue;
+      }
       setSelected(i);
 
       let ws = simpleWorkspace.current.primaryWorkspace;
@@ -101,9 +104,17 @@ const App = () => {
       simpleWorkspace.current.primaryWorkspace
     );
   }, [selectedElement, loaded]);
+
+  let filter = ` brightness(1.0) contrast(0.2) saturate(0.1)`;
+  if (loaded) {
+    filter = "";
+  }
   return (
     <div className="App">
       <BlocklyComponent
+        style={{
+          filter,
+        }}
         ref={simpleWorkspace}
         collapse={false}
         comments={false}

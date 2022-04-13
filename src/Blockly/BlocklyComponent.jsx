@@ -127,11 +127,11 @@ class BlocklyComponent extends React.Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, style } = this.props;
 
     return (
       <React.Fragment>
-        <div ref={this.blocklyDiv} id="blocklyDiv" />
+        <div ref={this.blocklyDiv} id="blocklyDiv"  style={style}/>
         <xml
           xmlns="https://developers.google.com/blockly/xml"
           is="blockly"

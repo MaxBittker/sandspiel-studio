@@ -2,7 +2,7 @@ import React from "react";
 import { pallette } from "./Render";
 import elements from "./elements";
 
-let disabledElements = ["Mite", "Fungus", "Oil", "Rocket", "Seed"];
+export let disabledElements = ["Mite", "Fungus", "Oil", "Rocket", "Seed"];
 let pallette_data = pallette();
 
 const ElementButton = ({ i, setSelected, selected }) => {

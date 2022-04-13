@@ -23,6 +23,7 @@ body {
 #blocklyDiv {
   width: 100%;
   height: 100vh;
+  transition: filter 200ms ease-in;
 }
 
 #blocklyDiv * {
@@ -91,6 +92,7 @@ body {
 }
 .App {
   /* display: flex; */
+  /* transition: filter 10ms linear; */
 }
 
 .update-scheme-tray {
