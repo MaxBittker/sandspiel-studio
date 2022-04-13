@@ -8,6 +8,7 @@
     "babel-eslint": "^10.1.0",
     "blockly": "^3.20200924.4",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-react-hooks": "^4.4.0",
     "lodash": "^4.17.21",
     "prettier": "^2.5.1",
     "raw.macro": "^0.4.2",
