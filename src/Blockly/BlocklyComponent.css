@@ -3,6 +3,7 @@
   position: absolute;
   bottom: 0;
   top:310px;*/
+  user-select: none;
 }
 .blocklyFlyout {
   height: 200vh;
