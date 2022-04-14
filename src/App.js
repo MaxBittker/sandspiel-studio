@@ -105,7 +105,7 @@ const App = () => {
     );
   }, [selectedElement, loaded]);
 
-  let filter = ` brightness(1.0) contrast(0.2) saturate(0.1)`;
+  let filter = ` brightness(1.0) contrast(0.1) saturate(0.1)`;
   if (loaded) {
     filter = "";
   }
