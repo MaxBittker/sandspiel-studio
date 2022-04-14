@@ -124,8 +124,8 @@ float a = 1.0;
         lightness -= 0.4;
     }  else {
         hue = fract(fract(data.g * 41.) * 0.5) - 0.3;
-        saturation += 0.2;
-        lightness -= 0.3;
+        saturation += 0.3;
+        lightness -= 0.35;
        lightness += (data.b - 0.1) * .8;
     }
   } else if (type == 14) { // lava
