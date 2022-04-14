@@ -1,5 +1,5 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
-import elements from "./elements";
+// import elements from "./elements";
 
 let clock = 0;
 let aX = 0;

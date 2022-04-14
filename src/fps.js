@@ -1,3 +1,4 @@
+import { width, height } from "./SandApi";
 const fps = new (class {
   constructor() {
     this.fps = document.getElementById("fps");
@@ -35,7 +36,7 @@ const fps = new (class {
     let mean = sum / this.times.length;
 
     // Render the statistics.
-    this.fps.textContent = `${Math.round(max)}ms`;
+    this.fps.textContent = `${width}x${height}  ${Math.round(max)}ms`;
   }
 })();
 
