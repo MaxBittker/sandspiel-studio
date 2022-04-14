@@ -72,7 +72,7 @@ const ExtraUI = ({
         >
           Export to Clipboard {copiedState}
         </button>
-        <details>
+        {/* <details>
           <summary>Update Order</summary>
           <div className="update-scheme-tray">
             {Object.keys(UPDATE_SCHEMES).map((key) => {
@@ -93,7 +93,7 @@ const ExtraUI = ({
               <label htmlFor="taggedModeCheckbox">TAGGED</label>
             </div>
           </div>
-        </details>
+        </details> */}
         <svg
           width="300"
           height="39"

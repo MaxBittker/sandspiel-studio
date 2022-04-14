@@ -99,7 +99,7 @@ float a = 1.0;
 
     hue = 0.8;
     saturation = 0.9;
-    lightness = 0.8;
+    lightness = 0.6 + data.g * 0.1;
   } else if (type == 11) { // Wood
 
     hue = -0.4 + (data.g * 0.5);
@@ -111,9 +111,23 @@ float a = 1.0;
     // (data.g * 0.00);
     lightness = 1.0 - (data.g * 0.2);
   } else if (type == 13) { // seed
-    hue = fract(fract(data.b * 2.) * 0.5) - 0.3;
-    saturation = 0.7 * (data.g + 0.4) + data.b * 0.2;
-    lightness = 0.5 * (data.g + 0.5);
+
+  
+    saturation = 0.2 + (data.g + 0.1);
+    lightness = 0.7 + (data.g * 0.1);
+
+    if (data.b < 0.1) { // seed
+        hue = 0.9;
+    }    else if (data.b > 0.6) {
+        hue = 0.4;
+        saturation -= 0.2;
+        lightness -= 0.4;
+    }  else {
+        hue = fract(fract(data.g * 41.) * 0.5) - 0.3;
+        saturation += 0.2;
+        lightness -= 0.3;
+       lightness += (data.b - 0.1) * .8;
+    }
   } else if (type == 14) { // lava
     hue = (data.g * 0.1);
     lightness = 0.4 + data.g * 0.25;

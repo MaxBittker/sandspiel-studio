@@ -84,6 +84,7 @@ Blockly.Blocks["element_literal"] = {
         ["Ice", "ICE"],
         ["Gas", "GAS"],
         ["Wood", "WOOD"],
+        ["Seed", "SEED"],
         ["Lava", "LAVA"],
         ["Acid", "ACID"],
         ["Dust", "DUST"],

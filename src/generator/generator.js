@@ -139,10 +139,10 @@ const DIRECTIONS = {
   LEFT: "[-1, 0]",
   RIGHT: "[1, 0]",
   UP: "[0, -1]",
-  NW: "[1, -1]",
-  NE: "[-1, -1]",
-  SW: "[1, 1]",
-  SE: "[-1, 1]",
+  NW: "[-1, -1]",
+  NE: "[1, -1]",
+  SW: "[-1, 1]",
+  SE: "[1, 1]",
   RAND: "window.randomOffset()",
 };
 
