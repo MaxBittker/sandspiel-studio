@@ -137,6 +137,7 @@ function getSandRelative([x, y], o = 0) {
   return getSand(x + aX, y + aY, o);
 }
 function setSandRelative([x, y], v, ra, rb) {
+  [x, y] = [x, y].map((v) => Math.round(v));
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
   [x, y] = transform(x, y);
 
@@ -157,6 +158,8 @@ function setSandRelative([x, y], v, ra, rb) {
 }
 
 function swapSandRelative([sx, sy], [bx, by], swaps) {
+  [sx, sy] = [sx, sy].map((v) => Math.round(v));
+  [bx, by] = [bx, by].map((v) => Math.round(v));
   if (aX + sx < 0 || aX + sx >= width || aY + sy < 0 || aY + sy >= height) {
     return;
   }
@@ -197,6 +200,21 @@ function clamp(value, min, max) {
   return value;
 }
 
+// https://stackoverflow.com/questions/17410809/how-to-calculate-rotation-in-2d-in-javascript
+function rotate([x, y], [ox, oy], angle) {
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  const dy = y - oy;
+  const dx = x - ox;
+  const nx = dx * cos + dy * sin + ox;
+  const ny = dy * cos - dx * sin + oy;
+  return [nx, ny];
+}
+
+function turn([x, y], direction = -1) {
+  return rotate([x, y], [0, 0], (direction * Math.PI) / 4);
+}
+
 function add(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
     const [ax, ay] = a;
@@ -204,12 +222,18 @@ function add(a, b, aType, bType) {
     return [ax + bx, ay + by];
   }
   if (aType === "Vector" && bType !== "Vector") {
-    const [x, y] = a;
-    return [x + b, y + b];
+    let [x, y] = a;
+    for (let i = 0; i < b; i++) {
+      [x, y] = turn([x, y], -1);
+    }
+    return [x, y];
   }
   if (aType !== "Vector" && bType === "Vector") {
-    const [x, y] = b;
-    return [x + a, y + a];
+    let [x, y] = b;
+    for (let i = 0; i < a; i++) {
+      [x, y] = turn([x, y], -1);
+    }
+    return [x, y];
   }
   return a + b;
 }
@@ -221,12 +245,18 @@ function subtract(a, b, aType, bType) {
     return [ax - bx, ay - by];
   }
   if (aType === "Vector" && bType !== "Vector") {
-    const [x, y] = a;
-    return [x - b, y - b];
+    let [x, y] = a;
+    for (let i = 0; i < b; i++) {
+      [x, y] = turn([x, y], 1);
+    }
+    return [x, y];
   }
   if (aType !== "Vector" && bType === "Vector") {
-    const [x, y] = b;
-    return [x - a, y - a];
+    let [x, y] = b;
+    for (let i = 0; i < a; i++) {
+      [x, y] = turn([x, y], 1);
+    }
+    return [x, y];
   }
   return a - b;
 }
