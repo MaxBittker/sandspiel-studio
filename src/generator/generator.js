@@ -496,3 +496,9 @@ Blockly.JavaScript["is_touching"] = function (block) {
   const code = `window.isTouching([0, 0], ${element}, "${type}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
+
+Blockly.JavaScript["key_pressed"] = function (block) {
+  let key = block.getFieldValue("KEY");
+  const code = `window.keys["${key}"]`;
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+};

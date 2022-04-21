@@ -100,7 +100,7 @@ Blockly.Blocks["element_literal"] = {
 
 Blockly.Blocks["element_cell"] = {
   init: function () {
-    this.appendDummyInput().appendField("element of");
+    this.appendDummyInput().appendField("type of");
     this.appendValueInput("CELL").setCheck("Vector");
     this.setInputsInline(true);
     this.setOutput(true, "Element");
@@ -1091,3 +1091,27 @@ Blockly.Extensions.registerMutator("that_mutator", {
     }
   },
 });
+
+Blockly.Blocks["key_pressed"] = {
+  init: function () {
+    this.appendDummyInput().appendField(
+      new Blockly.FieldDropdown([
+        ["space", " "],
+        ["➡ right arrow", "ArrowRight"],
+        ["⬅ left arrow", "ArrowLeft"],
+        ["⬆ up arrow", "ArrowUp"],
+        ["⬇ down arrow", "ArrowDown"],
+      ]),
+      "KEY"
+    );
+    this.appendDummyInput().appendField(
+      new Blockly.FieldLabelSerializable("key is pressed"),
+      "TEXT"
+    );
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean");
+    this.setColour(330);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};

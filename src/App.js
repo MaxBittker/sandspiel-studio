@@ -147,6 +147,18 @@ const App = () => {
             </Shadow>
           </Value>
         </Block>
+        <Block type="change_into">
+          <Value name="CELL">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">HERE</Field>
+            </Shadow>
+          </Value>
+          <Value name="ELEMENT">
+            <Shadow type="element_literal">
+              <Field name="VALUE">SAND</Field>
+            </Shadow>
+          </Value>
+        </Block>
         <Block type="is_block">
           <Value name="CELL">
             <Shadow type="vector_constant">
@@ -175,18 +187,6 @@ const App = () => {
           <Value name="CELL">
             <Shadow type="vector_constant">
               <Field name="VALUE">HERE</Field>
-            </Shadow>
-          </Value>
-        </Block>
-        <Block type="change_into">
-          <Value name="CELL">
-            <Shadow type="vector_constant">
-              <Field name="VALUE">HERE</Field>
-            </Shadow>
-          </Value>
-          <Value name="ELEMENT">
-            <Shadow type="element_literal">
-              <Field name="VALUE">SAND</Field>
             </Shadow>
           </Value>
         </Block>
@@ -279,6 +279,7 @@ const App = () => {
         </Block> */}
         <Block type="controls_if"></Block>
         {/* <Block type="if"></Block> */}
+        <Block type="key_pressed"></Block>
         <Block type="comparison">
           <Field name="COMPARISON">IS</Field>
         </Block>

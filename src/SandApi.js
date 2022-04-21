@@ -350,6 +350,39 @@ function randomOffset() {
   ];
   return options[Math.floor(Math.random() * options.length)];
 }
+
+const trackedKeys = new Set([
+  " ",
+  "ArrowRight",
+  "ArrowLeft",
+  "ArrowUp",
+  "ArrowDown",
+]);
+
+const keys = {};
+function resetTrackedKeys() {
+  for (const key of trackedKeys.values()) {
+    keys[key] = false;
+  }
+}
+
+resetTrackedKeys();
+
+window.addEventListener("keydown", (e) => {
+  if (!trackedKeys.has(e.key)) return;
+  keys[e.key] = true;
+});
+
+window.addEventListener("keyup", (e) => {
+  if (!trackedKeys.has(e.key)) return;
+  keys[e.key] = false;
+});
+
+window.addEventListener("visibilitychange", (e) => {
+  resetTrackedKeys();
+});
+
+window.keys = keys;
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
