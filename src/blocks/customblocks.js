@@ -1031,3 +1031,63 @@ Blockly.Blocks["set_r_cell"] = {
     this.setHelpUrl("");
   },
 };
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    type: "that",
+    message0: "%1",
+    args0: [
+      {
+        type: "field_label_serializable",
+        name: "TEXT",
+        text: "that",
+      },
+    ],
+    inputsInline: true,
+    output: "Number",
+    colour: 210,
+    tooltip: "",
+    helpUrl: "",
+    mutator: "that_mutator",
+  },
+  {
+    type: "that_pointer",
+    message0: "%1",
+    args0: [
+      {
+        type: "input_dummy",
+      },
+    ],
+    output: null,
+    colour: 210,
+    //deleteable: false,
+    tooltip: "",
+    helpUrl: "",
+  },
+]);
+
+Blockly.Extensions.registerMutator("that_mutator", {
+  mutationToDom() {
+    const container = Blockly.utils.xml.createElement("mutation");
+    container.setAttribute("target", this.target);
+    container.setAttribute("pointer", this.pointer);
+    return container;
+  },
+  domToMutation(mutation) {
+    this.target = mutation.getAttribute("target");
+    this.pointer = mutation.getAttribute("pointer");
+    this.rebuild();
+  },
+  rebuild() {
+    if (this.pointer === "undefined") {
+      const pointer = window.workspace.newBlock("that_pointer");
+      pointer.initSvg();
+      pointer.render();
+      this.pointer = pointer.id;
+    } else {
+      const pointer = window.workspace.getBlockById(this.pointer);
+      pointer.moveBy(1, 0);
+      //pointer.moveTo(position);
+    }
+  },
+});
