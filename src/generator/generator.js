@@ -205,6 +205,39 @@ Blockly.JavaScript["set_r_cell"] = function (block) {
   }
 };
 
+Blockly.JavaScript["set_r_cell_short"] = function (block) {
+  const cell = "[0, 0]";
+  const value = Blockly.JavaScript.valueToCode(
+    block,
+    "VALUE",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const field = block.getFieldValue("DATA");
+  const valueCode = `clamp(${value}, -100, 100) + 100`;
+  if (field === "RA") {
+    return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+  } else if (field === "RB") {
+    return `window.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  }
+};
+
+Blockly.JavaScript["modify_r"] = function (block) {
+  const cell = "[0, 0]";
+  const value = Blockly.JavaScript.valueToCode(
+    block,
+    "VALUE",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const field = block.getFieldValue("DATA");
+  const offset = field === "RA" ? "1" : "2";
+  const valueCode = `clamp(window.getSandRelative(${cell}, ${offset}) - 100 + ${value}, -100, 100) + 100`;
+  if (field === "RA") {
+    return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+  } else if (field === "RB") {
+    return `window.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  }
+};
+
 Blockly.JavaScript["get_r_cell"] = function (block) {
   const cell = Blockly.JavaScript.valueToCode(
     block,
@@ -218,6 +251,22 @@ Blockly.JavaScript["get_r_cell"] = function (block) {
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   } else if (field === "RA") {
+    return [
+      `window.getSandRelative(${cell}, 1) - 100`,
+      Blockly.JavaScript.ORDER_ATOMIC,
+    ];
+  } else if (field === "RB") {
+    return [
+      `window.getSandRelative(${cell}, 2) - 100`,
+      Blockly.JavaScript.ORDER_ATOMIC,
+    ];
+  }
+};
+
+Blockly.JavaScript["get_r_cell_short"] = function (block) {
+  const cell = "[0, 0]";
+  const field = block.getFieldValue("DATA");
+  if (field === "RA") {
     return [
       `window.getSandRelative(${cell}, 1) - 100`,
       Blockly.JavaScript.ORDER_ATOMIC,
@@ -261,7 +310,7 @@ Blockly.JavaScript["move"] = function (block) {
     "DIRECTION",
     Blockly.JavaScript.ORDER_MEMBER
   );
-  const code = `window.swapSandRelative([0, 0], ${direction}, swaps);\n`;
+  const code = `window.swapSandRelative([0, 0], ${direction}, swaps);\nwindow.moveOrigin(${direction});\n`;
   return code;
 };
 

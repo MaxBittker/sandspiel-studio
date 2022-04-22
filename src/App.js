@@ -189,7 +189,7 @@ const App = () => {
         <Block type="element_cell">
           <Value name="CELL">
             <Shadow type="vector_constant">
-              <Field name="VALUE">HERE</Field>
+              <Field name="VALUE">DOWN</Field>
             </Shadow>
           </Value>
         </Block>
@@ -293,8 +293,35 @@ const App = () => {
           <Field name="VALUE">TRUE</Field>
         </Block>
         <Block type="not"></Block>
+        <Block type="get_r_cell_short">
+          <Field name="DATA">RA</Field>
+        </Block>
+        <Block type="set_r_cell_short">
+          <Field name="DATA">RA</Field>
+          <Value name="VALUE">
+            <Shadow type="number_literal">
+              <Field name="VALUE">0</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="modify_r">
+          <Field name="DATA">RA</Field>
+          <Value name="VALUE">
+            <Shadow type="number_literal">
+              <Field name="VALUE">0</Field>
+            </Shadow>
+          </Value>
+        </Block>
+        <Block type="get_r_cell">
+          <Field name="DATA">RA</Field>
+          <Value name="CELL">
+            <Shadow type="vector_constant">
+              <Field name="VALUE">HERE</Field>
+            </Shadow>
+          </Value>
+        </Block>
         <Block type="set_r_cell">
-          <Field name="DATA">ELEMENT</Field>
+          <Field name="DATA">RA</Field>
           <Value name="CELL">
             <Shadow type="vector_constant">
               <Field name="VALUE">HERE</Field>
@@ -303,14 +330,6 @@ const App = () => {
           <Value name="VALUE">
             <Shadow type="number_literal">
               <Field name="VALUE">0</Field>
-            </Shadow>
-          </Value>
-        </Block>
-        <Block type="get_r_cell">
-          <Field name="DATA">ELEMENT</Field>
-          <Value name="CELL">
-            <Shadow type="vector_constant">
-              <Field name="VALUE">HERE</Field>
             </Shadow>
           </Value>
         </Block>
