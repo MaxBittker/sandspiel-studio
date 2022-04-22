@@ -994,7 +994,6 @@ Blockly.Blocks["get_r_cell"] = {
       new Blockly.FieldDropdown([
         ["⭐ ra", "RA"],
         ["⚡ rb", "RB"],
-        ["💎 type", "ELEMENT"],
       ]),
       "DATA"
     );
@@ -1015,7 +1014,6 @@ Blockly.Blocks["set_r_cell"] = {
       new Blockly.FieldDropdown([
         ["⭐ ra", "RA"],
         ["⚡ rb", "RB"],
-        ["💎 type", "ELEMENT"],
       ]),
       "DATA"
     );
@@ -1111,6 +1109,66 @@ Blockly.Blocks["key_pressed"] = {
     this.setInputsInline(true);
     this.setOutput(true, "Boolean");
     this.setColour(330);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.Blocks["get_r_cell_short"] = {
+  init: function () {
+    this.appendDummyInput().appendField(
+      new Blockly.FieldDropdown([
+        ["⭐ ra", "RA"],
+        ["⚡ rb", "RB"],
+      ]),
+      "DATA"
+    );
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(210);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.Blocks["set_r_cell_short"] = {
+  init: function () {
+    this.appendDummyInput().appendField("set");
+    this.appendDummyInput().appendField(
+      new Blockly.FieldDropdown([
+        ["⭐ ra", "RA"],
+        ["⚡ rb", "RB"],
+      ]),
+      "DATA"
+    );
+    this.appendDummyInput().appendField("to");
+    this.appendValueInput("VALUE").setCheck(["Number", "Element"]);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.Blocks["modify_r"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("modify")
+      .appendField(
+        new Blockly.FieldDropdown([
+          ["⭐ ra", "RA"],
+          ["⚡ rb", "RB"],
+        ]),
+        "DATA"
+      );
+    this.appendDummyInput().appendField("by");
+    this.appendValueInput("VALUE").setCheck(["Number", "Element"]);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
     this.setTooltip("");
     this.setHelpUrl("");
   },
