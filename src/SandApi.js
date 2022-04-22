@@ -194,6 +194,13 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
   swaps.push([aid, bid]);
 }
 
+function moveOrigin([x, y]) {
+  if (aX + x < 0 || aX + x >= width || aY + y < 0 || aY + y >= height) {
+    return;
+  }
+  [aX, aY] = [aX + x, aY + y];
+}
+
 function clamp(value, min, max) {
   if (value < min) return min;
   if (value > max) return max;
@@ -386,6 +393,7 @@ window.keys = keys;
 window.getSandRelative = getSandRelative;
 window.setSandRelative = setSandRelative;
 window.swapSandRelative = swapSandRelative;
+window.moveOrigin = moveOrigin;
 window.eq = eq;
 window.greaterThan = greaterThan;
 window.lessThan = lessThan;

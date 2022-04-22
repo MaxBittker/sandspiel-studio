@@ -310,7 +310,7 @@ Blockly.JavaScript["move"] = function (block) {
     "DIRECTION",
     Blockly.JavaScript.ORDER_MEMBER
   );
-  const code = `window.swapSandRelative([0, 0], ${direction}, swaps);\n`;
+  const code = `window.swapSandRelative([0, 0], ${direction}, swaps);\nwindow.moveOrigin(${direction});\n`;
   return code;
 };
 
