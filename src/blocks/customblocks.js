@@ -369,7 +369,7 @@ Blockly.Blocks["vector_constant"] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["● me", "HERE"],
+        ["me", "HERE"],
         ["➡ right", "RIGHT"],
         ["⬅ left", "LEFT"],
         ["⬆ up", "UP"],
@@ -1096,7 +1096,7 @@ Blockly.Blocks["key_pressed"] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["space", " "],
+        ["space bar", " "],
         ["➡ right arrow", "ArrowRight"],
         ["⬅ left arrow", "ArrowLeft"],
         ["⬆ up arrow", "ArrowUp"],
@@ -1105,7 +1105,7 @@ Blockly.Blocks["key_pressed"] = {
       "KEY"
     );
     this.appendDummyInput().appendField(
-      new Blockly.FieldLabelSerializable("key is pressed"),
+      new Blockly.FieldLabelSerializable("is pressed"),
       "TEXT"
     );
     this.setInputsInline(true);
