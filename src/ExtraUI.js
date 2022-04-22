@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { seed } from "./SandApi";
+import { serverAddr } from "./loadShaderFromServer";
 import { UPDATE_SCHEMES } from "./updateSchemes";
 const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
   return (
@@ -23,6 +24,7 @@ const TaggedModeCheckbox = ({ setTaggedMode, selected }) => {
     ></input>
   );
 };
+
 const ExtraUI = ({
   updateScheme,
   setUpdateScheme,
@@ -30,6 +32,8 @@ const ExtraUI = ({
   setTaggedMode,
 }) => {
   let [copiedState, setCopiedState] = useState(null);
+  let [sharedState, setSharedState] = useState(null);
+
   return (
     <div className="extras-tray">
       <button
@@ -42,6 +46,50 @@ const ExtraUI = ({
       </button>
 
       <div>
+        <button
+          className="simulation-button"
+          onClick={() => {
+            let json = JSON.stringify(window.xmls, null, " ");
+
+            fetch(serverAddr + "upload/", {
+              method: "post",
+              body: json,
+            })
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function ({ id }) {
+                window.history.pushState({}, "sand blocks", "?" + id);
+                var data = [
+                  // eslint-disable-next-line no-undef
+                  new ClipboardItem({
+                    "text/plain": new Blob([window.location.href], {
+                      type: "text/plain",
+                    }),
+                  }),
+                ];
+                navigator.clipboard.write(data).then(
+                  function () {
+                    setSharedState(" ✓ Copied");
+                  },
+                  function () {
+                    setSharedState("...Error");
+                  }
+                );
+              });
+          }}
+        >
+          Get Share Link {sharedState}
+        </button>
+        {sharedState === " ✓ Copied" && (
+          <pre style={{ fontSize: "1rem", color: "blue" }}>
+            {window.location.href}
+          </pre>
+        )}
+        <br />
+        <br />
+        <br />
+        <br />
         <button
           className="simulation-button"
           onClick={() => {

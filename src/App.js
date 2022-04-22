@@ -15,11 +15,8 @@ import prettier from "prettier";
 
 import "./blocks/customblocks";
 import "./generator/generator";
+import { loadShaderFromServer } from "./loadShaderFromServer";
 
-window.xmls = starterXMLs.map((v, i) => {
-  return v;
-  // return window.localStorage.getItem("code" + i) || v;
-});
 function generateCode(element, ws) {
   let baseBlock = undefined;
   for (let i = 0; i < ws.topBlocks_.length; i++) {
@@ -54,10 +51,16 @@ const App = () => {
   const selectedElement = useStore((state) => state.selectedElement);
   const setSelected = useStore((state) => state.setSelected);
   const [loaded, setLoaded] = useState(false);
+  const [fetchedData, setFetchedData] = useState(false);
 
   // generate all the code on start
   useEffect(async () => {
-    if (!simpleWorkspace.current) {
+    await loadShaderFromServer();
+    setFetchedData(true);
+  }, []);
+  // generate all the code on start
+  useEffect(async () => {
+    if (!fetchedData || !simpleWorkspace.current) {
       return;
     }
     for (let i = elements.length - 1; i > 0; i--) {
@@ -82,7 +85,7 @@ const App = () => {
     }
     setSelected(1);
     setLoaded(true);
-  }, [simpleWorkspace]);
+  }, [simpleWorkspace, fetchedData]);
 
   useEffect(() => {
     if (simpleWorkspace.current && loaded) {
