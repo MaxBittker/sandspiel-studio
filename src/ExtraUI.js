@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { seed } from "./SandApi";
 import { serverAddr } from "./loadShaderFromServer";
 import { UPDATE_SCHEMES } from "./updateSchemes";
+import * as vkbeautify from "vkbeautify";
+
 const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
   return (
     <button
@@ -49,7 +51,8 @@ const ExtraUI = ({
         <button
           className="simulation-button"
           onClick={() => {
-            let json = JSON.stringify(window.xmls, null, " ");
+            let minifiedXmls = window.xmls.map((x) => vkbeautify.xmlmin(x));
+            let json = JSON.stringify(minifiedXmls, null, " ");
 
             fetch(serverAddr + "upload/", {
               method: "post",
@@ -93,7 +96,8 @@ const ExtraUI = ({
         <button
           className="simulation-button"
           onClick={() => {
-            let json = JSON.stringify(window.xmls, null, " ");
+            let minifiedXmls = window.xmls.map((x) => vkbeautify.xmlmin(x));
+            let json = JSON.stringify(minifiedXmls, null, " ");
 
             var data = [
               // eslint-disable-next-line no-undef
