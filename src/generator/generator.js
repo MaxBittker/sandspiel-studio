@@ -213,7 +213,7 @@ Blockly.JavaScript["set_r_cell_short"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const field = block.getFieldValue("DATA");
-  const valueCode = `clamp(${value}, -100, 100) + 100`;
+  const valueCode = `this.clamp(${value}, -100, 100) + 100`;
   if (field === "RA") {
     return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
@@ -230,7 +230,7 @@ Blockly.JavaScript["modify_r"] = function (block) {
   );
   const field = block.getFieldValue("DATA");
   const offset = field === "RA" ? "1" : "2";
-  const valueCode = `clamp(window.getSandRelative(${cell}, ${offset}) - 100 + ${value}, -100, 100) + 100`;
+  const valueCode = `this.clamp(window.getSandRelative(${cell}, ${offset}) - 100 + ${value}, -100, 100) + 100`;
   if (field === "RA") {
     return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
