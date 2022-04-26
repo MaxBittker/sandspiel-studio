@@ -42,7 +42,7 @@ function generateCode(element, ws) {
   // eslint-disable-next-line no-new-func
   let fn = Function(code);
   globalState.xmls[element] = xmlText;
-  globalState.updaters[element] = fn;
+  globalState.updaters[element] = fn.bind(globalState);
 }
 
 const App = () => {

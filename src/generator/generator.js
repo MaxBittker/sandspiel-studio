@@ -483,7 +483,7 @@ Blockly.JavaScript["operation"] = function (block) {
   const operation = block.getFieldValue("OPERATION");
   const functionName = OPERATION_FUNCTIONS[operation];
 
-  const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`;
+  const code = `this.${functionName}(${a}, ${b}, "${aType}", "${bType}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 

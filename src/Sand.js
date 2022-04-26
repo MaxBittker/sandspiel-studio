@@ -10,7 +10,7 @@ import { sands, width, height, tick, setSand } from "./SandApi";
 let dpi = 4;
 
 globalState.updaters = elements.map(() => {
-  return () => {};
+  return (() => {}).bind(globalState);
 });
 const Sand = () => {
   const selectedElement = useStore((state) => state.selectedElement);

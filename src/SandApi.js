@@ -462,7 +462,7 @@ export const fireEvent = (offset, { tagged = globalState.taggedMode } = {}) => {
   aX = x;
   aY = y;
   globalState.returnValue = undefined;
-  const behaveFunction = globalState.updaters[e].bind(globalState);
+  const behaveFunction = globalState.updaters[e];
   if (behaveFunction === undefined) return [];
   const swaps = behaveFunction(e);
   return swaps;
