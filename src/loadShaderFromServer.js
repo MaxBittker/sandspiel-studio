@@ -1,5 +1,6 @@
 import starterXMLs from "./starterblocks.json";
 export const serverAddr = "https://api.shaderbooth.com:3002/";
+// export const serverAddr = "/api/getCreation/";
 
 export async function loadShaderFromServer() {
   if (window.location.search.length <= 2) {

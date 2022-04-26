@@ -15,21 +15,20 @@
     "react": "^17.0.1",
     "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
-    "react-scripts": "^5.0.0",
     "regl": "^2.1.0",
     "use-animation-frame": "^0.1.1",
     "vkbeautify": "^0.99.3",
-    "zustand": "^3.6.9"
+    "zustand": "^3.6.9",
+    "next": "latest"
   },
   "scripts": {
     "audit": "npm audit fix",
     "update": "npm update",
     "postinstall": "cp -r node_modules/blockly/media public/media",
     "predeploy": "npm run build",
-    "start": "react-scripts start",
-    "build": "DISABLE_ESLINT_PLUGIN='true' react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -56,7 +55,9 @@
     ]
   },
   "devDependencies": {
+    "@types/react": "^18.0.7",
     "eslint": "^8.12.0",
+    "vercel": "^24.1.0",
     "eslint-plugin-react": "^7.29.4"
   }
 }

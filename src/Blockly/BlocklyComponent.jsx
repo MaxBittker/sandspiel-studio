@@ -22,7 +22,6 @@
  */
 
 import React from "react";
-import "./BlocklyComponent.css";
 import throttle from "lodash/throttle";
 
 import Blockly from "blockly";
@@ -81,6 +80,7 @@ Blockly.utils.object.inherits(
   CustomConstantsProvider,
   Blockly.blockRendering.ConstantProvider
 );
+Blockly.blockRendering.unregister("custom_renderer");
 Blockly.blockRendering.register("custom_renderer", CustomRenderer);
 
 class BlocklyComponent extends React.Component {
@@ -131,7 +131,7 @@ class BlocklyComponent extends React.Component {
 
     return (
       <React.Fragment>
-        <div ref={this.blocklyDiv} id="blocklyDiv"  style={style}/>
+        <div ref={this.blocklyDiv} id="blocklyDiv" style={style} />
         <xml
           xmlns="https://developers.google.com/blockly/xml"
           is="blockly"

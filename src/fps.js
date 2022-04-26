@@ -1,6 +1,9 @@
 import { width, height } from "./SandApi";
 const fps = new (class {
   constructor() {
+    if (typeof window === "undefined") {
+      return;
+    }
     this.fps = document.getElementById("fps");
     this.frames = [];
     this.times = [];
@@ -8,6 +11,13 @@ const fps = new (class {
   }
 
   render(d) {
+    if (!this.fps) {
+      this.fps = document.getElementById("fps");
+      this.frames = [];
+      this.times = [];
+      this.lastFrameTimeStamp = performance.now();
+    }
+
     // Convert the delta time since the last frame render into a measure
     // of frames per second.
     const now = performance.now();
@@ -36,7 +46,9 @@ const fps = new (class {
     let mean = sum / this.times.length;
 
     // Render the statistics.
-    this.fps.textContent = `${width}x${height}  ${Math.round(max)}ms`;
+    if (this.fps) {
+      this.fps.textContent = `${width}x${height}  ${Math.round(max)}ms`;
+    }
   }
 })();
 

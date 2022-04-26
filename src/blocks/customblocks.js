@@ -27,8 +27,9 @@
 import * as Blockly from "blockly/core";
 //import { elements } from "../Sand";
 // Since we're using json to initialize the field, we'll need to import it.
-import "../fields/BlocklyReactField";
-import "../fields/DateField";
+// import "../fields/BlocklyReactField";
+// import "../fields/DateField";
+import { globalState } from "../store.js";
 import { getTypeOfValue } from "../generator/generator.js";
 
 Blockly.Blocks["sand_behavior_base"] = {
@@ -167,7 +168,6 @@ Blockly.defineBlocksWithJsonArray([
     mutator: "group_mutator",
   },
 ]);
-
 Blockly.Extensions.registerMutator(
   "group_mutator",
   {
@@ -206,7 +206,7 @@ Blockly.Extensions.registerMutator(
         block.appendDummyInput(`ITEM_OR${i}`).appendField("or");
         block.appendValueInput(`ITEM${i}`);
 
-        const shadow = window.workspace.newBlock("element_literal");
+        const shadow = globalState.workspace.newBlock("element_literal");
         const input = block.getInput(`ITEM${i}`);
         shadow.setShadow(true);
         shadow.initSvg();
@@ -459,15 +459,15 @@ Blockly.Blocks["set_data_cell"] = {
         input.setCheck("Vector");
 
         if (content !== null) {
-          const shadow = window.workspace.newBlock("vector_literal");
+          const shadow = globalState.workspace.newBlock("vector_literal");
           shadow.initSvg();
           input.connection.connect_(shadow.outputConnection);
           shadow.setShadow(true);
 
           const xInput = shadow.getInput("X");
           const yInput = shadow.getInput("Y");
-          const x = window.workspace.newBlock("number_literal");
-          const y = window.workspace.newBlock("number_literal");
+          const x = globalState.workspace.newBlock("number_literal");
+          const y = globalState.workspace.newBlock("number_literal");
           x.initSvg();
           y.initSvg();
           x.setShadow(true);
@@ -497,7 +497,7 @@ Blockly.Blocks["set_data_cell"] = {
         input.setCheck("Number");
 
         if (content !== null) {
-          const shadow = window.workspace.newBlock("number_literal");
+          const shadow = globalState.workspace.newBlock("number_literal");
           shadow.initSvg();
           input.connection.connect_(shadow.outputConnection);
           shadow.setShadow(true);
@@ -1063,7 +1063,6 @@ Blockly.defineBlocksWithJsonArray([
     helpUrl: "",
   },
 ]);
-
 Blockly.Extensions.registerMutator("that_mutator", {
   mutationToDom() {
     const container = Blockly.utils.xml.createElement("mutation");
@@ -1078,12 +1077,12 @@ Blockly.Extensions.registerMutator("that_mutator", {
   },
   rebuild() {
     if (this.pointer === "undefined") {
-      const pointer = window.workspace.newBlock("that_pointer");
+      const pointer = globalState.workspace.newBlock("that_pointer");
       pointer.initSvg();
       pointer.render();
       this.pointer = pointer.id;
     } else {
-      const pointer = window.workspace.getBlockById(this.pointer);
+      const pointer = globalState.workspace.getBlockById(this.pointer);
       pointer.moveBy(1, 0);
       //pointer.moveTo(position);
     }

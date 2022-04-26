@@ -1,6 +1,6 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
 // import elements from "./elements";
-
+import { globalState } from "./store.js";
 let clock = 0;
 let aX = 0;
 let aY = 0;
@@ -9,7 +9,6 @@ export const height = width;
 export const cellCount = width * height;
 
 export const sands = new Uint8Array(cellCount * 4);
-window.sands = sands;
 function isBlock(pos, value, type) {
   if (type === "Group") {
     for (const [element] of value) {
@@ -122,7 +121,7 @@ export function setSand(x, y, v, ra, rb) {
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
 
-  if (!UPDATE_SCHEMES[window.updateScheme].manualTagging) {
+  if (!UPDATE_SCHEMES[globalState.updateScheme].manualTagging) {
     sands[i + 3] = clock;
   }
 }
@@ -186,7 +185,7 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
   sands[bid + 1] = ara;
   sands[bid + 2] = arb;
 
-  if (!UPDATE_SCHEMES[window.updateScheme].manualTagging) {
+  if (!UPDATE_SCHEMES[globalState.updateScheme].manualTagging) {
     sands[aid + 3] = clock;
     sands[bid + 3] = clock;
   }
@@ -374,41 +373,43 @@ function resetTrackedKeys() {
 }
 
 resetTrackedKeys();
+if (typeof window !== "undefined") {
+  window.addEventListener("keydown", (e) => {
+    if (!trackedKeys.has(e.key)) return;
+    keys[e.key] = true;
+  });
 
-window.addEventListener("keydown", (e) => {
-  if (!trackedKeys.has(e.key)) return;
-  keys[e.key] = true;
-});
+  window.addEventListener("keyup", (e) => {
+    if (!trackedKeys.has(e.key)) return;
+    keys[e.key] = false;
+  });
 
-window.addEventListener("keyup", (e) => {
-  if (!trackedKeys.has(e.key)) return;
-  keys[e.key] = false;
-});
+  window.addEventListener("visibilitychange", (e) => {
+    resetTrackedKeys();
+  });
+}
 
-window.addEventListener("visibilitychange", (e) => {
-  resetTrackedKeys();
-});
+globalState.keys = keys;
+globalState.getSandRelative = getSandRelative;
+globalState.setSandRelative = setSandRelative;
+globalState.swapSandRelative = swapSandRelative;
+globalState.moveOrigin = moveOrigin;
+globalState.eq = eq;
+globalState.greaterThan = greaterThan;
+globalState.lessThan = lessThan;
+globalState.isTouching = isTouching;
+globalState.isBlock = isBlock;
+globalState.add = add;
+globalState.clamp = clamp;
+globalState.subtract = subtract;
+globalState.multiply = multiply;
+globalState.divide = divide;
+globalState.setTransformation = setTransformation;
+globalState.randomOffset = randomOffset;
+globalState.setRandomTransformation = setRandomTransformation;
+globalState.loopThroughTransformation = loopThroughTransformation;
+globalState.getTransformation = getTransformation;
 
-window.keys = keys;
-window.getSandRelative = getSandRelative;
-window.setSandRelative = setSandRelative;
-window.swapSandRelative = swapSandRelative;
-window.moveOrigin = moveOrigin;
-window.eq = eq;
-window.greaterThan = greaterThan;
-window.lessThan = lessThan;
-window.isTouching = isTouching;
-window.isBlock = isBlock;
-window.add = add;
-window.clamp = clamp;
-window.subtract = subtract;
-window.multiply = multiply;
-window.divide = divide;
-window.setTransformation = setTransformation;
-window.randomOffset = randomOffset;
-window.setRandomTransformation = setRandomTransformation;
-window.loopThroughTransformation = loopThroughTransformation;
-window.getTransformation = getTransformation;
 export const fireEventPhase = ({
   xFirst = false,
   aDirection = 1,
@@ -447,7 +448,7 @@ export const fireEventPhase = ({
   }
 };
 
-export const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
+export const fireEvent = (offset, { tagged = globalState.taggedMode } = {}) => {
   if (tagged) {
     let c = sands[offset + 3];
     if (c === clock) return;
@@ -460,8 +461,8 @@ export const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
   let y = Math.floor(index / width);
   aX = x;
   aY = y;
-  window.returnValue = undefined;
-  const behaveFunction = window.updaters[e];
+  globalState.returnValue = undefined;
+  const behaveFunction = globalState.updaters[e].bind(globalState);
   if (behaveFunction === undefined) return [];
   const swaps = behaveFunction(e);
   return swaps;
@@ -469,7 +470,7 @@ export const fireEvent = (offset, { tagged = window.taggedMode } = {}) => {
 
 export const tick = () => {
   clock = (clock + 1) % 2;
-  const scheme = UPDATE_SCHEMES[window.updateScheme || "RANDOM_CYCLIC"];
+  const scheme = UPDATE_SCHEMES[globalState.updateScheme || "RANDOM_CYCLIC"];
   if (typeof scheme === "function") scheme(scheme);
   else scheme.tick(scheme);
 };

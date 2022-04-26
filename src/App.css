@@ -15,7 +15,7 @@
 body {
   background-color: rgb(225, 222, 218);
   font-family: "Inconsolata", monospace;
-  /* background-image: url("/public/tiles/Brain.png"); */
+  /* background-image: url("/tiles/Brain.png"); */
 
   background-size: 70px;
 }
@@ -32,31 +32,31 @@ body {
 .blocklySvg {
   /* background-color: rgb(228, 199, 194); */
 
-  /* background-image: url("/public/tiles/Brain.png"); */
-  /* background-image: url("/public/tiles/Linen.png"); */
-  /* background-image: url("/public/tiles/Scatter Purple.png"); */
-  /* background-image: url("/public/tiles/Bulge.png"); */
-  /* background-image: url("/public/tiles/Scatter.png"); */
-  /* background-image: url("/public/tiles/Burlap.png"); */
-  /* background-image: url("/public/tiles/Scribble.png"); */
-  /* background-image: url("/public/tiles/Cirrostratus.png"); */
-  /* background-image: url("/public/tiles/Nebula.png"); */
-  /* background-image: url("/public/tiles/Cracked.png"); */
-  /* background-image: url("/public/tiles/Rhodo.png"); */
-  /* background-image: url("/public/tiles/Rockface.png"); */
-  /* background-image: url("/public/tiles/Swirl.png"); */
-  /* background-image: url("/public/tiles/Dither 1x1.png"); */
-  /* background-image: url("/public/tiles/Tide Pool.png"); */
-  /* background-image: url("/public/tiles/Dither 2x2.png"); */
-  /* background-image: url("/public/tiles/Scallop.png"); */
-  /* background-image: url("/public/tiles/Verde Marble.png"); */
-  /* background-image: url("/public/tiles/Scatter Blue.png"); */
-  /* background-image: url("/public/tiles/Fabric.png"); */
-  /* background-image: url("/public/tiles/Scatter Classic.png"); */
-  /* background-image: url("/public/tiles/Granite.png"); */
-  /* background-image: url("/public/tiles/Scatter Green.png"); */
-  background-image: url("/public/tiles/Scatter Pink.png");
-  /* background-image: url("/public/tiles/ScatterGray.png"); */
+  /* background-image: url("/tiles/Brain.png"); */
+  /* background-image: url("/tiles/Linen.png"); */
+  /* background-image: url("/tiles/Scatter Purple.png"); */
+  /* background-image: url("/tiles/Bulge.png"); */
+  /* background-image: url("/tiles/Scatter.png"); */
+  /* background-image: url("/tiles/Burlap.png"); */
+  /* background-image: url("/tiles/Scribble.png"); */
+  /* background-image: url("/tiles/Cirrostratus.png"); */
+  /* background-image: url("/tiles/Nebula.png"); */
+  /* background-image: url("/tiles/Cracked.png"); */
+  /* background-image: url("/tiles/Rhodo.png"); */
+  /* background-image: url("/tiles/Rockface.png"); */
+  /* background-image: url("/tiles/Swirl.png"); */
+  /* background-image: url("/tiles/Dither 1x1.png"); */
+  /* background-image: url("/tiles/Tide Pool.png"); */
+  /* background-image: url("/tiles/Dither 2x2.png"); */
+  /* background-image: url("/tiles/Scallop.png"); */
+  /* background-image: url("/tiles/Verde Marble.png"); */
+  /* background-image: url("/tiles/Scatter Blue.png"); */
+  /* background-image: url("/tiles/Fabric.png"); */
+  /* background-image: url("/tiles/Scatter Classic.png"); */
+  /* background-image: url("/tiles/Granite.png"); */
+  /* background-image: url("/tiles/Scatter Green.png"); */
+  background-image: url("/tiles/Scatter Pink.png");
+  /* background-image: url("/tiles/ScatterGray.png"); */
   background-size: 80px;
   /* filter: brightness(1.1); */
   /*background-color: rgb(228, 199, 194, 0);*/
@@ -68,7 +68,7 @@ body {
   top: 0;
   height: 100vh;
   flex-shrink: 0;
-  background-image: url("/public/tiles/ScatterGray.png");
+  background-image: url("/tiles/ScatterGray.png");
   background-size: 30px;
   box-shadow: -8px 0px 8px rgba(46, 44, 44, 0.328);
 }

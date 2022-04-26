@@ -1,31 +1,33 @@
 import React, { useState } from "react";
 import { seed } from "./SandApi";
+import { globalState } from "./store";
 import { serverAddr } from "./loadShaderFromServer";
-import { UPDATE_SCHEMES } from "./updateSchemes";
+// import { UPDATE_SCHEMES } from "./updateSchemes";
 import * as vkbeautify from "vkbeautify";
 
-const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
-  return (
-    <button
-      className={`simulation-button update-scheme-button${
-        selected ? " selected" : ""
-      }`}
-      onClick={() => setUpdateScheme(name)}
-    >
-      {name}
-    </button>
-  );
-};
-const TaggedModeCheckbox = ({ setTaggedMode, selected }) => {
-  return (
-    <input
-      id="taggedModeCheckbox"
-      type="checkbox"
-      checked={selected}
-      onChange={() => setTaggedMode(!selected)}
-    ></input>
-  );
-};
+// import { UPDATE_SCHEMES } from "./updateSchemes";
+// const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
+//   return (
+//     <button
+//       className={`simulation-button update-scheme-button${
+//         selected ? " selected" : ""
+//       }`}
+//       onClick={() => setUpdateScheme(name)}
+//     >
+//       {name}
+//     </button>
+//   );
+// };
+// const TaggedModeCheckbox = ({ setTaggedMode, selected }) => {
+//   return (
+//     <input
+//       id="taggedModeCheckbox"
+//       type="checkbox"
+//       checked={selected}
+//       onChange={() => setTaggedMode(!selected)}
+//     ></input>
+//   );
+// };
 
 const ExtraUI = ({
   updateScheme,
@@ -51,7 +53,9 @@ const ExtraUI = ({
         <button
           className="simulation-button"
           onClick={() => {
-            let minifiedXmls = window.xmls.map((x) => vkbeautify.xmlmin(x));
+            let minifiedXmls = globalState.xmls.map((x) =>
+              vkbeautify.xmlmin(x)
+            );
             let json = JSON.stringify(minifiedXmls, null, " ");
 
             fetch(serverAddr + "upload/", {
@@ -96,7 +100,9 @@ const ExtraUI = ({
         <button
           className="simulation-button"
           onClick={() => {
-            let minifiedXmls = window.xmls.map((x) => vkbeautify.xmlmin(x));
+            let minifiedXmls = globalState.xmls.map((x) =>
+              vkbeautify.xmlmin(x)
+            );
             let json = JSON.stringify(minifiedXmls, null, " ");
 
             var data = [

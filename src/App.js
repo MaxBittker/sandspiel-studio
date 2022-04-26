@@ -5,9 +5,8 @@ import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks.json";
 import { disabledElements } from "./ElementButtons";
-import "./App.css";
 import Sand from "./Sand.js";
-import useStore from "./store";
+import useStore, { globalState } from "./store";
 
 import BlocklyComponent, { Block, Value, Field, Shadow } from "./Blockly";
 
@@ -42,8 +41,8 @@ function generateCode(element, ws) {
   //console.log(code);
   // eslint-disable-next-line no-new-func
   let fn = Function(code);
-  window.xmls[element] = xmlText;
-  window.updaters[element] = fn;
+  globalState.xmls[element] = xmlText;
+  globalState.updaters[element] = fn;
 }
 
 const App = () => {
@@ -70,7 +69,7 @@ const App = () => {
       setSelected(i);
 
       let ws = simpleWorkspace.current.primaryWorkspace;
-      window.workspace = ws;
+      globalState.workspace = ws;
       ws.clear();
 
       await new Promise((resolve) => {
@@ -80,7 +79,7 @@ const App = () => {
           resolve();
         };
         ws.addChangeListener(cb);
-        Xml.domToWorkspace(Xml.textToDom(window.xmls[i]), ws);
+        Xml.domToWorkspace(Xml.textToDom(xmls[i]), ws);
       });
     }
     setSelected(1);
@@ -90,7 +89,7 @@ const App = () => {
   useEffect(() => {
     if (simpleWorkspace.current && loaded) {
       let ws = simpleWorkspace.current.primaryWorkspace;
-      window.workspace = ws;
+      globalState.workspace = ws;
       let cb = () => generateCode(selectedElement, ws);
       ws.addChangeListener(cb);
       return () => {
@@ -103,7 +102,7 @@ const App = () => {
     if (!simpleWorkspace.current || !loaded) return;
     simpleWorkspace.current.primaryWorkspace.clear();
     Xml.domToWorkspace(
-      Xml.textToDom(window.xmls[window.selectedElement]),
+      Xml.textToDom(globalState.xmls[globalState.selectedElement]),
       simpleWorkspace.current.primaryWorkspace
     );
   }, [selectedElement, loaded]);

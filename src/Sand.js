@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import useAnimationFrame from "use-animation-frame";
 import { startWebGL } from "./Render";
-import useStore from "./store";
-import "./game.css";
+import useStore, { globalState } from "./store";
 import { fps } from "./fps";
 import ElementButtons from "./ElementButtons";
 import elements from "./elements";
@@ -10,7 +9,7 @@ import ExtraUI from "./ExtraUI";
 import { sands, width, height, tick, setSand } from "./SandApi";
 let dpi = 4;
 
-window.updaters = elements.map(() => {
+globalState.updaters = elements.map(() => {
   return () => {};
 });
 const Sand = () => {
@@ -34,9 +33,9 @@ const Sand = () => {
   });
 
   useEffect(() => {
-    window.selectedElement = selectedElement;
-    window.updateScheme = updateScheme;
-    window.taggedMode = taggedMode;
+    globalState.selectedElement = selectedElement;
+    globalState.updateScheme = updateScheme;
+    globalState.taggedMode = taggedMode;
   }, [selectedElement, updateScheme, taggedMode]);
 
   useAnimationFrame((e) => {

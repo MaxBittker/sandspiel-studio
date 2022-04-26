@@ -143,7 +143,7 @@ const DIRECTIONS = {
   NE: "[1, -1]",
   SW: "[-1, 1]",
   SE: "[1, 1]",
-  RAND: "window.randomOffset()",
+  RAND: "this.randomOffset()",
 };
 
 Blockly.JavaScript["vector_constant"] = function (block) {
@@ -179,7 +179,7 @@ Blockly.JavaScript["change_into"] = function (block) {
     "ELEMENT",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  const code = `window.setSandRelative(${cell}, ${element});\n`;
+  const code = `this.setSandRelative(${cell}, ${element});\n`;
   return code;
 };
 
@@ -195,13 +195,13 @@ Blockly.JavaScript["set_r_cell"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const field = block.getFieldValue("DATA");
-  const valueCode = `clamp(${value}, -100, 100) + 100`;
+  const valueCode = `this.clamp(${value}, -100, 100) + 100`;
   if (field === "ELEMENT") {
-    return `window.setSandRelative(${cell}, ${value})`;
+    return `this.setSandRelative(${cell}, ${value})`;
   } else if (field === "RA") {
-    return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+    return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
-    return `window.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+    return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
   }
 };
 
@@ -247,17 +247,17 @@ Blockly.JavaScript["get_r_cell"] = function (block) {
   const field = block.getFieldValue("DATA");
   if (field === "ELEMENT") {
     return [
-      `window.getSandRelative(${cell}, 0)`,
+      `this.getSandRelative(${cell}, 0)`,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   } else if (field === "RA") {
     return [
-      `window.getSandRelative(${cell}, 1) - 100`,
+      `this.getSandRelative(${cell}, 1) - 100`,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   } else if (field === "RB") {
     return [
-      `window.getSandRelative(${cell}, 2) - 100`,
+      `this.getSandRelative(${cell}, 2) - 100`,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   }
@@ -285,7 +285,7 @@ Blockly.JavaScript["element_cell"] = function (block) {
     "CELL",
     Blockly.JavaScript.ORDER_MEMBER
   );
-  const code = `window.getSandRelative(${cell})`;
+  const code = `this.getSandRelative(${cell})`;
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
@@ -300,7 +300,7 @@ Blockly.JavaScript["swap"] = function (block) {
     "B",
     Blockly.JavaScript.ORDER_MEMBER
   );
-  const code = `window.swapSandRelative(${a}, ${b}, swaps);\n`;
+  const code = `this.swapSandRelative(${a}, ${b}, swaps);\n`;
   return code;
 };
 
@@ -310,7 +310,7 @@ Blockly.JavaScript["move"] = function (block) {
     "DIRECTION",
     Blockly.JavaScript.ORDER_MEMBER
   );
-  const code = `window.swapSandRelative([0, 0], ${direction}, swaps);\nwindow.moveOrigin(${direction});\n`;
+  const code = `this.swapSandRelative([0, 0], ${direction}, swaps);\nthis.moveOrigin(${direction});\n`;
   return code;
 };
 
@@ -352,7 +352,7 @@ Blockly.JavaScript["statement_value"] = function (block) {
     "VALUE",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  return `window.returnValue = ${value};\n`;
+  return `this.returnValue = ${value};\n`;
 };
 
 Blockly.JavaScript["statement_value_shadow"] = function (block) {
@@ -394,7 +394,7 @@ Blockly.JavaScript["repeat"] = function (block) {
 Blockly.JavaScript["in_a_random"] = function (block) {
   const name = block.getFieldValue("NAME");
   const statement = Blockly.JavaScript.statementToCode(block, "NAME");
-  const code = `{const oldTransformation = window.getTransformation();\nwindow.setRandomTransformation("${name}");\n${statement}window.setTransformation(...oldTransformation);}\n`;
+  const code = `{const oldTransformation = this.getTransformation();\n this.setRandomTransformation("${name}");\n${statement}this.setTransformation(...oldTransformation);}\n`;
   return code;
 };
 
@@ -403,11 +403,11 @@ Blockly.JavaScript["for_all"] = function (block) {
   const statement = Blockly.JavaScript.statementToCode(block, "NAME");
   const lines = [];
   lines.push(`{`);
-  lines.push(`  const oldTransformation = window.getTransformation();`);
+  lines.push(`  const oldTransformation = this.getTransformation();`);
   lines.push(
-    `  window.loopThroughTransformation("${name}", () => {${statement}});`
+    `  this.loopThroughTransformation("${name}", () => {${statement}});`
   );
-  lines.push(`  window.setTransformation(...oldTransformation);`);
+  lines.push(`  this.setTransformation(...oldTransformation);`);
   lines.push(`}`);
   const code = lines.join("\n");
   return code;
@@ -526,7 +526,7 @@ Blockly.JavaScript["is_block"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const type = getTypeOfValue(block, "ELEMENT");
-  const code = `window.isBlock(${cell}, ${element}, "${type}")`;
+  const code = `this.isBlock(${cell}, ${element}, "${type}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
@@ -542,12 +542,12 @@ Blockly.JavaScript["is_touching"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const type = getTypeOfValue(block, "ELEMENT");
-  const code = `window.isTouching([0, 0], ${element}, "${type}")`;
+  const code = `this.isTouching([0, 0], ${element}, "${type}")`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
 Blockly.JavaScript["key_pressed"] = function (block) {
   let key = block.getFieldValue("KEY");
-  const code = `window.keys["${key}"]`;
+  const code = `this.keys["${key}"]`;
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };

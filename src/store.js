@@ -9,4 +9,12 @@ let useStore = create((set) => ({
   setTaggedMode: (e) => set(() => ({ taggedMode: e })),
 }));
 
+const globalState = {
+  xmls: [],
+  updaters: [],
+  workspace: undefined,
+  selectedElement: 1,
+};
+
+export { globalState };
 export default useStore;
