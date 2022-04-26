@@ -215,9 +215,9 @@ Blockly.JavaScript["set_r_cell_short"] = function (block) {
   const field = block.getFieldValue("DATA");
   const valueCode = `this.clamp(${value}, -100, 100) + 100`;
   if (field === "RA") {
-    return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+    return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
-    return `window.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+    return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
   }
 };
 
@@ -230,11 +230,11 @@ Blockly.JavaScript["modify_r"] = function (block) {
   );
   const field = block.getFieldValue("DATA");
   const offset = field === "RA" ? "1" : "2";
-  const valueCode = `this.clamp(window.getSandRelative(${cell}, ${offset}) - 100 + ${value}, -100, 100) + 100`;
+  const valueCode = `this.clamp(this.getSandRelative(${cell}, ${offset}) - 100 + ${value}, -100, 100) + 100`;
   if (field === "RA") {
-    return `window.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+    return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
-    return `window.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+    return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
   }
 };
 
@@ -268,12 +268,12 @@ Blockly.JavaScript["get_r_cell_short"] = function (block) {
   const field = block.getFieldValue("DATA");
   if (field === "RA") {
     return [
-      `window.getSandRelative(${cell}, 1) - 100`,
+      `this.getSandRelative(${cell}, 1) - 100`,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   } else if (field === "RB") {
     return [
-      `window.getSandRelative(${cell}, 2) - 100`,
+      `this.getSandRelative(${cell}, 2) - 100`,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   }
