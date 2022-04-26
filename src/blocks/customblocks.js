@@ -168,6 +168,7 @@ Blockly.defineBlocksWithJsonArray([
     mutator: "group_mutator",
   },
 ]);
+Blockly.Extensions.unregister("group_mutator");
 Blockly.Extensions.registerMutator(
   "group_mutator",
   {
@@ -759,7 +760,7 @@ Blockly.defineBlocksWithJsonArray([
     mutator: "operation_mutator",
   },
 ]);
-
+Blockly.Extensions.unregister("operation_mutator");
 Blockly.Extensions.registerMutator(
   "operation_mutator",
   {
@@ -1063,6 +1064,7 @@ Blockly.defineBlocksWithJsonArray([
     helpUrl: "",
   },
 ]);
+Blockly.Extensions.unregister("that_mutator");
 Blockly.Extensions.registerMutator("that_mutator", {
   mutationToDom() {
     const container = Blockly.utils.xml.createElement("mutation");
