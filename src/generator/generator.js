@@ -451,7 +451,7 @@ Blockly.JavaScript["comparison"] = function (block) {
   const comparison = block.getFieldValue("COMPARISON");
   const functionName = COMPARISON_FUNCTIONS[comparison];
 
-  const code = `${functionName}(${a}, ${b}, "${aType}", "${bType}")`;
+  const code = `this.${functionName}(${a}, ${b}, "${aType}", "${bType}")`;
 
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
