@@ -15,7 +15,7 @@
 body {
   background-color: rgb(225, 222, 218);
   font-family: "Inconsolata", monospace;
-
+  margin: 0;
   background-size: 70px;
 }
 
