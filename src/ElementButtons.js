@@ -2,7 +2,6 @@ import React from "react";
 import { pallette } from "./Render";
 import elements from "./elements";
 
-export let disabledElements = ["Mite", "Fungus", "Oil", "Rocket"];
 let pallette_data = pallette();
 
 const ElementButton = ({ i, setSelected, selected }) => {
@@ -29,9 +28,6 @@ const ElementButtons = ({ selectedElement, setSelected }) => {
   return (
     <div className="element-tray">
       {elements.map((e, i) => {
-        if (disabledElements.indexOf(e) >= 0) {
-          return null;
-        }
         return (
           <ElementButton
             key={i}

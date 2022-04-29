@@ -84,15 +84,11 @@ const ELEMENTS = {
   FIRE: "7",
   ICE: "8",
   GAS: "9",
-  MITE: "10",
-  WOOD: "11",
-  FUNGUS: "12",
-  SEED: "13",
-  LAVA: "14",
-  ACID: "15",
-  DUST: "16",
-  OIL: "17",
-  ROCKET: "18",
+  WOOD: "10",
+  SEED: "11",
+  LAVA: "12",
+  ACID: "13",
+  DUST: "14",
 };
 
 Blockly.JavaScript["element_literal"] = function (block) {
@@ -199,13 +195,15 @@ Blockly.JavaScript["set_r_cell"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const field = block.getFieldValue("DATA");
-  const valueCode = `this.clamp(${value}, -100, 100) + 100`;
+  const valueCode = `this.clamp(${value},0, 100) `;
   if (field === "ELEMENT") {
     return `this.setSandRelative(${cell}, ${value})`;
   } else if (field === "RA") {
     return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
     return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  } else if (field === "RC") {
+    return `this.setSandRelative(${cell}, undefined, undefined, undefined, ${valueCode});\n`;
   }
 };
 
@@ -217,14 +215,21 @@ Blockly.JavaScript["set_r_cell_short"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const field = block.getFieldValue("DATA");
-  const valueCode = `this.clamp(${value}, -100, 100) + 100`;
+  const valueCode = `this.clamp(${value}, 0, 100)`;
   if (field === "RA") {
     return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
     return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  } else if (field === "RC") {
+    return `this.setSandRelative(${cell}, undefined, undefined, undefined, ${valueCode});\n`;
   }
 };
 
+function getOffset(field) {
+  if (field == "RA") return 1;
+  if (field == "RB") return 2;
+  if (field == "RC") return 3;
+}
 Blockly.JavaScript["modify_r"] = function (block) {
   const cell = "[0, 0]";
   const value = Blockly.JavaScript.valueToCode(
@@ -233,12 +238,14 @@ Blockly.JavaScript["modify_r"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const field = block.getFieldValue("DATA");
-  const offset = field === "RA" ? "1" : "2";
-  const valueCode = `this.clamp(this.getSandRelative(${cell}, ${offset}) - 100 + ${value}, -100, 100) + 100`;
+  const offset = getOffset(field);
+  const valueCode = `this.clamp(this.getSandRelative(${cell}, ${offset}) +  ${value}, 0, 100)`;
   if (field === "RA") {
     return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
     return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  } else if (field === "RC") {
+    return `this.setSandRelative(${cell}, undefined, undefined, undefined, ${valueCode});\n`;
   }
 };
 
@@ -256,12 +263,17 @@ Blockly.JavaScript["get_r_cell"] = function (block) {
     ];
   } else if (field === "RA") {
     return [
-      `this.getSandRelative(${cell}, 1) - 100`,
+      `this.getSandRelative(${cell}, 1)`,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   } else if (field === "RB") {
     return [
-      `this.getSandRelative(${cell}, 2) - 100`,
+      `this.getSandRelative(${cell}, 2)`,
+      Blockly.JavaScript.ORDER_ATOMIC,
+    ];
+  } else if (field === "RC") {
+    return [
+      `this.getSandRelative(${cell}, 3)`,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   }
@@ -272,12 +284,17 @@ Blockly.JavaScript["get_r_cell_short"] = function (block) {
   const field = block.getFieldValue("DATA");
   if (field === "RA") {
     return [
-      `this.getSandRelative(${cell}, 1) - 100`,
+      `this.getSandRelative(${cell}, 1) `,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   } else if (field === "RB") {
     return [
-      `this.getSandRelative(${cell}, 2) - 100`,
+      `this.getSandRelative(${cell}, 2) `,
+      Blockly.JavaScript.ORDER_ATOMIC,
+    ];
+  } else if (field === "RC") {
+    return [
+      `this.getSandRelative(${cell}, 3)`,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   }

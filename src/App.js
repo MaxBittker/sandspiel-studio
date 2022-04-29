@@ -4,7 +4,6 @@ import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks.json";
-import { disabledElements } from "./ElementButtons";
 import Sand from "./Sand.js";
 import useStore, { globalState } from "./store";
 
@@ -62,10 +61,7 @@ const App = () => {
     if (!fetchedData || !simpleWorkspace.current) {
       return;
     }
-    for (let i = elements.length - 1; i >= 0; i--) {
-      if (disabledElements.indexOf(elements[i]) >= 0) {
-        continue;
-      }
+    for (let i = elements.length - 1; i > 0; i--) {
       setSelected(i);
 
       let ws = simpleWorkspace.current.primaryWorkspace;
@@ -79,7 +75,7 @@ const App = () => {
           resolve();
         };
         ws.addChangeListener(cb);
-        Xml.domToWorkspace(Xml.textToDom(xmls[i]), ws);
+        Xml.domToWorkspace(Xml.textToDom(globalState.xmls[i]), ws);
       });
     }
     setSelected(1);
@@ -101,6 +97,7 @@ const App = () => {
   useEffect(() => {
     if (!simpleWorkspace.current || !loaded) return;
     simpleWorkspace.current.primaryWorkspace.clear();
+
     Xml.domToWorkspace(
       Xml.textToDom(globalState.xmls[globalState.selectedElement]),
       simpleWorkspace.current.primaryWorkspace
@@ -128,8 +125,8 @@ const App = () => {
         renderer={"zelos"}
         move={{
           scrollbars: false,
-          // drag: true,
-          // wheel: true,
+          drag: false,
+          wheel: true,
         }}
         initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
       >

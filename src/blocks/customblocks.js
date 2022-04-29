@@ -985,8 +985,9 @@ Blockly.Blocks["get_r_cell"] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["hue", "RA"],
+        ["saturation", "RB"],
+        ["light", "RC"],
       ]),
       "DATA"
     );
@@ -1005,8 +1006,9 @@ Blockly.Blocks["set_r_cell"] = {
     this.appendDummyInput().appendField("set");
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["hue", "RA"],
+        ["saturation", "RB"],
+        ["light", "RC"],
       ]),
       "DATA"
     );
@@ -1111,8 +1113,9 @@ Blockly.Blocks["get_r_cell_short"] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["hue", "RA"],
+        ["saturation", "RB"],
+        ["light", "RC"],
       ]),
       "DATA"
     );
@@ -1129,8 +1132,9 @@ Blockly.Blocks["set_r_cell_short"] = {
     this.appendDummyInput().appendField("set");
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["hue", "RA"],
+        ["saturation", "RB"],
+        ["light", "RC"],
       ]),
       "DATA"
     );
@@ -1151,8 +1155,9 @@ Blockly.Blocks["modify_r"] = {
       .appendField("modify")
       .appendField(
         new Blockly.FieldDropdown([
-          ["⭐ ra", "RA"],
-          ["⚡ rb", "RB"],
+          ["hue", "RA"],
+          ["saturation", "RB"],
+          ["light", "RC"],
         ]),
         "DATA"
       );

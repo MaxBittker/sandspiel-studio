@@ -9,15 +9,11 @@ let elements = [
   "Fire",
   "Ice",
   "Gas",
-  "Mite",
   "Wood",
-  "Fungus",
   "Seed",
   "Lava",
   "Acid",
   "Dust",
-  "Oil",
-  "Rocket"
 ];
 
 export default elements;

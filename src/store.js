@@ -16,5 +16,8 @@ const globalState = {
   selectedElement: 1,
 };
 
+if (typeof window !== "undefined") {
+  window.globalState = globalState;
+}
 export { globalState };
 export default useStore;

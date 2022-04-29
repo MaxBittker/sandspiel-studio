@@ -9,6 +9,11 @@ export const height = width;
 export const cellCount = width * height;
 
 export const sands = new Uint8Array(cellCount * 4);
+
+if (typeof window !== "undefined") {
+  window.sands = sands;
+}
+
 function isBlock(pos, value, type) {
   if (type === "Group") {
     for (const [element] of value) {
@@ -104,11 +109,21 @@ function getSand(x, y, o = 0) {
   x = Math.round(x);
   y = Math.round(y);
   if (x < 0 || x >= width || y < 0 || y >= height) {
-    return 3; // wall?
+    return 3; // wall
   }
   return sands[getIndex(x, y) + o];
 }
-export function setSand(x, y, v, ra, rb) {
+export function initSand(x, y, v) {
+  setSand(
+    x,
+    y,
+    v,
+    0,
+    (25 + Math.random() * 50) | 0,
+    (25 + Math.random() * 50) | 0
+  );
+}
+export function setSand(x, y, v, ra, rb, rc) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return;
   }
@@ -120,10 +135,7 @@ export function setSand(x, y, v, ra, rb) {
   if (v !== undefined) sands[i] = v;
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
-
-  if (!UPDATE_SCHEMES[globalState.updateScheme].manualTagging) {
-    sands[i + 3] = clock;
-  }
+  if (rc !== undefined) sands[i + 3] = rc;
 }
 function getIndexRelative(x, y) {
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
@@ -135,7 +147,7 @@ function getSandRelative([x, y], o = 0) {
   [x, y] = transform(x, y);
   return getSand(x + aX, y + aY, o);
 }
-function setSandRelative([x, y], v, ra, rb) {
+function setSandRelative([x, y], v, ra, rb, rc) {
   [x, y] = [x, y].map((v) => Math.round(v));
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
   [x, y] = transform(x, y);
@@ -150,10 +162,7 @@ function setSandRelative([x, y], v, ra, rb) {
   if (v !== undefined) sands[i] = v;
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
-  sands[i + 3] = clock;
-  /*if (!UPDATE_SCHEMES[window.updateScheme].manualTagging) {
-    sands[i + 3] = clock;
-  }*/
+  if (rc !== undefined) sands[i + 3] = rc;
 }
 
 function swapSandRelative([sx, sy], [bx, by], swaps) {
@@ -172,23 +181,22 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
   let a = sands[aid];
   let ara = sands[aid + 1];
   let arb = sands[aid + 2];
+  let arc = sands[aid + 3];
 
   let b = sands[bid];
   let bra = sands[bid + 1];
   let brb = sands[bid + 2];
+  let brc = sands[bid + 3];
 
   sands[aid] = b;
   sands[aid + 1] = bra;
   sands[aid + 2] = brb;
+  sands[aid + 3] = brc;
 
   sands[bid] = a;
   sands[bid + 1] = ara;
   sands[bid + 2] = arb;
-
-  if (!UPDATE_SCHEMES[globalState.updateScheme].manualTagging) {
-    sands[aid + 3] = clock;
-    sands[bid + 3] = clock;
-  }
+  sands[bid + 3] = arc;
 
   swaps.push([aid, bid]);
 }
@@ -449,12 +457,6 @@ export const fireEventPhase = ({
 };
 
 export const fireEvent = (offset, { tagged = globalState.taggedMode } = {}) => {
-  if (tagged) {
-    let c = sands[offset + 3];
-    if (c === clock) return;
-    //sands[offset + 3] = clock;
-  }
-
   let index = offset / 4;
   let e = sands[offset];
   let x = index % width;
@@ -469,7 +471,6 @@ export const fireEvent = (offset, { tagged = globalState.taggedMode } = {}) => {
 };
 
 export const tick = () => {
-  clock = (clock + 1) % 2;
   const scheme = UPDATE_SCHEMES[globalState.updateScheme || "RANDOM_CYCLIC"];
   if (typeof scheme === "function") scheme(scheme);
   else scheme.tick(scheme);
@@ -481,9 +482,9 @@ export const seed = () => {
     // if (Math.random() * i > width * height * 3) {
     //   sands[i] = (Math.random() * (elements.length - 1)) | 0;
     // }
-    sands[i + 1] = (Math.random() * 200) | 0;
-    sands[i + 2] = 100;
-    sands[i + 3] = 0;
+    sands[i + 1] = 0;
+    sands[i + 2] = (25 + Math.random() * 50) | 0;
+    sands[i + 3] = (25 + Math.random() * 50) | 0;
   }
 };
 seed();
