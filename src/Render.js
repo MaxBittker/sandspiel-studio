@@ -137,7 +137,7 @@ function pallette() {
     let idx = i * 4;
     sands[idx] = i;
 
-    sands[idx + 1] = (i * (100 / 15)) | 0;
+    sands[idx + 1] = 0;
     sands[idx + 2] = 50 | 0;
     sands[idx + 3] = 50 | 0;
   });
