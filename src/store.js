@@ -12,6 +12,7 @@ let useStore = create((set) => ({
 const globalState = {
   xmls: [],
   updaters: [],
+  pallette: [],
   workspace: undefined,
   selectedElement: 1,
 };

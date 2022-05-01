@@ -1,18 +1,19 @@
 import React from "react";
-import { pallette } from "./Render";
+// import { pallette } from "./Render";
 import elements from "./elements";
+import { globalState } from "./store";
 
-let pallette_data = pallette();
+// let pallette_data = pallette();
 
 const ElementButton = ({ i, setSelected, selected }) => {
-  let color = pallette_data[i];
+  let color = globalState.pallette[i] ?? "rgba(100,100,100,0.5)";
 
   return (
     <button
       className={selected ? "simulation-button selected" : "simulation-button"}
       onClick={() => {
         document.querySelector(".blocklyMainBackground").style.fill =
-          pallette_data[i].replace("0.5", "0.3");
+          color.replace("0.5", "0.3");
         setSelected(i);
       }}
       style={{

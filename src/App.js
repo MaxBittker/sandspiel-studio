@@ -14,6 +14,7 @@ import prettier from "prettier";
 import "./blocks/customblocks";
 import "./generator/generator";
 import { loadShaderFromServer } from "./loadShaderFromServer";
+import { pallette } from "./Render";
 
 function generateCode(element, ws) {
   let baseBlock = undefined;
@@ -37,7 +38,7 @@ function generateCode(element, ws) {
 
   //console.log(xmlText);
   window.localStorage.setItem("code" + element, xmlText);
-  //console.log(code);
+  // console.log(code);
   // eslint-disable-next-line no-new-func
   let fn = Function(code);
   globalState.xmls[element] = xmlText;
@@ -80,6 +81,7 @@ const App = () => {
     }
     setSelected(1);
     setLoaded(true);
+    pallette();
   }, [simpleWorkspace, fetchedData]);
 
   useEffect(() => {
@@ -124,7 +126,7 @@ const App = () => {
         media={"media/"}
         renderer={"zelos"}
         move={{
-          scrollbars: false,
+          scrollbars: true,
           drag: false,
           wheel: true,
         }}
@@ -202,6 +204,7 @@ const App = () => {
             </Shadow>
           </Value>
         </Block>
+
         <Block type="in_a_random">
           <Field name="NAME">ROTATION</Field>
         </Block>

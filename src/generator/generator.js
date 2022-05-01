@@ -401,6 +401,14 @@ Blockly.JavaScript["if"] = function (block) {
   return code;
 };
 
+Blockly.JavaScript["when_created"] = function (block) {
+  const statement = Blockly.JavaScript.statementToCode(block, "NAME");
+  const code = `if(this.justCreated()){
+    ${statement}
+  }\n`;
+  return code;
+};
+
 Blockly.JavaScript["repeat"] = function (block) {
   const n = Blockly.JavaScript.valueToCode(
     block,

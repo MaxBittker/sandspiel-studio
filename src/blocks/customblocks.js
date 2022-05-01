@@ -799,7 +799,18 @@ Blockly.Extensions.registerMutator(
     });
   }
 );
-
+Blockly.Blocks["when_created"] = {
+  init: function () {
+    this.appendDummyInput().appendField("when created");
+    this.appendStatementInput("NAME").setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(300);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
 Blockly.Blocks["in_a_random"] = {
   init: function () {
     this.appendDummyInput().appendField("in a random");

@@ -1,14 +1,15 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
 // import elements from "./elements";
 import { globalState } from "./store.js";
-let clock = 0;
 let aX = 0;
 let aY = 0;
-export const width = 150;
-export const height = width;
-export const cellCount = width * height;
 
-export const sands = new Uint8Array(cellCount * 4);
+export let width = 150;
+export let height = width;
+export let cellCount = width * height;
+export let sands = new Uint8Array(cellCount * 4);
+
+let currentlySpawning = false;
 
 if (typeof window !== "undefined") {
   window.sands = sands;
@@ -122,6 +123,16 @@ export function initSand(x, y, v) {
     (25 + Math.random() * 50) | 0,
     (25 + Math.random() * 50) | 0
   );
+
+  aX = x;
+  aY = y;
+  globalState.returnValue = undefined;
+  currentlySpawning = true;
+  let i = getIndex(x, y);
+  const behaveFunction = globalState.updaters[sands[i]];
+  if (behaveFunction === undefined) return [];
+  // console.log(behaveFunction.toString());
+  behaveFunction();
 }
 export function setSand(x, y, v, ra, rb, rc) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -166,6 +177,7 @@ function setSandRelative([x, y], v, ra, rb, rc) {
 }
 
 function swapSandRelative([sx, sy], [bx, by], swaps) {
+  if (currentlySpawning) return;
   [sx, sy] = [sx, sy].map((v) => Math.round(v));
   [bx, by] = [bx, by].map((v) => Math.round(v));
   if (aX + sx < 0 || aX + sx >= width || aY + sy < 0 || aY + sy >= height) {
@@ -339,6 +351,10 @@ function setRandomTransformation(set) {
   transformationId = Math.floor(Math.random() * funcs.length);
 }
 
+function justCreated() {
+  return currentlySpawning;
+}
+
 function loopThroughTransformation(set, func) {
   transformationSet = set;
   const transformFuncs = TRANSFORMATION_SETS[transformationSet];
@@ -398,6 +414,7 @@ if (typeof window !== "undefined") {
 }
 
 globalState.keys = keys;
+globalState.justCreated = justCreated;
 globalState.getSandRelative = getSandRelative;
 globalState.setSandRelative = setSandRelative;
 globalState.swapSandRelative = swapSandRelative;
@@ -464,10 +481,11 @@ export const fireEvent = (offset, { tagged = globalState.taggedMode } = {}) => {
   aX = x;
   aY = y;
   globalState.returnValue = undefined;
+  currentlySpawning = false;
   const behaveFunction = globalState.updaters[e];
   if (behaveFunction === undefined) return [];
-  const swaps = behaveFunction(e);
-  return swaps;
+  // console.log(behaveFunction.toString());
+  behaveFunction();
 };
 
 export const tick = () => {

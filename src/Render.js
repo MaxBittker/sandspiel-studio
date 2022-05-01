@@ -1,7 +1,7 @@
 // import raw from "raw.macro";
 import elements from "./elements";
 import * as reglBuilder from "regl";
-import { sands } from "./SandApi";
+import { initSand, sands } from "./SandApi";
 // const sandShader = raw("./sand.glsl");
 let vsh = `
 // boring "pass-through" vertex shader
@@ -128,18 +128,13 @@ function pallette() {
 
   let range = elements.length;
 
-  const sands = new Uint8Array(4 * range);
+  // const sands = new Uint8Array(4 * range);
 
   canvas.width = range;
   canvas.height = 1;
 
   elements.forEach((_, i) => {
-    let idx = i * 4;
-    sands[idx] = i;
-
-    sands[idx + 1] = 0;
-    sands[idx + 2] = 50 | 0;
-    sands[idx + 3] = 50 | 0;
+    initSand(i, 0, i);
   });
 
   canvas.style =
@@ -151,7 +146,7 @@ function pallette() {
     width: range,
     height: 1,
     isSnapshot: true,
-    sands,
+    sands: sands.slice(0, range * 4),
   });
   render();
   let ctx = canvas.getContext("webgl");
@@ -164,6 +159,12 @@ function pallette() {
     }, 0.5)`;
     return color;
   });
+  elements.forEach((_, i) => {
+    initSand(i, 0, 0);
+    initSand(i, 1, 0);
+    initSand(i, 2, 0);
+  });
+  globalState.pallette = colors;
   return colors;
 }
 
