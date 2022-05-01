@@ -9,7 +9,7 @@ export let height = width;
 export let cellCount = width * height;
 export let sands = new Uint8Array(cellCount * 4);
 
-let currentlySpawning = false;
+let inertMode = false;
 
 if (typeof window !== "undefined") {
   window.sands = sands;
@@ -29,6 +29,7 @@ function isBlock(pos, value, type) {
 }
 
 function isTouching([x, y], value, type) {
+  if (inertMode) return false;
   const right = [x + 1, y];
   const left = [x - 1, y];
   const up = [x, y - 1];
@@ -115,19 +116,12 @@ function getSand(x, y, o = 0) {
   return sands[getIndex(x, y) + o];
 }
 export function initSand(x, y, v) {
-  setSand(
-    x,
-    y,
-    v,
-    0,
-    (25 + Math.random() * 50) | 0,
-    (25 + Math.random() * 50) | 0
-  );
+  setSand(x, y, v, 0, 0, 0);
 
   aX = x;
   aY = y;
   globalState.returnValue = undefined;
-  currentlySpawning = true;
+  inertMode = true;
   let i = getIndex(x, y);
   const behaveFunction = globalState.updaters[sands[i]];
   if (behaveFunction === undefined) return [];
@@ -168,16 +162,20 @@ function setSandRelative([x, y], v, ra, rb, rc) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return;
   }
+  if (inertMode && x !== 0 && y !== 0) return;
 
   let i = getIndex(x, y);
-  if (v !== undefined) sands[i] = v;
+  if (v !== undefined) {
+    if (sands[i] == v) return; // bail to not  reset ra/rb/rc on no-ops
+    sands[i] = v;
+  }
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
   if (rc !== undefined) sands[i + 3] = rc;
 }
 
 function swapSandRelative([sx, sy], [bx, by], swaps) {
-  if (currentlySpawning) return;
+  if (inertMode) return;
   [sx, sy] = [sx, sy].map((v) => Math.round(v));
   [bx, by] = [bx, by].map((v) => Math.round(v));
   if (aX + sx < 0 || aX + sx >= width || aY + sy < 0 || aY + sy >= height) {
@@ -351,10 +349,6 @@ function setRandomTransformation(set) {
   transformationId = Math.floor(Math.random() * funcs.length);
 }
 
-function justCreated() {
-  return currentlySpawning;
-}
-
 function loopThroughTransformation(set, func) {
   transformationSet = set;
   const transformFuncs = TRANSFORMATION_SETS[transformationSet];
@@ -414,7 +408,6 @@ if (typeof window !== "undefined") {
 }
 
 globalState.keys = keys;
-globalState.justCreated = justCreated;
 globalState.getSandRelative = getSandRelative;
 globalState.setSandRelative = setSandRelative;
 globalState.swapSandRelative = swapSandRelative;
@@ -481,7 +474,7 @@ export const fireEvent = (offset, { tagged = globalState.taggedMode } = {}) => {
   aX = x;
   aY = y;
   globalState.returnValue = undefined;
-  currentlySpawning = false;
+  inertMode = false;
   const behaveFunction = globalState.updaters[e];
   if (behaveFunction === undefined) return [];
   // console.log(behaveFunction.toString());

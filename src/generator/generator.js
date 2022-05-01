@@ -179,7 +179,7 @@ Blockly.JavaScript["change_into"] = function (block) {
     "ELEMENT",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  const code = `this.setSandRelative(${cell}, ${element});\n`;
+  const code = `this.setSandRelative(${cell}, ${element}, 0, 0, 0);\n`;
   return code;
 };
 
@@ -197,7 +197,7 @@ Blockly.JavaScript["set_r_cell"] = function (block) {
   const field = block.getFieldValue("DATA");
   const valueCode = `this.clamp(${value},0, 100) `;
   if (field === "ELEMENT") {
-    return `this.setSandRelative(${cell}, ${value})`;
+    return `this.setSandRelative(${cell}, ${value}, 0, 0, 0)`;
   } else if (field === "RA") {
     return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
@@ -398,14 +398,6 @@ Blockly.JavaScript["if"] = function (block) {
   );
   const then = Blockly.JavaScript.statementToCode(block, "THEN");
   const code = `if (${condition}) {\n${then}\n}`;
-  return code;
-};
-
-Blockly.JavaScript["when_created"] = function (block) {
-  const statement = Blockly.JavaScript.statementToCode(block, "NAME");
-  const code = `if(this.justCreated()){
-    ${statement}
-  }\n`;
   return code;
 };
 
