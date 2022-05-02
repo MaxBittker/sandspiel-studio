@@ -62,7 +62,7 @@ const App = () => {
     if (!fetchedData || !simpleWorkspace.current) {
       return;
     }
-    for (let i = elements.length - 1; i > 0; i--) {
+    for (let i = elements.length - 1; i >= 0; i--) {
       if (disabledElements.indexOf(elements[i]) >= 0) {
         continue;
       }
