@@ -54,10 +54,14 @@ export const getTypeOfValue = (block, inputName) => {
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
   const lines = [];
 
-  lines.push(`const swaps = [];`);
-  const body = Blockly.JavaScript.statementToCode(block, "body");
-  lines.push(body);
-  lines.push(`return swaps;`);
+  try {
+    lines.push(`const swaps = [];`);
+    const body = Blockly.JavaScript.statementToCode(block, "body");
+    lines.push(body);
+    lines.push(`return swaps;`);
+  } catch {
+    // not sure why this error sometimes happens when you remove certain blocks
+  }
 
   const code = lines.join("\n");
   return code;
@@ -550,4 +554,76 @@ Blockly.JavaScript["key_pressed"] = function (block) {
   let key = block.getFieldValue("KEY");
   const code = `this.keys["${key}"]`;
   return [code, Blockly.JavaScript.ORDER_MEMBER];
+};
+
+Blockly.JavaScript["get_r_cell_flexible"] = function (block) {
+  let cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+  if (cell === "") cell = "[0, 0]";
+
+  const field = block.getFieldValue("DATA");
+  if (field === "ELEMENT") {
+    return [
+      `this.getSandRelative(${cell}, 0)`,
+      Blockly.JavaScript.ORDER_ATOMIC,
+    ];
+  } else if (field === "RA") {
+    return [
+      `this.getSandRelative(${cell}, 1) - 100`,
+      Blockly.JavaScript.ORDER_ATOMIC,
+    ];
+  } else if (field === "RB") {
+    return [
+      `this.getSandRelative(${cell}, 2) - 100`,
+      Blockly.JavaScript.ORDER_ATOMIC,
+    ];
+  }
+};
+
+Blockly.JavaScript["set_r_cell_flexible"] = function (block) {
+  let cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+  if (cell === "") cell = "[0, 0]";
+  const value = Blockly.JavaScript.valueToCode(
+    block,
+    "VALUE",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const field = block.getFieldValue("DATA");
+  const valueCode = `this.clamp(${value}, -100, 100) + 100`;
+  if (field === "ELEMENT") {
+    return `this.setSandRelative(${cell}, ${value})`;
+  } else if (field === "RA") {
+    return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+  } else if (field === "RB") {
+    return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  }
+};
+
+Blockly.JavaScript["modify_r_cell_flexible"] = function (block) {
+  let cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+  if (cell === "") cell = "[0, 0]";
+  const value = Blockly.JavaScript.valueToCode(
+    block,
+    "VALUE",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const field = block.getFieldValue("DATA");
+  const offset = field === "RA" ? "1" : "2";
+  const valueCode = `this.clamp(this.getSandRelative(${cell}, ${offset}) - 100 + ${value}, -100, 100) + 100`;
+  if (field === "RA") {
+    return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+  } else if (field === "RB") {
+    return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  }
 };
