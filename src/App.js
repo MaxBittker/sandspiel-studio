@@ -133,14 +133,12 @@ const App = () => {
         }}
         initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
       >
-        {/* =================================================
-
-  The toolbox below was made at https://blockly-demo.appspot.com/static/demos/blockfactory/index.html
-  and copy-pasted here!
-
-================================================= */}
-        <Block type="element_literal">
-          <Field name="VALUE">SAND</Field>
+        <Block type="group">
+          <Value name="ITEM0">
+            <Shadow type="element_literal">
+              <Field name="VALUE">SAND</Field>
+            </Shadow>
+          </Value>
         </Block>
         <Block type="move">
           <Value name="DIRECTION">
@@ -189,30 +187,6 @@ const App = () => {
           <Value name="CELL">
             <Shadow type="vector_constant">
               <Field name="VALUE">DOWN</Field>
-            </Shadow>
-          </Value>
-        </Block>
-        {/* <Block type="swap">
-          <Value name="A">
-            <Shadow type="vector_constant">
-              <Field name="VALUE">HERE</Field>
-            </Shadow>
-          </Value>
-          <Value name="B">
-            <Shadow type="vector_constant">
-              <Field name="VALUE">DOWN</Field>
-            </Shadow>
-          </Value>
-        </Block> */}
-        <Block type="group">
-          <Value name="ITEM0">
-            <Shadow type="element_literal">
-              <Field name="VALUE">SAND</Field>
-            </Shadow>
-          </Value>
-          <Value name="ITEM1">
-            <Shadow type="element_literal">
-              <Field name="VALUE">WATER</Field>
             </Shadow>
           </Value>
         </Block>
@@ -292,18 +266,10 @@ const App = () => {
           <Field name="VALUE">TRUE</Field>
         </Block>
         <Block type="not"></Block>
-        <Block type="get_r_cell_short">
+        <Block type="get_r_cell_flexible">
           <Field name="DATA">RA</Field>
         </Block>
-        <Block type="set_r_cell_short">
-          <Field name="DATA">RA</Field>
-          <Value name="VALUE">
-            <Shadow type="number_literal">
-              <Field name="VALUE">0</Field>
-            </Shadow>
-          </Value>
-        </Block>
-        <Block type="modify_r">
+        <Block type="modify_r_cell_flexible">
           <Field name="DATA">RA</Field>
           <Value name="VALUE">
             <Shadow type="number_literal">
@@ -311,28 +277,14 @@ const App = () => {
             </Shadow>
           </Value>
         </Block>
-        <Block type="get_r_cell">
+        <Block type="set_r_cell_flexible">
           <Field name="DATA">RA</Field>
-          <Value name="CELL">
-            <Shadow type="vector_constant">
-              <Field name="VALUE">HERE</Field>
-            </Shadow>
-          </Value>
-        </Block>
-        <Block type="set_r_cell">
-          <Field name="DATA">RA</Field>
-          <Value name="CELL">
-            <Shadow type="vector_constant">
-              <Field name="VALUE">HERE</Field>
-            </Shadow>
-          </Value>
           <Value name="VALUE">
             <Shadow type="number_literal">
               <Field name="VALUE">0</Field>
             </Shadow>
           </Value>
         </Block>
-        {/* ================================================= */}
       </BlocklyComponent>
       <Sand />
     </div>
