@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CreateReactAppEntryPoint from "../App";
 import Head from "next/head";
+import Script from "next/script";
 
 import "../App.css";
 import "../game.css";
