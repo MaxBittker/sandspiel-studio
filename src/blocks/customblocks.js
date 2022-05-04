@@ -31,7 +31,7 @@ import * as Blockly from "blockly/core";
 // import "../fields/DateField";
 import { globalState } from "../store.js";
 import { getTypeOfValue } from "../generator/generator.js";
-import { getElementNames } from "../elements";
+import { getElementNames, setElementName } from "../elements";
 
 /*Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
@@ -58,8 +58,12 @@ import { getElementNames } from "../elements";
 
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
+    const validator = (value) => {
+      setElementName(globalState.selectedElement, value);
+    };
+
     this.appendDummyInput()
-      .appendField(new Blockly.FieldTextInput("Sand"), "NAME")
+      .appendField(new Blockly.FieldTextInput("Sand", validator), "NAME")
       .appendField("Behavior");
     this.setInputsInline(false);
     this.setNextStatement(true, null);
