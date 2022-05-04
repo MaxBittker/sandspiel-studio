@@ -32,7 +32,7 @@ import * as Blockly from "blockly/core";
 import { globalState } from "../store.js";
 import { getTypeOfValue } from "../generator/generator.js";
 
-Blockly.Blocks["sand_behavior_base"] = {
+/*Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
     this.jsonInit({
       message0: "Behavior",
@@ -52,6 +52,21 @@ Blockly.Blocks["sand_behavior_base"] = {
     this.setMovable(true);
     this.setColour(160);
     //this.setStyle("loop_blocks");
+  },
+};*/
+
+Blockly.Blocks["sand_behavior_base"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput("Sand"), "NAME")
+      .appendField("Behavior");
+    this.setInputsInline(false);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+    this.setTooltip("");
+    this.setHelpUrl("");
+    this.setDeletable(false);
+    this.setMovable(true);
   },
 };
 
