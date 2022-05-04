@@ -4,7 +4,7 @@ import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks.json";
-import { disabledElements } from "./ElementButtons";
+import { disabledElements } from "./elements";
 import Sand from "./Sand.js";
 import useStore, { globalState } from "./store";
 

@@ -31,6 +31,7 @@ import * as Blockly from "blockly/core";
 // import "../fields/DateField";
 import { globalState } from "../store.js";
 import { getTypeOfValue } from "../generator/generator.js";
+import { getElementNames } from "../elements";
 
 /*Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
@@ -87,24 +88,14 @@ Blockly.Blocks["number_literal"] = {
 
 Blockly.Blocks["element_literal"] = {
   init: function () {
+    const elementNames = getElementNames();
+    const fieldValues = elementNames.map((element) => [
+      element,
+      element.toUpperCase(),
+    ]);
+
     this.appendDummyInput().appendField(
-      new Blockly.FieldDropdown([
-        ["Air", "AIR"],
-        ["Water", "WATER"],
-        ["Sand", "SAND"],
-        ["Wall", "WALL"],
-        ["Plant", "PLANT"],
-        ["Stone", "STONE"],
-        ["Cloner", "CLONER"],
-        ["Fire", "FIRE"],
-        ["Ice", "ICE"],
-        ["Gas", "GAS"],
-        ["Wood", "WOOD"],
-        ["Seed", "SEED"],
-        ["Lava", "LAVA"],
-        ["Acid", "ACID"],
-        ["Dust", "DUST"],
-      ]),
+      new Blockly.FieldDropdown(fieldValues),
       "VALUE"
     );
     this.setOutput(true, "Element");

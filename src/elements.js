@@ -1,4 +1,4 @@
-let elements = [
+export let elements = [
   "Air",
   "Water",
   "Sand",
@@ -17,7 +17,13 @@ let elements = [
   "Acid",
   "Dust",
   "Oil",
-  "Rocket"
+  "Rocket",
 ];
+
+export let disabledElements = ["Mite", "Fungus", "Oil", "Rocket"];
+
+export function getElementNames() {
+  return elements.filter((element) => !disabledElements.includes(element));
+}
 
 export default elements;

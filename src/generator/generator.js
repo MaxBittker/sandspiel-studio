@@ -26,6 +26,7 @@
 
 import * as Blockly from "blockly/core";
 import "blockly/javascript";
+import elements from "../elements";
 //import a from "../starterblocks";
 
 const getTypeOfCheck = (check) => {
@@ -84,31 +85,10 @@ Blockly.JavaScript["number_literal"] = function (block) {
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-const ELEMENTS = {
-  AIR: "0",
-  WATER: "1",
-  SAND: "2",
-  WALL: "3",
-  PLANT: "4",
-  STONE: "5",
-  CLONER: "6",
-  FIRE: "7",
-  ICE: "8",
-  GAS: "9",
-  MITE: "10",
-  WOOD: "11",
-  FUNGUS: "12",
-  SEED: "13",
-  LAVA: "14",
-  ACID: "15",
-  DUST: "16",
-  OIL: "17",
-  ROCKET: "18",
-};
-
 Blockly.JavaScript["element_literal"] = function (block) {
-  const elementName = block.getFieldValue("VALUE");
-  const element = ELEMENTS[elementName];
+  const value = block.getFieldValue("VALUE");
+  const elementName = value[0] + value.slice(1).toLowerCase();
+  const element = elements.indexOf(elementName).toString();
   return [element, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
