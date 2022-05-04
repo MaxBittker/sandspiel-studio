@@ -31,7 +31,12 @@ import * as Blockly from "blockly/core";
 // import "../fields/DateField";
 import { globalState } from "../store.js";
 import { getTypeOfValue } from "../generator/generator.js";
-import { getElementNames, setElementName } from "../elements";
+import {
+  disabledElements,
+  elements,
+  getElementNames,
+  setElementName,
+} from "../elements";
 
 /*Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
@@ -95,7 +100,7 @@ Blockly.Blocks["element_literal"] = {
     const elementNames = getElementNames();
     const fieldValues = elementNames.map((element) => [
       element,
-      element.toUpperCase(),
+      elements.indexOf(element).toString(),
     ]);
 
     this.appendDummyInput().appendField(

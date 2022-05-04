@@ -87,9 +87,7 @@ Blockly.JavaScript["number_literal"] = function (block) {
 
 Blockly.JavaScript["element_literal"] = function (block) {
   const value = block.getFieldValue("VALUE");
-  const elementName = value[0] + value.slice(1).toLowerCase();
-  const element = elements.indexOf(elementName).toString();
-  return [element, Blockly.JavaScript.ORDER_ATOMIC];
+  return [value, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript["group"] = function (block) {
