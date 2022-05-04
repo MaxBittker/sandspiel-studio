@@ -25,6 +25,8 @@
 // https://developers.google.com/blockly/guides/create-custom-blocks/define-blocks
 
 import * as Blockly from "blockly/core";
+import { ColorWheelField } from "blockly-field-color-wheel";
+
 //import { elements } from "../Sand";
 // Since we're using json to initialize the field, we'll need to import it.
 // import "../fields/BlocklyReactField";
@@ -34,26 +36,52 @@ import { getTypeOfValue } from "../generator/generator.js";
 
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
-    this.jsonInit({
-      message0: "Behavior",
-      message1: "%1",
-      tooltip: "Behavior for the element",
-      helpUrl: "",
-      args1: [
-        {
-          type: "input_statement",
-          name: "body",
-          align: "CENTRE",
-        },
-      ],
-      inputsInline: true,
-    });
+    this.appendDummyInput().appendField("Behavior:");
+
+    this.appendDummyInput()
+      .appendField("Color: ")
+      .appendField(
+        new ColorWheelField("#0faaf0", 150, {
+          layoutDirection: "vertical",
+        }),
+        "COLOR"
+      )
+      .setAlign(Blockly.ALIGN_RIGHT);
+
+    this.appendStatementInput("body").setAlign(Blockly.ALIGN_CENTRE);
+
+    this.setTooltip("Behavior for the element");
+    this.setHelpUrl("");
+    this.setInputsInline(true);
     this.setDeletable(false);
     this.setMovable(true);
     this.setColour(160);
-    //this.setStyle("loop_blocks");
+    //this.setStyle("loop_bglocks");
   },
 };
+
+// Blockly.Blocks["sand_behavior_base"] = {
+//   init: function () {
+//     this.jsonInit({
+//       message0: "Behavior",
+//       message1: "%1",
+//       tooltip: "Behavior for the element",
+//       helpUrl: "",
+//       args1: [
+//         {
+//           type: "input_statement",
+//           name: "body",
+//           align: "CENTRE",
+//         },
+//       ],
+//       inputsInline: true,
+//     });
+//     this.setDeletable(false);
+//     this.setMovable(true);
+//     this.setColour(160);
+//     //this.setStyle("loop_blocks");
+//   },
+// };
 
 //===================//
 // SAND-BLOCKS DRAFT //

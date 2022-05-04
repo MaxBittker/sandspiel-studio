@@ -124,7 +124,7 @@ const App = () => {
         readOnly={false}
         trashcan={false}
         media={"media/"}
-        renderer={"zelos"}
+        renderer={"custom_renderer"}
         move={{
           scrollbars: true,
           drag: false,
