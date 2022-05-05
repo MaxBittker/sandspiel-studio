@@ -25,6 +25,8 @@
 // https://developers.google.com/blockly/guides/create-custom-blocks/define-blocks
 
 import * as Blockly from "blockly/core";
+import { ColorWheelField } from "blockly-field-color-wheel";
+
 //import { elements } from "../Sand";
 // Since we're using json to initialize the field, we'll need to import it.
 // import "../fields/BlocklyReactField";
@@ -32,26 +34,43 @@ import * as Blockly from "blockly/core";
 import { globalState } from "../store.js";
 import { getTypeOfValue } from "../generator/generator.js";
 
+import { elements, setElementName } from "../elements";
+
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
-    this.jsonInit({
-      message0: "Behavior",
-      message1: "%1",
-      tooltip: "Behavior for the element",
-      helpUrl: "",
-      args1: [
-        {
-          type: "input_statement",
-          name: "body",
-          align: "CENTRE",
-        },
-      ],
-      inputsInline: true,
-    });
+    const validator = (value) => {
+      setElementName(globalState.selectedElement, value);
+      if (globalState.workspace === undefined) return;
+      const blocks = globalState.workspace.getAllBlocks();
+      for (const block of blocks) {
+        if (block.type !== "element_literal") continue;
+        block.init();
+      }
+    };
+
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput("Sand", validator), "NAME")
+      .appendField("Behavior");
+
+    this.appendDummyInput()
+      .appendField("Color: ")
+      .appendField(
+        new ColorWheelField("#0faaf0", 150, {
+          layoutDirection: "vertical",
+        }),
+        "COLOR"
+      )
+      .setAlign(Blockly.ALIGN_RIGHT);
+
+    this.appendStatementInput("body").setAlign(Blockly.ALIGN_CENTRE);
+
+    this.setTooltip("Behavior for the element");
+    this.setHelpUrl("");
+    this.setInputsInline(true);
     this.setDeletable(false);
     this.setMovable(true);
     this.setColour(160);
-    //this.setStyle("loop_blocks");
+    //this.setStyle("loop_bglocks");
   },
 };
 
@@ -72,30 +91,31 @@ Blockly.Blocks["number_literal"] = {
 
 Blockly.Blocks["element_literal"] = {
   init: function () {
-    this.appendDummyInput().appendField(
-      new Blockly.FieldDropdown([
-        ["Air", "AIR"],
-        ["Water", "WATER"],
-        ["Sand", "SAND"],
-        ["Wall", "WALL"],
-        ["Plant", "PLANT"],
-        ["Stone", "STONE"],
-        ["Cloner", "CLONER"],
-        ["Fire", "FIRE"],
-        ["Ice", "ICE"],
-        ["Gas", "GAS"],
-        ["Wood", "WOOD"],
-        ["Seed", "SEED"],
-        ["Lava", "LAVA"],
-        ["Acid", "ACID"],
-        ["Dust", "DUST"],
-      ]),
-      "VALUE"
-    );
+    this.rebuild();
+
     this.setOutput(true, "Element");
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
+  },
+  rebuild: function () {
+    const oldInput = this.getInput("DROPDOWN");
+    const oldValue = this.getFieldValue("VALUE");
+    if (oldInput !== null) {
+      this.removeInput("DROPDOWN");
+    }
+
+    const fieldValues = elements.map((element) => [
+      element,
+      elements.indexOf(element).toString(),
+    ]);
+
+    this.appendDummyInput("DROPDOWN").appendField(
+      new Blockly.FieldDropdown(fieldValues),
+      "VALUE"
+    );
+
+    this.setFieldValue(oldValue, "VALUE");
   },
 };
 
@@ -985,8 +1005,9 @@ Blockly.Blocks["get_r_cell"] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["hue", "RA"],
+        ["saturation", "RB"],
+        ["light", "RC"],
       ]),
       "DATA"
     );
@@ -1005,8 +1026,9 @@ Blockly.Blocks["set_r_cell"] = {
     this.appendDummyInput().appendField("set");
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["hue", "RA"],
+        ["saturation", "RB"],
+        ["light", "RC"],
       ]),
       "DATA"
     );
@@ -1111,8 +1133,9 @@ Blockly.Blocks["get_r_cell_short"] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["hue", "RA"],
+        ["saturation", "RB"],
+        ["light", "RC"],
       ]),
       "DATA"
     );
@@ -1129,8 +1152,9 @@ Blockly.Blocks["set_r_cell_short"] = {
     this.appendDummyInput().appendField("set");
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["⭐ ra", "RA"],
-        ["⚡ rb", "RB"],
+        ["hue", "RA"],
+        ["saturation", "RB"],
+        ["light", "RC"],
       ]),
       "DATA"
     );
@@ -1151,8 +1175,9 @@ Blockly.Blocks["modify_r"] = {
       .appendField("modify")
       .appendField(
         new Blockly.FieldDropdown([
-          ["⭐ ra", "RA"],
-          ["⚡ rb", "RB"],
+          ["hue", "RA"],
+          ["saturation", "RB"],
+          ["light", "RC"],
         ]),
         "DATA"
       );

@@ -4,9 +4,8 @@ import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks.json";
-import { disabledElements } from "./ElementButtons";
 import Sand from "./Sand.js";
-import useStore, { globalState } from "./store";
+import useStore, { globalState, deriveColor } from "./store";
 
 import BlocklyComponent, { Block, Value, Field, Shadow } from "./Blockly";
 
@@ -15,6 +14,7 @@ import prettier from "prettier";
 import "./blocks/customblocks";
 import "./generator/generator";
 import { loadShaderFromServer } from "./loadShaderFromServer";
+import { pallette } from "./Render";
 
 function generateCode(element, ws) {
   let baseBlock = undefined;
@@ -38,10 +38,11 @@ function generateCode(element, ws) {
 
   //console.log(xmlText);
   window.localStorage.setItem("code" + element, xmlText);
-  //console.log(code);
+  // console.log(code);
   // eslint-disable-next-line no-new-func
   let fn = Function(code);
   globalState.xmls[element] = xmlText;
+  globalState.colors[element] = deriveColor(xmlText);
   globalState.updaters[element] = fn.bind(globalState);
 }
 
@@ -62,10 +63,7 @@ const App = () => {
     if (!fetchedData || !simpleWorkspace.current) {
       return;
     }
-    for (let i = elements.length - 1; i >= 0; i--) {
-      if (disabledElements.indexOf(elements[i]) >= 0) {
-        continue;
-      }
+    for (let i = elements.length - 1; i > 0; i--) {
       setSelected(i);
 
       let ws = simpleWorkspace.current.primaryWorkspace;
@@ -79,11 +77,12 @@ const App = () => {
           resolve();
         };
         ws.addChangeListener(cb);
-        Xml.domToWorkspace(Xml.textToDom(xmls[i]), ws);
+        Xml.domToWorkspace(Xml.textToDom(globalState.xmls[i]), ws);
       });
     }
     setSelected(1);
     setLoaded(true);
+    pallette();
   }, [simpleWorkspace, fetchedData]);
 
   useEffect(() => {
@@ -101,6 +100,7 @@ const App = () => {
   useEffect(() => {
     if (!simpleWorkspace.current || !loaded) return;
     simpleWorkspace.current.primaryWorkspace.clear();
+
     Xml.domToWorkspace(
       Xml.textToDom(globalState.xmls[globalState.selectedElement]),
       simpleWorkspace.current.primaryWorkspace
@@ -125,11 +125,11 @@ const App = () => {
         readOnly={false}
         trashcan={false}
         media={"media/"}
-        renderer={"zelos"}
+        renderer={"custom_renderer"}
         move={{
-          scrollbars: false,
-          // drag: true,
-          // wheel: true,
+          scrollbars: true,
+          drag: false,
+          wheel: true,
         }}
         initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
       >
@@ -205,6 +205,7 @@ const App = () => {
             </Shadow>
           </Value>
         </Block>
+
         <Block type="in_a_random">
           <Field name="NAME">ROTATION</Field>
         </Block>

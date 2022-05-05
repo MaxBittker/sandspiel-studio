@@ -5,21 +5,24 @@
   "dependencies": {
     "@blockly/block-plus-minus": "^3.0.7",
     "@blockly/continuous-toolbox": "^2.0.24",
+    "@types/tinycolor2": "^1.4.3",
     "babel-eslint": "^10.1.0",
     "blockly": "^3.20200924.4",
+    "blockly-field-color-wheel": "^1.0.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react-hooks": "^4.4.0",
     "lodash": "^4.17.21",
+    "next": "latest",
     "prettier": "^2.5.1",
     "raw.macro": "^0.4.2",
     "react": "^17.0.1",
     "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
     "regl": "^2.1.0",
+    "tinycolor2": "^1.4.2",
     "use-animation-frame": "^0.1.1",
     "vkbeautify": "^0.99.3",
-    "zustand": "^3.6.9",
-    "next": "latest"
+    "zustand": "^3.6.9"
   },
   "scripts": {
     "audit": "npm audit fix",
@@ -57,7 +60,7 @@
   "devDependencies": {
     "@types/react": "^18.0.7",
     "eslint": "^8.12.0",
-    "vercel": "^24.1.0",
-    "eslint-plugin-react": "^7.29.4"
+    "eslint-plugin-react": "^7.29.4",
+    "vercel": "^24.1.0"
   }
 }

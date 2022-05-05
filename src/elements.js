@@ -1,4 +1,4 @@
-let elements = [
+export const elements = [
   "Air",
   "Water",
   "Sand",
@@ -9,15 +9,15 @@ let elements = [
   "Fire",
   "Ice",
   "Gas",
-  "Mite",
   "Wood",
-  "Fungus",
   "Seed",
   "Lava",
   "Acid",
   "Dust",
-  "Oil",
-  "Rocket"
 ];
+
+export function setElementName(id, name) {
+  elements[id] = name;
+}
 
 export default elements;

@@ -6,7 +6,7 @@ import { fps } from "./fps";
 import ElementButtons from "./ElementButtons";
 import elements from "./elements";
 import ExtraUI from "./ExtraUI";
-import { sands, width, height, tick, setSand } from "./SandApi";
+import { sands, width, height, tick, initSand } from "./SandApi";
 let dpi = 4;
 
 globalState.updaters = elements.map(() => {
@@ -120,11 +120,11 @@ const Sand = () => {
           points.forEach(({ x, y }) => {
             x = Math.round(x);
             y = Math.round(y);
-            setSand(x, y, selectedElement);
-            setSand(x - 1, y, selectedElement);
-            setSand(x, y - 1, selectedElement);
-            setSand(x, y + 1, selectedElement);
-            setSand(x + 1, y, selectedElement);
+            initSand(x, y, selectedElement);
+            initSand(x - 1, y, selectedElement);
+            initSand(x, y - 1, selectedElement);
+            initSand(x, y + 1, selectedElement);
+            initSand(x + 1, y, selectedElement);
           });
           prevPos = [eX, eY];
         }}

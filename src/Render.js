@@ -1,7 +1,8 @@
 // import raw from "raw.macro";
 import elements from "./elements";
 import * as reglBuilder from "regl";
-
+import { initSand, sands } from "./SandApi";
+import { globalState } from "./store";
 // const sandShader = raw("./sand.glsl");
 let vsh = `
 // boring "pass-through" vertex shader
@@ -16,6 +17,7 @@ void main() {
 let fsh = `precision highp float;
 uniform float t;
 uniform sampler2D data;
+uniform vec3 colors[16];
 
 varying vec2 uv;
 
@@ -62,116 +64,73 @@ vec3 hsl2rgb(float h, float s, float l) { return hsl2rgb(vec3(h, s, l)); }
 void main() {
   vec2 textCoord = ((uv * vec2(0.5, -0.5)) + vec2(0.5));
   vec4 data = texture2D(data, textCoord);
+  data.gba = (data.gba * 2.55);
   int type = int((data.r * 255.) + 0.1);
   float hue = 0.0;
   float saturation = 0.3;
-  float lightness = 0.25 + data.g * 0.2;
-float a = 1.0;
-  if (type == 0) {
-    lightness = 1.0;
-    //  a = 0.;
-  } else if (type == 1) {
-    hue = 0.65;
-    saturation = 0.7;
-    lightness += 0.3;
+  float lightness = 0.8;
+  ;
 
+  float a = 1.0;
+  vec3 colordata = vec3(0.,0.,0.0);
+ if (type == 1) {
+    colordata = colors[1];
   } else if (type == 2) {
-    hue = 0.15;
-    saturation = 0.7;
-    lightness += 0.3;
-
+    colordata = colors[2];
   } else if (type == 3) {
-    hue = 0.15;
-    lightness -= .2;
-
+    colordata = colors[3];
   } else if (type == 4) {
-    hue = 0.4;
-    saturation = 0.5;
-
+    colordata = colors[4];
   } else if (type == 5) {
-    hue = 0.15;
-    saturation = 0.0;
-    lightness += .2;
-
+    colordata = colors[5];
   } else if (type == 6) {
-    hue = .8;
-    saturation *= 1.5;
-
+    colordata = colors[6];
   } else if (type == 7) {
-    hue = data.g * 0.1;
-    saturation *= 1.5;
-    lightness += .2;
-  } else if (type == 8) { // ICE
-    hue = 0.6;
-    saturation = 0.4;
-    lightness = 0.6 + data.g * 0.1;
+    colordata = colors[7];
+  } else if (type == 8) {
+    colordata = colors[8];
+  } else if (type == 9) {
+    colordata = colors[9];
+  } else if (type == 10) {
+    colordata = colors[10];
+  } else if (type == 11) {
+    colordata = colors[11];
+  } else if (type == 12) {
+    colordata = colors[12];
+  } else if (type == 13) {
+    colordata = colors[13];
+  } else if (type == 14) {
+    colordata = colors[14];
+  } else if (type == 15) {
+    colordata = colors[15];
+  } 
 
-  } else if (type == 9) { // Gas
 
-    hue = (data.g * 0.1);
-    lightness = 0.7 + data.g * 0.25;
-  } else if (type == 10) { // MITE
+  hue = colordata.r;
+    saturation = colordata.g;
+    lightness = colordata.b;
 
-    hue = 0.8;
-    saturation = 0.9;
-    lightness = 0.6 + data.g * 0.1;
-  } else if (type == 11) { // Wood
-
-    hue = -0.4 + (data.g * 0.5);
-    saturation = 0.1;
-  } else if (type == 12) { // Fungus
-    hue = (data.g * 0.15) - 0.1;
-    saturation = (data.g * 0.8) - 0.05;
-
-    // (data.g * 0.00);
-    lightness = 1.0 - (data.g * 0.2);
-  } else if (type == 13) { // seed
-
-  
-    saturation = 0.2 + (data.g + 0.1);
-    lightness = 0.7 + (data.g * 0.1);
-
-    if (data.b < 0.1) { // seed
-        hue = 0.9;
-    }    else if (data.b > 0.6) {
-        hue = 0.4;
-        saturation -= 0.2;
-        lightness -= 0.4;
-    }  else {
-        hue = fract(fract(data.g * 41.) * 0.5) - 0.3;
-        saturation += 0.3;
-        lightness -= 0.35;
-       lightness += (data.b - 0.1) * .8;
-    }
-  } else if (type == 14) { // lava
-    hue = (data.g * 0.1);
-    lightness = 0.4 + data.g * 0.25;
-  } else if (type == 15) { // acid
-
-    lightness = 1.5 - (data.g * 0.2);
-    hue = 0.18;
-    saturation = 0.9;
-    lightness = 0.6 + data.g * 0.2;
-  } else if (type == 16) { // dust
-    hue = (data.g * 2.0) + t * .0008;
-    saturation = 0.7;
-    lightness = 0.7;
-  } else if (type == 17) { // OIL
-    hue = (data.g * 5.0) + t * .008;
-    saturation = 0.2;
-    lightness = 0.3;
-
-  } else if (type == 18) { // Rocket
+    if (type == 0) {
+      lightness = 1.0;
+      //  a = 0.;
+    } 
+  else {
+    hue = mod(hue + data.g, 1.0);
+    lightness += (data.a *.5);
+    saturation += (data.b *.5);
   }
+
   vec3 color = hsl2rgb(hue, saturation, lightness);
   gl_FragColor = vec4(color, a);
 }
 `;
+
 let startWebGL = ({ canvas, width, height, sands }) => {
   const regl = reglBuilder({
     canvas,
   });
-  const dataTexture = regl.texture({ width, height, data: window.sands });
+
+  const dataTexture = regl.texture({ width, height, data: sands });
 
   let drawSand = regl({
     frag: fsh,
@@ -180,6 +139,24 @@ let startWebGL = ({ canvas, width, height, sands }) => {
       data: () => {
         return dataTexture({ width, height, data: sands });
       },
+
+      "colors[0]": () => globalState?.colors[0] ?? [0.5, 0.5, 0.5],
+      "colors[1]": () => globalState?.colors[1] ?? [0.5, 0.5, 0.5],
+      "colors[2]": () => globalState?.colors[2] ?? [0.5, 0.5, 0.5],
+      "colors[3]": () => globalState?.colors[3] ?? [0.5, 0.5, 0.5],
+      "colors[4]": () => globalState?.colors[4] ?? [0.5, 0.5, 0.5],
+      "colors[5]": () => globalState?.colors[5] ?? [0.5, 0.5, 0.5],
+      "colors[6]": () => globalState?.colors[6] ?? [0.5, 0.5, 0.5],
+      "colors[7]": () => globalState?.colors[7] ?? [0.5, 0.5, 0.5],
+      "colors[8]": () => globalState?.colors[8] ?? [0.5, 0.5, 0.5],
+      "colors[9]": () => globalState?.colors[9] ?? [0.5, 0.5, 0.5],
+      "colors[10]": () => globalState?.colors[10] ?? [0.5, 0.5, 0.5],
+      "colors[11]": () => globalState?.colors[11] ?? [0.5, 0.5, 0.5],
+      "colors[12]": () => globalState?.colors[12] ?? [0.5, 0.5, 0.5],
+      "colors[13]": () => globalState?.colors[13] ?? [0.5, 0.5, 0.5],
+      "colors[14]": () => globalState?.colors[14] ?? [0.5, 0.5, 0.5],
+      "colors[15]": () => globalState?.colors[15] ?? [0.5, 0.5, 0.5],
+      "colors[16]": () => globalState?.colors[16] ?? [0.5, 0.5, 0.5],
 
       dpi: window.devicePixelRatio * 2,
     },
@@ -211,18 +188,13 @@ function pallette() {
 
   let range = elements.length;
 
-  const sands = new Uint8Array(4 * range);
+  // const sands = new Uint8Array(4 * range);
 
   canvas.width = range;
   canvas.height = 1;
 
   elements.forEach((_, i) => {
-    let idx = i * 4;
-    sands[idx] = i;
-
-    sands[idx + 1] = 50;
-    sands[idx + 2] = 50;
-    sands[idx + 3] = 0;
+    initSand(i, 0, i);
   });
 
   canvas.style =
@@ -234,7 +206,7 @@ function pallette() {
     width: range,
     height: 1,
     isSnapshot: true,
-    sands,
+    sands: sands.slice(0, range * 4),
   });
   render();
   let ctx = canvas.getContext("webgl");
@@ -247,6 +219,12 @@ function pallette() {
     }, 0.5)`;
     return color;
   });
+  elements.forEach((_, i) => {
+    initSand(i, 0, 0);
+    initSand(i, 1, 0);
+    initSand(i, 2, 0);
+  });
+  globalState.pallette = colors;
   return colors;
 }
 

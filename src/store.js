@@ -1,5 +1,5 @@
 import create from "zustand";
-
+import tinycolor2 from "tinycolor2";
 let useStore = create((set) => ({
   selectedElement: 1,
   updateScheme: "RANDOM_CYCLIC",
@@ -11,10 +11,23 @@ let useStore = create((set) => ({
 
 const globalState = {
   xmls: [],
+  colors: [],
   updaters: [],
+  pallette: [],
   workspace: undefined,
   selectedElement: 1,
 };
 
-export { globalState };
+function deriveColor(xmlString) {
+  let pattern = '<field name="COLOR">';
+  let pl = pattern.length;
+  let location = xmlString.indexOf(pattern);
+  let colorString = xmlString.slice(location + pl, location + pl + 7);
+  let color = tinycolor2(colorString).toHsl();
+  return [color.h / 360, color.s, color.l];
+}
+if (typeof window !== "undefined") {
+  window.globalState = globalState;
+}
+export { globalState, deriveColor };
 export default useStore;
