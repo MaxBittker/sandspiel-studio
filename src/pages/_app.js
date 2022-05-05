@@ -4,6 +4,7 @@ import Head from "next/head";
 import Script from "next/script";
 
 import "../App.css";
+import "../index.css";
 import "../game.css";
 import "../Blockly/BlocklyComponent.css";
 
