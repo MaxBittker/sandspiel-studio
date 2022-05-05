@@ -65,6 +65,12 @@ Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
     const validator = (value) => {
       setElementName(globalState.selectedElement, value);
+      if (globalState.workspace === undefined) return;
+      const blocks = globalState.workspace.getAllBlocks();
+      for (const block of blocks) {
+        if (block.type !== "element_literal") continue;
+        block.init();
+      }
     };
 
     this.appendDummyInput()
@@ -97,20 +103,31 @@ Blockly.Blocks["number_literal"] = {
 
 Blockly.Blocks["element_literal"] = {
   init: function () {
+    this.rebuild();
+    this.setOutput(true, "Element");
+    this.setColour(160);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+  rebuild: function () {
+    const oldInput = this.getInput("DROPDOWN");
+    const oldValue = this.getFieldValue("VALUE");
+    if (oldInput !== null) {
+      this.removeInput("DROPDOWN");
+    }
+
     const elementNames = getElementNames();
     const fieldValues = elementNames.map((element) => [
       element,
       elements.indexOf(element).toString(),
     ]);
 
-    this.appendDummyInput().appendField(
+    this.appendDummyInput("DROPDOWN").appendField(
       new Blockly.FieldDropdown(fieldValues),
       "VALUE"
     );
-    this.setOutput(true, "Element");
-    this.setColour(160);
-    this.setTooltip("");
-    this.setHelpUrl("");
+
+    this.setFieldValue(oldValue, "VALUE");
   },
 };
 
