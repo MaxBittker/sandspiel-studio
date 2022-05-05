@@ -34,9 +34,23 @@ import { ColorWheelField } from "blockly-field-color-wheel";
 import { globalState } from "../store.js";
 import { getTypeOfValue } from "../generator/generator.js";
 
+import { elements, setElementName } from "../elements";
+
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
-    this.appendDummyInput().appendField("Behavior:");
+    const validator = (value) => {
+      setElementName(globalState.selectedElement, value);
+      if (globalState.workspace === undefined) return;
+      const blocks = globalState.workspace.getAllBlocks();
+      for (const block of blocks) {
+        if (block.type !== "element_literal") continue;
+        block.init();
+      }
+    };
+
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput("Sand", validator), "NAME")
+      .appendField("Behavior");
 
     this.appendDummyInput()
       .appendField("Color: ")
@@ -60,29 +74,6 @@ Blockly.Blocks["sand_behavior_base"] = {
   },
 };
 
-// Blockly.Blocks["sand_behavior_base"] = {
-//   init: function () {
-//     this.jsonInit({
-//       message0: "Behavior",
-//       message1: "%1",
-//       tooltip: "Behavior for the element",
-//       helpUrl: "",
-//       args1: [
-//         {
-//           type: "input_statement",
-//           name: "body",
-//           align: "CENTRE",
-//         },
-//       ],
-//       inputsInline: true,
-//     });
-//     this.setDeletable(false);
-//     this.setMovable(true);
-//     this.setColour(160);
-//     //this.setStyle("loop_blocks");
-//   },
-// };
-
 //===================//
 // SAND-BLOCKS DRAFT //
 //===================//
@@ -100,30 +91,31 @@ Blockly.Blocks["number_literal"] = {
 
 Blockly.Blocks["element_literal"] = {
   init: function () {
-    this.appendDummyInput().appendField(
-      new Blockly.FieldDropdown([
-        ["Air", "AIR"],
-        ["Water", "WATER"],
-        ["Sand", "SAND"],
-        ["Wall", "WALL"],
-        ["Plant", "PLANT"],
-        ["Stone", "STONE"],
-        ["Cloner", "CLONER"],
-        ["Fire", "FIRE"],
-        ["Ice", "ICE"],
-        ["Gas", "GAS"],
-        ["Wood", "WOOD"],
-        ["Seed", "SEED"],
-        ["Lava", "LAVA"],
-        ["Acid", "ACID"],
-        ["Dust", "DUST"],
-      ]),
-      "VALUE"
-    );
+    this.rebuild();
+
     this.setOutput(true, "Element");
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
+  },
+  rebuild: function () {
+    const oldInput = this.getInput("DROPDOWN");
+    const oldValue = this.getFieldValue("VALUE");
+    if (oldInput !== null) {
+      this.removeInput("DROPDOWN");
+    }
+
+    const fieldValues = elements.map((element) => [
+      element,
+      elements.indexOf(element).toString(),
+    ]);
+
+    this.appendDummyInput("DROPDOWN").appendField(
+      new Blockly.FieldDropdown(fieldValues),
+      "VALUE"
+    );
+
+    this.setFieldValue(oldValue, "VALUE");
   },
 };
 

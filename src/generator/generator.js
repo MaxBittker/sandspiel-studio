@@ -73,28 +73,9 @@ Blockly.JavaScript["number_literal"] = function (block) {
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-const ELEMENTS = {
-  AIR: "0",
-  WATER: "1",
-  SAND: "2",
-  WALL: "3",
-  PLANT: "4",
-  STONE: "5",
-  CLONER: "6",
-  FIRE: "7",
-  ICE: "8",
-  GAS: "9",
-  WOOD: "10",
-  SEED: "11",
-  LAVA: "12",
-  ACID: "13",
-  DUST: "14",
-};
-
 Blockly.JavaScript["element_literal"] = function (block) {
-  const elementName = block.getFieldValue("VALUE");
-  const element = ELEMENTS[elementName];
-  return [element, Blockly.JavaScript.ORDER_ATOMIC];
+  const value = block.getFieldValue("VALUE");
+  return [value, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript["group"] = function (block) {

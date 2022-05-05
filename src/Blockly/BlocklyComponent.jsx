@@ -48,8 +48,8 @@ let CustomConstantsProvider = function () {
   CustomConstantsProvider.superClass_.constructor.call(this);
 
   this.FIELD_COLOUR_FULL_BLOCK = false;
-this.ADD_START_HATS = true
-  this.FIELD_COLOUR_DEFAULT_WIDTH = 70
+  this.ADD_START_HATS = true;
+  this.FIELD_COLOUR_DEFAULT_WIDTH = 70;
   this.FIELD_COLOUR_DEFAULT_HEIGHT = 30;
   this.FIELD_DROPDOWN_COLOURED_DIV = true;
 };
@@ -60,7 +60,6 @@ Blockly.utils.object.inherits(
 Blockly.blockRendering.unregister("custom_renderer");
 Blockly.blockRendering.register("custom_renderer", CustomRenderer);
 
-console.log("registered")
 class BlocklyComponent extends React.Component {
   constructor(props) {
     super(props);
