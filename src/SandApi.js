@@ -116,7 +116,14 @@ function getSand(x, y, o = 0) {
   return sands[getIndex(x, y) + o];
 }
 export function initSand(x, y, v) {
-  setSand(x, y, v, 0, 0, 0);
+  setSand(
+    x,
+    y,
+    v,
+    0,
+    (10 + Math.random() * 40) | 0,
+    (10 + Math.random() * 40) | 0
+  );
 
   aX = x;
   aY = y;

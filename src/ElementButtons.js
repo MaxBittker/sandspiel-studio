@@ -6,7 +6,8 @@ import { globalState } from "./store";
 // let pallette_data = pallette();
 
 const ElementButton = ({ i, setSelected, selected }) => {
-  let color = globalState.pallette[i] ?? "rgba(100,100,100,0.5)";
+  let [h, s, l] = globalState.colors[i] ?? [0, 0.5, 0.5];
+  let color = `hsla(${h * 360},${s * 100}%,${l * 100}%,0.5)`;
 
   return (
     <button

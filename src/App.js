@@ -5,7 +5,7 @@ import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks.json";
 import Sand from "./Sand.js";
-import useStore, { globalState } from "./store";
+import useStore, { globalState, deriveColor } from "./store";
 
 import BlocklyComponent, { Block, Value, Field, Shadow } from "./Blockly";
 
@@ -42,6 +42,7 @@ function generateCode(element, ws) {
   // eslint-disable-next-line no-new-func
   let fn = Function(code);
   globalState.xmls[element] = xmlText;
+  globalState.colors[element] = deriveColor(xmlText);
   globalState.updaters[element] = fn.bind(globalState);
 }
 
