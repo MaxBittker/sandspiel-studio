@@ -123,16 +123,6 @@ export function initSand(x, y, v) {
     (10 + Math.random() * 40) | 0,
     (10 + Math.random() * 40) | 0
   );
-
-  aX = x;
-  aY = y;
-  globalState.returnValue = undefined;
-  inertMode = true;
-  let i = getIndex(x, y);
-  const behaveFunction = globalState.updaters[sands[i]];
-  if (behaveFunction === undefined) return [];
-  // console.log(behaveFunction.toString());
-  behaveFunction();
 }
 export function setSand(x, y, v, ra, rb, rc) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
