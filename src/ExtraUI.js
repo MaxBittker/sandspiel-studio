@@ -29,6 +29,14 @@ import * as vkbeautify from "vkbeautify";
 //   );
 // };
 
+function prepareExport() {
+  let regex = /id="([^\\]*?)"/g;
+  let minifiedXmls = globalState.xmls.map((x) =>
+    vkbeautify.xmlmin(x).replaceAll(regex, "")
+  );
+  let json = JSON.stringify(minifiedXmls, null, " ");
+  return json;
+}
 const ExtraUI = ({
   updateScheme,
   setUpdateScheme,
@@ -53,10 +61,7 @@ const ExtraUI = ({
         <button
           className="simulation-button"
           onClick={() => {
-            let minifiedXmls = globalState.xmls.map((x) =>
-              vkbeautify.xmlmin(x)
-            );
-            let json = JSON.stringify(minifiedXmls, null, " ");
+            let json = prepareExport();
 
             fetch(serverAddr + "upload/", {
               method: "post",
@@ -100,10 +105,7 @@ const ExtraUI = ({
         <button
           className="simulation-button"
           onClick={() => {
-            let minifiedXmls = globalState.xmls.map((x) =>
-              vkbeautify.xmlmin(x)
-            );
-            let json = JSON.stringify(minifiedXmls, null, " ");
+            let json = prepareExport();
 
             var data = [
               // eslint-disable-next-line no-undef

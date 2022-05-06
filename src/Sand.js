@@ -51,7 +51,7 @@ const Sand = () => {
   }, []);
 
   const [drawerWidth, setWidth] = useState(
-    Math.min(window.innerWidth / 2, window.innerHeight * 0.6)
+    Math.min(window.innerWidth / 2.5, window.innerHeight * 0.6)
   );
   const [isDragging, setIsDragging] = useState(false);
   let mouseMove = useCallback((e) => {
