@@ -4,13 +4,12 @@ import { startWebGL } from "./Render";
 import useStore, { globalState } from "./store";
 import { fps } from "./fps";
 import ElementButtons from "./ElementButtons";
-import elements from "./elements";
 import ExtraUI from "./ExtraUI";
 
 import { sands, width, height, tick, initSand } from "./SandApi";
 let dpi = 4;
 
-globalState.updaters = elements.map(() => {
+globalState.updaters = useStore.getState().elements.map(() => {
   return (() => {}).bind(globalState);
 });
 const Sand = () => {

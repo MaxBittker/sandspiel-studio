@@ -27,19 +27,16 @@
 import * as Blockly from "blockly/core";
 import { ColorWheelField } from "blockly-field-color-wheel";
 
-//import { elements } from "../Sand";
 // Since we're using json to initialize the field, we'll need to import it.
 // import "../fields/BlocklyReactField";
 // import "../fields/DateField";
-import { globalState } from "../store.js";
+import { globalState, useStore } from "../store.js";
 import { getTypeOfValue } from "../generator/generator.js";
-
-import { elements, setElementName } from "../elements";
 
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
     const validator = (value) => {
-      setElementName(globalState.selectedElement, value);
+      useStore.getState().setElementName(globalState.selectedElement, value);
       if (globalState.workspace === undefined) return;
       const blocks = globalState.workspace.getAllBlocks();
       for (const block of blocks) {
@@ -105,6 +102,7 @@ Blockly.Blocks["element_literal"] = {
       this.removeInput("DROPDOWN");
     }
 
+    const elements = useStore.getState().elements;
     const fieldValues = elements.map((element) => [
       element,
       elements.indexOf(element).toString(),

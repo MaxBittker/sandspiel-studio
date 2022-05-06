@@ -1,5 +1,4 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
-// import elements from "./elements";
 import { globalState } from "./store.js";
 let aX = 0;
 let aY = 0;
@@ -497,9 +496,7 @@ export const tick = () => {
 export const seed = () => {
   for (var i = 0; i < sands.length; i += 4) {
     sands[i] = 0;
-    // if (Math.random() * i > width * height * 3) {
-    //   sands[i] = (Math.random() * (elements.length - 1)) | 0;
-    // }
+
     sands[i + 1] = 0;
     sands[i + 2] = (25 + Math.random() * 50) | 0;
     sands[i + 3] = (25 + Math.random() * 50) | 0;

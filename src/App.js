@@ -1,11 +1,10 @@
-import elements from "./elements";
 import React, { useRef, useState, useEffect } from "react";
 import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./starterblocks.json";
 import Sand from "./Sand.js";
-import useStore, { globalState, deriveColor } from "./store";
+import useStore, { globalState } from "./store";
 
 import BlocklyComponent, { Block, Value, Field, Shadow } from "./Blockly";
 
@@ -41,8 +40,7 @@ function generateCode(element, ws) {
   // console.log(code);
   // eslint-disable-next-line no-new-func
   let fn = Function(code);
-  globalState.xmls[element] = xmlText;
-  globalState.colors[element] = deriveColor(xmlText);
+  useStore.getState().setXml(xmlText, element);
   globalState.updaters[element] = fn.bind(globalState);
 }
 
@@ -63,7 +61,7 @@ const App = () => {
     if (!fetchedData || !simpleWorkspace.current) {
       return;
     }
-    for (let i = elements.length - 1; i > 0; i--) {
+    for (let i = useStore.getState().elements.length - 1; i > 0; i--) {
       setSelected(i);
 
       let ws = simpleWorkspace.current.primaryWorkspace;
@@ -77,7 +75,13 @@ const App = () => {
           resolve();
         };
         ws.addChangeListener(cb);
-        Xml.domToWorkspace(Xml.textToDom(globalState.xmls[i]), ws);
+        let xml = useStore.getState().xmls[i];
+        let dom = Xml.textToDom(xml);
+        try {
+          Xml.domToWorkspace(dom, ws);
+        } catch (e) {
+          console.error(e);
+        }
       });
     }
     setSelected(1);
@@ -102,7 +106,7 @@ const App = () => {
     simpleWorkspace.current.primaryWorkspace.clear();
 
     Xml.domToWorkspace(
-      Xml.textToDom(globalState.xmls[globalState.selectedElement]),
+      Xml.textToDom(useStore.getState().xmls[globalState.selectedElement]),
       simpleWorkspace.current.primaryWorkspace
     );
   }, [selectedElement, loaded]);

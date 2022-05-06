@@ -1,17 +1,13 @@
 import starterXMLs from "./starterblocks.json";
-import { deriveColor, globalState } from "./store";
+import { useStore } from "./store";
 export const serverAddr = "https://api.shaderbooth.com:3002/";
+
 // export const serverAddr = "/api/getCreation/";
 
 export async function loadShaderFromServer() {
   if (window.location.search.length <= 2) {
-    globalState.xmls = starterXMLs.map((v, i) => {
-      return v;
-    });
+    useStore.getState().setXmls(starterXMLs.map((v, i) => v));
 
-    globalState.colors = globalState.xmls.map((v, i) => {
-      return deriveColor(v);
-    });
     return;
   }
   let id = window.location.search.slice(1);
@@ -25,11 +21,8 @@ export async function loadShaderFromServer() {
     })
     .then((data) => {
       let code = JSON.parse(data);
-      console.log("loaded some code");
+      console.log("loaded some code from " + id);
 
-      globalState.xmls = code;
-      globalState.colors = globalState.xmls.map((v, i) => {
-        return deriveColor(v);
-      });
+      useStore.getState().setXmls(code);
     });
 }

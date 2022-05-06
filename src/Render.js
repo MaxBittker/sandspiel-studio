@@ -1,8 +1,7 @@
 // import raw from "raw.macro";
-import elements from "./elements";
 import * as reglBuilder from "regl";
 import { initSand, sands } from "./SandApi";
-import { globalState } from "./store";
+import useStore, { globalState } from "./store";
 // const sandShader = raw("./sand.glsl");
 let vsh = `
 // boring "pass-through" vertex shader
@@ -73,7 +72,9 @@ void main() {
 
   float a = 1.0;
   vec3 colordata = vec3(0.,0.,0.0);
- if (type == 1) {
+  if (type == 0) {
+    colordata = colors[0];
+  } else if (type == 1) {
     colordata = colors[1];
   } else if (type == 2) {
     colordata = colors[2];
@@ -110,15 +111,15 @@ void main() {
     saturation = colordata.g;
     lightness = colordata.b;
 
-    if (type == 0) {
-      lightness = 1.0;
-      //  a = 0.;
-    } 
-  else {
+  //   if (type == 0) {
+  //     // lightness = 1.0;
+  //     //  a = 0.;
+  //   } 
+  // else {
     hue = mod(hue + data.g, 1.0);
     lightness += (data.a *.5);
     saturation += (data.b *.5);
-  }
+  // }
 
   vec3 color = hsl2rgb(hue, saturation, lightness);
   gl_FragColor = vec4(color, a);
@@ -140,23 +141,23 @@ let startWebGL = ({ canvas, width, height, sands }) => {
         return dataTexture({ width, height, data: sands });
       },
 
-      "colors[0]": () => globalState?.colors[0] ?? [0.5, 0.5, 0.5],
-      "colors[1]": () => globalState?.colors[1] ?? [0.5, 0.5, 0.5],
-      "colors[2]": () => globalState?.colors[2] ?? [0.5, 0.5, 0.5],
-      "colors[3]": () => globalState?.colors[3] ?? [0.5, 0.5, 0.5],
-      "colors[4]": () => globalState?.colors[4] ?? [0.5, 0.5, 0.5],
-      "colors[5]": () => globalState?.colors[5] ?? [0.5, 0.5, 0.5],
-      "colors[6]": () => globalState?.colors[6] ?? [0.5, 0.5, 0.5],
-      "colors[7]": () => globalState?.colors[7] ?? [0.5, 0.5, 0.5],
-      "colors[8]": () => globalState?.colors[8] ?? [0.5, 0.5, 0.5],
-      "colors[9]": () => globalState?.colors[9] ?? [0.5, 0.5, 0.5],
-      "colors[10]": () => globalState?.colors[10] ?? [0.5, 0.5, 0.5],
-      "colors[11]": () => globalState?.colors[11] ?? [0.5, 0.5, 0.5],
-      "colors[12]": () => globalState?.colors[12] ?? [0.5, 0.5, 0.5],
-      "colors[13]": () => globalState?.colors[13] ?? [0.5, 0.5, 0.5],
-      "colors[14]": () => globalState?.colors[14] ?? [0.5, 0.5, 0.5],
-      "colors[15]": () => globalState?.colors[15] ?? [0.5, 0.5, 0.5],
-      "colors[16]": () => globalState?.colors[16] ?? [0.5, 0.5, 0.5],
+      "colors[0]": () => useStore.getState().colors[0] ?? [0.5, 0.5, 0.5],
+      "colors[1]": () => useStore.getState().colors[1] ?? [0.5, 0.5, 0.5],
+      "colors[2]": () => useStore.getState().colors[2] ?? [0.5, 0.5, 0.5],
+      "colors[3]": () => useStore.getState().colors[3] ?? [0.5, 0.5, 0.5],
+      "colors[4]": () => useStore.getState().colors[4] ?? [0.5, 0.5, 0.5],
+      "colors[5]": () => useStore.getState().colors[5] ?? [0.5, 0.5, 0.5],
+      "colors[6]": () => useStore.getState().colors[6] ?? [0.5, 0.5, 0.5],
+      "colors[7]": () => useStore.getState().colors[7] ?? [0.5, 0.5, 0.5],
+      "colors[8]": () => useStore.getState().colors[8] ?? [0.5, 0.5, 0.5],
+      "colors[9]": () => useStore.getState().colors[9] ?? [0.5, 0.5, 0.5],
+      "colors[10]": () => useStore.getState().colors[10] ?? [0.5, 0.5, 0.5],
+      "colors[11]": () => useStore.getState().colors[11] ?? [0.5, 0.5, 0.5],
+      "colors[12]": () => useStore.getState().colors[12] ?? [0.5, 0.5, 0.5],
+      "colors[13]": () => useStore.getState().colors[13] ?? [0.5, 0.5, 0.5],
+      "colors[14]": () => useStore.getState().colors[14] ?? [0.5, 0.5, 0.5],
+      "colors[15]": () => useStore.getState().colors[15] ?? [0.5, 0.5, 0.5],
+      "colors[16]": () => useStore.getState().colors[16] ?? [0.5, 0.5, 0.5],
 
       dpi: window.devicePixelRatio * 2,
     },
@@ -185,7 +186,7 @@ function pallette() {
     return;
   }
   let canvas = document.createElement("canvas");
-
+  let elements = useStore.getState().elements;
   let range = elements.length;
 
   // const sands = new Uint8Array(4 * range);

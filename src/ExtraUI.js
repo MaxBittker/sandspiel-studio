@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { seed } from "./SandApi";
-import { globalState } from "./store";
+import { useStore } from "./store";
 import { serverAddr } from "./loadShaderFromServer";
 // import { UPDATE_SCHEMES } from "./updateSchemes";
 import * as vkbeautify from "vkbeautify";
@@ -31,9 +31,9 @@ import * as vkbeautify from "vkbeautify";
 
 function prepareExport() {
   let regex = /id="([^\\]*?)"/g;
-  let minifiedXmls = globalState.xmls.map((x) =>
-    vkbeautify.xmlmin(x).replaceAll(regex, "")
-  );
+  let minifiedXmls = useStore
+    .getState()
+    .xmls.map((x) => vkbeautify.xmlmin(x).replaceAll(regex, ""));
   let json = JSON.stringify(minifiedXmls, null, " ");
   return json;
 }

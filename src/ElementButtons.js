@@ -1,12 +1,13 @@
 import React from "react";
 // import { pallette } from "./Render";
-import elements from "./elements";
-import { globalState } from "./store";
+import { useStore } from "./store";
 
 // let pallette_data = pallette();
 
 const ElementButton = ({ i, setSelected, selected }) => {
-  let [h, s, l] = globalState.colors[i] ?? [0, 0.5, 0.5];
+  const elements = useStore((state) => state.elements);
+  const colors = useStore((state) => state.colors);
+  let [h, s, l] = colors[i] ?? [0, 0.5, 0.5];
   let color = `hsla(${h * 360},${s * 100}%,${l * 100}%,0.5)`;
 
   return (
@@ -27,6 +28,8 @@ const ElementButton = ({ i, setSelected, selected }) => {
 };
 
 const ElementButtons = ({ selectedElement, setSelected }) => {
+  const elements = useStore((state) => state.elements);
+
   return (
     <div className="element-tray">
       {elements.map((e, i) => {
