@@ -51,6 +51,9 @@ let CustomConstantsProvider = function () {
   this.ADD_START_HATS = true;
   this.FIELD_COLOUR_DEFAULT_WIDTH = 70;
   this.FIELD_COLOUR_DEFAULT_HEIGHT = 30;
+  this.BOTTOM_ROW_AFTER_STATEMENT_MIN_HEIGHT = 12;
+  this.STATEMENT_INPUT_PADDING_LEFT = 12;
+
   this.FIELD_DROPDOWN_COLOURED_DIV = true;
 };
 Blockly.utils.object.inherits(

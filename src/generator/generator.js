@@ -160,7 +160,7 @@ Blockly.JavaScript["change_into"] = function (block) {
     "ELEMENT",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  const code = `this.setSandRelative(${cell}, ${element}, 0, 0, 0);\n`;
+  const code = `this.setSandRelative(${cell}, ${element});\n`;
   return code;
 };
 
