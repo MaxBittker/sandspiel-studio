@@ -6,6 +6,7 @@ import { fps } from "./fps";
 import ElementButtons from "./ElementButtons";
 import elements from "./elements";
 import ExtraUI from "./ExtraUI";
+
 import { sands, width, height, tick, initSand } from "./SandApi";
 let dpi = 4;
 
@@ -50,7 +51,7 @@ const Sand = () => {
   }, []);
 
   const [drawerWidth, setWidth] = useState(
-    Math.min(window.innerWidth / 2, 400)
+    Math.min(window.innerWidth / 2, window.innerHeight * 0.6)
   );
   const [isDragging, setIsDragging] = useState(false);
   let mouseMove = useCallback((e) => {

@@ -79,7 +79,7 @@ class BlocklyComponent extends React.Component {
     let callback = (entries) => {
       Blockly.svgResize(this.primaryWorkspace);
     };
-    callback = throttle(callback, 100);
+    callback = throttle(callback, 32);
     const resize_ob = new ResizeObserver(callback);
 
     resize_ob.observe(document.querySelector("#blocklyDiv"));

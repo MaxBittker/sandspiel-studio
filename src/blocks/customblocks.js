@@ -49,8 +49,8 @@ Blockly.Blocks["sand_behavior_base"] = {
     };
 
     this.appendDummyInput()
-      .appendField(new Blockly.FieldTextInput("Sand", validator), "NAME")
-      .appendField("Behavior");
+      .appendField("Name:")
+      .appendField(new Blockly.FieldTextInput("Sand", validator), "NAME");
 
     this.appendDummyInput()
       .appendField("Color: ")

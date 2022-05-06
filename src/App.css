@@ -62,9 +62,9 @@ body {
 }
 
 #world {
-  position: fixed;
-  right: 0;
-  top: 0;
+  position: relative;
+  /* right: 0; */
+  /* top: 0;  */
   height: 100vh;
   flex-shrink: 0;
   background-image: url("/tiles/ScatterGray.png");
@@ -90,7 +90,7 @@ body {
   filter: drop-shadow(1px 4px 4px rgba(46, 44, 44, 0.228));
 }
 .App {
-  /* display: flex; */
+  display: flex;
   /* transition: filter 10ms linear; */
 }
 
