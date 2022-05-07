@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import classNames from "classnames";
 // import { pallette } from "./Render";
 import { useStore } from "./store";
 
 // let pallette_data = pallette();
 
-const ElementButton = ({ i, setSelected, selected }) => {
+const ElementButton = ({ i, setSelected, selected, shrink }) => {
   const elements = useStore((state) => state.elements);
   const colors = useStore((state) => state.colors);
   let [h, s, l] = colors[i] ?? [0, 0.5, 0.5];
@@ -12,7 +13,7 @@ const ElementButton = ({ i, setSelected, selected }) => {
 
   return (
     <button
-      className={selected ? "simulation-button selected" : "simulation-button"}
+      className={classNames("simulation-button", { selected, shrink })}
       onClick={() => {
         document.querySelector(".blocklyMainBackground").style.fill =
           color.replace("0.5", "0.3");
@@ -29,6 +30,7 @@ const ElementButton = ({ i, setSelected, selected }) => {
 
 const ElementButtons = ({ selectedElement, setSelected }) => {
   const elements = useStore((state) => state.elements);
+  let [hovering, setHovering] = useState(null);
 
   return (
     <div className="element-tray">
@@ -39,9 +41,32 @@ const ElementButtons = ({ selectedElement, setSelected }) => {
             i={i}
             setSelected={setSelected}
             selected={i === selectedElement}
+            shrink={hovering === "-" && i === elements.length - 1}
           />
         );
       })}
+
+      <span onMouseLeave={() => setHovering(null)}>
+        <button
+          onMouseEnter={() => setHovering("-")}
+          className={"simulation-button element-control"}
+          onClick={() => useStore.getState().popXml()}
+        >
+          -
+        </button>
+
+        {elements.length < 15 && (
+          <button
+            onMouseEnter={() => setHovering("+")}
+            className={"simulation-button element-control "}
+            onClick={() => useStore.getState().pushXml()}
+          >
+            +
+          </button>
+        )}
+      </span>
+
+      <div className={"spacer"} />
     </div>
   );
 };

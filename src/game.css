@@ -17,6 +17,12 @@ button {
   z-index: 1;
   width: fit-content;
 }
+.element-tray button.element-control {
+  min-width: 30px;
+  width: 30px;
+  flex-grow: 0;
+  font-size: 20px;
+}
 .worldCanvas {
   z-index: 1;
   width: 100%;
@@ -26,6 +32,16 @@ button {
 
 .element-tray button {
   min-width: 80px;
+}
+.shrink {
+  transform: scale(0.8);
+  filter: saturate(150%);
+  transition: all 50ms linear;
+  border-color: red !important;
+}
+.spacer {
+  flex-grow: 10;
+  width: auto;
 }
 .update-scheme-button {
   font-size: 10px;

@@ -1,5 +1,7 @@
 import create from "zustand";
 import tinycolor2 from "tinycolor2";
+import starterXMLs from "./starterblocks.json";
+let bufferXMLs = starterXMLs;
 let useStore = create((set, get) => ({
   selectedElement: 1,
   updateScheme: "RANDOM_CYCLIC",
@@ -10,6 +12,22 @@ let useStore = create((set, get) => ({
   xmls: [],
   elements: ["sand"],
   colors: [],
+
+  popXml: () =>
+    set(() => {
+      let { xmls, setXmls } = get();
+      let d = xmls.pop();
+      bufferXMLs[xmls.length] = d;
+      setXmls(xmls);
+    }),
+
+  pushXml: () =>
+    set(() => {
+      let { xmls, setXmls } = get();
+      if (xmls.length >= 15) return;
+      xmls.push(bufferXMLs[xmls.length] ?? "");
+      setXmls(xmls);
+    }),
 
   setXmls: (xmls) =>
     set(() => {
@@ -61,6 +79,9 @@ function deriveColor(xmlString) {
 function deriveName(xmlString) {
   const r = /<field name="NAME">(.*?)<\/field>/;
   const match = r.exec(xmlString);
+  if (!match) {
+    return "???";
+  }
   return match[1];
 }
 
