@@ -110,7 +110,7 @@ function getSand(x, y, o = 0) {
   x = Math.round(x);
   y = Math.round(y);
   if (x < 0 || x >= width || y < 0 || y >= height) {
-    return 3; // wall
+    return 1; // wall
   }
   return sands[getIndex(x, y) + o];
 }
