@@ -1,0 +1,16 @@
+datasource db {
+    provider = "mysql"
+    url      = env("PLANETSCALE_PRISMA_DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Post {
+    id        Int      @id @default(autoincrement())
+    title     String   @db.VarChar(255)
+    createdAt DateTime @default(now()) @db.Timestamp(6)
+    content   String?
+    public    Boolean  @default(false)
+}
