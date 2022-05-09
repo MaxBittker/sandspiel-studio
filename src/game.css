@@ -84,9 +84,10 @@ summary {
 }
 .wordmark {
   position: fixed;
-  bottom: 5px;
+  bottom: 9px;
   width: 180px;
-  right: 2px;
+  right: 0px;
   margin-bottom: 0;
+  /* image-rendering: pixelated; */
   /* opacity: 0.5; */
 }
