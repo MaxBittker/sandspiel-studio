@@ -12,7 +12,7 @@ import prettier from "prettier";
 
 import "./blocks/customblocks";
 import "./generator/generator";
-import { loadShaderFromServer } from "./loadShaderFromServer";
+import { loadPostFromServer } from "./loadPostFromServer";
 import { pallette } from "./Render";
 
 function generateCode(element, ws) {
@@ -53,7 +53,7 @@ const App = () => {
 
   // generate all the code on start
   useEffect(async () => {
-    await loadShaderFromServer();
+    await loadPostFromServer();
     setFetchedData(true);
   }, []);
   // generate all the code on start

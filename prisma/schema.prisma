@@ -9,8 +9,8 @@ generator client {
 
 model Post {
     id        Int      @id @default(autoincrement())
-    title     String   @db.VarChar(255)
+    title     String?  @db.VarChar(255)
     createdAt DateTime @default(now()) @db.Timestamp(6)
-    content   String?
+    content   String   @db.MediumText
     public    Boolean  @default(false)
 }
