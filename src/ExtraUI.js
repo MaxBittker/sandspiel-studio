@@ -54,7 +54,7 @@ const ExtraUI = ({
             context.putImageData(imageData, 0, 0);
             let data = dataCanvas.toDataURL("image/png");
 
-            fetch("api/upload", {
+            fetch("/api/upload", {
               method: "post",
               headers: {
                 "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const ExtraUI = ({
                 return response.json();
               })
               .then(function ({ id }) {
-                window.history.pushState({}, "sand blocks", "?" + id);
+                window.history.pushState({}, "sand blocks", "/post/" + id);
                 setId(id);
 
                 var data = [
@@ -157,7 +157,7 @@ const ExtraUI = ({
             </div>
           </div>
         </details> */}
-        <img className="wordmark" src="sandspiel.png"></img>
+        <img className="wordmark" src="/sandspiel.png"></img>
       </div>
     </div>
   );

@@ -2,13 +2,14 @@ import starterXMLs from "./starterblocks.json";
 import { useStore } from "./store";
 
 export async function loadPostFromServer() {
-  if (window.location.search.length < 1) {
+  let id = window.location.pathname.slice(6);
+
+  if (id.length < 1) {
     useStore.getState().setXmls(starterXMLs.map((v, i) => v));
 
     return;
   }
-  let id = window.location.search.slice(1);
-  await fetch("api/getCreation/" + id)
+  await fetch("/api/getCreation/" + id)
     .then((response) => {
       if (response.status == 200) {
         return response.text();

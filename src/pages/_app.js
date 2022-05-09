@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import CreateReactAppEntryPoint from "../App";
 import Head from "next/head";
+import App from "next/app";
 import Script from "next/script";
+import { useRouter } from "next/router";
+import CreateReactAppEntryPoint from "../App";
 
 import "../index.css";
 import "../App.css";
@@ -9,14 +11,6 @@ import "../game.css";
 import "../Blockly/BlocklyComponent.css";
 
 function SafeHydrate({ children }) {
-  return (
-    <div suppressHydrationWarning>
-      {typeof window === "undefined" ? null : children}
-    </div>
-  );
-}
-
-function App({ pageProps }) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -27,23 +21,49 @@ function App({ pageProps }) {
     return null;
   }
   return (
-    <SafeHydrate>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>SandBlocks</title>
-      </Head>
-      <CreateReactAppEntryPoint {...pageProps} />
-      <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
-      <noscript>
-        {/* eslint-disable @next/next/no-img-element */}
-        <img
-          src="https://queue.simpleanalyticscdn.com/noscript.gif"
-          alt=""
-          referrerPolicy="no-referrer-when-downgrade"
-        />
-      </noscript>
-    </SafeHydrate>
+    <div suppressHydrationWarning>
+      {typeof window === "undefined" ? null : children}
+    </div>
   );
 }
+const imageURLBase =
+  "https://storage.googleapis.com/sandspiel-studio/creations/";
 
-export default App;
+function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const { id } = router.query;
+
+  let ogImageSrc = "https://mywebsite.net/assets/opengraph/theogimage.jpg";
+  if (id) {
+    ogImageSrc = `${imageURLBase}${id}.png`;
+  }
+  return (
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Sandspiel Studio [BETA]</title>
+        <meta property="og:image" content={ogImageSrc} />
+      </Head>
+      <SafeHydrate>
+        <CreateReactAppEntryPoint {...pageProps} />
+        <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
+        <noscript>
+          {/* eslint-disable @next/next/no-img-element */}
+          <img
+            src="https://queue.simpleanalyticscdn.com/noscript.gif"
+            alt=""
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </noscript>
+      </SafeHydrate>
+    </>
+  );
+}
+// Note: Per the Next.js docs, using getInitialProps in _app.js disables the ability to perform automatic static optimization,
+//  causing every page in your app to be server-side rendered.
+MyApp.getInitialProps = async (appContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  return { ...appProps };
+};
+
+export default MyApp;
