@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { seed } from "./SandApi";
 import { useStore } from "./store";
-import { serverAddr } from "./loadShaderFromServer";
 // import { UPDATE_SCHEMES } from "./updateSchemes";
 import * as vkbeautify from "vkbeautify";
 
@@ -63,9 +62,14 @@ const ExtraUI = ({
           onClick={() => {
             let json = prepareExport();
 
-            fetch(serverAddr + "upload/", {
+            fetch("api/upload", {
               method: "post",
-              body: json,
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                content: json,
+              }),
             })
               .then(function (response) {
                 return response.json();
