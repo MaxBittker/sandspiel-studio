@@ -32,7 +32,7 @@
     "update": "npm update",
     "postinstall": "cp -r node_modules/blockly/media public/media",
     "predeploy": "npm run build",
-    "build": "prisma generate && prisma migrate deploy && next build",
+    "build": "prisma generate && next build",
     "dev": "next dev",
     "start": "next start"
   },
