@@ -89,7 +89,7 @@ const Sand = () => {
         setSelected={setSelected}
       />
       <canvas
-        className="worldCanvas"
+        id="worldCanvas"
         onMouseDown={(e) => {
           let bounds = canvas.current.getBoundingClientRect();
           let eX = Math.round(

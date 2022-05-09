@@ -23,7 +23,7 @@ button {
   flex-grow: 0;
   font-size: 20px;
 }
-.worldCanvas {
+#worldCanvas {
   z-index: 1;
   width: 100%;
   border: 3px ridge gray;

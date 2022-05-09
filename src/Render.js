@@ -1,6 +1,6 @@
 // import raw from "raw.macro";
 import * as reglBuilder from "regl";
-import { initSand, sands } from "./SandApi";
+import { height, width, initSand, sands } from "./SandApi";
 import useStore, { globalState } from "./store";
 // const sandShader = raw("./sand.glsl");
 let vsh = `
@@ -126,9 +126,10 @@ void main() {
 }
 `;
 
-let startWebGL = ({ canvas, width, height, sands }) => {
+let startWebGL = ({ canvas, width, height, sands, isSnapshot }) => {
   const regl = reglBuilder({
     canvas,
+    attributes: { preserveDrawingBuffer: isSnapshot },
   });
 
   const dataTexture = regl.texture({ width, height, data: sands });
@@ -181,6 +182,22 @@ let startWebGL = ({ canvas, width, height, sands }) => {
   };
 };
 
+let snapshot = () => {
+  let canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  let render = startWebGL({
+    canvas,
+    width,
+    height,
+    sands,
+    isSnapshot: true,
+  });
+  render();
+
+  return canvas.toDataURL("image/png");
+};
+
 function pallette() {
   if (typeof window == "undefined") {
     return;
@@ -229,4 +246,4 @@ function pallette() {
   return colors;
 }
 
-export { startWebGL, pallette };
+export { startWebGL, pallette, snapshot };

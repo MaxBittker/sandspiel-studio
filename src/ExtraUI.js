@@ -1,32 +1,11 @@
 import React, { useState } from "react";
-import { seed } from "./SandApi";
+import { seed, width, height, sands } from "./SandApi";
+import { snapshot } from "./Render";
 import { useStore } from "./store";
 // import { UPDATE_SCHEMES } from "./updateSchemes";
 import * as vkbeautify from "vkbeautify";
-
-// import { UPDATE_SCHEMES } from "./updateSchemes";
-// const UpdateSchemeButton = ({ name, setUpdateScheme, selected }) => {
-//   return (
-//     <button
-//       className={`simulation-button update-scheme-button${
-//         selected ? " selected" : ""
-//       }`}
-//       onClick={() => setUpdateScheme(name)}
-//     >
-//       {name}
-//     </button>
-//   );
-// };
-// const TaggedModeCheckbox = ({ setTaggedMode, selected }) => {
-//   return (
-//     <input
-//       id="taggedModeCheckbox"
-//       type="checkbox"
-//       checked={selected}
-//       onChange={() => setTaggedMode(!selected)}
-//     ></input>
-//   );
-// };
+const imageURLBase =
+  "https://storage.googleapis.com/sandspiel-studio/creations/";
 
 function prepareExport() {
   let regex = /id="([^\\]*?)"/g;
@@ -42,6 +21,7 @@ const ExtraUI = ({
   taggedMode,
   setTaggedMode,
 }) => {
+  let [id, setId] = useState(null);
   let [copiedState, setCopiedState] = useState(null);
   let [sharedState, setSharedState] = useState(null);
 
@@ -61,6 +41,18 @@ const ExtraUI = ({
           className="simulation-button"
           onClick={() => {
             let json = prepareExport();
+            let thumbnail = snapshot();
+
+            let dataCanvas = document.createElement("canvas");
+            let context = dataCanvas.getContext("2d");
+            dataCanvas.height = height;
+            dataCanvas.width = width;
+
+            const pixels = new Uint8ClampedArray(sands);
+            const imageData = new ImageData(pixels, width, height);
+
+            context.putImageData(imageData, 0, 0);
+            let data = dataCanvas.toDataURL("image/png");
 
             fetch("api/upload", {
               method: "post",
@@ -69,6 +61,8 @@ const ExtraUI = ({
               },
               body: JSON.stringify({
                 code: json,
+                thumbnail,
+                data,
               }),
             })
               .then(function (response) {
@@ -76,6 +70,8 @@ const ExtraUI = ({
               })
               .then(function ({ id }) {
                 window.history.pushState({}, "sand blocks", "?" + id);
+                setId(id);
+
                 var data = [
                   // eslint-disable-next-line no-undef
                   new ClipboardItem({
@@ -98,9 +94,12 @@ const ExtraUI = ({
           Get Share Link {sharedState}
         </button>
         {sharedState === " ✓ Copied" && (
-          <pre style={{ fontSize: "1rem", color: "blue" }}>
-            {window.location.href}
-          </pre>
+          <>
+            <pre style={{ fontSize: "1rem", color: "blue" }}>
+              {window.location.href}
+            </pre>
+            <img src={`${imageURLBase}${id}.png`}></img>
+          </>
         )}
         <br />
         <br />
