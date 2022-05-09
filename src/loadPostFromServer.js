@@ -19,7 +19,7 @@ export async function loadPostFromServer() {
     .then((raw) => {
       let data = JSON.parse(raw);
       console.log("loaded some code from " + id);
-      let code = JSON.parse(data.content);
+      let code = JSON.parse(data.code);
       useStore.getState().setXmls(code);
     });
 }

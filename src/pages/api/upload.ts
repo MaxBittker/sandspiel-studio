@@ -12,7 +12,7 @@ export default async function handler(
     const newPost = await prisma.post.create({
       data: {
         title: "test post",
-        content: request.body.content,
+        code: request.body.code,
         public: false,
       },
     });
