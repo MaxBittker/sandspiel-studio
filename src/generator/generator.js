@@ -572,12 +572,17 @@ Blockly.JavaScript["get_r_cell_flexible"] = function (block) {
     ];
   } else if (field === "RA") {
     return [
-      `this.getSandRelative(${cell}, 1) - 100`,
+      `this.getSandRelative(${cell}, 1) `,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   } else if (field === "RB") {
     return [
-      `this.getSandRelative(${cell}, 2) - 100`,
+      `this.getSandRelative(${cell}, 2) `,
+      Blockly.JavaScript.ORDER_ATOMIC,
+    ];
+  } else if (field === "RC") {
+    return [
+      `this.getSandRelative(${cell}, 3) `,
       Blockly.JavaScript.ORDER_ATOMIC,
     ];
   }
@@ -596,13 +601,15 @@ Blockly.JavaScript["set_r_cell_flexible"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const field = block.getFieldValue("DATA");
-  const valueCode = `this.clamp(${value}, -100, 100) + 100`;
+  const valueCode = `this.clamp(${value}, 0, 100)`;
   if (field === "ELEMENT") {
     return `this.setSandRelative(${cell}, ${value})`;
   } else if (field === "RA") {
     return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
     return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  } else if (field === "RC") {
+    return `this.setSandRelative(${cell}, undefined, undefined, undefined, ${valueCode});\n`;
   }
 };
 
@@ -619,11 +626,13 @@ Blockly.JavaScript["modify_r_cell_flexible"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const field = block.getFieldValue("DATA");
-  const offset = field === "RA" ? "1" : "2";
-  const valueCode = `this.clamp(this.getSandRelative(${cell}, ${offset}) - 100 + ${value}, -100, 100) + 100`;
+  const offset = getOffset(field);
+  const valueCode = `this.clamp(this.getSandRelative(${cell}, ${offset})  + ${value}, 0, 100) `;
   if (field === "RA") {
     return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
     return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  } else if (field === "RC") {
+    return `this.setSandRelative(${cell}, undefined, undefined, undefined, ${valueCode});\n`;
   }
 };
