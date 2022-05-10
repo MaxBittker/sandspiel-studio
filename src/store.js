@@ -47,6 +47,12 @@ let useStore = create((set, get) => ({
       xmls[i] = x;
       colors[i] = deriveColor(x);
       elements[i] = deriveName(x);
+
+      let [h, s, l] = colors[i];
+      let color = `hsla(${h * 360},${s * 100}%,${l * 100}%,0.5)`;
+      document.querySelector(".blocklyMainBackground").style.fill =
+        color.replace("0.5", "0.3");
+
       return { xmls, colors, elements };
     }),
 
