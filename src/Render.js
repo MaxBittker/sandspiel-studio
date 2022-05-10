@@ -207,7 +207,7 @@ function pallette() {
   canvas.height = 1;
 
   elements.forEach((_, i) => {
-    initSand(i, 0, i);
+    initSand([i, 0], i);
   });
 
   canvas.style =
@@ -233,9 +233,9 @@ function pallette() {
     return color;
   });
   elements.forEach((_, i) => {
-    initSand(i, 0, 0);
-    initSand(i, 1, 0);
-    initSand(i, 2, 0);
+    initSand([i, 0], 0);
+    initSand([i, 1], 0);
+    initSand([i, 2], 0);
   });
   globalState.pallette = colors;
   return colors;

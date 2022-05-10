@@ -120,11 +120,11 @@ const Sand = () => {
           points.forEach(({ x, y }) => {
             x = Math.round(x);
             y = Math.round(y);
-            initSand(x, y, selectedElement);
-            initSand(x - 1, y, selectedElement);
-            initSand(x, y - 1, selectedElement);
-            initSand(x, y + 1, selectedElement);
-            initSand(x + 1, y, selectedElement);
+            initSand([x, y], selectedElement);
+            initSand([x - 1, y], selectedElement);
+            initSand([x, y - 1], selectedElement);
+            initSand([x, y + 1], selectedElement);
+            initSand([x + 1, y], selectedElement);
           });
           prevPos = [eX, eY];
         }}

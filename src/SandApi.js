@@ -114,14 +114,14 @@ function getSand(x, y, o = 0) {
   }
   return sands[getIndex(x, y) + o];
 }
-export function initSand(x, y, v) {
+export function initSand([x, y], v) {
   setSand(
     x,
     y,
     v,
     0,
-    (10 + Math.random() * 40) | 0,
-    (10 + Math.random() * 40) | 0
+    (20 + Math.random() * 30) | 0,
+    (20 + Math.random() * 30) | 0
   );
 }
 export function setSand(x, y, v, ra, rb, rc) {
@@ -164,6 +164,10 @@ function setSandRelative([x, y], v, ra, rb, rc) {
   if (v !== undefined) {
     if (sands[i] == v) return; // bail to not  reset ra/rb/rc on no-ops
     sands[i] = v;
+    ra = ra || 0;
+    rb = rb || (20 + Math.random() * 30) | 0;
+
+    rc = rc || (20 + Math.random() * 30) | 0;
   }
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
