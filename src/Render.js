@@ -111,15 +111,10 @@ void main() {
     saturation = colordata.g;
     lightness = colordata.b;
 
-  //   if (type == 0) {
-  //     // lightness = 1.0;
-  //     //  a = 0.;
-  //   } 
-  // else {
+
     hue = mod(hue + data.g, 1.0);
-    lightness += (data.a *.5);
     saturation += (data.b *.5);
-  // }
+    lightness += (data.a *.5);
 
   vec3 color = hsl2rgb(hue, saturation, lightness);
   gl_FragColor = vec4(color, a);
@@ -184,8 +179,8 @@ let startWebGL = ({ canvas, width, height, sands, isSnapshot }) => {
 
 let snapshot = () => {
   let canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = width * 2;
+  canvas.height = height * 2;
   let render = startWebGL({
     canvas,
     width,

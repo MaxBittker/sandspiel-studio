@@ -333,6 +333,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.23.tgz#3b41a6e643589ac6442bdbd7a4a3ded62f33f7da"
   integrity sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==
 
+"@types/pako@^1.0.2":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/pako/-/pako-1.0.3.tgz#2e61c2b02020b5f44e2e5e946dfac74f4ec33c58"
+  integrity sha512-EDxOsHAD5dqjbjEUM1xwa7rpKPFb8ECBE5irONTQU7/OsO3thI5YrNEWSPNMvYmvFM0l/OLQJ6Mgw7PEdXSjhg==
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -1325,6 +1330,15 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.6:
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
+fast-png@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/fast-png/-/fast-png-6.1.0.tgz#c0abd3015346e16752acbe4ea74f1f0170b55b9e"
+  integrity sha512-v8e/40RKZbE1mALigoqBOkYnemCVSMmVlGSz8fawZAZg5UQ9OZeR00L++CPvrhIGm2F6TxV5u9lbWD0oOJHcCw==
+  dependencies:
+    "@types/pako" "^1.0.2"
+    iobuffer "^5.0.4"
+    pako "^2.0.4"
+
 fast-text-encoding@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/fast-text-encoding/-/fast-text-encoding-1.0.3.tgz#ec02ac8e01ab8a319af182dae2681213cfe9ce53"
@@ -1700,6 +1714,11 @@ internal-slot@^1.0.3:
     get-intrinsic "^1.1.0"
     has "^1.0.3"
     side-channel "^1.0.4"
+
+iobuffer@^5.0.4:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/iobuffer/-/iobuffer-5.1.0.tgz#5a8baf7bf46c7c6b34a4652075bcf7ccee8a5e08"
+  integrity sha512-2BYQoYadP3FkVPfqGxs4WO6z3HWGZokJfIkgOARn4P4ipVQCHJnPyva7rJLVmnRA7XTk8ZoLwutuutGeMpu3PA==
 
 ip-regex@^2.1.0:
   version "2.1.0"
@@ -2348,6 +2367,11 @@ package-json@^6.3.0:
     registry-auth-token "^4.0.0"
     registry-url "^5.0.0"
     semver "^6.2.0"
+
+pako@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-2.0.4.tgz#6cebc4bbb0b6c73b0d5b8d7e8476e2b2fbea576d"
+  integrity sha512-v8tweI900AUkZN6heMU/4Uy4cXRc2AYNRggVmTR+dEncawDJgCdLMximOVA2p4qO57WMynangsfGRb5WD6L1Bg==
 
 parent-module@^1.0.0:
   version "1.0.1"

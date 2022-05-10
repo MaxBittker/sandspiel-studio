@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { encode } from "fast-png";
+
 import { seed, width, height, sands } from "./SandApi";
 import { snapshot } from "./Render";
 import { useStore } from "./store";
 // import { UPDATE_SCHEMES } from "./updateSchemes";
 import * as vkbeautify from "vkbeautify";
+import { base64ArrayBuffer } from "./base64ArrayBuffer";
 const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
@@ -43,16 +46,12 @@ const ExtraUI = ({
             let json = prepareExport();
             let thumbnail = snapshot();
 
-            let dataCanvas = document.createElement("canvas");
-            let context = dataCanvas.getContext("2d");
-            dataCanvas.height = height;
-            dataCanvas.width = width;
-
-            const pixels = new Uint8ClampedArray(sands);
-            const imageData = new ImageData(pixels, width, height);
-
-            context.putImageData(imageData, 0, 0);
-            let data = dataCanvas.toDataURL("image/png");
+            let buffer = encode({
+              width,
+              height,
+              data: sands,
+            });
+            let data = "data:image/png;base64," + base64ArrayBuffer(buffer);
 
             fetch("/api/upload", {
               method: "post",
