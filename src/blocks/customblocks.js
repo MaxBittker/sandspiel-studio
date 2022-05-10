@@ -1202,8 +1202,9 @@ Blockly.defineBlocksWithJsonArray([
         type: "field_dropdown",
         name: "DATA",
         options: [
-          ["⭐ data", "RA"],
-          ["⚡ extra data" + String.fromCharCode(8203), "RB"],
+          ["hue", "RA"],
+          ["saturation", "RB"],
+          ["light", "RC"],
         ],
       },
     ],
@@ -1289,8 +1290,9 @@ Blockly.defineBlocksWithJsonArray([
         type: "field_dropdown",
         name: "DATA",
         options: [
-          ["⭐ data", "RA"],
-          ["⚡ extra data" + String.fromCharCode(8203), "RB"],
+          ["hue", "RA"],
+          ["saturation", "RB"],
+          ["light", "RC"],
         ],
       },
       {
@@ -1420,8 +1422,9 @@ Blockly.defineBlocksWithJsonArray([
         type: "field_dropdown",
         name: "DATA",
         options: [
-          ["⭐ data", "RA"],
-          ["⚡ extra data" + String.fromCharCode(8203), "RB"],
+          ["hue", "RA"],
+          ["saturation", "RB"],
+          ["light", "RC"],
         ],
       },
       {
