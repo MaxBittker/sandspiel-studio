@@ -24,7 +24,6 @@ function generateCode(element, ws) {
       break;
     }
   }
-
   let code = BlocklyJS.blockToCode(baseBlock);
 
   code = prettier.format(code, {
@@ -61,11 +60,13 @@ const App = () => {
     if (!fetchedData || !simpleWorkspace.current) {
       return;
     }
+    let ws = simpleWorkspace.current.primaryWorkspace;
+    globalState.workspace = ws;
+    BlocklyJS.init(ws);
+
     for (let i = useStore.getState().elements.length - 1; i > 0; i--) {
       setSelected(i);
 
-      let ws = simpleWorkspace.current.primaryWorkspace;
-      globalState.workspace = ws;
       ws.clear();
 
       await new Promise((resolve) => {
