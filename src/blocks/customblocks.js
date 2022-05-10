@@ -90,7 +90,6 @@ Blockly.Blocks["number_literal"] = {
 Blockly.Blocks["element_literal"] = {
   init: function () {
     this.rebuild();
-
     this.setOutput(true, "Element");
     this.setColour(160);
     this.setTooltip("");

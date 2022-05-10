@@ -141,7 +141,7 @@ const App = () => {
         <Block type="group">
           <Value name="ITEM0">
             <Shadow type="element_literal">
-              <Field name="VALUE">SAND</Field>
+              <Field name="VALUE">3</Field>
             </Shadow>
           </Value>
         </Block>
@@ -160,7 +160,7 @@ const App = () => {
           </Value>
           <Value name="ELEMENT">
             <Shadow type="element_literal">
-              <Field name="VALUE">SAND</Field>
+              <Field name="VALUE">3</Field>
             </Shadow>
           </Value>
         </Block>
@@ -172,19 +172,14 @@ const App = () => {
           </Value>
           <Value name="ELEMENT">
             <Shadow type="element_literal">
-              <Field name="VALUE">AIR</Field>
+              <Field name="VALUE">0</Field>
             </Shadow>
           </Value>
         </Block>
         <Block type="is_touching">
-          <Value name="CELL">
-            <Shadow type="vector_constant">
-              <Field name="VALUE">HERE</Field>
-            </Shadow>
-          </Value>
           <Value name="ELEMENT">
             <Shadow type="element_literal">
-              <Field name="VALUE">SAND</Field>
+              <Field name="VALUE">2</Field>
             </Shadow>
           </Value>
         </Block>

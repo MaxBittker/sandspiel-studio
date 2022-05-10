@@ -10,7 +10,7 @@ let useStore = create((set, get) => ({
   setUpdateScheme: (e) => set(() => ({ updateScheme: e })),
   setTaggedMode: (e) => set(() => ({ taggedMode: e })),
   xmls: [],
-  elements: ["sand"],
+  elements: ["Air", "Wall", "Water", "Sand"],
   colors: [],
 
   popXml: () =>
