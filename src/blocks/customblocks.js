@@ -41,8 +41,9 @@ Blockly.Blocks["sand_behavior_base"] = {
       const blocks = globalState.workspace.getAllBlocks();
       for (const block of blocks) {
         if (block.type !== "element_literal") continue;
-        block.init();
+        block.rebuild();
       }
+      return value;
     };
 
     this.appendDummyInput()

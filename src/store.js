@@ -50,7 +50,7 @@ let useStore = create((set, get) => ({
       return { xmls, colors, elements };
     }),
 
-  setElementName: (name, i) =>
+  setElementName: (i, name) =>
     set(() => {
       const { elements } = get();
 
