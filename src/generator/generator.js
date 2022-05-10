@@ -26,7 +26,6 @@
 
 import * as Blockly from "blockly/core";
 import "blockly/javascript";
-//import a from "../starterblocks";
 
 const getTypeOfCheck = (check) => {
   if (check === undefined) return "Any";

@@ -128,7 +128,7 @@ const App = () => {
         maxBlocks={Infinity}
         readOnly={false}
         trashcan={false}
-        media={"media/"}
+        media={"/media/"}
         renderer={"custom_renderer"}
         move={{
           scrollbars: true,
