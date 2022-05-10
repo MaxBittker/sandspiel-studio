@@ -53,6 +53,8 @@ const ExtraUI = ({
             });
             let data = "data:image/png;base64," + base64ArrayBuffer(buffer);
 
+            setSharedState(" ...");
+
             fetch("/api/upload", {
               method: "post",
               headers: {
