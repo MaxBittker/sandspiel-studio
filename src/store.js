@@ -77,7 +77,7 @@ function deriveColor(xmlString) {
   return [color.h / 360, color.s, color.l];
 }
 function deriveName(xmlString) {
-  const r = /<field name="NAME">(.*?)<\/field>/;
+  const r = /<field name="ELEMENT_NAME">(.*?)<\/field>/;
   const match = r.exec(xmlString);
   if (!match) {
     return "???";

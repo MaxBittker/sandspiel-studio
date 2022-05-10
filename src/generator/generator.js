@@ -53,14 +53,17 @@ export const getTypeOfValue = (block, inputName) => {
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
   const lines = [];
 
-  try {
-    lines.push(`const swaps = [];`);
-    const body = Blockly.JavaScript.statementToCode(block, "body");
-    lines.push(body);
-    lines.push(`return swaps;`);
-  } catch {
-    // not sure why this error sometimes happens when you remove certain blocks
+  lines.push(`const swaps = [];`);
+
+  let nextBlock = block.nextConnection.targetBlock();
+
+  while (nextBlock !== null) {
+    const code = Blockly.JavaScript.blockToCode(nextBlock);
+    lines.push(code);
+    nextBlock = nextBlock.nextConnection.targetBlock();
   }
+
+  lines.push(`return swaps;`);
 
   const code = lines.join("\n");
   return code;

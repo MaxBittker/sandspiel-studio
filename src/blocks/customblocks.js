@@ -48,19 +48,22 @@ Blockly.Blocks["sand_behavior_base"] = {
 
     this.appendDummyInput()
       .appendField("Name:")
-      .appendField(new Blockly.FieldTextInput("Sand", validator), "NAME");
+      .appendField(
+        new Blockly.FieldTextInput("Sand", validator),
+        "ELEMENT_NAME"
+      );
 
     this.appendDummyInput()
       .appendField("Color: ")
       .appendField(
-        new ColorWheelField("#0faaf0", 150, {
+        new ColorWheelField("#7faaf0", 150, {
           layoutDirection: "vertical",
         }),
         "COLOR"
       )
       .setAlign(Blockly.ALIGN_RIGHT);
 
-    this.appendStatementInput("body").setAlign(Blockly.ALIGN_CENTRE);
+    this.setNextStatement(true, null);
 
     this.setTooltip("Behavior for the element");
     this.setHelpUrl("");
