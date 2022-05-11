@@ -1009,15 +1009,16 @@ Blockly.Blocks["boolean_operation_vertical"] = {
     this.setHelpUrl("");
   },
 };
+const registers = [
+  ["Data A", "RA"],
+  ["Data B", "RB"],
+  ["Data C", "RC"],
+];
 
 Blockly.Blocks["get_r_cell"] = {
   init: function () {
     this.appendDummyInput().appendField(
-      new Blockly.FieldDropdown([
-        ["hue", "RA"],
-        ["saturation", "RB"],
-        ["light", "RC"],
-      ]),
+      new Blockly.FieldDropdown(registers),
       "DATA"
     );
     this.appendDummyInput().appendField("of");
@@ -1034,11 +1035,7 @@ Blockly.Blocks["set_r_cell"] = {
   init: function () {
     this.appendDummyInput().appendField("set");
     this.appendDummyInput().appendField(
-      new Blockly.FieldDropdown([
-        ["hue", "RA"],
-        ["saturation", "RB"],
-        ["light", "RC"],
-      ]),
+      new Blockly.FieldDropdown(registers),
       "DATA"
     );
     this.appendDummyInput().appendField("of");
@@ -1141,11 +1138,7 @@ Blockly.Blocks["key_pressed"] = {
 Blockly.Blocks["get_r_cell_short"] = {
   init: function () {
     this.appendDummyInput().appendField(
-      new Blockly.FieldDropdown([
-        ["hue", "RA"],
-        ["saturation", "RB"],
-        ["light", "RC"],
-      ]),
+      new Blockly.FieldDropdown(registers),
       "DATA"
     );
     this.setInputsInline(true);
@@ -1160,11 +1153,7 @@ Blockly.Blocks["set_r_cell_short"] = {
   init: function () {
     this.appendDummyInput().appendField("set");
     this.appendDummyInput().appendField(
-      new Blockly.FieldDropdown([
-        ["hue", "RA"],
-        ["saturation", "RB"],
-        ["light", "RC"],
-      ]),
+      new Blockly.FieldDropdown(registers),
       "DATA"
     );
     this.appendDummyInput().appendField("to");
@@ -1182,14 +1171,7 @@ Blockly.Blocks["modify_r"] = {
   init: function () {
     this.appendDummyInput()
       .appendField("modify")
-      .appendField(
-        new Blockly.FieldDropdown([
-          ["hue", "RA"],
-          ["saturation", "RB"],
-          ["light", "RC"],
-        ]),
-        "DATA"
-      );
+      .appendField(new Blockly.FieldDropdown(registers), "DATA");
     this.appendDummyInput().appendField("by");
     this.appendValueInput("VALUE").setCheck(["Number", "Element"]);
     this.setInputsInline(true);
@@ -1209,11 +1191,7 @@ Blockly.defineBlocksWithJsonArray([
       {
         type: "field_dropdown",
         name: "DATA",
-        options: [
-          ["hue", "RA"],
-          ["saturation", "RB"],
-          ["light", "RC"],
-        ],
+        options: registers,
       },
     ],
     inputsInline: true,
@@ -1297,11 +1275,7 @@ Blockly.defineBlocksWithJsonArray([
       {
         type: "field_dropdown",
         name: "DATA",
-        options: [
-          ["hue", "RA"],
-          ["saturation", "RB"],
-          ["light", "RC"],
-        ],
+        options: registers,
       },
       {
         type: "input_dummy",
@@ -1429,11 +1403,7 @@ Blockly.defineBlocksWithJsonArray([
       {
         type: "field_dropdown",
         name: "DATA",
-        options: [
-          ["hue", "RA"],
-          ["saturation", "RB"],
-          ["light", "RC"],
-        ],
+        options: registers,
       },
       {
         type: "input_dummy",

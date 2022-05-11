@@ -1,7 +1,8 @@
 precision highp float;
 uniform float t;
 uniform sampler2D data;
-uniform vec3 colors[25];
+uniform vec3 colors[16];
+uniform vec3 color2s[16];
 
 varying vec2 uv;
 
@@ -54,19 +55,50 @@ void main() {
   float saturation = 0.3;
   float lightness = 0.8;
   ;
+
   float a = 1.0;
+  vec3 colordata = vec3(0., 0., 0.0);
   if (type == 0) {
-    lightness = 1.0;
-    //  a = 0.;
+    colordata = mix(colors[0], color2s[0], data.g);
   } else if (type == 1) {
-    hue = colors[0].r;
-    lightness = colors[0].g;
-    saturation = colors[0].b;
-  } else {
-    hue = mod((data.r * 0. * 255. / 15.) + data.g, 1.0);
-    lightness = (data.a + .3) * .8;
-    saturation = (data.b + .1) * .8;
+    colordata = mix(colors[1], color2s[1], data.g);
+  } else if (type == 2) {
+    colordata = mix(colors[2], color2s[2], data.g);
+  } else if (type == 3) {
+    colordata = mix(colors[3], color2s[3], data.g);
+  } else if (type == 4) {
+    colordata = mix(colors[4], color2s[4], data.g);
+  } else if (type == 5) {
+    colordata = mix(colors[5], color2s[5], data.g);
+  } else if (type == 6) {
+    colordata = mix(colors[6], color2s[6], data.g);
+  } else if (type == 7) {
+    colordata = mix(colors[7], color2s[7], data.g);
+  } else if (type == 8) {
+    colordata = mix(colors[8], color2s[8], data.g);
+  } else if (type == 9) {
+    colordata = mix(colors[9], color2s[9], data.g);
+  } else if (type == 10) {
+    colordata = mix(colors[10], color2s[10], data.g);
+  } else if (type == 11) {
+    colordata = mix(colors[11], color2s[11], data.g);
+  } else if (type == 12) {
+    colordata = mix(colors[12], color2s[12], data.g);
+  } else if (type == 13) {
+    colordata = mix(colors[13], color2s[13], data.g);
+  } else if (type == 14) {
+    colordata = mix(colors[14], color2s[14], data.g);
+  } else if (type == 15) {
+    colordata = mix(colors[15], color2s[15], data.g);
   }
+
+  hue = colordata.r;
+  saturation = colordata.g;
+  lightness = colordata.b;
+
+  // hue = mod(hue + data.g, 1.0);
+  // saturation += (data.b * .5);
+  // lightness += (data.a *.5);
 
   vec3 color = hsl2rgb(hue, saturation, lightness);
   gl_FragColor = vec4(color, a);
