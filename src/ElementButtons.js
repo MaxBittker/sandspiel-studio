@@ -7,20 +7,30 @@ import { useStore } from "./store";
 
 const ElementButton = ({ i, setSelected, selected, shrink }) => {
   const elements = useStore((state) => state.elements);
-  const colors = useStore((state) => state.colors);
-  let [h, s, l] = colors[i] ?? [0, 0.5, 0.5];
-  let color = `hsla(${h * 360},${s * 100}%,${l * 100}%,0.5)`;
+  const colorData1 = useStore((state) => state.colors[i]);
+  const colorData2 = useStore((state) => state.color2s[i]);
+  let [h, s, l] = colorData1 ?? [0, 0.5, 0.5];
+  let [h2, s2, l2] = colorData2 ?? [0, 0.5, 0.5];
 
-  return (
+  let color = `hsla(${h * 360},${s * 100}%,${l * 100}%,0.5)`;
+  let color2 = `hsla(${h2 * 360},${s2 * 100}%,${l2 * 100}%,0.5)`;
+
+  let background = `linear-gradient(45deg,
+    ${color}, 
+    ${color2}    
+    )`;
+  background: return (
     <button
       className={classNames("simulation-button", { selected, shrink })}
       onClick={() => {
         document.querySelector(".blocklyMainBackground").style.fill =
-          color.replace("0.5", "0.3");
+          background;
+        color.replace("0.5", "0.3");
         setSelected(i);
       }}
       style={{
-        backgroundColor: selected ? color.replace("0.5", "1.5") : color,
+        // backgroundColor: selected ? color.replace("0.5", "1.5") : color,
+        background,
       }}
     >
       {elements[i]}
