@@ -61,6 +61,14 @@ Blockly.Blocks["sand_behavior_base"] = {
         }),
         "COLOR"
       )
+      .appendField("→")
+
+      .appendField(
+        new ColorWheelField("#7fdab4", 150, {
+          layoutDirection: "vertical",
+        }),
+        "COLOR2"
+      )
       .setAlign(Blockly.ALIGN_RIGHT);
 
     this.setNextStatement(true, null);

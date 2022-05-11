@@ -9,7 +9,9 @@ export let cellCount = width * height;
 export let sands = new Uint8Array(cellCount * 4);
 
 let inertMode = false;
-
+function randomData() {
+  return (Math.random() * 100) | 0;
+}
 if (typeof window !== "undefined") {
   window.sands = sands;
 }
@@ -115,14 +117,7 @@ function getSand(x, y, o = 0) {
   return sands[getIndex(x, y) + o];
 }
 export function initSand([x, y], v) {
-  setSand(
-    x,
-    y,
-    v,
-    0,
-    (20 + Math.random() * 30) | 0,
-    (20 + Math.random() * 30) | 0
-  );
+  setSand(x, y, v, 0, randomData(), randomData());
 }
 export function setSand(x, y, v, ra, rb, rc) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -165,9 +160,9 @@ function setSandRelative([x, y], v, ra, rb, rc) {
     if (sands[i] == v) return; // bail to not  reset ra/rb/rc on no-ops
     sands[i] = v;
     ra = ra || 0;
-    rb = rb || (20 + Math.random() * 30) | 0;
+    rb = rb || randomData();
 
-    rc = rc || (20 + Math.random() * 30) | 0;
+    rc = rc || randomData();
   }
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
@@ -492,8 +487,8 @@ export const seed = () => {
     sands[i] = 0;
 
     sands[i + 1] = 0;
-    sands[i + 2] = (25 + Math.random() * 50) | 0;
-    sands[i + 3] = (25 + Math.random() * 50) | 0;
+    sands[i + 2] = randomData();
+    sands[i + 3] = randomData();
   }
 };
 seed();

@@ -12,6 +12,7 @@ let useStore = create((set, get) => ({
   xmls: [],
   elements: ["Air", "Wall", "Water", "Sand"],
   colors: [],
+  color2s: [],
 
   popXml: () =>
     set(() => {
@@ -32,13 +33,14 @@ let useStore = create((set, get) => ({
   setXmls: (xmls) =>
     set(() => {
       let colors = xmls.map((x) => deriveColor(x));
+      let color2s = xmls.map((x) => deriveColor(x, 2));
       let elements = xmls.map((x) => deriveName(x));
-      return { xmls, colors, elements };
+      return { xmls, colors, color2s, elements };
     }),
 
   setXml: (x, i) =>
     set(() => {
-      const { colors, xmls, elements } = get();
+      const { colors, color2s, xmls, elements } = get();
 
       xmls = xmls.slice(0);
       colors = colors.slice(0);
@@ -46,6 +48,7 @@ let useStore = create((set, get) => ({
 
       xmls[i] = x;
       colors[i] = deriveColor(x);
+      color2s[i] = deriveColor(x, 2);
       elements[i] = deriveName(x);
 
       let [h, s, l] = colors[i];
@@ -53,7 +56,7 @@ let useStore = create((set, get) => ({
       document.querySelector(".blocklyMainBackground").style.fill =
         color.replace("0.5", "0.3");
 
-      return { xmls, colors, elements };
+      return { xmls, colors, color2s, elements };
     }),
 
   setElementName: (i, name) =>
@@ -74,8 +77,8 @@ const globalState = {
   selectedElement: 1,
 };
 
-function deriveColor(xmlString) {
-  let pattern = '<field name="COLOR">';
+function deriveColor(xmlString, b = "") {
+  let pattern = `<field name="COLOR${b}">`;
   let pl = pattern.length;
   let location = xmlString.indexOf(pattern);
   let colorString = xmlString.slice(location + pl, location + pl + 7);

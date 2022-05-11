@@ -17,6 +17,7 @@ let fsh = `precision highp float;
 uniform float t;
 uniform sampler2D data;
 uniform vec3 colors[16];
+uniform vec3 color2s[16];
 
 varying vec2 uv;
 
@@ -73,37 +74,37 @@ void main() {
   float a = 1.0;
   vec3 colordata = vec3(0.,0.,0.0);
   if (type == 0) {
-    colordata = colors[0];
+    colordata = mix(colors[0],color2s[0],data.b);
   } else if (type == 1) {
-    colordata = colors[1];
+    colordata = mix(colors[1],color2s[1],data.b);
   } else if (type == 2) {
-    colordata = colors[2];
+    colordata = mix(colors[2],color2s[2],data.b);
   } else if (type == 3) {
-    colordata = colors[3];
+    colordata = mix(colors[3],color2s[3],data.b);
   } else if (type == 4) {
-    colordata = colors[4];
+    colordata = mix(colors[4],color2s[4],data.b);
   } else if (type == 5) {
-    colordata = colors[5];
+    colordata = mix(colors[5],color2s[5],data.b);
   } else if (type == 6) {
-    colordata = colors[6];
+    colordata = mix(colors[6],color2s[6],data.b);
   } else if (type == 7) {
-    colordata = colors[7];
+    colordata = mix(colors[7],color2s[7],data.b);
   } else if (type == 8) {
-    colordata = colors[8];
+    colordata = mix(colors[8],color2s[8],data.b);
   } else if (type == 9) {
-    colordata = colors[9];
+    colordata = mix(colors[9],color2s[9],data.b);
   } else if (type == 10) {
-    colordata = colors[10];
+    colordata = mix(colors[10],color2s[10],data.b);
   } else if (type == 11) {
-    colordata = colors[11];
+    colordata = mix(colors[11],color2s[11],data.b);
   } else if (type == 12) {
-    colordata = colors[12];
+    colordata = mix(colors[12],color2s[12],data.b);
   } else if (type == 13) {
-    colordata = colors[13];
+    colordata = mix(colors[13],color2s[13],data.b);
   } else if (type == 14) {
-    colordata = colors[14];
+    colordata = mix(colors[14],color2s[14],data.b);
   } else if (type == 15) {
-    colordata = colors[15];
+    colordata = mix(colors[15],color2s[15],data.b);
   } 
 
 
@@ -112,9 +113,9 @@ void main() {
     lightness = colordata.b;
 
 
-    hue = mod(hue + data.g, 1.0);
-    saturation += (data.b *.5);
-    lightness += (data.a *.5);
+    // hue = mod(hue + data.g, 1.0);
+    // saturation += (data.b *.5);
+    // lightness += (data.a *.5);
 
   vec3 color = hsl2rgb(hue, saturation, lightness);
   gl_FragColor = vec4(color, a);
@@ -154,6 +155,24 @@ let startWebGL = ({ canvas, width, height, sands, isSnapshot }) => {
       "colors[14]": () => useStore.getState().colors[14] ?? [0.5, 0.5, 0.5],
       "colors[15]": () => useStore.getState().colors[15] ?? [0.5, 0.5, 0.5],
       "colors[16]": () => useStore.getState().colors[16] ?? [0.5, 0.5, 0.5],
+
+      "color2s[0]": () => useStore.getState().color2s[0] ?? [0.5, 0.5, 0.5],
+      "color2s[1]": () => useStore.getState().color2s[1] ?? [0.5, 0.5, 0.5],
+      "color2s[2]": () => useStore.getState().color2s[2] ?? [0.5, 0.5, 0.5],
+      "color2s[3]": () => useStore.getState().color2s[3] ?? [0.5, 0.5, 0.5],
+      "color2s[4]": () => useStore.getState().color2s[4] ?? [0.5, 0.5, 0.5],
+      "color2s[5]": () => useStore.getState().color2s[5] ?? [0.5, 0.5, 0.5],
+      "color2s[6]": () => useStore.getState().color2s[6] ?? [0.5, 0.5, 0.5],
+      "color2s[7]": () => useStore.getState().color2s[7] ?? [0.5, 0.5, 0.5],
+      "color2s[8]": () => useStore.getState().color2s[8] ?? [0.5, 0.5, 0.5],
+      "color2s[9]": () => useStore.getState().color2s[9] ?? [0.5, 0.5, 0.5],
+      "color2s[10]": () => useStore.getState().color2s[10] ?? [0.5, 0.5, 0.5],
+      "color2s[11]": () => useStore.getState().color2s[11] ?? [0.5, 0.5, 0.5],
+      "color2s[12]": () => useStore.getState().color2s[12] ?? [0.5, 0.5, 0.5],
+      "color2s[13]": () => useStore.getState().color2s[13] ?? [0.5, 0.5, 0.5],
+      "color2s[14]": () => useStore.getState().color2s[14] ?? [0.5, 0.5, 0.5],
+      "color2s[15]": () => useStore.getState().color2s[15] ?? [0.5, 0.5, 0.5],
+      "color2s[16]": () => useStore.getState().color2s[16] ?? [0.5, 0.5, 0.5],
 
       dpi: window.devicePixelRatio * 2,
     },
