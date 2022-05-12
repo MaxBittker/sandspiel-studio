@@ -2,10 +2,14 @@ import create from "zustand";
 import tinycolor2 from "tinycolor2";
 import starterXMLs from "./starterblocks.json";
 let bufferXMLs = starterXMLs;
+let totalPlaceholder =
+  '<xml xmlns="https://developers.google.com/blockly/xml"><block type="sand_behavior_base"  deletable="false" x="40" y="100"><field name="ELEMENT_NAME">???</field><field name="COLOR">#af3aff</field><field name="COLOR2">#ffba2a</field></block></xml>';
 let useStore = create((set, get) => ({
   selectedElement: 1,
   updateScheme: "RANDOM_CYCLIC",
   taggedMode: false,
+  paused: false,
+  setPaused: (e) => set(() => ({ paused: e })),
   setSelected: (e) => set(() => ({ selectedElement: e })),
   setUpdateScheme: (e) => set(() => ({ updateScheme: e })),
   setTaggedMode: (e) => set(() => ({ taggedMode: e })),
@@ -26,7 +30,7 @@ let useStore = create((set, get) => ({
     set(() => {
       let { xmls, setXmls } = get();
       if (xmls.length >= 15) return;
-      xmls.push(bufferXMLs[xmls.length] ?? "");
+      xmls.push(bufferXMLs[xmls.length] ?? totalPlaceholder);
       setXmls(xmls);
     }),
 

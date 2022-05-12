@@ -7,6 +7,7 @@ import { useStore } from "./store";
 // import { UPDATE_SCHEMES } from "./updateSchemes";
 import * as vkbeautify from "vkbeautify";
 import { base64ArrayBuffer } from "./base64ArrayBuffer";
+import PlayPause from "./PlayPauseButton";
 const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
@@ -18,18 +19,14 @@ function prepareExport() {
   let json = JSON.stringify(minifiedXmls, null, " ");
   return json;
 }
-const ExtraUI = ({
-  updateScheme,
-  setUpdateScheme,
-  taggedMode,
-  setTaggedMode,
-}) => {
+const ExtraUI = ({}) => {
   let [id, setId] = useState(null);
   let [copiedState, setCopiedState] = useState(null);
   let [sharedState, setSharedState] = useState(null);
 
   return (
     <div className="extras-tray">
+      <PlayPause />
       <button
         className="simulation-button"
         onClick={() => {
@@ -138,28 +135,7 @@ const ExtraUI = ({
             Export to Clipboard {copiedState}
           </button>
         )}
-        {/* <details>
-          <summary>Update Order</summary>
-          <div className="update-scheme-tray">
-            {Object.keys(UPDATE_SCHEMES).map((key) => {
-              return (
-                <UpdateSchemeButton
-                  key={key}
-                  setUpdateScheme={setUpdateScheme}
-                  name={key}
-                  selected={key === updateScheme}
-                />
-              );
-            })}
-            <div className="tagged-mode-tray">
-              <TaggedModeCheckbox
-                setTaggedMode={setTaggedMode}
-                selected={taggedMode}
-              ></TaggedModeCheckbox>
-              <label htmlFor="taggedModeCheckbox">TAGGED</label>
-            </div>
-          </div>
-        </details> */}
+
         <img className="wordmark" src="/sandspiel.png"></img>
       </div>
     </div>

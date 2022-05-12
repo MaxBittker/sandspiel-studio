@@ -39,11 +39,13 @@ const Sand = () => {
   }, [selectedElement, updateScheme, taggedMode]);
 
   useAnimationFrame((e) => {
+    if (useStore.getState().paused) {
+      drawer?.current();
+      return;
+    }
     const t0 = performance.now();
     tick();
-    if (drawer.current) {
-      drawer.current();
-    }
+    drawer?.current();
     const t1 = performance.now();
     let d = t1 - t0;
     fps.render(d);
