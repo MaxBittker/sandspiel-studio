@@ -61,7 +61,7 @@ Blockly.Blocks["sand_behavior_base"] = {
         }),
         "COLOR"
       )
-      .appendField("→")
+      .appendField("»")
 
       .appendField(
         new ColorWheelField("#7fdab4", 150, {
@@ -1010,9 +1010,9 @@ Blockly.Blocks["boolean_operation_vertical"] = {
   },
 };
 const registers = [
-  ["Data A", "RA"],
-  ["Data B", "RB"],
-  ["Data C", "RC"],
+  ["Color Fade »", "RA"],
+  ["Hue Rotate", "RB"],
+  ["Extra Data", "RC"],
 ];
 
 Blockly.Blocks["get_r_cell"] = {

@@ -57,49 +57,77 @@ void main() {
   ;
 
   float a = 1.0;
-  vec3 colordata = vec3(0., 0., 0.0);
+  vec3 colordata1 = vec3(0., 0., 0.0);
+  vec3 colordata2 = vec3(0., 0., 0.0);
   if (type == 0) {
-    colordata = mix(colors[0], color2s[0], data.g);
+    colordata1 = colors[0];
+    colordata2 = color2s[0];
   } else if (type == 1) {
-    colordata = mix(colors[1], color2s[1], data.g);
+    colordata1 = colors[1];
+    colordata2 = color2s[1];
   } else if (type == 2) {
-    colordata = mix(colors[2], color2s[2], data.g);
+    colordata1 = colors[2];
+    colordata2 = color2s[2];
   } else if (type == 3) {
-    colordata = mix(colors[3], color2s[3], data.g);
+    colordata1 = colors[3];
+    colordata2 = color2s[3];
   } else if (type == 4) {
-    colordata = mix(colors[4], color2s[4], data.g);
+    colordata1 = colors[4];
+    colordata2 = color2s[4];
   } else if (type == 5) {
-    colordata = mix(colors[5], color2s[5], data.g);
+    colordata1 = colors[5];
+    colordata2 = color2s[5];
   } else if (type == 6) {
-    colordata = mix(colors[6], color2s[6], data.g);
+    colordata1 = colors[6];
+    colordata2 = color2s[6];
   } else if (type == 7) {
-    colordata = mix(colors[7], color2s[7], data.g);
+    colordata1 = colors[7];
+    colordata2 = color2s[7];
   } else if (type == 8) {
-    colordata = mix(colors[8], color2s[8], data.g);
+    colordata1 = colors[8];
+    colordata2 = color2s[8];
   } else if (type == 9) {
-    colordata = mix(colors[9], color2s[9], data.g);
+    colordata1 = colors[9];
+    colordata2 = color2s[9];
   } else if (type == 10) {
-    colordata = mix(colors[10], color2s[10], data.g);
+    colordata1 = colors[10];
+    colordata2 = color2s[10];
   } else if (type == 11) {
-    colordata = mix(colors[11], color2s[11], data.g);
+    colordata1 = colors[11];
+    colordata2 = color2s[11];
   } else if (type == 12) {
-    colordata = mix(colors[12], color2s[12], data.g);
+    colordata1 = colors[12];
+    colordata2 = color2s[12];
   } else if (type == 13) {
-    colordata = mix(colors[13], color2s[13], data.g);
+    colordata1 = colors[13];
+    colordata2 = color2s[13];
   } else if (type == 14) {
-    colordata = mix(colors[14], color2s[14], data.g);
+    colordata1 = colors[14];
+    colordata2 = color2s[14];
   } else if (type == 15) {
-    colordata = mix(colors[15], color2s[15], data.g);
+    colordata1 = colors[15];
+    colordata2 = color2s[15];
   }
 
-  hue = colordata.r;
-  saturation = colordata.g;
-  lightness = colordata.b;
 
+  // vec3 colordata = mix(colordata1, colordata2, data.g);
+
+  // hue = colordata.r;
+  // saturation = colordata.g;
+  // lightness = colordata.b;
+//   if (abs(colordata1.r -colordata2.r)>0.5){
+// saturation = 0.;
+// }
   // hue = mod(hue + data.g, 1.0);
   // saturation += (data.b * .5);
   // lightness += (data.a *.5);
+  // vec3 color = hsl2rgb(hue, saturation, lightness);
 
-  vec3 color = hsl2rgb(hue, saturation, lightness);
+  vec3 color1 = hsl2rgb( mod(colordata1.r + data.b, 1.0), colordata1.g, colordata1.b);
+  vec3 color2 = hsl2rgb(mod(colordata2.r + data.b, 1.0), colordata2.g, colordata2.b);
+
+  vec3 color = mix(color1, color2, data.g);
+
+
   gl_FragColor = vec4(color, a);
 }
