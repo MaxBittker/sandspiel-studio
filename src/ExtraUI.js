@@ -106,36 +106,38 @@ const ExtraUI = ({
         <br />
         <br />
         <br />
-        <button
-          className="simulation-button"
-          onClick={() => {
-            let json = prepareExport();
+        {window.location.host.includes("localhost") && (
+          <button
+            className="simulation-button"
+            onClick={() => {
+              let json = prepareExport();
 
-            var data = [
-              // eslint-disable-next-line no-undef
-              new ClipboardItem({
-                "text/plain": new Blob([json], { type: "text/plain" }),
-              }),
-            ];
-            navigator.clipboard
-              .write(data)
-              .then(
-                function () {
-                  setCopiedState(" ✓");
-                },
-                function () {
-                  setCopiedState("...Error");
-                }
-              )
-              .finally(() => {
-                window.setTimeout(() => {
-                  setCopiedState(null);
-                }, 3000);
-              });
-          }}
-        >
-          Export to Clipboard {copiedState}
-        </button>
+              var data = [
+                // eslint-disable-next-line no-undef
+                new ClipboardItem({
+                  "text/plain": new Blob([json], { type: "text/plain" }),
+                }),
+              ];
+              navigator.clipboard
+                .write(data)
+                .then(
+                  function () {
+                    setCopiedState(" ✓");
+                  },
+                  function () {
+                    setCopiedState("...Error");
+                  }
+                )
+                .finally(() => {
+                  window.setTimeout(() => {
+                    setCopiedState(null);
+                  }, 3000);
+                });
+            }}
+          >
+            Export to Clipboard {copiedState}
+          </button>
+        )}
         {/* <details>
           <summary>Update Order</summary>
           <div className="update-scheme-tray">
