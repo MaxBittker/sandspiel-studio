@@ -231,12 +231,12 @@ const App = () => {
         <Block type="random_number">
           <Value name="MIN">
             <Shadow type="number_literal">
-              <Field name="VALUE">1</Field>
+              <Field name="VALUE">-1</Field>
             </Shadow>
           </Value>
           <Value name="MAX">
             <Shadow type="number_literal">
-              <Field name="VALUE">10</Field>
+              <Field name="VALUE">1</Field>
             </Shadow>
           </Value>
         </Block>
