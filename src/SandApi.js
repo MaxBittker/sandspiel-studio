@@ -412,8 +412,25 @@ if (typeof window !== "undefined") {
     resetTrackedKeys();
   });
 }
-
+function getKeyBoardVector() {
+  let x = 0;
+  let y = 0;
+  if (keys["ArrowRight"]) {
+    x++;
+  }
+  if (keys["ArrowLeft"]) {
+    x--;
+  }
+  if (keys["ArrowUp"]) {
+    y--;
+  }
+  if (keys["ArrowDown"]) {
+    y++;
+  }
+  return [x, y];
+}
 globalState.keys = keys;
+globalState.getKeyBoardVector = getKeyBoardVector;
 globalState.getSandRelative = getSandRelative;
 globalState.setSandRelative = setSandRelative;
 globalState.swapSandRelative = swapSandRelative;

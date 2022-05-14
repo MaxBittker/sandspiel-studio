@@ -127,6 +127,7 @@ const DIRECTIONS = {
   SW: "[-1, 1]",
   SE: "[1, 1]",
   RAND: "this.randomOffset()",
+  KB: "this.getKeyBoardVector()",
 };
 
 Blockly.JavaScript["vector_constant"] = function (block) {

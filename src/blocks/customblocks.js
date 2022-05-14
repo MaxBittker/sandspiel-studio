@@ -416,6 +416,7 @@ Blockly.Blocks["vector_constant"] = {
         ["⬋ SW", "SW"],
         ["⬉ NW", "NW"],
         ["? Neighbor", "RAND"],
+        ["Arrow Keys", "KB"],
       ]),
       "VALUE"
     );
