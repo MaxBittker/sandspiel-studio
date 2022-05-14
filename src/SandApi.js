@@ -126,9 +126,6 @@ export function setSand(x, y, v, ra, rb, rc) {
   }
 
   let i = getIndex(x, y);
-  if (sands[i] !== 0 && v > 0) {
-    return;
-  }
   if (v !== undefined) sands[i] = v;
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = rb;
