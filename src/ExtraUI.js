@@ -4,18 +4,22 @@ import { encode } from "fast-png";
 import { seed, width, height, sands } from "./SandApi";
 import { snapshot } from "./Render";
 import { useStore } from "./store";
-// import { UPDATE_SCHEMES } from "./updateSchemes";
 import * as vkbeautify from "vkbeautify";
 import { base64ArrayBuffer } from "./base64ArrayBuffer";
 import PlayPause from "./PlayPauseButton";
 const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
-function prepareExport() {
+function prepareXMLs() {
   let regex = /id="([^\\]*?)"/g;
   let minifiedXmls = useStore
     .getState()
     .xmls.map((x) => vkbeautify.xmlmin(x).replaceAll(regex, ""));
+  return minifiedXmls;
+}
+
+function prepareExport() {
+  let minifiedXmls = prepareXMLs();
   let json = JSON.stringify(minifiedXmls, null, " ");
   return json;
 }
@@ -40,7 +44,7 @@ const ExtraUI = ({}) => {
         <button
           className="simulation-button"
           onClick={() => {
-            let json = prepareExport();
+            let xmls = prepareXMLs();
             let thumbnail = snapshot();
 
             let buffer = encode({
@@ -58,7 +62,14 @@ const ExtraUI = ({}) => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                code: json,
+                code: JSON.stringify(
+                  {
+                    selectedElement: useStore.getState().selectedElement,
+                    xmls: xmls,
+                  },
+                  null,
+                  " "
+                ),
                 thumbnail,
                 data,
               }),

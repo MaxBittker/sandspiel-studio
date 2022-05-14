@@ -37,6 +37,14 @@ export async function loadPostFromServer() {
       let data = JSON.parse(raw);
       console.log("loaded some code from " + id);
       let code = JSON.parse(data.code);
-      useStore.getState().setXmls(code);
+      if (Array.isArray(code)) {
+        //beta legacy lol
+        useStore.getState().setXmls(code);
+      } else {
+        let { xmls, selectedElement } = code;
+        useStore.getState().setXmls(xmls);
+        useStore.getState().setSelected(selectedElement);
+        useStore.setState({ initialSelected: selectedElement });
+      }
     });
 }

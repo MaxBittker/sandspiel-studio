@@ -96,7 +96,7 @@ const App = () => {
         }
       });
     }
-    setSelected(useStore.getState().elements.length - 1);
+    setSelected(useStore.getState().initialSelected);
     setLoaded(true);
     pallette();
   }, [simpleWorkspace, fetchedData]);
