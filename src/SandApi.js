@@ -166,6 +166,26 @@ function setSandRelative([x, y], v, ra, rb, rc) {
   if (rc !== undefined) sands[i + 3] = rc;
 }
 
+function cloneSandRelative([sx, sy], [bx, by], swaps) {
+  if (inertMode) return;
+  [sx, sy] = [sx, sy].map((v) => Math.round(v));
+  [bx, by] = [bx, by].map((v) => Math.round(v));
+  if (aX + sx < 0 || aX + sx >= width || aY + sy < 0 || aY + sy >= height) {
+    return;
+  }
+  if (aX + bx < 0 || aX + bx >= width || aY + by < 0 || aY + by >= height) {
+    return;
+  }
+
+  let aid = getIndexRelative(sx, sy);
+  let bid = getIndexRelative(bx, by);
+
+  sands[bid] = sands[aid];
+  sands[bid + 1] = sands[aid + 1];
+  sands[bid + 2] = sands[aid + 2];
+  sands[bid + 3] = sands[aid + 3];
+}
+
 function swapSandRelative([sx, sy], [bx, by], swaps) {
   if (inertMode) return;
   [sx, sy] = [sx, sy].map((v) => Math.round(v));
@@ -397,6 +417,7 @@ globalState.keys = keys;
 globalState.getSandRelative = getSandRelative;
 globalState.setSandRelative = setSandRelative;
 globalState.swapSandRelative = swapSandRelative;
+globalState.cloneSandRelative = cloneSandRelative;
 globalState.moveOrigin = moveOrigin;
 globalState.eq = eq;
 globalState.greaterThan = greaterThan;

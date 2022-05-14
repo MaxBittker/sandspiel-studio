@@ -318,6 +318,17 @@ Blockly.JavaScript["move"] = function (block) {
   return code;
 };
 
+Blockly.JavaScript["clone"] = function (block) {
+  const direction = Blockly.JavaScript.valueToCode(
+    block,
+    "DIRECTION",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+
+  const code = `this.cloneSandRelative([0, 0], ${direction});\n`;
+  return code;
+};
+
 Blockly.JavaScript["random_number"] = function (block) {
   const min = Blockly.JavaScript.valueToCode(
     block,

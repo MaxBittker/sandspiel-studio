@@ -30,6 +30,13 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+      <Block type="clone">
+        <Value name="DIRECTION">
+          <Shadow type="vector_constant">
+            <Field name="VALUE">DOWN</Field>
+          </Shadow>
+        </Value>
+      </Block>
       <Block type="is_block">
         <Value name="CELL">
           <Shadow type="vector_constant">

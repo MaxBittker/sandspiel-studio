@@ -365,6 +365,19 @@ Blockly.Blocks["move"] = {
   },
 };
 
+Blockly.Blocks["clone"] = {
+  init: function () {
+    this.appendDummyInput().appendField("clone myself");
+    this.appendValueInput("DIRECTION").setCheck("Vector");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
 Blockly.Blocks["vector_literal"] = {
   init: function () {
     this.appendValueInput("X").setCheck("Number");
