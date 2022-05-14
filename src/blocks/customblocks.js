@@ -829,6 +829,21 @@ Blockly.Extensions.registerMutator(
   }
 );
 
+Blockly.Blocks["rotated_by"] = {
+  init: function () {
+    this.appendDummyInput().appendField("rotated by");
+    this.appendValueInput("NUMBER").setCheck("Number");
+
+    this.appendStatementInput("BODY").setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(260);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
 Blockly.Blocks["in_a_random"] = {
   init: function () {
     this.appendDummyInput().appendField("in a random");

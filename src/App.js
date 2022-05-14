@@ -24,23 +24,24 @@ function generateCode(element, ws) {
       break;
     }
   }
-  let code = BlocklyJS.blockToCode(baseBlock);
+  try {
+    let code = BlocklyJS.blockToCode(baseBlock);
 
-  code = prettier.format(code, {
-    parser: "babel",
-    plugins: [parserBabel],
-  });
+    code = prettier.format(code, {
+      parser: "babel",
+      plugins: [parserBabel],
+    });
 
-  let xml = Xml.workspaceToDom(ws);
-  let xmlText = Xml.domToPrettyText(xml);
-
-  //console.log(xmlText);
-  window.localStorage.setItem("code" + element, xmlText);
-  // console.log(code);
-  // eslint-disable-next-line no-new-func
-  let fn = Function(code);
-  useStore.getState().setXml(xmlText, element);
-  globalState.updaters[element] = fn.bind(globalState);
+    let xml = Xml.workspaceToDom(ws);
+    let xmlText = Xml.domToPrettyText(xml);
+    // eslint-disable-next-line no-new-func
+    let fn = Function(code);
+    useStore.getState().setXml(xmlText, element);
+    globalState.updaters[element] = fn.bind(globalState);
+  } catch (e) {
+    console.error(e);
+    return;
+  }
 }
 
 const App = () => {
@@ -64,7 +65,7 @@ const App = () => {
     globalState.workspace = ws;
     BlocklyJS.init(ws);
 
-    for (let i = useStore.getState().elements.length - 1; i > 0; i--) {
+    for (let i = useStore.getState().elements.length - 1; i >= 0; i--) {
       setSelected(i);
 
       ws.clear();
@@ -136,7 +137,7 @@ const App = () => {
           drag: false,
           wheel: true,
         }}
-        initialXml={window.localStorage.getItem("code") || starterXMLs[1]}
+        initialXml={starterXMLs[1]}
       >
         <Block type="group">
           <Value name="ITEM0">
@@ -209,9 +210,16 @@ const App = () => {
         <Block type="in_a_random">
           <Field name="NAME">ROTATION</Field>
         </Block>
-        <Block type="for_all">
-          <Field name="NAME">ROTATION</Field>
+        <Block type="rotated_by">
+          <Value name="NUMBER">
+            <Shadow type="number_literal">
+              <Field name="VALUE">0</Field>
+            </Shadow>
+          </Value>
         </Block>
+        {/* <Block type="for_all">
+          <Field name="NAME">ROTATION</Field>
+        </Block> */}
         <Block type="number_literal">
           <Field name="VALUE">0</Field>
         </Block>

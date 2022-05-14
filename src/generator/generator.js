@@ -395,6 +395,18 @@ Blockly.JavaScript["repeat"] = function (block) {
   return code;
 };
 
+Blockly.JavaScript["rotated_by"] = function (block) {
+  const n = Blockly.JavaScript.valueToCode(
+    block,
+    "NUMBER",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+
+  const statement = Blockly.JavaScript.statementToCode(block, "BODY");
+  const code = `{const oldTransformation = this.getTransformation();\n this.setRotation(${n});\n${statement}this.setTransformation(...oldTransformation);}\n`;
+  return code;
+};
+
 Blockly.JavaScript["in_a_random"] = function (block) {
   const name = block.getFieldValue("NAME");
   const statement = Blockly.JavaScript.statementToCode(block, "NAME");

@@ -1,5 +1,6 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
 import { globalState } from "./store.js";
+import { ChebyshevRotate } from "./Chebyshev.js";
 let aX = 0;
 let aY = 0;
 
@@ -218,19 +219,8 @@ function clamp(value, min, max) {
   return value;
 }
 
-// https://stackoverflow.com/questions/17410809/how-to-calculate-rotation-in-2d-in-javascript
-function rotate([x, y], [ox, oy], angle) {
-  const cos = Math.cos(angle);
-  const sin = Math.sin(angle);
-  const dy = y - oy;
-  const dx = x - ox;
-  const nx = dx * cos + dy * sin + ox;
-  const ny = dy * cos - dx * sin + oy;
-  return [nx, ny];
-}
-
-function turn([x, y], direction = -1) {
-  return rotate([x, y], [0, 0], (direction * Math.PI) / 4);
+function turn(v, direction = -1) {
+  return ChebyshevRotate(v, direction);
 }
 
 function add(a, b, aType, bType) {
@@ -241,16 +231,12 @@ function add(a, b, aType, bType) {
   }
   if (aType === "Vector" && bType !== "Vector") {
     let [x, y] = a;
-    for (let i = 0; i < b; i++) {
-      [x, y] = turn([x, y], -1);
-    }
+    [x, y] = turn([x, y], -b);
     return [x, y];
   }
   if (aType !== "Vector" && bType === "Vector") {
     let [x, y] = b;
-    for (let i = 0; i < a; i++) {
-      [x, y] = turn([x, y], -1);
-    }
+    [x, y] = turn([x, y], -a);
     return [x, y];
   }
   return a + b;
@@ -316,9 +302,13 @@ function divide(a, b, aType, bType) {
 const TRANSFORMATION_SETS = {
   ROTATION: [
     (x, y) => [x, y],
-    (x, y) => [-y, x],
-    (x, y) => [-x, -y],
-    (x, y) => [y, -x],
+    (x, y) => ChebyshevRotate([x, y], 1),
+    (x, y) => ChebyshevRotate([x, y], 2),
+    (x, y) => ChebyshevRotate([x, y], 3),
+    (x, y) => ChebyshevRotate([x, y], 4),
+    (x, y) => ChebyshevRotate([x, y], 5),
+    (x, y) => ChebyshevRotate([x, y], 6),
+    (x, y) => ChebyshevRotate([x, y], 7),
   ],
   REFLECTION: [
     (x, y) => [x, y],
@@ -335,6 +325,11 @@ let transformationId = 0;
 function setTransformation(set, id) {
   transformationSet = set;
   transformationId = id;
+}
+
+function setRotation(n) {
+  transformationSet = "ROTATION";
+  transformationId = (n + 800) % 8;
 }
 
 function setRandomTransformation(set) {
@@ -418,6 +413,7 @@ globalState.multiply = multiply;
 globalState.divide = divide;
 globalState.setTransformation = setTransformation;
 globalState.randomOffset = randomOffset;
+globalState.setRotation = setRotation;
 globalState.setRandomTransformation = setRandomTransformation;
 globalState.loopThroughTransformation = loopThroughTransformation;
 globalState.getTransformation = getTransformation;
@@ -460,7 +456,7 @@ export const fireEventPhase = ({
   }
 };
 
-export const fireEvent = (offset, { tagged = globalState.taggedMode } = {}) => {
+export const fireEvent = (offset) => {
   let index = offset / 4;
   let e = sands[offset];
   let x = index % width;
