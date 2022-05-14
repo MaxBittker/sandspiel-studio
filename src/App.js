@@ -12,6 +12,14 @@ import "./generator/generator";
 import { loadPostFromServer } from "./loadPostFromServer";
 import { pallette } from "./Render";
 import { ToolboxBlocks } from "./ToolboxBlocks";
+import * as Sentry from "@sentry/browser";
+import { BrowserTracing } from "@sentry/tracing";
+
+Sentry.init({
+  dsn: "https://b2a3ffe2014947f5bb7c35db0eded196@o40136.ingest.sentry.io/6405403",
+  integrations: [new BrowserTracing()],
+  tracesSampleRate: 0.1,
+});
 
 function generateCode(element, ws) {
   let baseBlock = undefined;

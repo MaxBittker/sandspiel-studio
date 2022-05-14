@@ -8,6 +8,8 @@
     "@blockly/continuous-toolbox": "^2.0.24",
     "@google-cloud/storage": "^5.19.4",
     "@prisma/client": "^3.13.0",
+    "@sentry/browser": "^6.19.7",
+    "@sentry/tracing": "^6.19.7",
     "@types/tinycolor2": "^1.4.3",
     "babel-eslint": "^10.1.0",
     "blockly": "^8.0.0",
