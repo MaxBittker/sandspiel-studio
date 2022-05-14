@@ -6,7 +6,7 @@ import { fps } from "./fps";
 import ElementButtons from "./ElementButtons";
 import ExtraUI from "./ExtraUI";
 
-import { sands, width, height, tick, initSand } from "./SandApi";
+import { sands, width, height, tick, initSand, getSand } from "./SandApi";
 let dpi = 4;
 
 globalState.updaters = useStore.getState().elements.map(() => {
@@ -23,6 +23,7 @@ const Sand = () => {
   const canvas = React.useRef();
   const drawer = React.useRef();
   const [isDrawing, setIsDrawing] = useState(false);
+  const [hoverPos, setHoverPos] = useState([0, 0]);
   React.useEffect(() => {
     drawer.current = startWebGL({
       canvas: canvas.current,
@@ -77,6 +78,10 @@ const Sand = () => {
       window.removeEventListener("mouseup", mouseUp);
     };
   }, [isDragging, mouseMove, mouseUp]);
+  let t = getSand(...hoverPos);
+  let r = getSand(...hoverPos, 1);
+  let g = getSand(...hoverPos, 2);
+  let b = getSand(...hoverPos, 3);
   return (
     <div id="world" style={{ width: drawerWidth }}>
       <div
@@ -106,9 +111,6 @@ const Sand = () => {
         onMouseUp={() => setIsDrawing(false)}
         onMouseOut={() => setIsDrawing(false)}
         onMouseMove={(e) => {
-          if (!isDrawing) {
-            return;
-          }
           let bounds = canvas.current.getBoundingClientRect();
           let eX = Math.round(
             (e.clientX - bounds.left) * (width / bounds.width)
@@ -116,8 +118,12 @@ const Sand = () => {
           let eY = Math.round(
             (e.clientY - bounds.top) * (height / bounds.height)
           );
-          let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
+          setHoverPos([eX, eY]);
+          if (!isDrawing) {
+            return;
+          }
 
+          let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
           points.forEach(({ x, y }) => {
             x = Math.round(x);
             y = Math.round(y);
@@ -133,6 +139,7 @@ const Sand = () => {
         height={height * dpi}
         width={width * dpi}
       />
+      {`${hoverPos[0]}, ${hoverPos[1]}: ${t} ${r} ${g} ${b}`}
       <ExtraUI
         updateScheme={updateScheme}
         setUpdateScheme={setUpdateScheme}

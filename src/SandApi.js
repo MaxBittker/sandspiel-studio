@@ -109,7 +109,7 @@ function getIndex(x, y) {
   return (x + y * width) * 4;
 }
 
-function getSand(x, y, o = 0) {
+export function getSand(x, y, o = 0) {
   x = Math.round(x);
   y = Math.round(y);
   if (x < 0 || x >= width || y < 0 || y >= height) {
