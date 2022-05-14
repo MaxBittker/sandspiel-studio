@@ -36,7 +36,9 @@ import { getTypeOfValue } from "../generator/generator.js";
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
     const validator = (value) => {
-      useStore.getState().setElementName(globalState.selectedElement, value);
+      useStore
+        .getState()
+        .setElementName(useStore.getState().selectedElement, value);
       if (globalState.workspace === undefined) return;
       const blocks = globalState.workspace.getAllBlocks();
       for (const block of blocks) {

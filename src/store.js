@@ -5,7 +5,7 @@ let bufferXMLs = starterXMLs;
 let totalPlaceholder =
   '<xml xmlns="https://developers.google.com/blockly/xml"><block type="sand_behavior_base"  deletable="false" x="40" y="100"><field name="ELEMENT_NAME">???</field><field name="COLOR">#af3aff</field><field name="COLOR2">#ffba2a</field></block></xml>';
 let useStore = create((set, get) => ({
-  selectedElement: 1,
+  selectedElement: 0,
   updateScheme: "RANDOM_CYCLIC",
   taggedMode: false,
   paused: false,
@@ -95,7 +95,6 @@ const globalState = {
   updaters: [],
   pallette: [],
   workspace: undefined,
-  selectedElement: 1,
 };
 
 function deriveColor(xmlString, b = "") {

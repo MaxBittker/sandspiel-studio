@@ -33,7 +33,6 @@ const Sand = () => {
   });
 
   useEffect(() => {
-    globalState.selectedElement = selectedElement;
     globalState.updateScheme = updateScheme;
     globalState.taggedMode = taggedMode;
   }, [selectedElement, updateScheme, taggedMode]);

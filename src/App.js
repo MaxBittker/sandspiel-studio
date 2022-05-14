@@ -92,7 +92,7 @@ const App = () => {
         }
       });
     }
-    setSelected(1);
+    setSelected(useStore.getState().elements.length - 1);
     setLoaded(true);
     pallette();
   }, [simpleWorkspace, fetchedData]);
@@ -114,7 +114,9 @@ const App = () => {
     simpleWorkspace.current.primaryWorkspace.clear();
 
     Xml.domToWorkspace(
-      Xml.textToDom(useStore.getState().xmls[globalState.selectedElement]),
+      Xml.textToDom(
+        useStore.getState().xmls[useStore.getState().selectedElement]
+      ),
       simpleWorkspace.current.primaryWorkspace
     );
   }, [selectedElement, loaded]);
