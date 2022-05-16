@@ -89,9 +89,9 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
-      {/* <Block type="for_all">
-                <Field name="NAME">ROTATION</Field>
-              </Block> */}
+      <Block type="for_all">
+        <Field name="NAME">ROTATION</Field>
+      </Block>
       <Block type="number_literal">
         <Field name="VALUE">0</Field>
       </Block>

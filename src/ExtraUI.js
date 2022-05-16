@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { encode } from "fast-png";
 
-import { seed, width, height, sands } from "./SandApi";
+import { seed, width, height, sands, tick } from "./SandApi";
 import { snapshot } from "./Render";
 import { useStore } from "./store";
 import * as vkbeautify from "vkbeautify";
@@ -31,6 +31,14 @@ const ExtraUI = ({}) => {
   return (
     <div className="extras-tray">
       <PlayPause />
+      <button
+        className="simulation-button"
+        onClick={() => {
+          tick();
+        }}
+      >
+        Step
+      </button>
       <button
         className="simulation-button"
         onClick={() => {
