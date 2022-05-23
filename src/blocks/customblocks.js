@@ -102,12 +102,47 @@ Blockly.Blocks["number_literal"] = {
 
 Blockly.Blocks["element_literal"] = {
   init: function () {
+    const laxValidator = function (newValue) {
+      return newValue;
+    };
+    const laxUpdater = function (newValue) {
+      this.isTextValid_ = true;
+      this.value_ = newValue;
+      if (!this.isBeingEdited_) {
+        // This should only occur if setValue is triggered programmatically.
+        this.isDirty_ = true;
+      }
+
+      const options = this.getOptions(true);
+      for (let i = 0, option; (option = options[i]); i++) {
+        if (option[1] === this.value_) {
+          this.selectedOption_ = option;
+          return;
+        }
+      }
+      this.selectedOption_ = ["???", newValue.toString()];
+    };
+    Blockly.FieldDropdown.prototype.doClassValidation_ = laxValidator;
+    Blockly.FieldDropdown.prototype.doValueUpdate_ = laxUpdater;
+
     this.rebuild();
+
     this.setOutput(true, "Element");
     this.setColour(160);
     this.setTooltip("");
     this.setHelpUrl("");
   },
+
+  dynamicOptions: function () {
+    const elements = useStore.getState().elements;
+
+    const options = elements.map((element) => [
+      element,
+      elements.indexOf(element).toString(),
+    ]);
+    return options;
+  },
+
   rebuild: function () {
     const oldInput = this.getInput("DROPDOWN");
     const oldValue = this.getFieldValue("VALUE");
@@ -115,16 +150,8 @@ Blockly.Blocks["element_literal"] = {
       this.removeInput("DROPDOWN");
     }
 
-    const elements = useStore.getState().elements;
-    const fieldValues = elements.map((element) => [
-      element,
-      elements.indexOf(element).toString(),
-    ]);
-
-    this.appendDummyInput("DROPDOWN").appendField(
-      new Blockly.FieldDropdown(fieldValues),
-      "VALUE"
-    );
+    let dropdown = new Blockly.FieldDropdown(this.dynamicOptions());
+    this.appendDummyInput("DROPDOWN").appendField(dropdown, "VALUE");
 
     this.setFieldValue(oldValue, "VALUE");
   },

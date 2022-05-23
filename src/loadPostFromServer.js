@@ -10,7 +10,7 @@ export async function loadPostFromServer() {
   let id = window.location.pathname.slice(6);
 
   if (id.length < 1) {
-    useStore.getState().setXmls(starterXMLs.map((v, i) => v));
+    useStore.getState().setXmls(starterXMLs.slice(0, 4).map((v, i) => v));
 
     return;
   }

@@ -1,6 +1,9 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
 import { globalState } from "./store.js";
 import { ChebyshevRotate } from "./Chebyshev.js";
+import noise from "./perlin";
+noise.seed(Math.random());
+
 let aX = 0;
 let aY = 0;
 
@@ -10,8 +13,13 @@ export let cellCount = width * height;
 export let sands = new Uint8Array(cellCount * 4);
 
 let inertMode = false;
-function randomData() {
-  return (Math.random() * 100) | 0;
+let t = 0;
+function randomData(t2 = 0) {
+  var value = noise.simplex2(t / 2, t2 / 2);
+  t++;
+  let d = ((value + 1) * 50) | 0;
+
+  return d;
 }
 if (typeof window !== "undefined") {
   window.sands = sands;
@@ -118,7 +126,7 @@ function getSand(x, y, o = 0) {
   return sands[getIndex(x, y) + o];
 }
 export function initSand([x, y], v) {
-  setSand(x, y, v, randomData(), 0, 0);
+  setSand(x, y, v, randomData(y), 0, 0);
 }
 export function setSand(x, y, v, ra, rb, rc) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -157,7 +165,7 @@ function setSandRelative([x, y], v, ra, rb, rc) {
   if (v !== undefined) {
     if (sands[i] == v) return; // bail to not  reset ra/rb/rc on no-ops
     sands[i] = v;
-    ra = ra || randomData();
+    ra = ra || randomData(y);
     rb = rb || 0;
     rc = rc || 0;
   }
@@ -514,9 +522,10 @@ export const tick = () => {
 
 export const seed = () => {
   for (var i = 0; i < sands.length; i += 4) {
-    sands[i] = 0;
+    let x = (i / 4) % width;
 
-    sands[i + 1] = randomData();
+    sands[i] = 0;
+    sands[i + 1] = randomData(x);
     sands[i + 2] = 0;
     sands[i + 3] = 0;
   }
