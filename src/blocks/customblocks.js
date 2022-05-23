@@ -1228,7 +1228,7 @@ Blockly.Blocks["set_r_cell_short"] = {
 Blockly.Blocks["modify_r"] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("modify")
+      .appendField("increase")
       .appendField(new Blockly.FieldDropdown(registers), "DATA");
     this.appendDummyInput().appendField("by");
     this.appendValueInput("VALUE").setCheck(["Number", "Element"]);
@@ -1453,7 +1453,7 @@ Blockly.Extensions.registerMutator("set_r_mutator", {
 Blockly.defineBlocksWithJsonArray([
   {
     type: "modify_r_cell_flexible",
-    message0: "modify %1 %2 %3 by %4 %5",
+    message0: "increase %1 %2 %3 by %4 %5",
     args0: [
       {
         type: "input_dummy",
