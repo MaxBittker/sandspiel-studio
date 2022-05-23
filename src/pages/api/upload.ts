@@ -2,6 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { Storage } from "@google-cloud/storage";
 import { PrismaClient } from "@prisma/client";
+import { Client, Intents, TextChannel } from "discord.js";
+const token = process.env.DISCORD_TOKEN;
+
+// Create a new client instance
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+client.login(token);
 
 function uploadPNG(bucket, id, pngData, suffix) {
   const mimeType = pngData.match(
@@ -27,7 +33,7 @@ export default async function handler(
   response: NextApiResponse
 ) {
   const prisma = new PrismaClient();
-
+  let postId = undefined;
   try {
     const storage = new Storage({
       projectId: process.env.GCP_PROJECT_ID,
@@ -49,6 +55,7 @@ export default async function handler(
         parentId: parentId,
       },
     });
+    postId = newPost.id;
 
     const bucket = storage.bucket(process.env.GCP_BUCKET_NAME);
 
@@ -63,6 +70,11 @@ export default async function handler(
   } catch (err) {
     throw err;
   } finally {
+    const channel = (await client.channels.fetch(
+      "978159725663367188"
+    )) as TextChannel;
+    channel.send(`https://studio.sandspiel.club/post/${postId}`);
+
     await prisma.$disconnect();
   }
 }

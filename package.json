@@ -15,6 +15,7 @@
     "blockly": "^8.0.0",
     "blockly-field-color-wheel": "^1.0.2",
     "classnames": "^2.3.1",
+    "discord.js": "^13.7.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react-hooks": "^4.4.0",
     "fast-png": "^6.1.0",
