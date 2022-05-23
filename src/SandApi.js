@@ -162,7 +162,7 @@ function setSandRelative([x, y], v, ra, rb, rc) {
     rc = rc || 0;
   }
   if (ra !== undefined) sands[i + 1] = ra;
-  if (rb !== undefined) sands[i + 2] = rb;
+  if (rb !== undefined) sands[i + 2] = (rb + 100) % 100;
   if (rc !== undefined) sands[i + 3] = rc;
 }
 

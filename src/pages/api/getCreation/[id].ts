@@ -16,6 +16,22 @@ export default async function handler(
       where: {
         id: parseInt(id as string, 10),
       },
+      include: {
+        parent: {
+          select: {
+            id: true,
+            title: true,
+            createdAt: true,
+          },
+        },
+        children: {
+          select: {
+            id: true,
+            title: true,
+            createdAt: true,
+          },
+        },
+      },
     });
 
     response.status(200).json(post);

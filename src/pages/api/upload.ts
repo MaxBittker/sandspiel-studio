@@ -37,11 +37,16 @@ export default async function handler(
       },
     });
 
+    let parentId = request.body.parentId
+      ? parseInt(request.body.parentId)
+      : undefined;
+
     const newPost = await prisma.post.create({
       data: {
-        title: "test post",
+        title: "untitled",
         code: request.body.code,
         public: false,
+        parentId: parentId,
       },
     });
 

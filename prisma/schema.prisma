@@ -1,15 +1,22 @@
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("PLANETSCALE_PRISMA_DATABASE_URL")
+    provider             = "mysql"
+    url                  = env("PLANETSCALE_PRISMA_DATABASE_URL")
+    referentialIntegrity = "prisma"
+
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
-    title     String?  @db.VarChar(255)
+    id       Int     @id @default(autoincrement())
+    title    String? @db.VarChar(255)
+    parentId Int?    @unique
+    parent   Post?   @relation("PostTree", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    children Post[]  @relation("PostTree")
+
     createdAt DateTime @default(now()) @db.Timestamp(6)
     code      String   @db.MediumText
     public    Boolean  @default(false)

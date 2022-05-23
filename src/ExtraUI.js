@@ -54,6 +54,7 @@ const ExtraUI = ({}) => {
           onClick={() => {
             let xmls = prepareXMLs();
             let thumbnail = snapshot();
+            let id = window.location.pathname.slice(6);
 
             let buffer = encode({
               width,
@@ -70,6 +71,7 @@ const ExtraUI = ({}) => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
+                parentId: id,
                 code: JSON.stringify(
                   {
                     selectedElement: useStore.getState().selectedElement,
