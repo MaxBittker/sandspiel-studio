@@ -11,6 +11,8 @@ let useStore = create((set, get) => ({
   taggedMode: false,
   paused: false,
   size: 3,
+  parent: null,
+  children: null,
   setSize: (e) => set(() => ({ size: e })),
   setPaused: (e) => set(() => ({ paused: e })),
   setSelected: (e) => set(() => ({ selectedElement: e })),

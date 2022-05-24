@@ -102,3 +102,17 @@ summary {
   /* image-rendering: pixelated; */
   /* opacity: 0.5; */
 }
+
+.family img {
+  width: 100px;
+}
+.family .title {
+  position: absolute;
+}
+.family {
+  display: flex;
+  flex-direction: column;
+}
+.post-group {
+  display: flex;
+}

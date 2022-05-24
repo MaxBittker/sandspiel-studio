@@ -7,8 +7,9 @@ import { useStore } from "./store";
 import * as vkbeautify from "vkbeautify";
 import { base64ArrayBuffer } from "./base64ArrayBuffer";
 import PlayPause from "./PlayPauseButton";
+import Family from "./Family";
 import SizeButtons from "./SizeButtons";
-const imageURLBase =
+export const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
 function prepareXMLs() {
@@ -128,7 +129,7 @@ const ExtraUI = ({}) => {
             <pre style={{ fontSize: "1rem", color: "blue" }}>
               {window.location.href}
             </pre>
-            <img src={`${imageURLBase}${id}.png`}></img>
+            export <img src={`${imageURLBase}${id}.png`}></img>
           </>
         )}
         <br />
@@ -167,6 +168,7 @@ const ExtraUI = ({}) => {
             Export to Clipboard {copiedState}
           </button>
         )}
+        <Family />
 
         <img className="wordmark" src="/sandspiel.png"></img>
       </div>

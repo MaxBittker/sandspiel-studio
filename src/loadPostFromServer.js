@@ -41,6 +41,7 @@ export async function loadPostFromServer() {
         //beta legacy lol
         useStore.getState().setXmls(code);
       } else {
+        let { parent, children } = data;
         let { xmls, selectedElement, paused, size } = code;
         useStore.getState().setXmls(xmls);
         useStore.getState().setSelected(selectedElement);
@@ -49,6 +50,8 @@ export async function loadPostFromServer() {
         useStore.setState({
           initialSelected: selectedElement,
           paused,
+          parent,
+          children,
           size: size ?? 3,
         });
       }
