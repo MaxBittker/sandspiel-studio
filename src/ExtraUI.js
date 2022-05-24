@@ -74,6 +74,7 @@ const ExtraUI = ({}) => {
                 parentId: id,
                 code: JSON.stringify(
                   {
+                    paused: useStore.getState().paused,
                     selectedElement: useStore.getState().selectedElement,
                     xmls: xmls,
                   },
