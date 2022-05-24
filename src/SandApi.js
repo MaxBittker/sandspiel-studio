@@ -14,9 +14,8 @@ export let sands = new Uint8Array(cellCount * 4);
 
 let inertMode = false;
 let t = 0;
-function randomData(t2 = 0) {
-  var value = noise.simplex2(t / 2, t2 / 2);
-  t++;
+function randomData(x, y) {
+  var value = noise.simplex3(x / 3, y / 3, t / 5);
   let d = ((value + 1) * 50) | 0;
 
   return d;
@@ -126,7 +125,7 @@ function getSand(x, y, o = 0) {
   return sands[getIndex(x, y) + o];
 }
 export function initSand([x, y], v) {
-  setSand(x, y, v, randomData(y), 0, 0);
+  setSand(x, y, v, randomData(x, y), 0, 0);
 }
 export function setSand(x, y, v, ra, rb, rc) {
   if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -165,7 +164,7 @@ function setSandRelative([x, y], v, ra, rb, rc) {
   if (v !== undefined) {
     if (sands[i] == v) return; // bail to not  reset ra/rb/rc on no-ops
     sands[i] = v;
-    ra = ra || randomData(y);
+    ra = ra || randomData(x, y);
     rb = rb || 0;
     rc = rc || 0;
   }
@@ -515,6 +514,7 @@ export const fireEvent = (offset) => {
 };
 
 export const tick = () => {
+  t++;
   const scheme = UPDATE_SCHEMES[globalState.updateScheme || "RANDOM_CYCLIC"];
   if (typeof scheme === "function") scheme(scheme);
   else scheme.tick(scheme);
@@ -523,9 +523,10 @@ export const tick = () => {
 export const seed = () => {
   for (var i = 0; i < sands.length; i += 4) {
     let x = (i / 4) % width;
+    let y = Math.floor(i / 4 / width);
 
     sands[i] = 0;
-    sands[i + 1] = randomData(x);
+    sands[i + 1] = randomData(x, y);
     sands[i + 2] = 0;
     sands[i + 3] = 0;
   }
