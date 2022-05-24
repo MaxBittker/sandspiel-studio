@@ -117,15 +117,23 @@ const Sand = () => {
             (e.clientY - bounds.top) * (height / bounds.height)
           );
           let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
-
+          let { size } = useStore.getState();
           points.forEach(({ x, y }) => {
             x = Math.round(x);
             y = Math.round(y);
-            initSand([x, y], selectedElement);
-            initSand([x - 1, y], selectedElement);
-            initSand([x, y - 1], selectedElement);
-            initSand([x, y + 1], selectedElement);
-            initSand([x + 1, y], selectedElement);
+            let r = size / 2;
+            for (let dx = -r; dx <= r; dx += 1) {
+              for (let dy = -r; dy <= r; dy += 1) {
+                let rr = dx * dx + dy * dy;
+                if (rr > r * r) {
+                  continue;
+                }
+                initSand(
+                  [Math.floor(x + dx), Math.floor(y + dy)],
+                  selectedElement
+                );
+              }
+            }
           });
           prevPos = [eX, eY];
         }}

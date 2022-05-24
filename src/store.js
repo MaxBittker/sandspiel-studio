@@ -10,6 +10,8 @@ let useStore = create((set, get) => ({
   updateScheme: "RANDOM_CYCLIC",
   taggedMode: false,
   paused: false,
+  size: 3,
+  setSize: (e) => set(() => ({ size: e })),
   setPaused: (e) => set(() => ({ paused: e })),
   setSelected: (e) => set(() => ({ selectedElement: e })),
   setUpdateScheme: (e) => set(() => ({ updateScheme: e })),

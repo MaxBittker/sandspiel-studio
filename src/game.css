@@ -74,6 +74,17 @@ button:hover {
   flex-direction: column;
   flex-wrap: wrap;
 }
+.first-row {
+  display: flex;
+  justify-content: space-between;
+}
+.first-row span {
+  display: flex;
+}
+.first-row * {
+  flex-grow: 0;
+}
+
 textarea#json {
   width: 100%;
   height: 60px;

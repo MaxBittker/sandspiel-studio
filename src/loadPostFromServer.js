@@ -41,12 +41,16 @@ export async function loadPostFromServer() {
         //beta legacy lol
         useStore.getState().setXmls(code);
       } else {
-        let { xmls, selectedElement, paused } = code;
+        let { xmls, selectedElement, paused, size } = code;
         useStore.getState().setXmls(xmls);
         useStore.getState().setSelected(selectedElement);
         useStore.setState({ initialSelected: selectedElement });
 
-        useStore.setState({ initialSelected: selectedElement, paused });
+        useStore.setState({
+          initialSelected: selectedElement,
+          paused,
+          size: size ?? 3,
+        });
       }
     });
 }

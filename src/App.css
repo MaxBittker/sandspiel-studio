@@ -24,7 +24,9 @@ body {
   height: 100vh;
   transition: filter 100ms ease-in;
 }
-
+.selected svg {
+  fill: white;
+}
 #blocklyDiv * {
   font-family: "Inter", sans-serif;
 }

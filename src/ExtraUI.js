@@ -7,6 +7,7 @@ import { useStore } from "./store";
 import * as vkbeautify from "vkbeautify";
 import { base64ArrayBuffer } from "./base64ArrayBuffer";
 import PlayPause from "./PlayPauseButton";
+import SizeButtons from "./SizeButtons";
 const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
@@ -30,15 +31,22 @@ const ExtraUI = ({}) => {
 
   return (
     <div className="extras-tray">
-      <PlayPause />
-      <button
-        className="simulation-button"
-        onClick={() => {
-          tick();
-        }}
-      >
-        Step
-      </button>
+      <div className="first-row">
+        <span>
+          <PlayPause />
+          <button
+            className="simulation-button"
+            onClick={() => {
+              tick();
+            }}
+          >
+            Step
+          </button>
+        </span>
+
+        <SizeButtons />
+      </div>
+
       <button
         className="simulation-button"
         onClick={() => {
@@ -47,7 +55,8 @@ const ExtraUI = ({}) => {
       >
         Reset
       </button>
-
+      <br></br>
+      <br></br>
       <div>
         <button
           className="simulation-button"
@@ -75,6 +84,7 @@ const ExtraUI = ({}) => {
                 code: JSON.stringify(
                   {
                     paused: useStore.getState().paused,
+                    size: useStore.getState().size,
                     selectedElement: useStore.getState().selectedElement,
                     xmls: xmls,
                   },
