@@ -17,6 +17,7 @@ const PostLink = ({ post }) => {
 const Family = ({}) => {
   const parent = useStore((state) => state.parent);
   const children = useStore((state) => state.children);
+  const hasChildren = children && children.length ? true : null;
   return (
     <div className="family">
       {parent && (
@@ -28,7 +29,7 @@ const Family = ({}) => {
           </div>
         </>
       )}
-      {children && (
+      {hasChildren && (
         <>
           <div className="post-group">
             <span className="group-title"> Children:</span>
