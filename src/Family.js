@@ -21,16 +21,18 @@ const Family = ({}) => {
     <div className="family">
       {parent && (
         <>
-          Parent:
           <div className="post-group">
+            <span className="group-title"> Parent:</span>
+
             <PostLink post={parent} />
           </div>
         </>
       )}
       {children && (
         <>
-          Children:
           <div className="post-group">
+            <span className="group-title"> Children:</span>
+
             <div className="children">
               {children.map((child) => {
                 return <PostLink key={child.id} post={child} />;
