@@ -823,6 +823,7 @@ Blockly.defineBlocksWithJsonArray([
           ["-", "SUBTRACT"],
           ["×", "MULTIPLY"],
           ["÷", "DIVIDE"],
+          ["%", "MOD"],
         ],
       },
       {

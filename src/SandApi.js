@@ -323,6 +323,23 @@ function divide(a, b, aType, bType) {
   return a / b;
 }
 
+function mod(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a;
+    const [bx, by] = b;
+    return [ax % bx, ay % by];
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a;
+    return [x % b, y % b];
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b;
+    return [x % a, y % a];
+  }
+  return a % b;
+}
+
 const TRANSFORMATION_SETS = {
   ROTATION: [
     (x, y) => [x, y],
@@ -461,6 +478,7 @@ globalState.clamp = clamp;
 globalState.subtract = subtract;
 globalState.multiply = multiply;
 globalState.divide = divide;
+globalState.mod = mod;
 globalState.setTransformation = setTransformation;
 globalState.randomOffset = randomOffset;
 globalState.setRotation = setRotation;
