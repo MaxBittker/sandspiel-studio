@@ -87,6 +87,7 @@ const ExtraUI = ({}) => {
                     paused: useStore.getState().paused,
                     size: useStore.getState().size,
                     selectedElement: useStore.getState().selectedElement,
+                    disabled: useStore.getState().disabled,
                     xmls: xmls,
                   },
                   null,

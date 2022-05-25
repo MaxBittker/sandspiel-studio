@@ -134,12 +134,11 @@ Blockly.Blocks["element_literal"] = {
   },
 
   dynamicOptions: function () {
-    const elements = useStore.getState().elements;
+    const { elements, disabled } = useStore.getState();
 
-    const options = elements.map((element) => [
-      element,
-      elements.indexOf(element).toString(),
-    ]);
+    const options = elements
+      .filter((e, i) => !disabled[i])
+      .map((element) => [element, elements.indexOf(element).toString()]);
     return options;
   },
 

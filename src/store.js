@@ -19,24 +19,44 @@ let useStore = create((set, get) => ({
   setUpdateScheme: (e) => set(() => ({ updateScheme: e })),
   setTaggedMode: (e) => set(() => ({ taggedMode: e })),
   xmls: [],
+  disabled: [],
   elements: ["Air", "Wall", "Water", "Sand"],
   colors: [],
   color2s: [],
-
-  popXml: () =>
+  deleteSelectedElement: () =>
     set(() => {
-      let { xmls, setXmls } = get();
-      let d = xmls.pop();
-      bufferXMLs[xmls.length] = d;
-      setXmls(xmls);
+      let { disabled, selectedElement, elements } = get();
+      disabled[selectedElement] = true;
+
+      for (var i = 0; i < 16; i++) {
+        let candidate = (15 + selectedElement - i) % 15;
+
+        if (elements[candidate] && !disabled[candidate]) {
+          selectedElement = candidate;
+          break;
+        }
+      }
+
+      return { disabled, selectedElement };
     }),
 
-  pushXml: () =>
+  newElement: () =>
     set(() => {
-      let { xmls, setXmls } = get();
-      if (xmls.length >= 15) return;
-      xmls.push(bufferXMLs[xmls.length] ?? totalPlaceholder);
+      let { disabled, selectedElement, elements, xmls, setXmls } = get();
+
+      if (xmls.length >= 15 && disabled.length == 0) return;
+
+      for (var i = 0; i < 16; i++) {
+        if (!elements[i] || disabled[i]) {
+          delete disabled[i];
+          xmls[i] = xmls[i] ?? bufferXMLs[i] ?? totalPlaceholder;
+          selectedElement = i;
+          break;
+        }
+      }
+
       setXmls(xmls);
+      return { disabled, selectedElement };
     }),
 
   setXmls: (xmls) =>

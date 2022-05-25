@@ -42,13 +42,14 @@ export async function loadPostFromServer() {
         useStore.getState().setXmls(code);
       } else {
         let { parent, children } = data;
-        let { xmls, selectedElement, paused, size } = code;
+        let { xmls, selectedElement, paused, size, disabled } = code;
         useStore.getState().setXmls(xmls);
         useStore.getState().setSelected(selectedElement);
         useStore.setState({ initialSelected: selectedElement });
 
         useStore.setState({
           initialSelected: selectedElement,
+          disabled,
           paused,
           parent,
           children,

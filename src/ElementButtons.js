@@ -40,18 +40,21 @@ const ElementButton = ({ i, setSelected, selected, shrink }) => {
 
 const ElementButtons = ({ selectedElement, setSelected }) => {
   const elements = useStore((state) => state.elements);
+  const disabled = useStore((state) => state.disabled);
+  let enabledElements = elements.filter((_, i) => !disabled[i]);
   let [hovering, setHovering] = useState(null);
 
   return (
     <div className="element-tray">
       {elements.map((e, i) => {
+        if (disabled[i]) return null;
         return (
           <ElementButton
             key={i}
             i={i}
             setSelected={setSelected}
             selected={i === selectedElement}
-            shrink={hovering === "-" && i === elements.length - 1}
+            shrink={hovering === "-" && i === selectedElement}
           />
         );
       })}
@@ -60,16 +63,16 @@ const ElementButtons = ({ selectedElement, setSelected }) => {
         <button
           onMouseEnter={() => setHovering("-")}
           className={"simulation-button element-control"}
-          onClick={() => useStore.getState().popXml()}
+          onClick={() => useStore.getState().deleteSelectedElement()}
         >
           -
         </button>
 
-        {elements.length < 15 && (
+        {enabledElements.length < 15 && (
           <button
             onMouseEnter={() => setHovering("+")}
             className={"simulation-button element-control "}
-            onClick={() => useStore.getState().pushXml()}
+            onClick={() => useStore.getState().newElement()}
           >
             +
           </button>
