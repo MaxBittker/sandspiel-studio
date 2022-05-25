@@ -106,9 +106,6 @@ const Sand = () => {
         onMouseUp={() => setIsDrawing(false)}
         onMouseOut={() => setIsDrawing(false)}
         onMouseMove={(e) => {
-          if (!isDrawing) {
-            return;
-          }
           let bounds = canvas.current.getBoundingClientRect();
           let eX = Math.round(
             (e.clientX - bounds.left) * (width / bounds.width)
@@ -116,8 +113,12 @@ const Sand = () => {
           let eY = Math.round(
             (e.clientY - bounds.top) * (height / bounds.height)
           );
+          let { size, setPos } = useStore.getState();
+          setPos([eX, eY]);
+          if (!isDrawing) {
+            return;
+          }
           let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
-          let { size } = useStore.getState();
           points.forEach(({ x, y }) => {
             x = Math.round(x);
             y = Math.round(y);

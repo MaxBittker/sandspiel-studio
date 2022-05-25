@@ -29,7 +29,13 @@ const ExtraUI = ({}) => {
   let [id, setId] = useState(null);
   let [copiedState, setCopiedState] = useState(null);
   let [sharedState, setSharedState] = useState(null);
-
+  const pos = useStore((state) => state.pos);
+  const elements = useStore((state) => state.elements);
+  let index = (pos[0] + pos[1] * width) * 4;
+  let t = sands[index];
+  let g = sands[index + 1];
+  let b = sands[index + 2];
+  let a = sands[index + 3];
   return (
     <div className="extras-tray">
       <div className="first-row">
@@ -44,7 +50,10 @@ const ExtraUI = ({}) => {
             Step
           </button>
         </span>
-
+        <pre style={{ width: 120 }}>
+          {t !== undefined &&
+            `${elements[t]}\n${g} Color Fade\n${b} Hue Rotate\n${a} Extra`}
+        </pre>
         <SizeButtons />
       </div>
 

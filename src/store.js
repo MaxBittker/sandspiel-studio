@@ -5,6 +5,8 @@ let bufferXMLs = starterXMLs;
 let totalPlaceholder =
   '<xml xmlns="https://developers.google.com/blockly/xml"><block type="sand_behavior_base"  deletable="false" x="40" y="100"><field name="ELEMENT_NAME">???</field><field name="COLOR">#af3aff</field><field name="COLOR2">#ffba2a</field></block></xml>';
 let useStore = create((set, get) => ({
+  pos: [0, 0],
+  setPos: (e) => set(() => ({ pos: e })),
   selectedElement: 0,
   initialSelected: 3,
   updateScheme: "RANDOM_CYCLIC",

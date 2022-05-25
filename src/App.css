@@ -18,7 +18,9 @@ body {
   margin: 0;
   background-size: 70px;
 }
-
+pre {
+  margin: 0;
+}
 #blocklyDiv {
   width: 100%;
   height: 100vh;
