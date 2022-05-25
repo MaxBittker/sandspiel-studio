@@ -1,5 +1,5 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
-import { globalState } from "./store.js";
+import { globalState, useStore } from "./store.js";
 import { ChebyshevRotate } from "./Chebyshev.js";
 import noise from "./perlin";
 noise.seed(Math.random());
@@ -436,8 +436,16 @@ function getKeyBoardVector() {
   }
   return [x, y];
 }
+function getCursorDistance() {
+  let { pos } = useStore.getState();
+  return Math.floor(
+    Math.sqrt(Math.pow(pos[0] - aX, 2) + Math.pow(pos[1] - aY, 2))
+  );
+}
+
 globalState.keys = keys;
 globalState.getKeyBoardVector = getKeyBoardVector;
+globalState.getCursorDistance = getCursorDistance;
 globalState.getSandRelative = getSandRelative;
 globalState.setSandRelative = setSandRelative;
 globalState.swapSandRelative = swapSandRelative;

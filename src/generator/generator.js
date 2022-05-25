@@ -136,15 +136,15 @@ Blockly.JavaScript["vector_constant"] = function (block) {
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
-Blockly.JavaScript["print"] = function (block) {
-  const message = Blockly.JavaScript.valueToCode(
-    block,
-    "MESSAGE",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  const code = `console.log(${message})`;
-  return code;
-};
+// Blockly.JavaScript["print"] = function (block) {
+//   const message = Blockly.JavaScript.valueToCode(
+//     block,
+//     "MESSAGE",
+//     Blockly.JavaScript.ORDER_ATOMIC
+//   );
+//   const code = `console.log(${message})`;
+//   return code;
+// };
 
 Blockly.JavaScript["string_literal"] = function (block) {
   const string = block.getFieldValue("VALUE");
@@ -165,6 +165,12 @@ Blockly.JavaScript["change_into"] = function (block) {
   );
   const code = `this.setSandRelative(${cell}, ${element});\n`;
   return code;
+};
+Blockly.JavaScript["cursor_distance"] = function (block) {
+  return [`this.getCursorDistance()`, Blockly.JavaScript.ORDER_ATOMIC];
+};
+Blockly.JavaScript["keyboard_vector"] = function (block) {
+  return [`this.getKeyBoardVector()`, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript["set_r_cell"] = function (block) {

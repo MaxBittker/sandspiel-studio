@@ -607,6 +607,24 @@ Blockly.Blocks["random_number"] = {
     this.setHelpUrl("");
   },
 };
+Blockly.Blocks["keyboard_vector"] = {
+  init: function () {
+    this.appendDummyInput().appendField("arrow keys direction");
+    this.setOutput(true, "Vector");
+    this.setColour(260);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+Blockly.Blocks["cursor_distance"] = {
+  init: function () {
+    this.appendDummyInput().appendField("distance from cursor");
+    this.setOutput(true, "Number");
+    this.setColour(210);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
 
 Blockly.Blocks["string_literal"] = {
   init: function () {
