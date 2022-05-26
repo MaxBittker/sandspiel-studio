@@ -13,7 +13,7 @@ datasource db {
 model Post {
     id       Int     @id @default(autoincrement())
     title    String? @db.VarChar(255)
-    parentId Int?    @unique
+    parentId Int?
     parent   Post?   @relation("PostTree", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     children Post[]  @relation("PostTree")
 
