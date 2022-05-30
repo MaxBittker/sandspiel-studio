@@ -169,6 +169,7 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+      <Block type="comment"></Block>
     </>
   );
 }

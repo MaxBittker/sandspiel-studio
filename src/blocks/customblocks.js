@@ -1595,3 +1595,16 @@ Blockly.Extensions.registerMutator("modify_r_mutator", {
     }
   },
 });
+
+Blockly.Blocks["comment"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldLabelSerializable("note:"), "NOTE")
+      .appendField(new Blockly.FieldTextInput("    "), "COMMENT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};

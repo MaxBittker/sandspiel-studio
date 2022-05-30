@@ -667,3 +667,8 @@ Blockly.JavaScript["modify_r_cell_flexible"] = function (block) {
     return `this.setSandRelative(${cell}, undefined, undefined, undefined, ${valueCode});\n`;
   }
 };
+
+Blockly.JavaScript["comment"] = function (block) {
+  const comment = block.getFieldValue("DATA");
+  return `// ${comment}\n`;
+};
