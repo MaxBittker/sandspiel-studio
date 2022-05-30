@@ -3,6 +3,7 @@ import Head from "next/head";
 import App from "next/app";
 import Script from "next/script";
 import { useRouter } from "next/router";
+import { SessionProvider } from "next-auth/react";
 import CreateReactAppEntryPoint from "../App";
 
 import "../index.css";
@@ -45,7 +46,10 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:image" content={ogImageSrc} />
       </Head>
       <SafeHydrate>
-        <CreateReactAppEntryPoint {...pageProps} />
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+          <CreateReactAppEntryPoint {...pageProps} />
+        </SessionProvider>
+
         <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
         <noscript>
           {/* eslint-disable @next/next/no-img-element */}

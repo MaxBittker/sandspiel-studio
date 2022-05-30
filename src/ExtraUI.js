@@ -9,6 +9,8 @@ import { base64ArrayBuffer } from "./base64ArrayBuffer";
 import PlayPause from "./PlayPauseButton";
 import Family from "./Family";
 import SizeButtons from "./SizeButtons";
+import { useSession, signIn, signOut } from "next-auth/react";
+
 export const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
@@ -25,6 +27,32 @@ function prepareExport() {
   let json = JSON.stringify(minifiedXmls, null, " ");
   return json;
 }
+const Home = () => {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <h1>Loading...</h1>;
+  }
+  if (session) {
+    return (
+      <>
+        Signed in as {session.user?.email} <br />
+        <button type="button" onClick={() => signOut()}>
+          Sign out
+        </button>
+      </>
+    );
+  }
+  return (
+    <>
+      Not signed in <br />
+      <button type="button" onClick={() => signIn()}>
+        Sign in
+      </button>
+    </>
+  );
+};
+
 const ExtraUI = ({}) => {
   let [id, setId] = useState(null);
   let [copiedState, setCopiedState] = useState(null);
@@ -179,6 +207,7 @@ const ExtraUI = ({}) => {
           </button>
         )}
         <Family />
+        <Home />
 
         <img className="wordmark" src="/sandspiel.png"></img>
       </div>
