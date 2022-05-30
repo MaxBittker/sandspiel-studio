@@ -7,13 +7,14 @@ r&d ca editor
 ### Installation
 
 ```
-npm install
+yarn install
+yarn build
 ```
 
 ### Running
 
 ```
-npm run start
+yarn dev
 ```
 
 ### Browse
