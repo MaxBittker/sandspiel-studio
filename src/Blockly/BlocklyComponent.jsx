@@ -55,6 +55,13 @@ let CustomConstantsProvider = function () {
   this.STATEMENT_INPUT_PADDING_LEFT = 12;
 
   this.FIELD_DROPDOWN_COLOURED_DIV = true;
+
+  this.CORNER_RADIUS = 4; //default: 4
+  this.FULL_BLOCK_FIELDS = true;
+  this.MIN_BLOCK_WIDTH = 4; //default: 8
+  this.MEDIUM_PADDING = 8; //default: 8
+  this.NOTCH_OFFSET_LEFT = 12; //default: 12
+  this.NOTCH_WIDTH = 36; //default: 36
 };
 Blockly.utils.object.inherits(
   CustomConstantsProvider,

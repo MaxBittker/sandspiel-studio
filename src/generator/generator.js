@@ -634,7 +634,7 @@ Blockly.JavaScript["set_r_cell_flexible"] = function (block) {
   const field = block.getFieldValue("DATA");
   const valueCode = `this.clamp(${value}, 0, 100)`;
   if (field === "ELEMENT") {
-    return `this.setSandRelative(${cell}, ${value})`;
+    return `this.setSandRelative(${cell}, ${value});\n`;
   } else if (field === "RA") {
     return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
@@ -659,7 +659,10 @@ Blockly.JavaScript["modify_r_cell_flexible"] = function (block) {
   const field = block.getFieldValue("DATA");
   const offset = getOffset(field);
   const valueCode = `this.clamp(this.getSandRelative(${cell}, ${offset})  + ${value}, 0, 100) `;
-  if (field === "RA") {
+
+  if (field === "ELEMENT") {
+    return `this.setSandRelative(${cell}, this.getSandRelative(${cell}, ${offset})  + ${value});\n`;
+  } else if (field === "RA") {
     return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
     return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;

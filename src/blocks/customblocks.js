@@ -598,9 +598,9 @@ Blockly.Blocks["set_data_cell"] = {
 Blockly.Blocks["random_number"] = {
   init: function () {
     this.appendDummyInput().appendField("random between");
-    this.appendValueInput("MIN").setCheck("Number");
+    this.appendValueInput("MIN").setCheck(["Number", "Element", "Group"]);
     this.appendDummyInput().appendField("and");
-    this.appendValueInput("MAX").setCheck("Number");
+    this.appendValueInput("MAX").setCheck(["Number", "Element", "Group"]);
     this.setOutput(true, "Number");
     this.setColour(210);
     this.setTooltip("");
@@ -1086,6 +1086,7 @@ Blockly.Blocks["boolean_operation_vertical"] = {
   },
 };
 const registers = [
+  ["Type", "ELEMENT"],
   ["Color Fade »", "RA"],
   ["Hue Rotate", "RB"],
   ["Extra Data", "RC"],
