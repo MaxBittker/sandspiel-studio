@@ -146,8 +146,8 @@ export function ToolboxBlocks() {
         <Field name="VALUE">TRUE</Field>
       </Block>
       <Block type="not"></Block>
-      <Block type="keyboard_vector"></Block>
       <Block type="key_pressed"></Block>
+      <Block type="keyboard_vector"></Block>
       {/* <Block type="cursor_distance"></Block> */}
 
       <Block type="get_r_cell_flexible">
