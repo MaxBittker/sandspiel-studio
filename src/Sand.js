@@ -12,7 +12,17 @@ let dpi = 4;
 globalState.updaters = useStore.getState().elements.map(() => {
   return (() => {}).bind(globalState);
 });
+
 const Sand = () => {
+  let starterWidth = Math.min(
+    window.innerWidth / 2.5,
+    window.innerHeight * 0.6
+  );
+  let mobile = false;
+  if (window.innerWidth < 900) {
+    starterWidth = window.innerWidth;
+    mobile = true;
+  }
   const selectedElement = useStore((state) => state.selectedElement);
   const updateScheme = useStore((state) => state.updateScheme);
   const taggedMode = useStore((state) => state.taggedMode);
@@ -50,9 +60,7 @@ const Sand = () => {
     fps.render(d);
   }, []);
 
-  const [drawerWidth, setWidth] = useState(
-    Math.min(window.innerWidth / 2.5, window.innerHeight * 0.6)
-  );
+  const [drawerWidth, setWidth] = useState(starterWidth);
   const [isDragging, setIsDragging] = useState(false);
   let mouseMove = useCallback((e) => {
     e.preventDefault();
@@ -77,6 +85,37 @@ const Sand = () => {
       window.removeEventListener("mouseup", mouseUp);
     };
   }, [isDragging, mouseMove, mouseUp]);
+
+  let mouseMoveCanvas = useCallback(
+    (e) => {
+      let bounds = canvas.current.getBoundingClientRect();
+      let eX = Math.round((e.clientX - bounds.left) * (width / bounds.width));
+      let eY = Math.round((e.clientY - bounds.top) * (height / bounds.height));
+      let { size, setPos } = useStore.getState();
+      setPos([eX, eY]);
+      if (!isDrawing) {
+        return;
+      }
+      let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
+      points.forEach(({ x, y }) => {
+        x = Math.round(x);
+        y = Math.round(y);
+        let r = size / 2;
+        for (let dx = -r; dx <= r; dx += 1) {
+          for (let dy = -r; dy <= r; dy += 1) {
+            let rr = dx * dx + dy * dy;
+            if (rr > r * r) {
+              continue;
+            }
+            initSand([Math.floor(x + dx), Math.floor(y + dy)], selectedElement);
+          }
+        }
+      });
+      prevPos = [eX, eY];
+    },
+    [isDrawing]
+  );
+
   return (
     <div id="world" style={{ width: drawerWidth }}>
       <div
@@ -105,49 +144,47 @@ const Sand = () => {
         }}
         onMouseUp={() => setIsDrawing(false)}
         onMouseOut={() => setIsDrawing(false)}
-        onMouseMove={(e) => {
-          let bounds = canvas.current.getBoundingClientRect();
-          let eX = Math.round(
-            (e.clientX - bounds.left) * (width / bounds.width)
-          );
-          let eY = Math.round(
-            (e.clientY - bounds.top) * (height / bounds.height)
-          );
-          let { size, setPos } = useStore.getState();
-          setPos([eX, eY]);
-          if (!isDrawing) {
+        onMouseMove={mouseMoveCanvas}
+        onTouchStart={(e) => {
+          let touches = Array.from(e.touches);
+          if (touches.length < 1) {
             return;
           }
-          let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
-          points.forEach(({ x, y }) => {
-            x = Math.round(x);
-            y = Math.round(y);
-            let r = size / 2;
-            for (let dx = -r; dx <= r; dx += 1) {
-              for (let dy = -r; dy <= r; dy += 1) {
-                let rr = dx * dx + dy * dy;
-                if (rr > r * r) {
-                  continue;
-                }
-                initSand(
-                  [Math.floor(x + dx), Math.floor(y + dy)],
-                  selectedElement
-                );
-              }
-            }
-          });
+          let touch = touches[0];
+
+          let bounds = canvas.current.getBoundingClientRect();
+          let eX = Math.round(
+            (touch.clientX - bounds.left) * (width / bounds.width)
+          );
+          let eY = Math.round(
+            (touch.clientY - bounds.top) * (height / bounds.height)
+          );
+
           prevPos = [eX, eY];
+        }}
+        onTouchMove={(e) => {
+          let touches = Array.from(e.touches);
+          if (touches.length < 1) {
+            return;
+          }
+          let touch = touches[0];
+          e.clientX = touch.clientX;
+          e.clientY = touch.clientY;
+          setIsDrawing(true);
+          mouseMoveCanvas(e);
         }}
         ref={canvas}
         height={height * dpi}
         width={width * dpi}
       />
+
       <ExtraUI
         updateScheme={updateScheme}
         setUpdateScheme={setUpdateScheme}
         taggedMode={taggedMode}
         setTaggedMode={setTaggedMode}
       />
+      {mobile && <h2> &nbsp; To edit elements, use a bigger screen!</h2>}
     </div>
   );
 };
