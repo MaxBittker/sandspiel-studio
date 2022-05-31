@@ -113,7 +113,7 @@ const Sand = () => {
       });
       prevPos = [eX, eY];
     },
-    [isDrawing]
+    [isDrawing, selectedElement]
   );
 
   return (
