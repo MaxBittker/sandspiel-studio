@@ -9,6 +9,8 @@ import { base64ArrayBuffer } from "./base64ArrayBuffer";
 import PlayPause from "./PlayPauseButton";
 import Family from "./Family";
 import SizeButtons from "./SizeButtons";
+import { useSession, signIn, signOut } from "next-auth/react";
+
 export const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
@@ -25,10 +27,38 @@ function prepareExport() {
   let json = JSON.stringify(minifiedXmls, null, " ");
   return json;
 }
+const Home = () => {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <h1>Loading...</h1>;
+  }
+  if (session) {
+    return (
+      <>
+        Signed in as {session.user?.email} <br />
+        <button type="button" onClick={() => signOut()}>
+          Sign out
+        </button>
+      </>
+    );
+  }
+  return (
+    <>
+      Not signed in <br />
+      <button type="button" onClick={() => signIn()}>
+        Sign in
+      </button>
+    </>
+  );
+};
+
 const ExtraUI = ({}) => {
   let [id, setId] = useState(null);
   let [copiedState, setCopiedState] = useState(null);
   let [sharedState, setSharedState] = useState(null);
+  const paused = useStore((state) => state.paused);
+
   const pos = useStore((state) => state.pos);
   const elements = useStore((state) => state.elements);
   let index = (pos[0] + pos[1] * width) * 4;
@@ -36,24 +66,34 @@ const ExtraUI = ({}) => {
   let g = sands[index + 1];
   let b = sands[index + 2];
   let a = sands[index + 3];
+
+  let mobile = false;
+  if (window.innerWidth < 900) {
+    mobile = true;
+  }
+
   return (
     <div className="extras-tray">
       <div className="first-row">
         <span>
           <PlayPause />
-          <button
-            className="simulation-button"
-            onClick={() => {
-              tick();
-            }}
-          >
-            Step
-          </button>
+          {paused && (
+            <button
+              className="simulation-button"
+              onClick={() => {
+                tick();
+              }}
+            >
+              Step
+            </button>
+          )}
         </span>
-        <pre style={{ width: 120 }}>
-          {t !== undefined &&
-            `${elements[t]}\n${g} Color Fade\n${b} Hue Rotate\n${a} Extra`}
-        </pre>
+        {!mobile && (
+          <pre style={{ width: 120 }}>
+            {t !== undefined &&
+              `${elements[t]}\n${g} Color Fade\n${b} Hue Rotate\n${a} Extra`}
+          </pre>
+        )}
         <SizeButtons />
       </div>
 
@@ -179,6 +219,7 @@ const ExtraUI = ({}) => {
           </button>
         )}
         <Family />
+        <Home />
 
         <img className="wordmark" src="/sandspiel.png"></img>
       </div>
