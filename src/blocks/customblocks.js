@@ -171,7 +171,7 @@ Blockly.Blocks["element_cell"] = {
 Blockly.defineBlocksWithJsonArray([
   {
     type: "if",
-    message0: "if %1 %2 then %3 %4",
+    message0: "if %1 %2 %3",
     args0: [
       {
         type: "input_dummy",
@@ -180,9 +180,6 @@ Blockly.defineBlocksWithJsonArray([
         type: "input_value",
         name: "CONDITION",
         check: "Boolean",
-      },
-      {
-        type: "input_dummy",
       },
       {
         type: "input_statement",
@@ -195,8 +192,144 @@ Blockly.defineBlocksWithJsonArray([
     colour: 330,
     tooltip: "",
     helpUrl: "",
+    mutator: "if_mutator",
   },
 ]);
+Blockly.Extensions.unregister("if_mutator");
+Blockly.Extensions.registerMutator(
+  "if_mutator",
+  {
+    mutationToDom() {
+      var container = Blockly.utils.xml.createElement("mutation");
+      container.setAttribute("elseCount", this.elseCount);
+      container.setAttribute("endsWithIf", this.endsWithIf);
+      return container;
+    },
+    domToMutation(mutation) {
+      const block = this;
+
+      block.elseCount = parseInt(mutation.getAttribute("elseCount"));
+      if (isNaN(block.elseCount)) {
+        block.elseCount = 0;
+      }
+
+      block.endsWithIf = mutation.getAttribute("endsWithIf");
+      if (block.endsWithIf === "false") {
+        block.endsWithIf = false;
+      } else {
+        block.endsWithIf = true;
+      }
+      block.rebuild();
+    },
+
+    rebuild() {
+      const block = this;
+
+      block.removeInput("PLUS", true);
+
+      let elseId = 0;
+      while (block.getInput(`ELSE${elseId}`) !== null) {
+        if (elseId >= this.elseCount) {
+          block.removeInput(`ELSE${elseId}`);
+          block.removeInput(`THEN${elseId}`);
+          block.removeInput(`ELSE_CONDITION${elseId}`, true);
+        }
+        block.removeInput(`MINUS${elseId}`, true);
+        elseId++;
+      }
+
+      if (
+        block.getInput(`ELSE${block.elseCount - 1}`) !== null &&
+        block.getInput(`MINUS${block.elseCount - 1}`) === null
+      ) {
+        block.removeInput(`THEN${block.elseCount - 1}`);
+
+        const minusField = new Blockly.FieldImage(
+          "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
+          15,
+          15,
+          { alt: "*", flipRtl: "FALSE" }
+        );
+        block
+          .appendDummyInput(`MINUS${block.elseCount - 1}`)
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField(minusField);
+
+        minusField.setOnClickHandler(function (e) {
+          block.elseCount--;
+          block.rebuild();
+        });
+
+        if (minusField.imageElement_ !== null) {
+          minusField.imageElement_.style["cursor"] = "pointer";
+        }
+
+        block.appendStatementInput(`THEN${block.elseCount - 1}`);
+      }
+
+      for (let i = 0; i < block.elseCount; i++) {
+        if (block.getInput(`ELSE${i}`) !== null) continue;
+
+        const isElseIf = i < block.elseCount - 1 || block.endsWithIf;
+        const elseText = isElseIf ? "else if" : "else";
+        block.appendDummyInput(`ELSE${i}`).appendField(elseText);
+        if (isElseIf) {
+          block.appendValueInput(`ELSE_CONDITION${i}`).setCheck("Boolean");
+        }
+
+        if (i === block.elseCount - 1) {
+          const minusField = new Blockly.FieldImage(
+            "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
+            15,
+            15,
+            { alt: "*", flipRtl: "FALSE" }
+          );
+          block
+            .appendDummyInput(`MINUS${i}`)
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField(minusField);
+
+          minusField.setOnClickHandler(function (e) {
+            block.elseCount--;
+            block.rebuild();
+          });
+
+          if (minusField.imageElement_ !== null) {
+            minusField.imageElement_.style["cursor"] = "pointer";
+          }
+        }
+
+        block.appendStatementInput(`THEN${i}`);
+
+        const shadow = globalState.workspace.newBlock("bool_literal");
+        const input = block.getInput(`ELSE_CONDITION${i}`);
+        shadow.setShadow(true);
+        shadow.initSvg();
+        shadow.render();
+        input.connection.connect(shadow.outputConnection);
+      }
+
+      const input = block.appendDummyInput("PLUS");
+      input.setAlign(Blockly.ALIGN_RIGHT);
+
+      const plusField = new Blockly.FieldImage(
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTBoLTR2LTRjMC0xLjEwNC0uODk2LTItMi0ycy0yIC44OTYtMiAybC4wNzEgNGgtNC4wNzFjLTEuMTA0IDAtMiAuODk2LTIgMnMuODk2IDIgMiAybDQuMDcxLS4wNzEtLjA3MSA0LjA3MWMwIDEuMTA0Ljg5NiAyIDIgMnMyLS44OTYgMi0ydi00LjA3MWw0IC4wNzFjMS4xMDQgMCAyLS44OTYgMi0ycy0uODk2LTItMi0yeiIgZmlsbD0id2hpdGUiIC8+PC9zdmc+Cg==",
+        15,
+        15,
+        { alt: "*", flipRtl: "FALSE" }
+      );
+      input.appendField(plusField);
+      plusField.setOnClickHandler(function (e) {
+        block.elseCount++;
+        block.rebuild();
+      });
+      if (plusField.imageElement_ !== null) {
+        plusField.imageElement_.style["cursor"] = "pointer";
+      }
+    },
+  },
+  function () {}
+);
 
 Blockly.defineBlocksWithJsonArray([
   {
