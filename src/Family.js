@@ -10,7 +10,7 @@ export const PostLink = ({ post }) => {
       style={{ fontSize: "1rem" }}
     >
       <span className="title">
-        {post.id} {post.title}
+        {post.id} {post.title} views: {post.views}
       </span>
 
       <img src={`${imageURLBase}${post.id}.png`}></img>

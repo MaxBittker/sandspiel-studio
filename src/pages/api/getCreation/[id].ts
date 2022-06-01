@@ -9,12 +9,11 @@ export default async function handler(
   response: NextApiResponse
 ) {
   try {
-    const { id } = request.query;
-    console.log(id);
+    const id = parseInt(request.query.id as string, 10);
 
     const post = await prisma.post.findUnique({
       where: {
-        id: parseInt(id as string, 10),
+        id,
       },
       include: {
         parent: {
@@ -38,6 +37,11 @@ export default async function handler(
   } catch (err) {
     throw err;
   } finally {
+    const id = parseInt(request.query.id as string, 10);
+    await prisma.post.update({
+      where: { id },
+      data: { views: { increment: 1 } },
+    });
     await prisma.$disconnect();
   }
 }

@@ -23,6 +23,7 @@ export default async function handler(
         id: true,
         createdAt: true,
         title: true,
+        views: true,
         parent: {
           select: {
             id: true,

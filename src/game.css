@@ -1,4 +1,5 @@
-button {
+button,
+input {
   height: 30px;
   min-width: 30px;
   font-size: 19px;
@@ -10,8 +11,10 @@ button {
   flex-grow: 1;
   fill: black;
   line-height: 0px;
-  cursor: pointer;
   user-select: none;
+}
+button {
+  cursor: pointer;
 }
 .simulation-button {
   z-index: 1;
