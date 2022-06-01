@@ -246,12 +246,16 @@ Blockly.Extensions.registerMutator(
       for (let i = 0; i < block.elseCount; i++) {
         if (block.getInput(`ELSE${i}`) !== null) continue;
 
-        const isElseIf = i < block.elseCount - 1 || block.endsWithIf;
-        const elseText = isElseIf ? "else if" : "else";
-        block.appendDummyInput(`ELSE${i}`).appendField(elseText);
-        if (isElseIf) {
-          block.appendValueInput(`ELSE_CONDITION${i}`).setCheck("Boolean");
+        let newElseId = i;
+        if (block.getInput(`ELSE${block.maxElseId}`) !== null) {
+          newElseId = block.maxElseId + 1;
         }
+
+        const elseText = "else if";
+        block.appendDummyInput(`ELSE${newElseId}`).appendField(elseText);
+        block
+          .appendValueInput(`ELSE_CONDITION${newElseId}`)
+          .setCheck("Boolean");
 
         const minusField = new Blockly.FieldImage(
           "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
@@ -261,19 +265,21 @@ Blockly.Extensions.registerMutator(
         );
 
         block
-          .appendDummyInput(`MINUS${i}`)
+          .appendDummyInput(`MINUS${newElseId}`)
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField(minusField);
 
+        block.maxElseId++;
+
         minusField.setOnClickHandler(function (e) {
-          if (elseId === block.maxElseId) {
+          if (newElseId === block.maxElseId) {
             block.maxElseId--;
           }
           block.elseCount--;
-          block.removeInput(`ELSE${elseId}`);
-          block.removeInput(`THEN${elseId}`);
-          block.removeInput(`ELSE_CONDITION${elseId}`, true);
-          block.removeInput(`MINUS${elseId}`, true);
+          block.removeInput(`ELSE${newElseId}`);
+          block.removeInput(`THEN${newElseId}`);
+          block.removeInput(`ELSE_CONDITION${newElseId}`, true);
+          block.removeInput(`MINUS${newElseId}`, true);
           //block.rebuild();
         });
 
@@ -281,10 +287,10 @@ Blockly.Extensions.registerMutator(
           minusField.imageElement_.style["cursor"] = "pointer";
         }
 
-        block.appendStatementInput(`THEN${i}`);
+        block.appendStatementInput(`THEN${newElseId}`);
 
         const shadow = globalState.workspace.newBlock("true_literal");
-        const input = block.getInput(`ELSE_CONDITION${i}`);
+        const input = block.getInput(`ELSE_CONDITION${newElseId}`);
         shadow.setShadow(true);
         shadow.initSvg();
         shadow.render();
@@ -303,7 +309,6 @@ Blockly.Extensions.registerMutator(
       input.appendField(plusField);
       plusField.setOnClickHandler(function (e) {
         block.elseCount++;
-        block.maxElseId++;
         block.rebuild();
       });
       if (plusField.imageElement_ !== null) {
