@@ -38,7 +38,7 @@ export default async function handler(
   let postId = undefined;
 
   const session = await getSession({ req: request });
-  const userId = session.userId as string;
+  const userId: string = session.userId as string;
 
   try {
     const storage = new Storage({
