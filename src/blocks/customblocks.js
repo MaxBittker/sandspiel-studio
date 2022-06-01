@@ -195,6 +195,8 @@ Blockly.defineBlocksWithJsonArray([
     mutator: "if_mutator",
   },
 ]);
+
+let foo = 0;
 Blockly.Extensions.unregister("if_mutator");
 Blockly.Extensions.registerMutator(
   "if_mutator",
@@ -242,6 +244,7 @@ Blockly.Extensions.registerMutator(
 
       // Build any extra else clauses that we are supposed to have!
       const newElseCount = block.elseCount - currentElseCount;
+      //console.log(newElseCount);
       for (let i = 0; i < newElseCount; i++) {
         block.maxElseId++;
         const newElseId = block.maxElseId;
@@ -256,7 +259,7 @@ Blockly.Extensions.registerMutator(
           "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
           15,
           15,
-          { alt: "*", flipRtl: "FALSE" }
+          { alt: `${newElseId}`, flipRtl: "FALSE" }
         );
 
         block
@@ -267,14 +270,17 @@ Blockly.Extensions.registerMutator(
         minusField.setOnClickHandler(function (e) {
           block.elseCount--;
 
+          // Hacky way of storing this field's ID
+          const id = parseInt(e.altText_.alt);
+
           // Remove this else clause
-          block.removeInput(`ELSE${newElseId}`);
-          block.removeInput(`THEN${newElseId}`);
-          block.removeInput(`ELSE_CONDITION${newElseId}`, true);
-          block.removeInput(`MINUS${newElseId}`, true);
+          block.removeInput(`ELSE${id}`);
+          block.removeInput(`THEN${id}`);
+          block.removeInput(`ELSE_CONDITION${id}`, true);
+          block.removeInput(`MINUS${id}`, true);
 
           // If this else clause had the max ID, find the new max ID
-          if (newElseId === block.maxElseId) {
+          if (id === block.maxElseId) {
             block.maxElseId--;
             while (
               block.maxElseId > -1 &&
