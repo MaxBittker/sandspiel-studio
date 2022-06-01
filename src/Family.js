@@ -3,13 +3,16 @@ import React from "react";
 import useStore from "./store";
 import { imageURLBase } from "./ExtraUI";
 
-const PostLink = ({ post }) => {
+export const PostLink = ({ post }) => {
   return (
     <a
       href={`${window.location.protocol}//${window.location.host}/post/${post.id}`}
       style={{ fontSize: "1rem" }}
     >
-      <span className="title">{post.id}</span>
+      <span className="title">
+        {post.id} {post.title}
+      </span>
+
       <img src={`${imageURLBase}${post.id}.png`}></img>
     </a>
   );
@@ -24,7 +27,6 @@ const Family = ({}) => {
         <>
           <div className="post-group">
             <span className="group-title"> Parent:</span>
-
             <PostLink post={parent} />
           </div>
         </>

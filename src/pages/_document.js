@@ -12,8 +12,6 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-
-          <div id="root"></div>
           <div id="fps"></div>
           <NextScript />
         </body>

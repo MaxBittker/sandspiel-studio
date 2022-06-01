@@ -4,9 +4,9 @@ import App from "next/app";
 import Script from "next/script";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
-import CreateReactAppEntryPoint from "../App";
 
 import "../index.css";
+import "../browse.css";
 import "../App.css";
 import "../game.css";
 import "../Blockly/BlocklyComponent.css";

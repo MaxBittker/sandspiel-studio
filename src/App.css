@@ -5,13 +5,6 @@
   /* font-family: "Inconsolata", monospace !important; */
 }
 
-#root {
-  justify-content: right;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  /* display: flex; */
-  /* flex-direction: column; */
-}
 body {
   background-color: rgb(225, 222, 218);
   font-family: "Inconsolata", monospace;

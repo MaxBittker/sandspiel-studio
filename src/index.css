@@ -5,21 +5,11 @@ body {
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
 }
 
 html,
 body {
   height: 100%;
-}
-
-#root {
-  height: 100%;
-}
-
-code {
-  /* font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace; */
 }
 
 /* Customize website's scrollbar like Mac OS

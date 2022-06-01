@@ -1,0 +1,9 @@
+.browse {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.browse.family img {
+  width: 200px;
+}
