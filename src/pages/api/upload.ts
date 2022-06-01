@@ -56,7 +56,7 @@ export default async function handler(
     const newPost = await prisma.post.create({
       data: {
         userId: userId ?? undefined,
-        title: "untitled",
+        title: "",
         code: request.body.code,
         public: false,
         parentId: parentId,
