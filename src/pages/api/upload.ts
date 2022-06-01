@@ -38,7 +38,7 @@ export default async function handler(
   let postId = undefined;
 
   const session = await getSession({ req: request });
-  const { userId } = session;
+  const userId = session.userId as string;
 
   try {
     const storage = new Storage({
@@ -55,7 +55,7 @@ export default async function handler(
 
     const newPost = await prisma.post.create({
       data: {
-        userId: userId,
+        userId: userId ?? undefined,
         title: "untitled",
         code: request.body.code,
         public: false,
