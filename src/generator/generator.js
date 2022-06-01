@@ -399,28 +399,27 @@ Blockly.JavaScript["not"] = function (block) {
 Blockly.JavaScript["if"] = function (block) {
   const lines = [];
 
-  const condition = Blockly.JavaScript.valueToCode(
+  let condition = Blockly.JavaScript.valueToCode(
     block,
     "CONDITION",
     Blockly.JavaScript.ORDER_ATOMIC
   );
+  if (condition === "") {
+    condition = "false";
+  }
   const then = Blockly.JavaScript.statementToCode(block, "THEN");
   lines.push(`if (${condition}) {\n${then}\n}`);
 
-  let elseId = 0;
-  let elseInput = block.getInput(`ELSE${elseId}`);
-  while (elseInput !== null) {
+  for (let i = 0; i <= block.maxElseId; i++) {
+    if (block.getInput(`ELSE${i}`) === null) continue;
     const elseCondition = Blockly.JavaScript.valueToCode(
       block,
-      `ELSE_CONDITION${elseId}`,
+      `ELSE_CONDITION${i}`,
       Blockly.JavaScript.ORDER_ATOMIC
     );
 
-    const elseThen = Blockly.JavaScript.statementToCode(block, `THEN${elseId}`);
+    const elseThen = Blockly.JavaScript.statementToCode(block, `THEN${i}`);
     lines.push(`else if (${elseCondition}) {\n${elseThen}\n}`);
-
-    elseId++;
-    elseInput = block.getInput(`ELSE${elseId}`);
   }
 
   const code = lines.join("\n");
