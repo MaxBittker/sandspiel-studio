@@ -134,8 +134,8 @@ export function ToolboxBlocks() {
                   </Shadow>
                 </Value>
               </Block> */}
-      <Block type="controls_if"></Block>
-      {/* <Block type="if"></Block> */}
+      {/*<Block type="controls_if"></Block>*/}
+      <Block type="if"></Block>
       <Block type="comparison">
         <Field name="COMPARISON">IS</Field>
       </Block>

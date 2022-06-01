@@ -24,6 +24,7 @@
 // More on generating code:
 // https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
 
+import { getEnvelopeEndpointWithUrlEncodedAuth } from "@sentry/core";
 import * as Blockly from "blockly/core";
 import "blockly/javascript";
 
@@ -368,6 +369,10 @@ Blockly.JavaScript["bool_literal"] = function (block) {
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
+Blockly.JavaScript["true_literal"] = function (block) {
+  return ["true", Blockly.JavaScript.ORDER_MEMBER];
+};
+
 Blockly.JavaScript["statement_value"] = function (block) {
   const value = Blockly.JavaScript.valueToCode(
     block,
@@ -392,13 +397,33 @@ Blockly.JavaScript["not"] = function (block) {
 };
 
 Blockly.JavaScript["if"] = function (block) {
+  const lines = [];
+
   const condition = Blockly.JavaScript.valueToCode(
     block,
     "CONDITION",
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const then = Blockly.JavaScript.statementToCode(block, "THEN");
-  const code = `if (${condition}) {\n${then}\n}`;
+  lines.push(`if (${condition}) {\n${then}\n}`);
+
+  let elseId = 0;
+  let elseInput = block.getInput(`ELSE${elseId}`);
+  while (elseInput !== null) {
+    const elseCondition = Blockly.JavaScript.valueToCode(
+      block,
+      `ELSE_CONDITION${elseId}`,
+      Blockly.JavaScript.ORDER_ATOMIC
+    );
+
+    const elseThen = Blockly.JavaScript.statementToCode(block, `THEN${elseId}`);
+    lines.push(`else if (${elseCondition}) {\n${elseThen}\n}`);
+
+    elseId++;
+    elseInput = block.getInput(`ELSE${elseId}`);
+  }
+
+  const code = lines.join("\n");
   return code;
 };
 

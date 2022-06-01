@@ -213,6 +213,11 @@ Blockly.Extensions.registerMutator(
         block.elseCount = 0;
       }
 
+      block.maxElseId = parseInt(mutation.getAttribute("maxElseId"));
+      if (isNaN(block.maxElseId)) {
+        block.maxElseId = -1;
+      }
+
       block.endsWithIf = mutation.getAttribute("endsWithIf");
       if (block.endsWithIf === "false") {
         block.endsWithIf = false;
@@ -229,42 +234,13 @@ Blockly.Extensions.registerMutator(
 
       let elseId = 0;
       while (block.getInput(`ELSE${elseId}`) !== null) {
-        if (elseId >= this.elseCount) {
+        if (elseId > this.maxElseId) {
           block.removeInput(`ELSE${elseId}`);
           block.removeInput(`THEN${elseId}`);
           block.removeInput(`ELSE_CONDITION${elseId}`, true);
+          block.removeInput(`MINUS${elseId}`, true);
         }
-        block.removeInput(`MINUS${elseId}`, true);
         elseId++;
-      }
-
-      if (
-        block.getInput(`ELSE${block.elseCount - 1}`) !== null &&
-        block.getInput(`MINUS${block.elseCount - 1}`) === null
-      ) {
-        block.removeInput(`THEN${block.elseCount - 1}`);
-
-        const minusField = new Blockly.FieldImage(
-          "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
-          15,
-          15,
-          { alt: "*", flipRtl: "FALSE" }
-        );
-        block
-          .appendDummyInput(`MINUS${block.elseCount - 1}`)
-          .setAlign(Blockly.ALIGN_RIGHT)
-          .appendField(minusField);
-
-        minusField.setOnClickHandler(function (e) {
-          block.elseCount--;
-          block.rebuild();
-        });
-
-        if (minusField.imageElement_ !== null) {
-          minusField.imageElement_.style["cursor"] = "pointer";
-        }
-
-        block.appendStatementInput(`THEN${block.elseCount - 1}`);
       }
 
       for (let i = 0; i < block.elseCount; i++) {
@@ -277,31 +253,37 @@ Blockly.Extensions.registerMutator(
           block.appendValueInput(`ELSE_CONDITION${i}`).setCheck("Boolean");
         }
 
-        if (i === block.elseCount - 1) {
-          const minusField = new Blockly.FieldImage(
-            "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
-            15,
-            15,
-            { alt: "*", flipRtl: "FALSE" }
-          );
-          block
-            .appendDummyInput(`MINUS${i}`)
-            .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField(minusField);
+        const minusField = new Blockly.FieldImage(
+          "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBkPSJNMTggMTFoLTEyYy0xLjEwNCAwLTIgLjg5Ni0yIDJzLjg5NiAyIDIgMmgxMmMxLjEwNCAwIDItLjg5NiAyLTJzLS44OTYtMi0yLTJ6IiBmaWxsPSJ3aGl0ZSIgLz48L3N2Zz4K",
+          15,
+          15,
+          { alt: "*", flipRtl: "FALSE" }
+        );
 
-          minusField.setOnClickHandler(function (e) {
-            block.elseCount--;
-            block.rebuild();
-          });
+        block
+          .appendDummyInput(`MINUS${i}`)
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendField(minusField);
 
-          if (minusField.imageElement_ !== null) {
-            minusField.imageElement_.style["cursor"] = "pointer";
+        minusField.setOnClickHandler(function (e) {
+          if (elseId === block.maxElseId) {
+            block.maxElseId--;
           }
+          block.elseCount--;
+          block.removeInput(`ELSE${elseId}`);
+          block.removeInput(`THEN${elseId}`);
+          block.removeInput(`ELSE_CONDITION${elseId}`, true);
+          block.removeInput(`MINUS${elseId}`, true);
+          //block.rebuild();
+        });
+
+        if (minusField.imageElement_ !== null) {
+          minusField.imageElement_.style["cursor"] = "pointer";
         }
 
         block.appendStatementInput(`THEN${i}`);
 
-        const shadow = globalState.workspace.newBlock("bool_literal");
+        const shadow = globalState.workspace.newBlock("true_literal");
         const input = block.getInput(`ELSE_CONDITION${i}`);
         shadow.setShadow(true);
         shadow.initSvg();
@@ -321,6 +303,7 @@ Blockly.Extensions.registerMutator(
       input.appendField(plusField);
       plusField.setOnClickHandler(function (e) {
         block.elseCount++;
+        block.maxElseId++;
         block.rebuild();
       });
       if (plusField.imageElement_ !== null) {
@@ -794,6 +777,16 @@ Blockly.Blocks["bool_literal"] = {
       ]),
       "VALUE"
     );
+    this.setOutput(true, "Boolean");
+    this.setColour(330);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.Blocks["true_literal"] = {
+  init: function () {
+    this.appendDummyInput().appendField("true");
     this.setOutput(true, "Boolean");
     this.setColour(330);
     this.setTooltip("");
