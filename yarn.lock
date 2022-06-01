@@ -209,6 +209,11 @@
   resolved "https://registry.yarnpkg.com/@blockly/continuous-toolbox/-/continuous-toolbox-2.0.31.tgz#3a109dc5ad9019a6475887cbac5d412aaca7ca20"
   integrity sha512-Y+RtYA0002Dl6AHcUxJuUZXAqVU2RR7JWLv0DVhhnJrb9VYsrkJopmQxH5johrfqd+Js3DUoCfJK2XYGFL3qgQ==
 
+"@blockly/plugin-cross-tab-copy-paste@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@blockly/plugin-cross-tab-copy-paste/-/plugin-cross-tab-copy-paste-1.0.5.tgz#1b612b94a6c45adb450094c97633a11856cf52ca"
+  integrity sha512-D+Y8phSym7y6qA5AqO9HDYlhGQA4L5Mbr2OsCsv+yO1JDdaFm8bNlzOqbd6gVuINrObFb1uE0U3zU/y9eG1n/w==
+
 "@choojs/findup@^0.2.0":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@choojs/findup/-/findup-0.2.1.tgz#ac13c59ae7be6e1da64de0779a0a7f03d75615a3"

@@ -25,6 +25,7 @@ import React from "react";
 import throttle from "lodash/throttle";
 
 import Blockly from "blockly";
+import { CrossTabCopyPaste } from "@blockly/plugin-cross-tab-copy-paste";
 import "@blockly/block-plus-minus";
 // import {
 //   ContinuousToolbox,
@@ -69,6 +70,25 @@ Blockly.utils.object.inherits(
 );
 Blockly.blockRendering.unregister("custom_renderer");
 Blockly.blockRendering.register("custom_renderer", CustomRenderer);
+
+if (Blockly.ContextMenuRegistry.registry.getItem("blockCopyToStorage")) {
+  Blockly.ContextMenuRegistry.registry.unregister("blockCopyToStorage");
+}
+if (Blockly.ContextMenuRegistry.registry.getItem("blockPasteFromStorage")) {
+  Blockly.ContextMenuRegistry.registry.unregister("blockPasteFromStorage");
+}
+
+const plugin = new CrossTabCopyPaste();
+plugin.init({
+  contextMenu: true,
+  shortcut: true,
+});
+
+// optional: You can change the position of the menu added to the context menu.
+Blockly.ContextMenuRegistry.registry.getItem("blockCopyToStorage").weight = 2;
+Blockly.ContextMenuRegistry.registry.getItem(
+  "blockPasteFromStorage"
+).weight = 3;
 
 class BlocklyComponent extends React.Component {
   constructor(props) {
