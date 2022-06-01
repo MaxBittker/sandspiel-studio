@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Storage } from "@google-cloud/storage";
 import { PrismaClient } from "@prisma/client";
 import { Client, Intents, TextChannel } from "discord.js";
+import { getSession } from "next-auth/react";
+
 const token = process.env.DISCORD_TOKEN;
 
 // Create a new client instance
@@ -34,6 +36,10 @@ export default async function handler(
 ) {
   const prisma = new PrismaClient();
   let postId = undefined;
+
+  const session = await getSession({ req: request });
+  const { userId } = session;
+
   try {
     const storage = new Storage({
       projectId: process.env.GCP_PROJECT_ID,
@@ -49,6 +55,7 @@ export default async function handler(
 
     const newPost = await prisma.post.create({
       data: {
+        userId: userId,
         title: "untitled",
         code: request.body.code,
         public: false,

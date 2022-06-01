@@ -33,6 +33,10 @@ export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
+    session: async ({ session, user }) => {
+      session.userId = user.id;
+      return Promise.resolve(session);
+    },
     async jwt({ token }) {
       token.userRole = "player";
       return token;

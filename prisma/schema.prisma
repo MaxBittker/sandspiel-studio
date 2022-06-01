@@ -11,8 +11,9 @@ datasource db {
 }
 
 model Post {
-    id       Int     @id @default(autoincrement())
-    title    String? @db.VarChar(255)
+    id Int @id @default(autoincrement())
+
+    title    String? @db.VarChar(511)
     parentId Int?
     parent   Post?   @relation("PostTree", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     children Post[]  @relation("PostTree")
@@ -20,6 +21,9 @@ model Post {
     createdAt DateTime @default(now()) @db.Timestamp(6)
     code      String   @db.MediumText
     public    Boolean  @default(false)
+
+    userId String?
+    user   User?   @relation(fields: [userId], references: [id])
 }
 
 // NextAuth:
@@ -58,6 +62,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Post          Post[]
 }
 
 model VerificationToken {
