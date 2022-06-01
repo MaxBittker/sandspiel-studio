@@ -6,9 +6,13 @@ module.exports = {
     es6: true,
     jest: true,
   },
-  extends: ["eslint:recommended", "plugin:react/recommended"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@next/next/recommended",
+  ],
   globals: {},
-  parser: "@babel/eslint-parser",
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -17,7 +21,7 @@ module.exports = {
     sourceType: "module",
     requireConfigFile: false,
   },
-  plugins: ["react", "import", "react-hooks"],
+  plugins: ["react", "import", "react-hooks", "typescript"],
   ignorePatterns: ["node_modules/"],
   rules: {
     "no-alert": "off",

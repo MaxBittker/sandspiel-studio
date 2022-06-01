@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.18.2",
     "@babel/eslint-parser": "^7.17.0",
     "@blockly/block-plus-minus": "^3.0.7",
     "@blockly/continuous-toolbox": "^2.0.24",
@@ -19,6 +20,7 @@
     "discord.js": "^13.7.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-typescript": "^0.14.0",
     "fast-png": "^6.1.0",
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",
@@ -73,10 +75,11 @@
     ]
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^12.1.6",
     "@types/react": "^18.0.7",
     "eslint": "^8.12.0",
     "eslint-plugin-react": "^7.29.4",
-    "prisma": "3.13.0",
+    "prisma": "^3.14.0",
     "vercel": "^24.2.0"
   }
 }
