@@ -229,27 +229,22 @@ Blockly.Extensions.registerMutator(
 
     rebuild() {
       const block = this;
+      block.removeInput("PLUS", true); // We'll add this back on afterwards
 
-      block.removeInput("PLUS", true);
-
-      let elseId = 0;
-      while (block.getInput(`ELSE${elseId}`) !== null) {
-        if (elseId > this.maxElseId) {
-          block.removeInput(`ELSE${elseId}`);
-          block.removeInput(`THEN${elseId}`);
-          block.removeInput(`ELSE_CONDITION${elseId}`, true);
-          block.removeInput(`MINUS${elseId}`, true);
-        }
-        elseId++;
+      // Count how many else clauses there currently are on the block
+      // - may be different from the desired number of else clauses
+      let currentElseCount = 0;
+      for (let i = 0; i <= block.maxElseId; i++) {
+        const elseBlock = block.getInput(`ELSE${i}`);
+        if (elseBlock === null) continue;
+        currentElseCount++;
       }
 
-      for (let i = 0; i < block.elseCount; i++) {
-        if (block.getInput(`ELSE${i}`) !== null) continue;
-
-        let newElseId = i;
-        if (block.getInput(`ELSE${block.maxElseId}`) !== null) {
-          newElseId = block.maxElseId + 1;
-        }
+      // Build any extra else clauses that we are supposed to have!
+      const newElseCount = block.elseCount - currentElseCount;
+      for (let i = 0; i < newElseCount; i++) {
+        block.maxElseId++;
+        const newElseId = block.maxElseId;
 
         const elseText = "else if";
         block.appendDummyInput(`ELSE${newElseId}`).appendField(elseText);
@@ -269,18 +264,25 @@ Blockly.Extensions.registerMutator(
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField(minusField);
 
-        block.maxElseId++;
-
         minusField.setOnClickHandler(function (e) {
-          if (newElseId === block.maxElseId) {
-            block.maxElseId--;
-          }
           block.elseCount--;
+
+          // Remove this else clause
           block.removeInput(`ELSE${newElseId}`);
           block.removeInput(`THEN${newElseId}`);
           block.removeInput(`ELSE_CONDITION${newElseId}`, true);
           block.removeInput(`MINUS${newElseId}`, true);
-          //block.rebuild();
+
+          // If this else clause had the max ID, find the new max ID
+          if (newElseId === block.maxElseId) {
+            block.maxElseId--;
+            while (
+              block.maxElseId > -1 &&
+              block.getInput(`ELSE${block.maxElseId}`) === null
+            ) {
+              block.maxElseId--;
+            }
+          }
         });
 
         if (minusField.imageElement_ !== null) {
@@ -297,6 +299,7 @@ Blockly.Extensions.registerMutator(
         input.connection.connect(shadow.outputConnection);
       }
 
+      // We've finished rebuilding, so put the plus button back on the end again
       const input = block.appendDummyInput("PLUS");
       input.setAlign(Blockly.ALIGN_RIGHT);
 
