@@ -26,6 +26,18 @@ model Post {
 }
 
 // NextAuth:
+model User {
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    Post          Post[]
+    // Star          Star[]
+}
+
 model Account {
     id                String  @id @default(cuid())
     userId            String
@@ -51,17 +63,6 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    Post          Post[]
 }
 
 model VerificationToken {

@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <SafeHydrate>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <CreateReactAppEntryPoint {...pageProps} />
+          <Component {...pageProps} />
         </SessionProvider>
 
         <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />
