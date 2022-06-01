@@ -53,10 +53,12 @@ export default async function handler(
       ? parseInt(request.body.parentId)
       : undefined;
 
+    let title = request.body.title.slice(0, 500);
+
     const newPost = await prisma.post.create({
       data: {
         userId: userId ?? undefined,
-        title: "",
+        title: title,
         code: request.body.code,
         public: false,
         parentId: parentId,
@@ -77,10 +79,11 @@ export default async function handler(
   } catch (err) {
     throw err;
   } finally {
+    let title = request.body.title.slice(0, 500);
     const channel = (await client.channels.fetch(
       "978159725663367188"
     )) as TextChannel;
-    channel.send(`https://studio.sandspiel.club/post/${postId}`);
+    channel.send(`https://studio.sandspiel.club/post/${postId}\n ${title}`);
 
     await prisma.$disconnect();
   }

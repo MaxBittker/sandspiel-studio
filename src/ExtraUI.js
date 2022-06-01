@@ -29,6 +29,7 @@ function prepareExport() {
 
 const ExtraUI = ({}) => {
   let [id, setId] = useState(null);
+  let [title, setTitle] = useState("");
   let [copiedState, setCopiedState] = useState(null);
   let [sharedState, setSharedState] = useState(null);
   const paused = useStore((state) => state.paused);
@@ -82,6 +83,12 @@ const ExtraUI = ({}) => {
       <br></br>
       <br></br>
       <div>
+        <input
+          type="text"
+          placeholder="creation title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <button
           className="simulation-button"
           onClick={() => {
@@ -105,6 +112,7 @@ const ExtraUI = ({}) => {
               },
               body: JSON.stringify({
                 parentId: id,
+                title,
                 code: JSON.stringify(
                   {
                     paused: useStore.getState().paused,
@@ -146,7 +154,7 @@ const ExtraUI = ({}) => {
               });
           }}
         >
-          Get Share Link {sharedState}
+          Share {sharedState}
         </button>
         {sharedState === " ✓ Copied" && (
           <>
