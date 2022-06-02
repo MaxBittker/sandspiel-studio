@@ -3,14 +3,28 @@ import React from "react";
 import useStore from "./store";
 import { imageURLBase } from "./ExtraUI";
 
+import { useRouter } from "next/router";
+
 export const PostLink = ({ post }) => {
+  const router = useRouter();
+  const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
+  const handleClick = (e) => {
+    e.preventDefault();
+    router.push(href);
+  };
+  post.stars = post?._count?.stars ?? 0;
   return (
     <a
-      href={`${window.location.protocol}//${window.location.host}/post/${post.id}`}
+      className="post"
+      href={href}
       style={{ fontSize: "1rem" }}
+      onClick={handleClick}
     >
-      <span className="title">
-        {post.title} views: {post.views}
+      <span className="title">{post.title}</span>
+      <span className="info">
+        {"v: " + post.views}
+        <br></br>
+        {"☆: " + post.stars}
       </span>
 
       <img src={`${imageURLBase}${post.id}.png`}></img>

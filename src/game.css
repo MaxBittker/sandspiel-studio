@@ -119,6 +119,13 @@ summary {
 .family .title {
   position: absolute;
 }
+.family .info {
+  position: absolute;
+  bottom: 3px;
+}
+.post {
+  position: relative;
+}
 .family {
   margin-top: 1.5em;
   display: flex;

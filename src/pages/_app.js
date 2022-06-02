@@ -4,6 +4,7 @@ import App from "next/app";
 import Script from "next/script";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
+import { NextQueryParamProvider } from "next-query-params";
 
 import "../index.css";
 import "../browse.css";
@@ -47,7 +48,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <SafeHydrate>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
-          <Component {...pageProps} />
+          <NextQueryParamProvider>
+            <Component {...pageProps} />
+          </NextQueryParamProvider>
         </SessionProvider>
 
         <Script src="https://scripts.simpleanalyticscdn.com/latest.js" />

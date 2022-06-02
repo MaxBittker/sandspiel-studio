@@ -72,6 +72,10 @@ export default async function handler(
             id: true,
             title: true,
             createdAt: true,
+            views: true,
+            _count: {
+              select: { stars: true },
+            },
             children: true,
           },
         },
@@ -79,12 +83,15 @@ export default async function handler(
           select: {
             id: true,
             title: true,
+            views: true,
+            _count: {
+              select: { stars: true },
+            },
             createdAt: true,
           },
         },
       },
     });
-    newPost["stars"] = newPost._count.stars;
     postId = newPost.id;
 
     const bucket = storage.bucket(process.env.GCP_BUCKET_NAME);

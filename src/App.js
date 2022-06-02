@@ -14,6 +14,7 @@ import { pallette } from "./Render";
 import { ToolboxBlocks } from "./ToolboxBlocks";
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
+import { useRouter } from "next/router";
 
 if (typeof window !== "undefined") {
   if (!window?.location?.host?.includes("localhost")) {
@@ -56,6 +57,7 @@ function generateCode(element, ws) {
 
 const App = () => {
   let simpleWorkspace = useRef();
+  const router = useRouter();
   const selectedElement = useStore((state) => state.selectedElement);
   const setSelected = useStore((state) => state.setSelected);
   const [loaded, setLoaded] = useState(false);
@@ -63,9 +65,11 @@ const App = () => {
 
   // generate all the code on start
   useEffect(async () => {
+    setFetchedData(false);
     await loadPostFromServer();
     setFetchedData(true);
-  }, []);
+  }, [router.query.id]);
+
   // generate all the code on start
   useEffect(async () => {
     if (!fetchedData || !simpleWorkspace.current) {

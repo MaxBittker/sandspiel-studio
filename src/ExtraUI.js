@@ -53,6 +53,7 @@ const ExtraUI = ({}) => {
     mobile = true;
   }
 
+  let stars = post?._count?.stars;
   return (
     <div className="extras-tray">
       <div className="first-row">
@@ -171,7 +172,7 @@ const ExtraUI = ({}) => {
         {post?.views && "views: " + post.views}
         <br />
 
-        {post?.stars !== undefined && (
+        {stars !== undefined && (
           <button
             onClick={() => {
               fetch("/api/star/" + post.id)
@@ -187,7 +188,7 @@ const ExtraUI = ({}) => {
                 });
             }}
           >
-            {"☆: " + post.stars}
+            {"☆: " + stars}
           </button>
         )}
         <br />

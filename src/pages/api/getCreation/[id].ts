@@ -23,6 +23,10 @@ export default async function handler(
             id: true,
             title: true,
             createdAt: true,
+            views: true,
+            _count: {
+              select: { stars: true },
+            },
             children: true,
           },
         },
@@ -30,12 +34,15 @@ export default async function handler(
           select: {
             id: true,
             title: true,
+            views: true,
+            _count: {
+              select: { stars: true },
+            },
             createdAt: true,
           },
         },
       },
     });
-    post["stars"] = post._count.stars;
     response.status(200).json(post);
   } catch (err) {
     throw err;
