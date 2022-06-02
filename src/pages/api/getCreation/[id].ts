@@ -21,6 +21,7 @@ export default async function handler(
             id: true,
             title: true,
             createdAt: true,
+            children: true,
           },
         },
         children: {
