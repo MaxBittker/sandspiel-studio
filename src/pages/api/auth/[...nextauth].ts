@@ -29,7 +29,7 @@ export default NextAuth({
     }),
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
-      clientSecret: process.env.DISCORD_TOKEN, //process.env.DISCORD_CLIENT_SECRET,
+      clientSecret: process.env.DISCORD_SECRET, //process.env.DISCORD_CLIENT_SECRET,
     }),
   ],
   theme: {
