@@ -24,6 +24,7 @@ module.exports = {
   plugins: ["react", "import", "react-hooks", "typescript"],
   ignorePatterns: ["node_modules/"],
   rules: {
+    "no-useless-catch": "off",
     "no-alert": "off",
     "no-debugger": "off",
     "no-unused-vars": "off",
