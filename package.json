@@ -3,8 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.18.2",
-    "@babel/eslint-parser": "^7.17.0",
     "@blockly/block-plus-minus": "^3.0.7",
     "@blockly/continuous-toolbox": "^2.0.24",
     "@blockly/plugin-cross-tab-copy-paste": "^1.0.5",
@@ -15,14 +13,10 @@
     "@sentry/tracing": "^6.19.7",
     "@types/tinycolor2": "^1.4.3",
     "axios": "^0.27.2",
-    "babel-eslint": "^10.1.0",
     "blockly": "^8.0.0",
     "blockly-field-color-wheel": "^1.0.2",
     "classnames": "^2.3.1",
     "discord.js": "^13.7.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-react-hooks": "^4.4.0",
-    "eslint-plugin-typescript": "^0.14.0",
     "fast-png": "^6.1.0",
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",
@@ -77,10 +71,17 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/eslint-parser": "^7.17.0",
     "@next/eslint-plugin-next": "^12.1.6",
     "@types/react": "^18.0.7",
+    "@typescript-eslint/parser": "^5.27.0",
+    "babel-eslint": "^10.1.0",
     "eslint": "^8.12.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-typescript": "^0.14.0",
     "prisma": "^3.14.0",
     "vercel": "^24.2.0"
   }
