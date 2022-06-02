@@ -2,6 +2,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
+import DiscordProvider from "next-auth/providers/discord";
 
 import nodemailer from "nodemailer";
 import sgTransport from "nodemailer-sendgrid-transport";
@@ -25,6 +26,10 @@ export default NextAuth({
     EmailProvider({
       from: "noreply@sandspiel.club",
       sendVerificationRequest,
+    }),
+    DiscordProvider({
+      clientId: process.env.DISCORD_CLIENT_ID,
+      clientSecret: process.env.DISCORD_TOKEN, //process.env.DISCORD_CLIENT_SECRET,
     }),
   ],
   theme: {
