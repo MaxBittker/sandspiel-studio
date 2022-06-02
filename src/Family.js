@@ -21,7 +21,9 @@ const Family = ({}) => {
   const post = useStore((state) => state.post);
   const { children, parent } = post ?? {};
   const hasChildren = children && children.length ? true : null;
-  const hasSiblings = parent?.children && parent.children.length ? true : null;
+
+  const hasSiblings =
+    parent?.children && parent.children.length > 1 ? true : null;
   return (
     <div className="family">
       {parent && (
@@ -38,9 +40,11 @@ const Family = ({}) => {
             <span className="group-title"> Siblings:</span>
 
             <div className="children">
-              {parent?.children.map((child) => {
-                return <PostLink key={child.id} post={child} />;
-              })}
+              {parent?.children
+                .filter((c) => c.id !== post.id)
+                .map((child) => {
+                  return <PostLink key={child.id} post={child} />;
+                })}
             </div>
           </div>
         </>
