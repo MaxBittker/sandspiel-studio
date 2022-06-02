@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { encode } from "fast-png";
 
 import { seed, width, height, sands, tick } from "./SandApi";
@@ -32,6 +32,12 @@ const ExtraUI = ({}) => {
   let [title, setTitle] = useState("");
   let [copiedState, setCopiedState] = useState(null);
   let [sharedState, setSharedState] = useState(null);
+  const post = useStore((state) => state.post);
+  useEffect(() => {
+    if (post?.title) {
+      setTitle(post.title);
+    }
+  }, [post]);
   const paused = useStore((state) => state.paused);
 
   const pos = useStore((state) => state.pos);
@@ -131,9 +137,14 @@ const ExtraUI = ({}) => {
               .then(function (response) {
                 return response.json();
               })
-              .then(function ({ id }) {
-                window.history.pushState({}, "sand blocks", "/post/" + id);
-                setId(id);
+              .then(function (post) {
+                console.log(post);
+                window.history.pushState({}, "sand blocks", "/post/" + post.id);
+                setId(post.id);
+
+                useStore.setState({
+                  post,
+                });
 
                 var data = [
                   // eslint-disable-next-line no-undef
@@ -158,10 +169,10 @@ const ExtraUI = ({}) => {
         </button>
         {sharedState === " ✓ Copied" && (
           <>
-            <pre style={{ fontSize: "1rem", color: "blue" }}>
-              {window.location.href}
-            </pre>
-            export <img src={`${imageURLBase}${id}.png`}></img>
+            {/* <pre style={{ fontSize: "1rem", color: "blue" }}> */}
+            {/* {window.location.href} */}
+            {/* </pre> */}
+            {/* <img src={`${imageURLBase}${id}.png`}></img> */}
           </>
         )}
         <br />

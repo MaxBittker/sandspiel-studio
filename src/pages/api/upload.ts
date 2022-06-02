@@ -63,6 +63,22 @@ export default async function handler(
         public: false,
         parentId: parentId,
       },
+      include: {
+        parent: {
+          select: {
+            id: true,
+            title: true,
+            createdAt: true,
+          },
+        },
+        children: {
+          select: {
+            id: true,
+            title: true,
+            createdAt: true,
+          },
+        },
+      },
     });
     postId = newPost.id;
 
@@ -73,9 +89,7 @@ export default async function handler(
       uploadPNG(bucket, newPost.id, request.body.thumbnail, ".png"),
     ]);
 
-    response.status(200).json({
-      id: newPost.id,
-    });
+    response.status(200).json(newPost);
   } catch (err) {
     throw err;
   } finally {

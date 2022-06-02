@@ -18,8 +18,8 @@ export const PostLink = ({ post }) => {
   );
 };
 const Family = ({}) => {
-  const parent = useStore((state) => state.parent);
-  const children = useStore((state) => state.children);
+  const post = useStore((state) => state.post);
+  const { children, parent } = post ?? {};
   const hasChildren = children && children.length ? true : null;
   return (
     <div className="family">

@@ -36,25 +36,19 @@ export async function loadPostFromServer() {
     .then((raw) => {
       let data = JSON.parse(raw);
       console.log("loaded some code from " + id);
-      let code = JSON.parse(data.code);
-      if (Array.isArray(code)) {
-        //beta legacy lol
-        useStore.getState().setXmls(code);
-      } else {
-        let { parent, children } = data;
-        let { xmls, selectedElement, paused, size, disabled } = code;
-        useStore.getState().setXmls(xmls);
-        useStore.getState().setSelected(selectedElement);
-        useStore.setState({ initialSelected: selectedElement });
+      let { code, ...post } = data;
 
-        useStore.setState({
-          initialSelected: selectedElement,
-          disabled,
-          paused,
-          parent,
-          children,
-          size: size ?? 3,
-        });
-      }
+      let { xmls, selectedElement, paused, size, disabled } = JSON.parse(code);
+      useStore.getState().setXmls(xmls);
+      // useStore.getState().setSelected(selectedElement);
+      // useStore.setState({ initialSelected: selectedElement });
+
+      useStore.setState({
+        initialSelected: selectedElement,
+        disabled,
+        paused,
+        post,
+        size: size ?? 3,
+      });
     });
 }
