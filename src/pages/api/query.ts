@@ -17,7 +17,13 @@ export default async function handler(
 
     const posts = await prisma.post.findMany({
       take: 100,
-      where: {},
+      where: {
+        userId: {
+          not: {
+            equals: null,
+          },
+        },
+      },
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
