@@ -167,18 +167,32 @@ const ExtraUI = ({}) => {
         >
           Share {sharedState}
         </button>
-        {sharedState === " ✓ Copied" && (
-          <>
-            {/* <pre style={{ fontSize: "1rem", color: "blue" }}> */}
-            {/* {window.location.href} */}
-            {/* </pre> */}
-            {/* <img src={`${imageURLBase}${id}.png`}></img> */}
-          </>
+        <br />
+        {post?.views && "views: " + post.views}
+        <br />
+
+        {post?.stars !== undefined && (
+          <button
+            onClick={() => {
+              fetch("/api/star/" + post.id)
+                .then(function (response) {
+                  return response.json();
+                })
+                .then(function (post) {
+                  console.log(post);
+
+                  useStore.setState({
+                    post,
+                  });
+                });
+            }}
+          >
+            {"☆: " + post.stars}
+          </button>
         )}
         <br />
-        <br />
-        <br />
-        <br />
+        <Family />
+        <Home />
         {window.location.host.includes("localhost") && (
           <button
             className="simulation-button"
@@ -211,8 +225,6 @@ const ExtraUI = ({}) => {
             Export to Clipboard {copiedState}
           </button>
         )}
-        <Family />
-        <Home />
 
         <img className="wordmark" src="/sandspiel.png"></img>
       </div>

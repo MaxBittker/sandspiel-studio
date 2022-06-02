@@ -64,6 +64,9 @@ export default async function handler(
         parentId: parentId,
       },
       include: {
+        _count: {
+          select: { stars: true },
+        },
         parent: {
           select: {
             id: true,
@@ -81,6 +84,7 @@ export default async function handler(
         },
       },
     });
+    newPost["stars"] = newPost._count.stars;
     postId = newPost.id;
 
     const bucket = storage.bucket(process.env.GCP_BUCKET_NAME);

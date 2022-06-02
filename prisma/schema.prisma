@@ -24,18 +24,18 @@ model Post {
     userId String?
     user   User?   @relation(fields: [userId], references: [id])
 
-    // stars Star[]
-    views Int @default(0)
+    stars Star[]
+    views Int    @default(0)
 }
 
-// model Star {
-//     postId Int
-//     post   Post @relation(fields: [postId], references: [id])
+model Star {
+    postId Int
+    post   Post @relation(fields: [postId], references: [id])
 
-//     userId String
-//     User   User   @relation(fields: [userId], references: [id])
-//     @@unique([postId, userId])
-// }
+    userId String
+    User   User   @relation(fields: [userId], references: [id])
+    @@unique([postId, userId])
+}
 
 // NextAuth:
 model User {
@@ -48,6 +48,7 @@ model User {
     sessions      Session[]
     Post          Post[]
     // Star          Star[]
+    Star          Star[]
 }
 
 model Account {
