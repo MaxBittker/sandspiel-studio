@@ -196,61 +196,51 @@ Blockly.defineBlocksWithJsonArray([
   },
 ]);
 
-let foo = 0;
 Blockly.Extensions.unregister("if_mutator");
 Blockly.Extensions.registerMutator(
   "if_mutator",
   {
     mutationToDom() {
       var container = Blockly.utils.xml.createElement("mutation");
-      container.setAttribute("elseCount", this.elseCount);
-      container.setAttribute("endsWithIf", this.endsWithIf);
+
+      const elseIds = this.elseIds !== undefined ? this.elseIds : [];
+      const elseIdsString = elseIds.join(",");
+      container.setAttribute("elseIds", elseIdsString);
+
       return container;
     },
     domToMutation(mutation) {
       const block = this;
 
-      block.elseCount = parseInt(mutation.getAttribute("elseCount"));
-      if (isNaN(block.elseCount)) {
-        block.elseCount = 0;
-      }
+      let elseIdsString = mutation.getAttribute("elseIds");
+      if (elseIdsString === null) elseIdsString = "";
+      this.elseIds = elseIdsString
+        .split(",")
+        .map((n) => parseInt(n))
+        .filter((n) => !isNaN(n));
 
-      block.maxElseId = parseInt(mutation.getAttribute("maxElseId"));
-      if (isNaN(block.maxElseId)) {
-        block.maxElseId = -1;
-      }
-
-      block.endsWithIf = mutation.getAttribute("endsWithIf");
-      if (block.endsWithIf === "false") {
-        block.endsWithIf = false;
-      } else {
-        block.endsWithIf = true;
-      }
       block.rebuild();
+    },
+
+    // Get an available id for us to use for an else clause
+    // (this could be optimised a lot)
+    getFreeElseId() {
+      const maxElseId = Math.max(...this.elseIds);
+      const elseIdSet = new Set(this.elseIds);
+      for (let elseId = 0; elseId < maxElseId; elseId++) {
+        if (!elseIdSet.has(elseId)) return elseId;
+      }
+      return this.elseIds.length;
     },
 
     rebuild() {
       const block = this;
       block.removeInput("PLUS", true); // We'll add this back on afterwards
 
-      // Count how many else clauses there currently are on the block
-      // - may be different from the desired number of else clauses
-      let currentElseCount = 0;
-      for (let i = 0; i <= block.maxElseId; i++) {
-        const elseBlock = block.getInput(`ELSE${i}`);
-        if (elseBlock === null) continue;
-        currentElseCount++;
-      }
+      for (const newElseId of this.elseIds) {
+        if (block.getInput(`ELSE${newElseId}`) !== null) continue;
 
-      // Build any extra else clauses that we are supposed to have!
-      const newElseCount = block.elseCount - currentElseCount;
-      //console.log(newElseCount);
-      for (let i = 0; i < newElseCount; i++) {
-        block.maxElseId++;
-        const newElseId = block.maxElseId;
-
-        const elseText = "else if";
-        block.appendDummyInput(`ELSE${newElseId}`).appendField(elseText);
+        block.appendDummyInput(`ELSE${newElseId}`).appendField("else if");
         block
           .appendValueInput(`ELSE_CONDITION${newElseId}`)
           .setCheck("Boolean");
@@ -267,28 +257,18 @@ Blockly.Extensions.registerMutator(
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField(minusField);
 
-        minusField.setOnClickHandler(function (e) {
-          block.elseCount--;
-
+        minusField.setOnClickHandler((e) => {
           // Hacky way of storing this field's ID
-          const id = parseInt(e.altText_.alt);
+          const elseId = parseInt(e.altText_.alt);
 
           // Remove this else clause
-          block.removeInput(`ELSE${id}`);
-          block.removeInput(`THEN${id}`);
-          block.removeInput(`ELSE_CONDITION${id}`, true);
-          block.removeInput(`MINUS${id}`, true);
+          block.removeInput(`ELSE${elseId}`);
+          block.removeInput(`THEN${elseId}`);
+          block.removeInput(`ELSE_CONDITION${elseId}`);
+          block.removeInput(`MINUS${elseId}`);
 
-          // If this else clause had the max ID, find the new max ID
-          if (id === block.maxElseId) {
-            block.maxElseId--;
-            while (
-              block.maxElseId > -1 &&
-              block.getInput(`ELSE${block.maxElseId}`) === null
-            ) {
-              block.maxElseId--;
-            }
-          }
+          // Remove from the list of else clauses
+          this.elseIds = this.elseIds.filter((v) => v !== elseId);
         });
 
         if (minusField.imageElement_ !== null) {
@@ -316,8 +296,9 @@ Blockly.Extensions.registerMutator(
         { alt: "*", flipRtl: "FALSE" }
       );
       input.appendField(plusField);
-      plusField.setOnClickHandler(function (e) {
-        block.elseCount++;
+      plusField.setOnClickHandler(() => {
+        const newElseId = block.getFreeElseId();
+        block.elseIds.push(newElseId);
         block.rebuild();
       });
       if (plusField.imageElement_ !== null) {

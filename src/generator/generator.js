@@ -410,15 +410,14 @@ Blockly.JavaScript["if"] = function (block) {
   const then = Blockly.JavaScript.statementToCode(block, "THEN");
   lines.push(`if (${condition}) {\n${then}\n}`);
 
-  for (let i = 0; i <= block.maxElseId; i++) {
-    if (block.getInput(`ELSE${i}`) === null) continue;
+  for (const elseId of block.elseIds) {
     const elseCondition = Blockly.JavaScript.valueToCode(
       block,
-      `ELSE_CONDITION${i}`,
+      `ELSE_CONDITION${elseId}`,
       Blockly.JavaScript.ORDER_ATOMIC
     );
 
-    const elseThen = Blockly.JavaScript.statementToCode(block, `THEN${i}`);
+    const elseThen = Blockly.JavaScript.statementToCode(block, `THEN${elseId}`);
     lines.push(`else if (${elseCondition}) {\n${elseThen}\n}`);
   }
 
