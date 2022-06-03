@@ -25,7 +25,7 @@
 // https://developers.google.com/blockly/guides/create-custom-blocks/define-blocks
 
 import * as Blockly from "blockly/core";
-import { ColorWheelField } from "blockly-field-color-wheel";
+import { ColorWheelField } from "./double-color-wheel";
 
 // Since we're using json to initialize the field, we'll need to import it.
 // import "../fields/BlocklyReactField";
@@ -58,20 +58,15 @@ Blockly.Blocks["sand_behavior_base"] = {
     this.appendDummyInput()
       .appendField("Color: ")
       .appendField(
-        new ColorWheelField("#7faaf0", 150, {
-          layoutDirection: "vertical",
+        new ColorWheelField("", 150, {
+          colors: ["#7faaf0", "#7fdab4"],
         }),
         "COLOR"
-      )
-      .appendField("»")
+      );
+    // .appendField("»")
 
-      .appendField(
-        new ColorWheelField("#7fdab4", 150, {
-          layoutDirection: "vertical",
-        }),
-        "COLOR2"
-      )
-      .setAlign(Blockly.ALIGN_RIGHT);
+    // .appendField(new ColorWheelField("#7fdab4", 150), "COLOR2")
+    // .setAlign(Blockly.ALIGN_RIGHT);
 
     this.setNextStatement(true, null);
 
