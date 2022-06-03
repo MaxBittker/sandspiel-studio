@@ -71,7 +71,7 @@ const ExtraUI = ({}) => {
           )}
         </span>
         {!mobile && (
-          <pre style={{ width: 120 }}>
+          <pre style={{ width: 120, height: "1em" }}>
             {t !== undefined &&
               `${elements[t]}\n${g} Color Fade\n${b} Hue Rotate\n${a} Extra`}
           </pre>
