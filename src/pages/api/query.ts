@@ -36,6 +36,7 @@ export default async function handler(
         createdAt: true,
         title: true,
         views: true,
+        metadata: true,
         _count: {
           select: { stars: true },
         },
@@ -49,7 +50,7 @@ export default async function handler(
             id: true,
           },
         },
-        user: true,
+        user: { select: { id: true, name: true, image: true } },
       },
     });
 

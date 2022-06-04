@@ -36,9 +36,19 @@ export async function loadPostFromServer() {
     .then((raw) => {
       let data = JSON.parse(raw);
       console.log("loaded some code from " + id);
-      let { code, ...post } = data;
+      let { code, metadata, ...post } = data;
 
-      let { xmls, selectedElement, paused, size, disabled } = JSON.parse(code);
+      let { xmls } = JSON.parse(code);
+      let {
+        paused,
+        disabled,
+        size,
+        selectedElement,
+        colors,
+        color2s,
+        elements,
+      } = JSON.parse(metadata);
+
       useStore.getState().setXmls(xmls);
       // useStore.getState().setSelected(selectedElement);
       // useStore.setState({ initialSelected: selectedElement });

@@ -5,10 +5,17 @@ import { useStore } from "./store";
 
 // let pallette_data = pallette();
 
-const ElementButton = ({ i, setSelected, selected, shrink }) => {
-  const elements = useStore((state) => state.elements);
-  const colorData1 = useStore((state) => state.colors[i]);
-  const colorData2 = useStore((state) => state.color2s[i]);
+const ElementButton = ({
+  i,
+  elements,
+  colors,
+  color2s,
+  setSelected,
+  selected,
+  shrink,
+}) => {
+  const colorData1 = colors[i];
+  const colorData2 = color2s[i];
   let [h, s, l] = colorData1 ?? [0, 0.5, 0.5];
   let [h2, s2, l2] = colorData2 ?? [0, 0.5, 0.5];
 
@@ -19,10 +26,11 @@ const ElementButton = ({ i, setSelected, selected, shrink }) => {
     ${color}, 
     ${color2}    
     )`;
-  background: return (
+  return (
     <button
       className={classNames("simulation-button", { selected, shrink })}
       onClick={() => {
+        if (!setSelected) return;
         document.querySelector(".blocklyMainBackground").style.fill =
           background;
         color.replace("0.5", "0.3");
@@ -38,9 +46,15 @@ const ElementButton = ({ i, setSelected, selected, shrink }) => {
   );
 };
 
-const ElementButtons = ({ selectedElement, setSelected }) => {
-  const elements = useStore((state) => state.elements);
-  const disabled = useStore((state) => state.disabled);
+const ElementButtons = ({
+  selectedElement,
+  setSelected,
+  colors,
+  color2s,
+  elements,
+  disabled,
+  inert = false,
+}) => {
   let enabledElements = elements.filter((_, i) => !disabled[i]);
   let [hovering, setHovering] = useState(null);
 
@@ -50,6 +64,9 @@ const ElementButtons = ({ selectedElement, setSelected }) => {
         if (disabled[i]) return null;
         return (
           <ElementButton
+            elements={elements}
+            colors={colors}
+            color2s={color2s}
             key={i}
             i={i}
             setSelected={setSelected}
@@ -58,29 +75,46 @@ const ElementButtons = ({ selectedElement, setSelected }) => {
           />
         );
       })}
-
-      <span onMouseLeave={() => setHovering(null)}>
-        <button
-          onMouseEnter={() => setHovering("-")}
-          className={"simulation-button element-control"}
-          onClick={() => useStore.getState().deleteSelectedElement()}
-        >
-          -
-        </button>
-
-        {enabledElements.length < 15 && (
+      {inert === false && (
+        <span onMouseLeave={() => setHovering(null)}>
           <button
-            onMouseEnter={() => setHovering("+")}
-            className={"simulation-button element-control "}
-            onClick={() => useStore.getState().newElement()}
+            onMouseEnter={() => setHovering("-")}
+            className={"simulation-button element-control"}
+            onClick={() => useStore.getState().deleteSelectedElement()}
           >
-            +
+            -
           </button>
-        )}
-      </span>
 
+          {enabledElements.length < 15 && (
+            <button
+              onMouseEnter={() => setHovering("+")}
+              className={"simulation-button element-control "}
+              onClick={() => useStore.getState().newElement()}
+            >
+              +
+            </button>
+          )}
+        </span>
+      )}
       <div className={"spacer"} />
     </div>
+  );
+};
+export const WrappedElementButtons = ({ selectedElement, setSelected }) => {
+  const elements = useStore((state) => state.elements);
+  const disabled = useStore((state) => state.disabled);
+  const colors = useStore((state) => state.colors);
+  const color2s = useStore((state) => state.color2s);
+
+  return (
+    <ElementButtons
+      elements={elements}
+      disabled={disabled}
+      colors={colors}
+      color2s={color2s}
+      selectedElement={selectedElement}
+      setSelected={setSelected}
+    />
   );
 };
 export default ElementButtons;

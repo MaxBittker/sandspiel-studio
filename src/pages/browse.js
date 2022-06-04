@@ -44,7 +44,7 @@ function Browse() {
       />
       Browse
       {data.map((d) => {
-        return <PostLink key={d.id} post={d} />;
+        return <PostLink key={d.id} post={d} full />;
       })}
     </div>
   );

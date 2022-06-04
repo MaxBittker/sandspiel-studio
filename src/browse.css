@@ -8,3 +8,8 @@
 .browse.family img {
   width: 200px;
 }
+
+.post .element-tray {
+  max-width: 300px;
+  display: block;
+}

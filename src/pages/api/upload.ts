@@ -60,6 +60,7 @@ export default async function handler(
         userId: userId ?? undefined,
         title: title,
         code: request.body.code,
+        metadata: request.body.metadata,
         public: false,
         parentId: parentId,
       },
@@ -73,6 +74,7 @@ export default async function handler(
             title: true,
             createdAt: true,
             views: true,
+            metadata: true,
             _count: {
               select: { stars: true },
             },
@@ -84,6 +86,7 @@ export default async function handler(
             id: true,
             title: true,
             views: true,
+            metadata: true,
             _count: {
               select: { stars: true },
             },
@@ -106,9 +109,11 @@ export default async function handler(
     throw err;
   } finally {
     let title = request.body.title.slice(0, 500);
+
     const channel = (await client.channels.fetch(
       "978159725663367188"
     )) as TextChannel;
+
     channel.send(`https://studio.sandspiel.club/post/${postId}\n ${title}`);
 
     await prisma.$disconnect();

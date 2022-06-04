@@ -24,6 +24,7 @@ export default async function handler(
             title: true,
             createdAt: true,
             views: true,
+            metadata: true,
             _count: {
               select: { stars: true },
             },
@@ -35,12 +36,14 @@ export default async function handler(
             id: true,
             title: true,
             views: true,
+            metadata: true,
             _count: {
               select: { stars: true },
             },
             createdAt: true,
           },
         },
+        user: { select: { id: true, name: true, image: true } },
       },
     });
     response.status(200).json(post);

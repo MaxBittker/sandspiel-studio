@@ -3,7 +3,7 @@ import useAnimationFrame from "use-animation-frame";
 import { startWebGL } from "./Render";
 import useStore, { globalState } from "./store";
 import { fps } from "./fps";
-import ElementButtons from "./ElementButtons";
+import { WrappedElementButtons } from "./ElementButtons";
 import ExtraUI from "./ExtraUI";
 
 import { sands, width, height, tick, initSand } from "./SandApi";
@@ -124,7 +124,7 @@ const Sand = () => {
           setIsDragging(true);
         }}
       ></div>
-      <ElementButtons
+      <WrappedElementButtons
         selectedElement={selectedElement}
         setSelected={setSelected}
       />

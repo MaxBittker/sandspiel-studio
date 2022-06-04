@@ -121,12 +121,21 @@ const ExtraUI = ({}) => {
               body: JSON.stringify({
                 parentId: id,
                 title,
-                code: JSON.stringify(
+                metadata: JSON.stringify(
                   {
                     paused: useStore.getState().paused,
+                    disabled: useStore.getState().disabled,
+                    elements: useStore.getState().elements,
+                    colors: useStore.getState().colors,
+                    color2s: useStore.getState().color2s,
                     size: useStore.getState().size,
                     selectedElement: useStore.getState().selectedElement,
-                    disabled: useStore.getState().disabled,
+                  },
+                  null,
+                  " "
+                ),
+                code: JSON.stringify(
+                  {
                     xmls: xmls,
                   },
                   null,
@@ -164,6 +173,11 @@ const ExtraUI = ({}) => {
                     setSharedState("...Error");
                   }
                 );
+              })
+              .finally(() => {
+                window.setTimeout(() => {
+                  setSharedState("");
+                }, 3000);
               });
           }}
         >

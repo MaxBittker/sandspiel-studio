@@ -13,6 +13,7 @@ datasource db {
 model Post {
     id        Int      @id @default(autoincrement())
     createdAt DateTime @default(now()) @db.Timestamp(6)
+    metadata  String   @db.MediumText
     code      String   @db.MediumText
     public    Boolean  @default(false)
     title     String?  @db.VarChar(511)

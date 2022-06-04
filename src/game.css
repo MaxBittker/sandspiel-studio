@@ -124,8 +124,11 @@ summary {
   position: absolute;
   bottom: 3px;
 }
-.post {
+.postThumbnail {
   position: relative;
+}
+.post {
+  display: flex;
 }
 .family {
   margin-top: 1.5em;
