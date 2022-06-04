@@ -99,6 +99,7 @@ const ExtraUI = ({}) => {
         <button
           className="simulation-button"
           onClick={() => {
+            if (sharedState === " ...") return;
             let xmls = prepareXMLs();
             let thumbnail = snapshot();
             let id = window.location.pathname.slice(6);
