@@ -6,7 +6,7 @@ import { fps } from "./fps";
 import { WrappedElementButtons } from "./ElementButtons";
 import ExtraUI from "./ExtraUI";
 
-import { sands, width, height, tick, initSand } from "./SandApi";
+import { sands, width, height, tick, initSand, pushUndo } from "./SandApi";
 let dpi = 4;
 
 globalState.updaters = useStore.getState().elements.map(() => {
@@ -140,6 +140,7 @@ const Sand = () => {
           );
 
           prevPos = [eX, eY];
+          pushUndo();
           setIsDrawing(true);
         }}
         onMouseUp={() => setIsDrawing(false)}
@@ -159,6 +160,7 @@ const Sand = () => {
           let eY = Math.round(
             (touch.clientY - bounds.top) * (height / bounds.height)
           );
+          pushUndo();
 
           prevPos = [eX, eY];
         }}

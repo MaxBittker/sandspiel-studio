@@ -11,7 +11,21 @@ export let width = 150;
 export let height = width;
 export let cellCount = width * height;
 export let sands = new Uint8Array(cellCount * 4);
-
+let undoStack = [];
+pushUndo();
+export function pushUndo() {
+  undoStack.push(sands.slice(0, cellCount * 4));
+  if (undoStack.length > 45) {
+    undoStack.shift();
+  }
+}
+export function popUndo() {
+  let undo = undoStack.pop();
+  sands.set(undo);
+  if (undoStack.length === 0) {
+    pushUndo();
+  }
+}
 let inertMode = false;
 let t = 0;
 function randomData(x, y) {

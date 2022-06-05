@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { encode } from "fast-png";
 
-import { seed, width, height, sands, tick } from "./SandApi";
+import { seed, width, height, sands, tick, popUndo } from "./SandApi";
 import { snapshot } from "./Render";
 import { useStore } from "./store";
 import * as vkbeautify from "vkbeautify";
@@ -78,7 +78,14 @@ const ExtraUI = ({}) => {
         )}
         <SizeButtons />
       </div>
-
+      <button
+        className="simulation-button"
+        onClick={() => {
+          popUndo();
+        }}
+      >
+        Undo
+      </button>
       <button
         className="simulation-button"
         onClick={() => {
