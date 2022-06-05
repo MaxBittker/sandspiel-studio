@@ -123,7 +123,7 @@ const App = () => {
 
     Xml.domToWorkspace(
       Xml.textToDom(
-        useStore.getState().xmls[useStore.getState().selectedElement]
+        useStore.getState().xmls[useStore.getState().selectedElement ?? 0]
       ),
       simpleWorkspace.current.primaryWorkspace
     );

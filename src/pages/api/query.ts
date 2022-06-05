@@ -9,7 +9,7 @@ export default async function handler(
   response: NextApiResponse
 ) {
   const prisma = new PrismaClient();
-  const { order } = request.query;
+  const { order, codeHash, userId } = request.query;
 
   const session = await getSession({ req: request });
   // const userId = session.userId as string;
@@ -18,18 +18,29 @@ export default async function handler(
   if (order === "top") {
     orderBy = { views: "desc" };
   }
+  let where: PostWhereInput = {
+    userId: {
+      not: {
+        equals: null,
+      },
+    },
+  };
+  if (codeHash) {
+    where = {
+      codeHash,
+    };
+  }
+  if (userId) {
+    where = {
+      userId,
+    };
+  }
   try {
     // let userId = request.body.userId;
 
     let posts = await prisma.post.findMany({
       take: 100,
-      where: {
-        userId: {
-          not: {
-            equals: null,
-          },
-        },
-      },
+      where,
       orderBy,
       select: {
         id: true,
@@ -37,6 +48,7 @@ export default async function handler(
         title: true,
         views: true,
         metadata: true,
+        codeHash: true,
         _count: {
           select: { stars: true },
         },

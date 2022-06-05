@@ -5,6 +5,8 @@ import { PrismaClient } from "@prisma/client";
 import { Client, Intents, TextChannel } from "discord.js";
 import { getSession } from "next-auth/react";
 
+import md5 from "md5";
+
 const token = process.env.DISCORD_TOKEN;
 
 // Create a new client instance
@@ -60,6 +62,7 @@ export default async function handler(
         userId: userId ?? undefined,
         title: title,
         code: request.body.code,
+        codeHash: md5(request.body.code),
         metadata: request.body.metadata,
         public: false,
         parentId: parentId,

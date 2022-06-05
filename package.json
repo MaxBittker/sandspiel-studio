@@ -21,6 +21,7 @@
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",
     "lodash": "^4.17.21",
+    "md5": "^2.3.0",
     "next": "^12.1.6",
     "next-auth": "^4.3.4",
     "next-query-params": "^2.2.1",

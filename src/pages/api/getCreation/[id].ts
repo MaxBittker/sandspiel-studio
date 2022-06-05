@@ -25,6 +25,7 @@ export default async function handler(
             createdAt: true,
             views: true,
             metadata: true,
+            codeHash: true,
             _count: {
               select: { stars: true },
             },

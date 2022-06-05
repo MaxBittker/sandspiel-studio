@@ -10,6 +10,13 @@
 }
 
 .post .element-tray {
-  max-width: 300px;
+  max-width: 360px;
   display: block;
+}
+
+.browse-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 8px;
 }

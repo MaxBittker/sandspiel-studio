@@ -14,9 +14,11 @@ model Post {
     id        Int      @id @default(autoincrement())
     createdAt DateTime @default(now()) @db.Timestamp(6)
     metadata  String   @db.MediumText
-    code      String   @db.MediumText
-    public    Boolean  @default(false)
-    title     String?  @db.VarChar(511)
+
+    codeHash String  @default("")
+    code     String  @db.MediumText
+    public   Boolean @default(false)
+    title    String? @db.VarChar(511)
 
     parentId Int?
     parent   Post?  @relation("PostTree", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -27,6 +29,9 @@ model Post {
 
     stars Star[]
     views Int    @default(0)
+
+    @@index([userId])
+    @@index([codeHash])
 }
 
 model Star {

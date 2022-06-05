@@ -2,10 +2,9 @@ import React from "react";
 
 import useStore from "./store";
 import { imageURLBase } from "./ExtraUI";
-import ElementButtons from "./ElementButtons";
 import { useRouter } from "next/router";
 
-export const PostLink = ({ post, full = false }) => {
+export const PostLink = ({ post }) => {
   const router = useRouter();
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
@@ -13,7 +12,6 @@ export const PostLink = ({ post, full = false }) => {
     router.push(href);
   };
   post.stars = post?._count?.stars ?? 0;
-  let metadata = full && JSON.parse(post.metadata);
   return (
     <div className="post">
       <a
@@ -31,16 +29,6 @@ export const PostLink = ({ post, full = false }) => {
 
         <img src={`${imageURLBase}${post.id}.png`}></img>
       </a>
-      {full && (
-        <ElementButtons
-          elements={metadata.elements}
-          disabled={metadata.disabled}
-          colors={metadata.colors}
-          color2s={metadata.color2s}
-          inert={true}
-          selectedElement={-1}
-        />
-      )}
     </div>
   );
 };
