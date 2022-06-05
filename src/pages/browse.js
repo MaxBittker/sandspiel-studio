@@ -112,7 +112,7 @@ function Browse() {
     };
 
     fetchData();
-  }, [order]);
+  }, [order, query.userId, query.codeHash]);
 
   console.log(data);
   return (
