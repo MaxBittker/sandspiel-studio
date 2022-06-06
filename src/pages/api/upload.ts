@@ -111,8 +111,10 @@ export default async function handler(
   } catch (err) {
     throw err;
   } finally {
-    let title = request.body.title.slice(0, 500);
-
+    // let title = request.body.title.slice(0, 500);
+    let { elements, disabled } = JSON.parse(request.body.metadata);
+    let enabledElements = elements.filter((_, i) => !disabled[i]);
+    let title = enabledElements.join(" ");
     const channel = (await client.channels.fetch(
       request.body.public ? "978159725663367188" : "983217410205167631"
     )) as TextChannel;
