@@ -165,6 +165,7 @@ const Sand = () => {
           prevPos = [eX, eY];
         }}
         onTouchMove={(e) => {
+          e.preventDefault();
           let touches = Array.from(e.touches);
           if (touches.length < 1) {
             return;
