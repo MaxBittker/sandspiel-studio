@@ -61,6 +61,13 @@ const ExtraUI = () => {
   let stars = post?._count?.stars;
   let upload = useCallback(
     (postPublic = false) => {
+      if (postPublic && !session) {
+        setSharedState("Sign in to post publicly");
+        window.setTimeout(() => {
+          setSharedState("");
+        }, 3000);
+        return;
+      }
       if (sharedState === " ...") return;
       let xmls = prepareXMLs();
       let thumbnail = snapshot();
@@ -143,7 +150,7 @@ const ExtraUI = () => {
           }, 3000);
         });
     },
-    [title, postPublic, post?._count?.stars]
+    [title, postPublic, post?._count?.stars, session]
   );
   return (
     <div className="extras-tray">
@@ -201,6 +208,7 @@ const ExtraUI = () => {
         <button className="simulation-button" onClick={() => upload(true)}>
           Post ↑
         </button>
+
         {sharedState ?? ""}
         <br />
         {post?.views && "views: " + post.views}
