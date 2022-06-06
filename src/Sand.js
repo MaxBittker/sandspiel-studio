@@ -191,11 +191,12 @@ const Sand = () => {
           clearInterval(holdInterval);
         }}
         onTouchMove={(e) => {
-          // e.preventDefault();
           let touches = Array.from(e.touches);
-          if (touches.length < 1) {
+          if (touches.length !== 1) {
             return;
           }
+          e.preventDefault();
+
           let touch = touches[0];
           e.clientX = touch.clientX;
           e.clientY = touch.clientY;
