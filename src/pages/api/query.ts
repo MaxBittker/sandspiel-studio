@@ -9,7 +9,7 @@ export default async function handler(
   response: NextApiResponse
 ) {
   const prisma = new PrismaClient();
-  const { order, codeHash, userId } = request.query;
+  const { order, codeHash, userId, days, starredBy } = request.query;
 
   const session = await getSession({ req: request });
   // const userId = session.userId as string;
@@ -33,6 +33,23 @@ export default async function handler(
   if (userId) {
     where = {
       userId,
+    };
+  }
+  if (starredBy) {
+    where = {
+      stars: {
+        some: {
+          userId: starredBy,
+        },
+      },
+    };
+  }
+
+  if (days) {
+    where.createdAt = {
+      gte: new Date(
+        Date.now() - parseInt(days as string, 10) * 24 * 60 * 60 * 1000
+      ),
     };
   }
   try {

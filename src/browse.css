@@ -20,3 +20,6 @@
   justify-content: space-between;
   padding-bottom: 8px;
 }
+.filterControls {
+  display: flex;
+}
