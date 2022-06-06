@@ -32,6 +32,7 @@ button {
   width: 100%;
   border: 3px ridge gray;
   border-left: 1px solid black;
+  touch-action: pinch-zoom;
 }
 
 .element-tray button {

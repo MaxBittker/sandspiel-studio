@@ -7,11 +7,14 @@ import { WrappedElementButtons } from "./ElementButtons";
 import ExtraUI from "./ExtraUI";
 
 import { sands, width, height, tick, initSand, pushUndo } from "./SandApi";
+import { pointsAlongLine } from "./utils";
 let dpi = 4;
 
 globalState.updaters = useStore.getState().elements.map(() => {
   return (() => {}).bind(globalState);
 });
+let holdInterval = null;
+let prevPos = [0, 0];
 
 const Sand = () => {
   let starterWidth = Math.min(
@@ -87,13 +90,13 @@ const Sand = () => {
   }, [isDragging, mouseMove, mouseUp]);
 
   let mouseMoveCanvas = useCallback(
-    (e) => {
+    (e, force = false) => {
       let bounds = canvas.current.getBoundingClientRect();
       let eX = Math.round((e.clientX - bounds.left) * (width / bounds.width));
       let eY = Math.round((e.clientY - bounds.top) * (height / bounds.height));
       let { size, setPos } = useStore.getState();
       setPos([eX, eY]);
-      if (!isDrawing) {
+      if (!isDrawing && !force) {
         return;
       }
       let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
@@ -112,6 +115,10 @@ const Sand = () => {
         }
       });
       prevPos = [eX, eY];
+      clearInterval(holdInterval);
+      holdInterval = setInterval(() => {
+        mouseMoveCanvas(e, true);
+      }, 60);
     },
     [isDrawing, selectedElement]
   );
@@ -142,9 +149,20 @@ const Sand = () => {
           prevPos = [eX, eY];
           pushUndo();
           setIsDrawing(true);
+          clearInterval(holdInterval);
+          holdInterval = setInterval(() => {
+            mouseMoveCanvas(e, true);
+          }, 60);
+          mouseMoveCanvas(e, true);
         }}
-        onMouseUp={() => setIsDrawing(false)}
-        onMouseOut={() => setIsDrawing(false)}
+        onMouseUp={() => {
+          clearInterval(holdInterval);
+          setIsDrawing(false);
+        }}
+        onMouseOut={() => {
+          clearInterval(holdInterval);
+          setIsDrawing(false);
+        }}
         onMouseMove={mouseMoveCanvas}
         onTouchStart={(e) => {
           let touches = Array.from(e.touches);
@@ -161,11 +179,19 @@ const Sand = () => {
             (touch.clientY - bounds.top) * (height / bounds.height)
           );
           pushUndo();
-
+          clearInterval(holdInterval);
+          e.clientX = touch.clientX;
+          e.clientY = touch.clientY;
+          holdInterval = setInterval(() => {
+            mouseMoveCanvas(e, true);
+          }, 60);
           prevPos = [eX, eY];
         }}
+        onTouchEnd={() => {
+          clearInterval(holdInterval);
+        }}
         onTouchMove={(e) => {
-          e.preventDefault();
+          // e.preventDefault();
           let touches = Array.from(e.touches);
           if (touches.length < 1) {
             return;
@@ -175,6 +201,10 @@ const Sand = () => {
           e.clientY = touch.clientY;
           setIsDrawing(true);
           mouseMoveCanvas(e);
+          clearInterval(holdInterval);
+          holdInterval = setInterval(() => {
+            mouseMoveCanvas(e, true);
+          }, 60);
         }}
         ref={canvas}
         height={height * dpi}
@@ -191,25 +221,6 @@ const Sand = () => {
     </div>
   );
 };
-let prevPos = [0, 0];
-function distance(aX, aY, bX, bY) {
-  return Math.sqrt(Math.pow(aX - bX, 2) + Math.pow(aY - bY, 2));
-}
-
-function pointsAlongLine(startx, starty, endx, endy, spacing) {
-  let dist = distance(startx, starty, endx, endy);
-  let steps = dist / spacing;
-
-  let points = [];
-  for (var d = 0; d <= 1; d += 1 / steps) {
-    let point = {
-      x: startx * d + endx * (1 - d),
-      y: starty * d + endy * (1 - d),
-    };
-    points.push(point);
-  }
-  return points;
-}
 
 Sand.propTypes = {};
 export default Sand;
