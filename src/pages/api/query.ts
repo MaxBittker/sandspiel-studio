@@ -30,6 +30,9 @@ export default async function handler(
       codeHash,
     };
   }
+  where.public = {
+    equals: true,
+  };
   if (userId) {
     where = {
       userId,
@@ -42,6 +45,7 @@ export default async function handler(
           userId: starredBy,
         },
       },
+      public: { equals: true },
     };
   }
 

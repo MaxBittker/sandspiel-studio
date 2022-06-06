@@ -64,7 +64,7 @@ export default async function handler(
         code: request.body.code,
         codeHash: md5(request.body.code),
         metadata: request.body.metadata,
-        public: false,
+        public: request.body.public,
         parentId: parentId,
       },
       include: {
@@ -114,7 +114,7 @@ export default async function handler(
     let title = request.body.title.slice(0, 500);
 
     const channel = (await client.channels.fetch(
-      "978159725663367188"
+      request.body.public ? "978159725663367188" : "983217410205167631"
     )) as TextChannel;
 
     channel.send(`https://studio.sandspiel.club/post/${postId}\n ${title}`);

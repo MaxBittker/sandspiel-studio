@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { encode } from "fast-png";
 import { useSession } from "next-auth/react";
 
@@ -34,6 +34,7 @@ const ExtraUI = () => {
 
   let [id, setId] = useState(null);
   let [title, setTitle] = useState("");
+  let [postPublic, setPublic] = useState(false);
   let [copiedState, setCopiedState] = useState(null);
   let [sharedState, setSharedState] = useState(null);
   const post = useStore((state) => state.post);
@@ -58,6 +59,92 @@ const ExtraUI = () => {
   }
 
   let stars = post?._count?.stars;
+  let upload = useCallback(
+    (postPublic = false) => {
+      if (sharedState === " ...") return;
+      let xmls = prepareXMLs();
+      let thumbnail = snapshot();
+      let id = window.location.pathname.slice(6);
+
+      let buffer = encode({
+        width,
+        height,
+        data: sands,
+      });
+      let data = "data:image/png;base64," + base64ArrayBuffer(buffer);
+
+      setSharedState(" ...");
+
+      fetch("/api/upload", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          parentId: id,
+          public: postPublic,
+          title,
+          metadata: JSON.stringify(
+            {
+              paused: useStore.getState().paused,
+              disabled: useStore.getState().disabled,
+              elements: useStore.getState().elements,
+              colors: useStore.getState().colors,
+              color2s: useStore.getState().color2s,
+              size: useStore.getState().size,
+              selectedElement: useStore.getState().selectedElement,
+            },
+            null,
+            " "
+          ),
+          code: JSON.stringify(
+            {
+              xmls: xmls,
+            },
+            null,
+            " "
+          ),
+          thumbnail,
+          data,
+        }),
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (post) {
+          console.log(post);
+          window.history.pushState({}, "sand blocks", "/post/" + post.id);
+          setId(post.id);
+
+          useStore.setState({
+            post,
+          });
+
+          var data = [
+            // eslint-disable-next-line no-undef
+            new ClipboardItem({
+              "text/plain": new Blob([window.location.href], {
+                type: "text/plain",
+              }),
+            }),
+          ];
+          navigator.clipboard.write(data).then(
+            function () {
+              setSharedState(" ✓ Copied");
+            },
+            function () {
+              setSharedState("...Error");
+            }
+          );
+        })
+        .finally(() => {
+          window.setTimeout(() => {
+            setSharedState("");
+          }, 3000);
+        });
+    },
+    [title, postPublic, post?._count?.stars]
+  );
   return (
     <div className="extras-tray">
       <div className="first-row">
@@ -107,93 +194,14 @@ const ExtraUI = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <button
-          className="simulation-button"
-          onClick={() => {
-            if (sharedState === " ...") return;
-            let xmls = prepareXMLs();
-            let thumbnail = snapshot();
-            let id = window.location.pathname.slice(6);
 
-            let buffer = encode({
-              width,
-              height,
-              data: sands,
-            });
-            let data = "data:image/png;base64," + base64ArrayBuffer(buffer);
-
-            setSharedState(" ...");
-
-            fetch("/api/upload", {
-              method: "post",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                parentId: id,
-                title,
-                metadata: JSON.stringify(
-                  {
-                    paused: useStore.getState().paused,
-                    disabled: useStore.getState().disabled,
-                    elements: useStore.getState().elements,
-                    colors: useStore.getState().colors,
-                    color2s: useStore.getState().color2s,
-                    size: useStore.getState().size,
-                    selectedElement: useStore.getState().selectedElement,
-                  },
-                  null,
-                  " "
-                ),
-                code: JSON.stringify(
-                  {
-                    xmls: xmls,
-                  },
-                  null,
-                  " "
-                ),
-                thumbnail,
-                data,
-              }),
-            })
-              .then(function (response) {
-                return response.json();
-              })
-              .then(function (post) {
-                console.log(post);
-                window.history.pushState({}, "sand blocks", "/post/" + post.id);
-                setId(post.id);
-
-                useStore.setState({
-                  post,
-                });
-
-                var data = [
-                  // eslint-disable-next-line no-undef
-                  new ClipboardItem({
-                    "text/plain": new Blob([window.location.href], {
-                      type: "text/plain",
-                    }),
-                  }),
-                ];
-                navigator.clipboard.write(data).then(
-                  function () {
-                    setSharedState(" ✓ Copied");
-                  },
-                  function () {
-                    setSharedState("...Error");
-                  }
-                );
-              })
-              .finally(() => {
-                window.setTimeout(() => {
-                  setSharedState("");
-                }, 3000);
-              });
-          }}
-        >
-          Share {sharedState}
+        <button className="simulation-button" onClick={() => upload(false)}>
+          Save
         </button>
+        <button className="simulation-button" onClick={() => upload(true)}>
+          Post ↑
+        </button>
+        {sharedState ?? ""}
         <br />
         {post?.views && "views: " + post.views}
         <br />
