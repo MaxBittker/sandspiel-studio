@@ -47,7 +47,6 @@ function Browse() {
   }, [query.order, query.userId, query.codeHash, query.days]);
 
   console.log(data);
-  console.log(session);
   return (
     <div className="browse family">
       <Home />
@@ -55,6 +54,7 @@ function Browse() {
       {session && (
         <span className="filterControls">
           <button
+            className={query.userId === session.userId ? "selected" : ""}
             onClick={(e) => {
               e.preventDefault();
               setQuery({
@@ -68,6 +68,7 @@ function Browse() {
             my posts
           </button>
           <button
+            className={query.starredBy === session.userId ? "selected" : ""}
             onClick={(e) => {
               e.preventDefault();
               setQuery({
@@ -79,6 +80,20 @@ function Browse() {
           >
             {" "}
             my favorites
+          </button>
+          <button
+            className={""}
+            onClick={(e) => {
+              e.preventDefault();
+              setQuery({
+                codeHash: undefined,
+                userId: undefined,
+                starredBy: undefined,
+              });
+            }}
+          >
+            {" "}
+            clear
           </button>
         </span>
       )}

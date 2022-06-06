@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { encode } from "fast-png";
+import { useSession } from "next-auth/react";
 
 import { seed, width, height, sands, tick, popUndo } from "./SandApi";
 import { snapshot } from "./Render";
@@ -10,6 +11,7 @@ import PlayPause from "./PlayPauseButton";
 import Family from "./Family";
 import SizeButtons from "./SizeButtons";
 import Home from "./Auth";
+import Link from "next/link";
 export const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
@@ -27,7 +29,9 @@ function prepareExport() {
   return json;
 }
 
-const ExtraUI = ({}) => {
+const ExtraUI = () => {
+  const { data: session } = useSession();
+
   let [id, setId] = useState(null);
   let [title, setTitle] = useState("");
   let [copiedState, setCopiedState] = useState(null);
@@ -215,7 +219,11 @@ const ExtraUI = ({}) => {
         )}
         <br />
         <Family />
+        {session && (
+          <Link href={`/browse?userId=${session.userId}`}>My Posts</Link>
+        )}
         <Home />
+
         {window.location.host.includes("localhost") && (
           <button
             className="simulation-button"
