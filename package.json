@@ -35,6 +35,7 @@
     "react-dom": "^17.0.1",
     "react-dropdown": "^1.10.0",
     "regl": "^2.1.0",
+    "timeago.js": "^4.0.2",
     "tinycolor2": "^1.4.2",
     "use-animation-frame": "^0.1.1",
     "vkbeautify": "^0.99.3",

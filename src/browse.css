@@ -10,16 +10,21 @@
 }
 
 .post .element-tray {
-  max-width: 360px;
+  width: 400px;
   display: block;
 }
-
+.browse .post {
+  background-color: rgba(250, 247, 247, 0.723);
+  padding: 5px;
+  margin-bottom: 6px;
+}
 .browse-info {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-bottom: 8px;
+  padding-bottom: 2px;
 }
 .filterControls {
   display: flex;
+  padding: 5px;
 }

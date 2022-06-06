@@ -45,15 +45,14 @@ Blockly.Blocks["sand_behavior_base"] = {
         if (block.type !== "element_literal") continue;
         block.rebuild();
       }
-      return value;
+      return value.slice(0, 20);
     };
 
+    let nameField = new Blockly.FieldTextInput("Sand", validator);
+    nameField.maxDisplayLength = 20;
     this.appendDummyInput()
       .appendField("Name:")
-      .appendField(
-        new Blockly.FieldTextInput("Sand", validator),
-        "ELEMENT_NAME"
-      );
+      .appendField(nameField, "ELEMENT_NAME");
 
     this.appendDummyInput()
       .appendField("Color: ")

@@ -20,7 +20,7 @@ export const PostLink = ({ post }) => {
         style={{ fontSize: "1rem" }}
         onClick={handleClick}
       >
-        <span className="title">{post.title}</span>
+        {/* <span className="title">{post.title}</span> */}
         <span className="info">
           {"v: " + post.views}
           <br></br>

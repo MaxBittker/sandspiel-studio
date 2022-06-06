@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Dropdown from "react-dropdown";
 import { useSession } from "next-auth/react";
+import * as timeago from "timeago.js";
 
 import "react-dropdown/style.css";
 import { useQueryParams, StringParam, withDefault } from "next-query-params";
@@ -11,6 +12,8 @@ import axios from "axios";
 import { imageURLBase } from "../ExtraUI";
 
 import ElementButtons from "../ElementButtons";
+
+// const ago = timeago();
 
 const options = ["new", "top"];
 const optionsTime = [
@@ -49,8 +52,9 @@ function Browse() {
   console.log(data);
   return (
     <div className="browse family">
-      <Home />
-      Browse
+      <div style={{ position: "absolute", right: 40 }}>
+        <Home />
+      </div>
       {session && (
         <span className="filterControls">
           <button
@@ -133,6 +137,14 @@ const BrowsePostLink = ({ post }) => {
 
   post.stars = post?._count?.stars ?? 0;
   let metadata = JSON.parse(post.metadata);
+
+  let displayTime = new Date(post.createdAt).toLocaleDateString();
+  let msAgo = new Date().getTime() - new Date(post.createdAt).getTime();
+
+  if (msAgo < 24 * 60 * 60 * 1000) {
+    displayTime = timeago.format(post.createdAt);
+  }
+
   return (
     <div className="post">
       <a
@@ -141,7 +153,7 @@ const BrowsePostLink = ({ post }) => {
         style={{ fontSize: "1rem" }}
         onClick={handleClick}
       >
-        <span className="title">{post.title}</span>
+        {/* <span className="title">{post.title}</span> */}
 
         <img src={`${imageURLBase}${post.id}.png`}></img>
       </a>
@@ -155,8 +167,8 @@ const BrowsePostLink = ({ post }) => {
           inert={true}
           selectedElement={-1}
         ></ElementButtons>
-        <div>
-          {"views: " + post.views}
+        <div style={{ textAlign: "right" }}>
+          {displayTime}, {post.views} plays
           <br></br>
           <button
             onClick={() => {
@@ -174,7 +186,7 @@ const BrowsePostLink = ({ post }) => {
             {"☆: " + post.stars}
           </button>
           <br></br>
-          Element Set:
+          Element Set:{"\t\t"}
           <button
             href=""
             onClick={(e) => {
@@ -184,8 +196,9 @@ const BrowsePostLink = ({ post }) => {
           >
             {post.codeHash.slice(0, 6)}
           </button>
-          <br></br>
-          Author:{" "}
+          {"\t\t"}
+          {/* <br></br> */}
+          Author:{"\t\t"}
           <button
             onClick={(e) => {
               e.preventDefault();

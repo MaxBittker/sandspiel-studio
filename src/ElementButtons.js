@@ -13,6 +13,7 @@ const ElementButton = ({
   setSelected,
   selected,
   shrink,
+  inert,
 }) => {
   const colorData1 = colors[i];
   const colorData2 = color2s[i];
@@ -37,6 +38,7 @@ const ElementButton = ({
         setSelected(i);
       }}
       style={{
+        pointerEvents: inert && "none",
         // backgroundColor: selected ? color.replace("0.5", "1.5") : color,
         background,
       }}
@@ -71,6 +73,7 @@ const ElementButtons = ({
             i={i}
             setSelected={setSelected}
             selected={i === selectedElement}
+            inert={inert}
             shrink={hovering === "-" && i === selectedElement}
           />
         );
