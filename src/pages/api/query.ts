@@ -16,7 +16,7 @@ export default async function handler(
 
   let orderBy: PostWhereInput = { createdAt: "desc" };
   if (order === "top") {
-    orderBy = { views: "desc" };
+    orderBy = { stars: { _count: "desc" } };
   }
   let where: PostWhereInput = {
     userId: {
