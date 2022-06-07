@@ -35,9 +35,9 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const { id } = router.query;
 
-  let ogImageSrc = "https://mywebsite.net/assets/opengraph/theogimage.jpg";
+  let ogImageSrc = "https://studio.sandspiel.club/sandspiel.png";
   if (id) {
-    ogImageSrc = `${imageURLBase}${id}.png`;
+    ogImageSrc = `${imageURLBase}${id}.gif`;
   }
   return (
     <>
