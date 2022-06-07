@@ -139,7 +139,8 @@ const ExtraUI = () => {
             function () {
               setSharedState(" ✓ Copied");
             },
-            function () {
+            function (e) {
+              console.error(e);
               setSharedState("...Error");
             }
           );

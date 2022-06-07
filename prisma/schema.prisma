@@ -28,7 +28,7 @@ model Post {
     user   User?   @relation(fields: [userId], references: [id])
 
     stars Star[]
-    views Int    @default(0)
+    views Int    @default(1)
 
     @@index([userId])
     @@index([codeHash])
