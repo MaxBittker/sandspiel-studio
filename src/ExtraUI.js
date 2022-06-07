@@ -3,7 +3,7 @@ import { encode } from "fast-png";
 import { useSession } from "next-auth/react";
 
 import { seed, width, height, sands, tick, popUndo } from "./SandApi";
-import { snapshot } from "./Render";
+import { snapshot, exportGif } from "./Render";
 import { useStore } from "./store";
 import * as vkbeautify from "vkbeautify";
 import { base64ArrayBuffer } from "./base64ArrayBuffer";
@@ -59,7 +59,7 @@ const ExtraUI = () => {
 
   let stars = post?._count?.stars;
   let upload = useCallback(
-    (postPublic = false) => {
+    async (postPublic = false) => {
       if (postPublic && !session) {
         setSharedState("Sign in to post publicly");
         window.setTimeout(() => {
@@ -70,6 +70,7 @@ const ExtraUI = () => {
       if (sharedState === " ...") return;
       let xmls = prepareXMLs();
       let thumbnail = snapshot();
+      let gif = await exportGif();
       let id = window.location.pathname.slice(6);
 
       let buffer = encode({
@@ -111,6 +112,7 @@ const ExtraUI = () => {
             " "
           ),
           thumbnail,
+          gif,
           data,
         }),
       })

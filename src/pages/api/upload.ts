@@ -106,6 +106,7 @@ export default async function handler(
     await Promise.all([
       uploadPNG(bucket, newPost.id, request.body.data, ".data.png"),
       uploadPNG(bucket, newPost.id, request.body.thumbnail, ".png"),
+      uploadPNG(bucket, newPost.id, request.body.gif, ".gif"),
     ]);
 
     response.status(200).json(newPost);
@@ -125,3 +126,11 @@ export default async function handler(
     await prisma.$disconnect();
   }
 }
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "1.5mb", // Set desired value here
+    },
+  },
+};

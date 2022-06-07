@@ -162,7 +162,10 @@ const BrowsePostLink = ({ post }) => {
       >
         {/* <span className="title">{post.title}</span> */}
 
-        <img src={`${imageURLBase}${post.id}.png`}></img>
+        <img
+          src={`${imageURLBase}${post.id}.gif`}
+          onError={(e) => (e.target.src = `${imageURLBase}${post.id}.png`)}
+        ></img>
       </a>
 
       <div className="browse-info">

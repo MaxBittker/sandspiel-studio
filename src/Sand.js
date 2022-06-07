@@ -42,7 +42,7 @@ const Sand = () => {
       width,
       height,
       sands,
-    });
+    }).render;
   });
 
   useEffect(() => {

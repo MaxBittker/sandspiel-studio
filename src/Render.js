@@ -1,6 +1,16 @@
 // import raw from "raw.macro";
 import * as reglBuilder from "regl";
-import { height, width, initSand, sands } from "./SandApi";
+import {
+  height,
+  width,
+  initSand,
+  sands,
+  tick,
+  pushUndo,
+  popUndo,
+} from "./SandApi";
+import GIF from "gif.js";
+
 import useStore, { globalState } from "./store";
 import fsh from "./sand.glsl";
 
@@ -82,9 +92,12 @@ let startWebGL = ({ canvas, width, height, sands, isSnapshot }) => {
     count: 3,
   });
 
-  return () => {
-    regl.poll();
-    drawSand();
+  return {
+    render: () => {
+      regl.poll();
+      drawSand();
+    },
+    regl,
   };
 };
 
@@ -92,7 +105,7 @@ let snapshot = () => {
   let canvas = document.createElement("canvas");
   canvas.width = width * 2;
   canvas.height = height * 2;
-  let render = startWebGL({
+  let { render } = startWebGL({
     canvas,
     width,
     height,
@@ -102,6 +115,98 @@ let snapshot = () => {
   render();
 
   return canvas.toDataURL("image/png");
+};
+
+function blobToDataURL(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (_e) => resolve(reader.result);
+    reader.onerror = (_e) => reject(reader.error);
+    reader.onabort = (_e) => reject(new Error("Read aborted"));
+    reader.readAsDataURL(blob);
+  });
+}
+
+export let exportGif = async () => {
+  const initialPauseState = useStore.getState().pause;
+  useStore.setState({ isPaused: true });
+
+  let canvas = document.createElement("canvas");
+  canvas.width = width * 2;
+  canvas.height = height * 2;
+  let w = canvas.width;
+  let h = canvas.height;
+
+  var gif = new GIF({
+    workers: 2,
+    quality: 4,
+    workerScript: "/gif.worker.js",
+    width: canvas.width,
+    height: canvas.height,
+  });
+  let frames = [];
+
+  const numFrames = 6;
+  pushUndo();
+  const tmpc = document.createElement("canvas");
+  tmpc.width = w;
+  tmpc.height = h;
+  const tctx = tmpc.getContext("2d");
+  const tmpc2 = document.createElement("canvas");
+  tmpc2.width = w;
+  tmpc2.height = h;
+  const tctx2 = tmpc2.getContext("2d");
+  tctx2.scale(1, -1);
+  tctx2.translate(0, -h);
+  // this is faster but the y-axis gets flipped
+  let { render, regl } = startWebGL({
+    canvas,
+    width,
+    height,
+    sands,
+    isSnapshot: true,
+  });
+  for (var i = 0; i < numFrames; i++) {
+    regl.clear({
+      color: [1, 1, 1, 1],
+      depth: 1,
+      stencil: 0,
+    });
+
+    render();
+
+    tick();
+    let data2 = new ImageData(w, h);
+    let pixels = new Uint8Array(data2.data.buffer);
+    regl.read(pixels);
+    console.log("adding frame " + i);
+    tctx.clearRect(0, 0, w, h);
+    tctx.putImageData(data2, 0, 0);
+    tctx2.clearRect(0, 0, w, h);
+    tctx2.drawImage(tmpc, 0, 0, w, h);
+    const data = tctx2.getImageData(0, 0, w, h);
+
+    frames.push(data);
+  }
+  popUndo();
+  // boomerang
+  frames = [...frames, ...frames.slice(0).reverse()];
+  for (const frame of frames) {
+    gif.addFrame(frame, { delay: 50 });
+  }
+
+  let finished = new Promise((resolve, reject) => {
+    gif.on("finished", function (blob) {
+      console.log(blob);
+      window.open(URL.createObjectURL(blob));
+      useStore.setState({ isPaused: initialPauseState });
+
+      resolve(blobToDataURL(blob));
+    });
+  });
+
+  gif.render();
+  return finished;
 };
 
 function pallette() {
@@ -125,7 +230,7 @@ function pallette() {
     "position:absolute; z-index:999; right:0; bottom:0; zoom: 10; image-rendering: pixelated;";
 
   document.body.appendChild(canvas);
-  let render = startWebGL({
+  let { render } = startWebGL({
     canvas,
     width: range,
     height: 1,
