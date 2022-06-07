@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Link from "next/link";
 
 const Home = () => {
   const { data: session, status } = useSession();
@@ -10,10 +12,26 @@ const Home = () => {
   if (session) {
     return (
       <div>
-        Signed in as {session.user?.email} <br />
-        <button type="button" onClick={() => signOut()}>
+        <img
+          className="pfp"
+          style={{ float: "left", margin: 3, marginTop: 6 }}
+          src={session.user?.image}
+        ></img>
+        <Link href={`/browse?userId=${session.userId}`}>My Posts</Link>
+        <br />
+        <br />
+        <a
+          href=""
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            signOut();
+          }}
+        >
           Sign out
-        </button>
+        </a>
+        <br />
+        <br />
       </div>
     );
   }

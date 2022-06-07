@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import Dropdown from "react-dropdown";
 import { useSession } from "next-auth/react";
@@ -104,7 +105,13 @@ function Browse() {
       <span className="filterControls">
         <Dropdown
           options={options}
-          onChange={(e) => setQuery({ order: e.value })}
+          onChange={(e) => {
+            if (e.value === "top") {
+              setQuery({ order: e.value, days: "7" });
+            } else {
+              setQuery({ order: e.value });
+            }
+          }}
           value={query.order}
         />
         {query.order === "top" && (
@@ -159,15 +166,25 @@ const BrowsePostLink = ({ post }) => {
       </a>
 
       <div className="browse-info">
-        <ElementButtons
-          elements={metadata.elements}
-          disabled={metadata.disabled}
-          colors={metadata.colors}
-          color2s={metadata.color2s}
-          inert={true}
-          selectedElement={-1}
-        ></ElementButtons>
-        <div style={{ textAlign: "right" }}>
+        <button
+          className="element-set-button"
+          onClick={(e) => {
+            e.preventDefault();
+            setQuery({ codeHash: post.codeHash, userId: undefined });
+          }}
+        >
+          {/* {post.codeHash.slice(0, 6)} */}
+          <ElementButtons
+            elements={metadata.elements}
+            disabled={metadata.disabled}
+            colors={metadata.colors}
+            color2s={metadata.color2s}
+            inert={true}
+            selectedElement={-1}
+          ></ElementButtons>
+        </button>
+
+        <div style={{ textAlign: "justify" }}>
           {displayTime}, {post.views} plays
           <br></br>
           <button
@@ -185,28 +202,32 @@ const BrowsePostLink = ({ post }) => {
           >
             {"☆: " + post.stars}
           </button>
-          <br></br>
-          Element Set:{"\t\t"}
-          <button
-            href=""
-            onClick={(e) => {
-              e.preventDefault();
-              setQuery({ codeHash: post.codeHash, userId: undefined });
-            }}
-          >
-            {post.codeHash.slice(0, 6)}
-          </button>
+          {/* <br></br> */}
+          {/* Element Set:{"\t\t"} */}
           {"\t\t"}
           {/* <br></br> */}
-          Author:{"\t\t"}
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setQuery({ codeHash: undefined, userId: post.user.id });
-            }}
-          >
-            {post?.user?.name ?? post?.user?.id.slice(0, 6)}
-          </button>
+          {post?.user?.image ? (
+            <img
+              className="pfp"
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({ codeHash: undefined, userId: post.user.id });
+              }}
+              src={post?.user?.image}
+            ></img>
+          ) : (
+            <>
+              Author:{"\t\t"}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setQuery({ codeHash: undefined, userId: post.user.id });
+                }}
+              >
+                {post?.user?.name ?? post?.user?.id.slice(0, 6)}
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

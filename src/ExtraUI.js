@@ -11,7 +11,6 @@ import PlayPause from "./PlayPauseButton";
 import Family from "./Family";
 import SizeButtons from "./SizeButtons";
 import Home from "./Auth";
-import Link from "next/link";
 export const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
@@ -236,9 +235,35 @@ const ExtraUI = () => {
         )}
         <br />
         <Family />
-        {session && (
-          <Link href={`/browse?userId=${session.userId}`}>My Posts</Link>
+        {session && post?.user?.id == session.userId && (
+          <button
+            onClick={() => {
+              fetch("/api/updateProfile/", {
+                method: "post",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  postId: post.id,
+                }),
+              })
+                .then(function (response) {
+                  return response.json();
+                })
+                .then(function (post) {
+                  console.log(post);
+
+                  useStore.setState({
+                    post,
+                  });
+                });
+            }}
+          >
+            Set this post as my avatar
+          </button>
         )}
+        <br />
+
         <Home />
 
         {window.location.host.includes("localhost") && (

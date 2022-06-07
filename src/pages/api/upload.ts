@@ -84,6 +84,7 @@ export default async function handler(
             children: true,
           },
         },
+        user: { select: { id: true, name: true, image: true } },
         children: {
           select: {
             id: true,

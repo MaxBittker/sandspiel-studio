@@ -53,7 +53,6 @@ model User {
     accounts      Account[]
     sessions      Session[]
     Post          Post[]
-    // Star          Star[]
     Star          Star[]
 }
 
