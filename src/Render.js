@@ -197,8 +197,8 @@ export let exportGif = async () => {
 
   let finished = new Promise((resolve, reject) => {
     gif.on("finished", function (blob) {
-      console.log(blob);
-      window.open(URL.createObjectURL(blob));
+      // console.log(blob);
+      // window.open(URL.createObjectURL(blob));
       useStore.setState({ isPaused: initialPauseState });
 
       resolve(blobToDataURL(blob));
