@@ -38,7 +38,10 @@ Blockly.Blocks["sand_behavior_base"] = {
     const validator = (value) => {
       useStore
         .getState()
-        .setElementName(useStore.getState().selectedElement, value);
+        .setElementName(
+          useStore.getState().selectedElement,
+          value.slice(0, 20)
+        );
       if (globalState.workspace === undefined) return;
       const blocks = globalState.workspace.getAllBlocks();
       for (const block of blocks) {
