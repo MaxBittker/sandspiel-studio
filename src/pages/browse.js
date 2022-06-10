@@ -48,7 +48,7 @@ function Browse() {
     };
 
     fetchData();
-  }, [query.order, query.userId, query.codeHash, query.days]);
+  }, [query.order, query.userId, query.codeHash, query.starredBy, query.days]);
 
   console.log(data);
   return (
@@ -129,7 +129,7 @@ function Browse() {
   );
 }
 
-const BrowsePostLink = ({ post:initPost }) => {
+const BrowsePostLink = ({ post: initPost }) => {
   const router = useRouter();
   const [post, setPost] = useState(initPost);
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
