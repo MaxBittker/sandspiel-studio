@@ -5,14 +5,14 @@ let bufferXMLs = starterXMLs;
 
 function generatePlaceholder(i) {
   const color = tinycolor2.random();
-  const name = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i];
+  const name = "ABCDEABCDEFGHIJKLMNOPQRSTUVWXYZ"[i];
   return `<xml xmlns="https://developers.google.com/blockly/xml"><block type="sand_behavior_base"  deletable="false" x="40" y="100"><field name="ELEMENT_NAME">${name}?</field><field name="COLOR">${color
     .lighten(15)
-    .toHex()}</field><field name="COLOR2">${color
-    .darken(15)
-    .toHex()}</field></block>
-<next><block type="if" ><mutation elseIds=""></mutation><value name="CONDITION"><block type="is_block" ><value name="CELL"><shadow type="vector_constant" ><field name="VALUE">DOWN</field></shadow></value><value name="ELEMENT"><shadow type="element_literal" ><field name="VALUE">0</field></shadow><block type="group" ><mutation itemCount="1"></mutation><value name="ITEM0"><shadow type="element_literal" ><field name="VALUE">0</field></shadow></value></block></value></block></value><statement name="THEN"><block type="move" ><value name="DIRECTION"><shadow type="vector_constant" ><field name="VALUE">DOWN</field></shadow></value></block></statement></block></next></xml>`;
+    .toHex()}</field><field name="COLOR2">${color.darken(15).toHex()}</field>
+<next><block type="if" ><mutation elseIds=""></mutation><value name="CONDITION"><block type="is_block" ><value name="CELL"><shadow type="vector_constant" ><field name="VALUE">DOWN</field></shadow></value><value name="ELEMENT"><shadow type="element_literal" ><field name="VALUE">0</field></shadow><block type="group" ><mutation itemCount="1"></mutation><value name="ITEM0"><shadow type="element_literal" ><field name="VALUE">0</field></shadow></value></block></value></block></value><statement name="THEN"><block type="move" ><value name="DIRECTION"><shadow type="vector_constant" ><field name="VALUE">DOWN</field></shadow></value></block></statement></block></next></block></xml>`;
 }
+
+export const MAX_ELEMENTS = 9;
 
 let useStore = create((set, get) => ({
   pos: [0, 0],
@@ -40,7 +40,7 @@ let useStore = create((set, get) => ({
       disabled[selectedElement] = true;
 
       for (var i = 0; i < 16; i++) {
-        let candidate = (15 + selectedElement - i) % 15;
+        let candidate = (MAX_ELEMENTS + selectedElement - i) % MAX_ELEMENTS;
 
         if (elements[candidate] && !disabled[candidate]) {
           selectedElement = candidate;
@@ -55,7 +55,7 @@ let useStore = create((set, get) => ({
     set(() => {
       let { disabled, selectedElement, elements, xmls, setXmls } = get();
 
-      if (xmls.length >= 15 && disabled.length == 0) return;
+      if (xmls.length >= MAX_ELEMENTS && disabled.length == 0) return;
 
       for (var i = 0; i < 16; i++) {
         if (!elements[i] || disabled[i]) {
@@ -80,7 +80,7 @@ let useStore = create((set, get) => ({
 
   setXml: (x, i) =>
     set(() => {
-      const { colors, color2s, xmls, elements } = get();
+      let { colors, color2s, xmls, elements } = get();
 
       xmls = xmls.slice(0);
       colors = colors.slice(0);
@@ -101,7 +101,7 @@ let useStore = create((set, get) => ({
 
   setElementName: (i, name) =>
     set(() => {
-      const { elements } = get();
+      let { elements } = get();
 
       elements = elements.slice(0);
       elements[i] = name;

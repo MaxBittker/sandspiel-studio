@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 // import { pallette } from "./Render";
-import { useStore } from "./store";
+import { MAX_ELEMENTS, useStore } from "./store";
 
 // let pallette_data = pallette();
 
@@ -88,7 +88,7 @@ const ElementButtons = ({
             -
           </button>
 
-          {enabledElements.length < 15 && (
+          {enabledElements.length < MAX_ELEMENTS && (
             <button
               onMouseEnter={() => setHovering("+")}
               className={"simulation-button element-control "}

@@ -194,8 +194,6 @@ const ExtraUI = () => {
       >
         Reset
       </button>
-      <br></br>
-      <br></br>
       <div>
         {/* <input
           type="text"

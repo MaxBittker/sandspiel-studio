@@ -202,7 +202,7 @@ export let exportGif = async () => {
         Math.abs(f - frames.length)
       ) / frames.length;
 
-    let delay = (1 / (d + 0.1)) * 25;
+    let delay = (1 / (d + 0.15)) * 20;
     // console.log(d.toFixed(2), 1 / (d + 0.1));
     gif.addFrame(frame, { delay });
   }
