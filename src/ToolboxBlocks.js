@@ -92,9 +92,9 @@ export function ToolboxBlocks() {
       <Block type="for_all">
         <Field name="NAME">ROTATION</Field>
       </Block>
-      {/* <Block type="number_literal">
+      <Block type="number_literal">
         <Field name="VALUE">0</Field>
-      </Block> */}
+      </Block>
       <Block type="operation">
         <Field name="OPERATION">ADD</Field>
         <Value name="A">
