@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Dropdown from "react-dropdown";
 import { useSession } from "next-auth/react";
 import * as timeago from "timeago.js";
+import Link from "next/link";
 
 import "react-dropdown/style.css";
 import { useQueryParams, StringParam, withDefault } from "next-query-params";
@@ -53,6 +54,8 @@ function Browse() {
   console.log(data);
   return (
     <div className="browse family">
+      <Link href={`/`}>Editor</Link>
+
       <div style={{ position: "absolute", right: 40 }}>
         <Home />
       </div>
