@@ -129,8 +129,9 @@ function Browse() {
   );
 }
 
-const BrowsePostLink = ({ post }) => {
+const BrowsePostLink = ({ post:initPost }) => {
   const router = useRouter();
+  const [post, setPost] = useState(initPost);
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
     e.preventDefault();
@@ -142,7 +143,6 @@ const BrowsePostLink = ({ post }) => {
     userId: StringParam,
   });
 
-  post.stars = post?._count?.stars ?? 0;
   let metadata = JSON.parse(post.metadata);
 
   let displayTime = new Date(post.createdAt).toLocaleDateString();
@@ -197,13 +197,11 @@ const BrowsePostLink = ({ post }) => {
                   return response.json();
                 })
                 .then(function (new_post) {
-                  //todo this doesn't work
-                  post._count = new_post._count;
-                  post.stars = new_post?._count?.stars ?? 0;
+                  setPost(new_post);
                 });
             }}
           >
-            {"☆: " + post.stars}
+            {(post.stars.length ? "★: " : "☆: ") + post?._count?.stars ?? 0}
           </button>
           {/* <br></br> */}
           {/* Element Set:{"\t\t"} */}

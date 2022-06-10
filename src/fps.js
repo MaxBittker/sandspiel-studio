@@ -30,24 +30,25 @@ const fps = new (class {
     if (this.frames.length > 30) {
       this.frames.shift();
     }
-    this.times.push(d);
-    if (this.times.length > 30) {
-      this.times.shift();
-    }
+    // this.times.push(d);
+    // if (this.times.length > 30) {
+    //   this.times.shift();
+    // }
     // Find the max, min, and mean of our 100 latest timings.
     let min = Infinity;
     let max = -Infinity;
     let sum = 0;
-    for (let i = 0; i < this.times.length; i++) {
-      sum += this.times[i];
-      min = Math.min(this.times[i], min);
-      max = Math.max(this.times[i], max);
+    for (let i = 0; i < this.frames.length; i++) {
+      sum += this.frames[i];
+      min = Math.min(this.frames[i], min);
+      max = Math.max(this.frames[i], max);
     }
-    let mean = sum / this.times.length;
+    let mean = sum / this.frames.length;
 
     // Render the statistics.
     if (this.fps) {
-      this.fps.textContent = `${width}x${height}  ${Math.round(max)}ms`;
+      this.fps.textContent = `${Math.round(mean)}fps`;
+      // this.fps.textContent = `${width}x${height}  ${Math.round(max)}ms`;
     }
   }
 })();

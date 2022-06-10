@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { encode } from "fast-png";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 import { seed, width, height, sands, tick, popUndo } from "./SandApi";
 import { snapshot, exportGif } from "./Render";
@@ -263,7 +264,7 @@ const ExtraUI = () => {
           </button>
         )}
         <br />
-
+        <Link href={`/browse`}>Browse</Link>
         <Home />
 
         {window.location.host.includes("localhost") && (

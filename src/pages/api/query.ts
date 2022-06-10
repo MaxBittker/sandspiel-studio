@@ -73,6 +73,11 @@ export default async function handler(
         _count: {
           select: { stars: true },
         },
+        stars: {
+          where: {
+            userId: session.userId,
+          },
+        },
         parent: {
           select: {
             id: true,

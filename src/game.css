@@ -79,6 +79,11 @@ button:hover {
   flex-direction: column;
   flex-wrap: wrap;
 }
+.extras-tray .Auth {
+  position: absolute;
+  right: 5px;
+  bottom: 60px;
+}
 .first-row {
   display: flex;
   justify-content: space-between;

@@ -11,15 +11,13 @@ const Home = () => {
   }
   if (session) {
     return (
-      <div>
+      <div className="Auth">
         <img
           className="pfp"
           style={{ float: "left", margin: 3, marginTop: 6 }}
           src={session.user?.image}
         ></img>
         <Link href={`/browse?userId=${session.userId}`}>My Posts</Link>
-        <br />
-        <br />
         <a
           href=""
           type="button"
@@ -30,13 +28,11 @@ const Home = () => {
         >
           Sign out
         </a>
-        <br />
-        <br />
       </div>
     );
   }
   return (
-    <div>
+    <div className="Auth">
       Not signed in <br />
       <button type="button" onClick={() => signIn()}>
         Sign in
