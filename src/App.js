@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
-import starterXMLs from "./starterblocks.json";
+import starterXMLs from "./starterblocks";
 import Sand from "./Sand.js";
 import useStore, { globalState } from "./store";
 import BlocklyComponent from "./Blockly";

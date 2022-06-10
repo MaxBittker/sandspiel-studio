@@ -1,9 +1,19 @@
 import create from "zustand";
 import tinycolor2 from "tinycolor2";
-import starterXMLs from "./starterblocks.json";
+import starterXMLs from "./starterblocks";
 let bufferXMLs = starterXMLs;
-let totalPlaceholder =
-  '<xml xmlns="https://developers.google.com/blockly/xml"><block type="sand_behavior_base"  deletable="false" x="40" y="100"><field name="ELEMENT_NAME">???</field><field name="COLOR">#af3aff</field><field name="COLOR2">#ffba2a</field></block></xml>';
+
+function generatePlaceholder(i) {
+  const color = tinycolor2.random();
+  const name = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i];
+  return `<xml xmlns="https://developers.google.com/blockly/xml"><block type="sand_behavior_base"  deletable="false" x="40" y="100"><field name="ELEMENT_NAME">${name}?</field><field name="COLOR">${color
+    .lighten(15)
+    .toHex()}</field><field name="COLOR2">${color
+    .darken(15)
+    .toHex()}</field></block>
+<next><block type="if" ><mutation elseIds=""></mutation><value name="CONDITION"><block type="is_block" ><value name="CELL"><shadow type="vector_constant" ><field name="VALUE">DOWN</field></shadow></value><value name="ELEMENT"><shadow type="element_literal" ><field name="VALUE">0</field></shadow><block type="group" ><mutation itemCount="1"></mutation><value name="ITEM0"><shadow type="element_literal" ><field name="VALUE">0</field></shadow></value></block></value></block></value><statement name="THEN"><block type="move" ><value name="DIRECTION"><shadow type="vector_constant" ><field name="VALUE">DOWN</field></shadow></value></block></statement></block></next></xml>`;
+}
+
 let useStore = create((set, get) => ({
   pos: [0, 0],
   setPos: (e) => set(() => ({ pos: e })),
@@ -50,7 +60,7 @@ let useStore = create((set, get) => ({
       for (var i = 0; i < 16; i++) {
         if (!elements[i] || disabled[i]) {
           delete disabled[i];
-          xmls[i] = xmls[i] ?? bufferXMLs[i] ?? totalPlaceholder;
+          xmls[i] = xmls[i] ?? bufferXMLs[i] ?? generatePlaceholder(i);
           selectedElement = i;
           break;
         }
@@ -118,7 +128,7 @@ function deriveName(xmlString) {
   const r = /<field name="ELEMENT_NAME">(.*?)<\/field>/;
   const match = r.exec(xmlString);
   if (!match) {
-    return "???";
+    return "?";
   }
   return match[1];
 }

@@ -1,5 +1,5 @@
 import { decode } from "fast-png";
-import starterXMLs from "./starterblocks.json";
+import starterXMLs from "./starterblocks";
 import { useStore } from "./store";
 import { width, height, sands } from "./SandApi";
 
