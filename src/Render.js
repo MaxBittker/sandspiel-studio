@@ -144,9 +144,7 @@ export let exportGif = async () => {
     width: canvas.width,
     height: canvas.height,
   });
-  let frames = [];
 
-  const numFrames = 8;
   pushUndo();
   const tmpc = document.createElement("canvas");
   tmpc.width = w;
@@ -166,6 +164,9 @@ export let exportGif = async () => {
     sands,
     isSnapshot: true,
   });
+  let frames = [];
+  const numFrames = 8;
+
   for (var i = 0; i < numFrames; i++) {
     regl.clear({
       color: [1, 1, 1, 1],
