@@ -66,7 +66,7 @@ export function ToolboxBlocks() {
       <Block type="vector_constant">
         <Field name="VALUE">HERE</Field>
       </Block>
-      <Block type="vector_literal">
+      {/* <Block type="vector_literal">
         <Value name="X">
           <Shadow type="number_literal">
             <Field name="VALUE">0</Field>
@@ -77,7 +77,7 @@ export function ToolboxBlocks() {
             <Field name="VALUE">0</Field>
           </Shadow>
         </Value>
-      </Block>
+      </Block> */}
 
       <Block type="in_a_random">
         <Field name="NAME">ROTATION</Field>
@@ -92,9 +92,9 @@ export function ToolboxBlocks() {
       <Block type="for_all">
         <Field name="NAME">ROTATION</Field>
       </Block>
-      <Block type="number_literal">
+      {/* <Block type="number_literal">
         <Field name="VALUE">0</Field>
-      </Block>
+      </Block> */}
       <Block type="operation">
         <Field name="OPERATION">ADD</Field>
         <Value name="A">
