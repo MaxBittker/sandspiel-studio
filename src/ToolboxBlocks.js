@@ -138,6 +138,11 @@ export function ToolboxBlocks() {
       <Block type="if"></Block>
       <Block type="comparison">
         <Field name="COMPARISON">IS</Field>
+        <Value name="B">
+          <Shadow type="number_literal">
+            <Field name="VALUE">0</Field>
+          </Shadow>
+        </Value>
       </Block>
       <Block type="boolean_operation">
         <Field name="OPERATION">AND</Field>
