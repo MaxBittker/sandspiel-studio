@@ -146,7 +146,7 @@ export let exportGif = async () => {
   });
   let frames = [];
 
-  const numFrames = 6;
+  const numFrames = 8;
   pushUndo();
   const tmpc = document.createElement("canvas");
   tmpc.width = w;
@@ -190,17 +190,28 @@ export let exportGif = async () => {
   }
   popUndo();
   // boomerang
-  frames = [...frames, ...frames.slice(0).reverse()];
-  for (const frame of frames) {
-    gif.addFrame(frame, { delay: 50 });
+  frames = [...frames, ...frames.slice(1, -1).reverse()];
+
+  for (var f = 0; f < frames.length; f++) {
+    let frame = frames[f];
+    let d =
+      Math.min(
+        Math.abs(f),
+        Math.abs(f - (numFrames - 1)),
+        Math.abs(f - frames.length)
+      ) / frames.length;
+
+    let delay = (1 / (d + 0.1)) * 25;
+    // console.log(d.toFixed(2), 1 / (d + 0.1));
+    gif.addFrame(frame, { delay });
   }
 
   let finished = new Promise((resolve, reject) => {
     gif.on("finished", function (blob) {
       // console.log(blob);
       // window.open(URL.createObjectURL(blob));
-      useStore.setState({ isPaused: initialPauseState });
 
+      useStore.setState({ isPaused: initialPauseState });
       resolve(blobToDataURL(blob));
     });
   });
