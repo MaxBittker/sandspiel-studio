@@ -354,6 +354,28 @@ function mod(a, b, aType, bType) {
   return a % b;
 }
 
+function differenceScalar(a, b) {
+  return Math.abs(a - b);
+}
+
+// this is half baked, it also doesn't work correctly for hue rotate which wraps
+function difference(a, b, aType, bType) {
+  if (aType === "Vector" && bType === "Vector") {
+    const [ax, ay] = a;
+    const [bx, by] = b;
+    return [differenceScalar(ax, bx), differenceScalar(ay, by)];
+  }
+  if (aType === "Vector" && bType !== "Vector") {
+    const [x, y] = a;
+    return [differenceScalar(x, b), differenceScalar(y, b)];
+  }
+  if (aType !== "Vector" && bType === "Vector") {
+    const [x, y] = b;
+    return [differenceScalar(x, a), differenceScalar(y, a)];
+  }
+  return differenceScalar(a, b);
+}
+
 const TRANSFORMATION_SETS = {
   ROTATION: [
     (x, y) => [x, y],
@@ -491,6 +513,7 @@ globalState.add = add;
 globalState.clamp = clamp;
 globalState.subtract = subtract;
 globalState.multiply = multiply;
+globalState.difference = difference;
 globalState.divide = divide;
 globalState.mod = mod;
 globalState.setTransformation = setTransformation;

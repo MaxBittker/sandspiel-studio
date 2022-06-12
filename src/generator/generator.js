@@ -519,6 +519,7 @@ const OPERATION_FUNCTIONS = {
   MULTIPLY: "multiply",
   DIVIDE: "divide",
   MOD: "mod",
+  DIFFERENCE: "difference",
 };
 
 Blockly.JavaScript["operation"] = function (block) {
