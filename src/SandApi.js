@@ -2,16 +2,21 @@ import { UPDATE_SCHEMES } from "./updateSchemes";
 import { globalState, useStore } from "./store.js";
 import { ChebyshevRotate } from "./Chebyshev.js";
 import noise from "./perlin";
+import { shuffle } from "lodash";
 noise.seed(Math.random());
 
 let aX = 0;
 let aY = 0;
+let transformationSet = "ROTATION";
+let transformationId = 0;
 
 export let width = 150;
 export let height = width;
 export let cellCount = width * height;
 export let sands = new Uint8Array(cellCount * 4);
 let undoStack = [];
+let afterFrameStatements = [];
+
 pushUndo();
 export function pushUndo() {
   undoStack.push(sands.slice(0, cellCount * 4));
@@ -397,8 +402,6 @@ const TRANSFORMATION_SETS = {
   VERTICAL_REFLECTION: [(x, y) => [x, y], (x, y) => [x, -y]],
 };
 
-let transformationSet = "ROTATION";
-let transformationId = 0;
 function setTransformation(set, id) {
   transformationSet = set;
   transformationId = id;
@@ -496,6 +499,11 @@ function getCursorDistance() {
   );
 }
 
+function callAfterFrame(func) {
+  const statement = { aX, aY, transformationSet, transformationId, func };
+  afterFrameStatements.push(statement);
+}
+
 globalState.keys = keys;
 globalState.getKeyBoardVector = getKeyBoardVector;
 globalState.getCursorDistance = getCursorDistance;
@@ -522,6 +530,7 @@ globalState.setRotation = setRotation;
 globalState.setRandomTransformation = setRandomTransformation;
 globalState.loopThroughTransformation = loopThroughTransformation;
 globalState.getTransformation = getTransformation;
+globalState.callAfterFrame = callAfterFrame;
 
 export const fireEventPhase = ({
   xFirst = false,
@@ -568,8 +577,6 @@ export const fireEvent = (offset) => {
   let y = Math.floor(index / width);
   aX = x;
   aY = y;
-  globalState.returnValue = undefined;
-  inertMode = false;
   const behaveFunction = globalState.updaters[e];
   if (behaveFunction === undefined) return [];
   // console.log(behaveFunction.toString());
@@ -581,6 +588,16 @@ export const tick = () => {
   const scheme = UPDATE_SCHEMES[globalState.updateScheme || "RANDOM_CYCLIC"];
   if (typeof scheme === "function") scheme(scheme);
   else scheme.tick(scheme);
+
+  for (const statement of afterFrameStatements) {
+    aX = statement.aX;
+    aY = statement.aY;
+    transformationSet = statement.transformationSet;
+    transformationId = statement.transformationId;
+    statement.func();
+  }
+
+  afterFrameStatements.length = 0;
 };
 
 export const seed = () => {

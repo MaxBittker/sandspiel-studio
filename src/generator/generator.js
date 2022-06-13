@@ -674,3 +674,9 @@ Blockly.JavaScript["comment"] = function (block) {
   const comment = block.getFieldValue("DATA");
   return `// ${comment}\n`;
 };
+
+Blockly.JavaScript["after"] = function (block) {
+  const statement = Blockly.JavaScript.statementToCode(block, "STATEMENT");
+  const code = `this.callAfterFrame(() => {\n${statement}\n});`;
+  return code;
+};

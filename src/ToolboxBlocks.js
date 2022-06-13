@@ -174,6 +174,7 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+      <Block type="after"></Block>
       <Block type="comment"></Block>
     </>
   );

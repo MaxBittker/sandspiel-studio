@@ -1733,3 +1733,18 @@ Blockly.Blocks["comment"] = {
     this.setHelpUrl("");
   },
 };
+
+Blockly.Blocks["after"] = {
+  init: function () {
+    this.appendDummyInput().appendField(
+      new Blockly.FieldLabelSerializable("at the end of the frame"),
+      "TEXT"
+    );
+    this.appendStatementInput("STATEMENT").setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(330);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
