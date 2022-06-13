@@ -42,7 +42,7 @@ function generateCode(element, ws) {
       parser: "babel",
       plugins: [parserBabel],
     });
-
+    console.log(element + "\n" + code);
     let xml = Xml.workspaceToDom(ws);
     let xmlText = Xml.domToPrettyText(xml);
     // eslint-disable-next-line no-new-func
