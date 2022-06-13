@@ -6,8 +6,10 @@ import { useRouter } from "next/router";
 
 export const PostLink = ({ post }) => {
   const router = useRouter();
+  const setPaused = useStore((state) => state.setPaused);
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
+    setPaused(true);
     e.preventDefault();
     router.push(href);
   };

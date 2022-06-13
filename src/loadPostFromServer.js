@@ -15,15 +15,7 @@ export async function loadPostFromServer() {
     return;
   }
 
-  fetch(`${imageURLBase}${id}.data.png`)
-    .then((res) => res.blob())
-    .then(async (blob) => {
-      let ab = await blob.arrayBuffer();
-      let { data } = decode(ab);
-      for (var i = 0; i < width * height * 4; i++) {
-        sands[i] = data[i];
-      }
-    });
+  let desiredPaused = false;
 
   await fetch("/api/getCreation/" + id)
     .then((response) => {
@@ -49,6 +41,8 @@ export async function loadPostFromServer() {
         elements,
       } = JSON.parse(metadata);
 
+      desiredPaused = paused;
+
       useStore.getState().setXmls(xmls);
       // useStore.getState().setSelected(selectedElement);
       // useStore.setState({ initialSelected: selectedElement });
@@ -56,9 +50,20 @@ export async function loadPostFromServer() {
       useStore.setState({
         initialSelected: selectedElement,
         disabled,
-        paused,
+        //paused,
         post,
         size: size ?? 3,
       });
+    });
+
+  fetch(`${imageURLBase}${id}.data.png`)
+    .then((res) => res.blob())
+    .then(async (blob) => {
+      let ab = await blob.arrayBuffer();
+      let { data } = decode(ab);
+      for (var i = 0; i < width * height * 4; i++) {
+        sands[i] = data[i];
+      }
+      useStore.setState({ paused: desiredPaused });
     });
 }
