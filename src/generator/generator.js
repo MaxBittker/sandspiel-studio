@@ -454,21 +454,6 @@ Blockly.JavaScript["for_all"] = function (block) {
   lines.push(`  this.setTransformation(...oldTransformation);`);
   lines.push(`}`);
   const code = lines.join("\n");
-  console.log(code);
-  return code;
-};
-
-Blockly.JavaScript["if_else"] = function (block) {
-  const condition = Blockly.JavaScript.valueToCode(
-    block,
-    "CONDITION",
-    Blockly.JavaScript.ORDER_ATOMIC
-  );
-  const then = Blockly.JavaScript.statementToCode(block, "THEN");
-  const else_ = Blockly.JavaScript.statementToCode(block, "ELSE");
-  const code = `
-  console.log(transformationSet,transformationId);
-  if (${condition}) {\n${then}\n} else {\n${else_}\n}`;
   return code;
 };
 
