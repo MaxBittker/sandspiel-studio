@@ -52,22 +52,7 @@ export const getTypeOfValue = (block, inputName) => {
 };
 
 Blockly.JavaScript["sand_behavior_base"] = function (block) {
-  const lines = [];
-
-  lines.push(`const swaps = [];`);
-
-  let nextBlock = block.nextConnection.targetBlock();
-
-  while (nextBlock !== null) {
-    const code = Blockly.JavaScript.blockToCode(nextBlock);
-    lines.push(code);
-    nextBlock = nextBlock.nextConnection.targetBlock();
-  }
-
-  lines.push(`return swaps;`);
-
-  const code = lines.join("\n");
-  return code;
+  return `const swaps = [];`;
 };
 
 Blockly.JavaScript["number_literal"] = function (block) {
@@ -462,11 +447,14 @@ Blockly.JavaScript["for_all"] = function (block) {
   lines.push(`{`);
   lines.push(`  const oldTransformation = this.getTransformation();`);
   lines.push(
-    `  this.loopThroughTransformation("${name}", () => {${statement}});`
+    `  this.loopThroughTransformation("${name}", () => {
+    ${statement}
+    });`
   );
   lines.push(`  this.setTransformation(...oldTransformation);`);
   lines.push(`}`);
   const code = lines.join("\n");
+  console.log(code);
   return code;
 };
 
@@ -478,7 +466,9 @@ Blockly.JavaScript["if_else"] = function (block) {
   );
   const then = Blockly.JavaScript.statementToCode(block, "THEN");
   const else_ = Blockly.JavaScript.statementToCode(block, "ELSE");
-  const code = `if (${condition}) {\n${then}\n} else {\n${else_}\n}`;
+  const code = `
+  console.log(transformationSet,transformationId);
+  if (${condition}) {\n${then}\n} else {\n${else_}\n}`;
   return code;
 };
 
