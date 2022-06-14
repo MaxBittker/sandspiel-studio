@@ -492,15 +492,25 @@ function resetTrackedKeys() {
 
 resetTrackedKeys();
 if (typeof window !== "undefined") {
-  window.addEventListener("keydown", (e) => {
-    if (!trackedKeys.has(e.key)) return;
-    keys[e.key] = true;
-  });
+  window.addEventListener(
+    "keydown",
+    (e) => {
+      if (!trackedKeys.has(e.key)) return;
+      keys[e.key] = true;
+      e.preventDefault();
+    },
+    { passive: false }
+  );
 
-  window.addEventListener("keyup", (e) => {
-    if (!trackedKeys.has(e.key)) return;
-    keys[e.key] = false;
-  });
+  window.addEventListener(
+    "keyup",
+    (e) => {
+      if (!trackedKeys.has(e.key)) return;
+      keys[e.key] = false;
+      e.preventDefault();
+    },
+    { passive: false }
+  );
 
   window.addEventListener("visibilitychange", (e) => {
     resetTrackedKeys();
