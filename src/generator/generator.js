@@ -582,6 +582,7 @@ Blockly.JavaScript["is_touching"] = function (block) {
 
 Blockly.JavaScript["key_pressed"] = function (block) {
   let key = block.getFieldValue("KEY");
+  if (key === "SPACE") key = " "; //Fix for serialization bug - blockly didn't like a whitespace value
   const code = `this.keys["${key}"]`;
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };

@@ -1316,7 +1316,7 @@ Blockly.Blocks["key_pressed"] = {
   init: function () {
     this.appendDummyInput().appendField(
       new Blockly.FieldDropdown([
-        ["space bar", " "],
+        ["space bar", "SPACE"],
         ["➡ right arrow", "ArrowRight"],
         ["⬅ left arrow", "ArrowLeft"],
         ["⬆ up arrow", "ArrowUp"],
