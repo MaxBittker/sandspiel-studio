@@ -3,7 +3,7 @@ import { encode } from "fast-png";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-import { seed, width, height, sands, tick, popUndo } from "./SandApi";
+import { seed, reset, width, height, sands, tick, popUndo } from "./SandApi";
 import { snapshot, exportGif } from "./Render";
 import { useStore } from "./store";
 import * as vkbeautify from "vkbeautify";
@@ -187,14 +187,25 @@ const ExtraUI = () => {
       >
         Undo
       </button>
-      <button
-        className="simulation-button"
-        onClick={() => {
-          seed();
-        }}
-      >
-        Reset
-      </button>
+      <div>
+        <button
+          className="simulation-button"
+          onClick={() => {
+            reset();
+          }}
+        >
+          Reset
+        </button>
+        <button
+          className="simulation-button"
+          onClick={() => {
+            seed();
+          }}
+        >
+          Clear
+        </button>
+      </div>
+      <br />
       <div>
         {/* <input
           type="text"

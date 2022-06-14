@@ -641,6 +641,17 @@ export const tick = () => {
   afterFrameStatements.length = 0;
 };
 
+export const reset = () => {
+  const data = useStore.getState().initialSandsData;
+  if (data === undefined) {
+    return seed();
+  }
+
+  for (var i = 0; i < width * height * 4; i++) {
+    sands[i] = data[i];
+  }
+};
+
 export const seed = () => {
   for (var i = 0; i < sands.length; i += 4) {
     let x = (i / 4) % width;

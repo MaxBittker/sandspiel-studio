@@ -18,6 +18,7 @@ let useStore = create((set, get) => ({
   pos: [0, 0],
   setPos: (e) => set(() => ({ pos: e })),
   selectedElement: 0,
+  initialSandsData: undefined,
   initialSelected: 3,
   updateScheme: "RANDOM_CYCLIC",
   taggedMode: false,

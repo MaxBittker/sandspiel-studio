@@ -61,6 +61,7 @@ export async function loadPostFromServer() {
     .then(async (blob) => {
       let ab = await blob.arrayBuffer();
       let { data } = decode(ab);
+      useStore.setState({ initialSandsData: data });
       for (var i = 0; i < width * height * 4; i++) {
         sands[i] = data[i];
       }
