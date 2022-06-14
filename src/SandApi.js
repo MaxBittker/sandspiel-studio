@@ -43,6 +43,41 @@ if (typeof window !== "undefined") {
   window.sands = sands;
 }
 
+function clamp(value, min, max) {
+  if (value < min) return min;
+  if (value > max) return max;
+  return value;
+}
+
+function turn(v, direction = -1) {
+  return ChebyshevRotate(v, direction);
+}
+
+function resolveValueToNumber(value) {
+  if (value === undefined) return undefined;
+  if (typeof value === "number") return value;
+  const [head] = value;
+  if (typeof head === "number") return resolveVectorToNumber(value);
+  return resolveGroupToNumber(value);
+}
+
+function resolveVectorToNumber(vector) {
+  const message = `Unimplemented code - please tell @TodePond or @maxbittker that you found this error :)`;
+  alert(message);
+  throw new Error(message);
+}
+
+function resolveGroupToNumber(group) {
+  if (group.length === 1) {
+    const [value] = group[0];
+    return value;
+  }
+
+  const index = Math.floor(Math.random() * group.length);
+  const [value] = group[index];
+  return value;
+}
+
 function isBlock(pos, value, type) {
   if (type === "Group") {
     for (const [element] of value) {
@@ -167,10 +202,14 @@ function getSandRelative([x, y], o = 0) {
   [x, y] = transform(x, y);
   return getSand(x + aX, y + aY, o);
 }
-function setSandRelative([x, y], v, ra, rb, rc) {
-  [x, y] = [x, y].map((v) => Math.round(v));
+function setSandRelative([x, y], v, ra, rb, rc, reset = true) {
+  // Transformation
+  [x, y] = [x, y].map((value) => Math.round(value));
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
   [x, y] = transform(x, y);
+
+  // Implicitly cast values to numbers
+  [v, ra, rb, rc] = [v, ra, rb, rc].map((value) => resolveValueToNumber(value));
 
   x = x + aX;
   y = y + aY;
@@ -183,9 +222,11 @@ function setSandRelative([x, y], v, ra, rb, rc) {
   if (v !== undefined) {
     if (sands[i] == v) return; // bail to not  reset ra/rb/rc on no-ops
     sands[i] = v;
-    ra = ra || randomData(x, y);
-    rb = rb || 0;
-    rc = rc || 0;
+    if (reset) {
+      ra = ra || randomData(x, y);
+      rb = rb || 0;
+      rc = rc || 0;
+    }
   }
   if (ra !== undefined) sands[i + 1] = ra;
   if (rb !== undefined) sands[i + 2] = (rb + 100) % 100;
@@ -254,16 +295,6 @@ function moveOrigin([x, y]) {
     return;
   }
   [aX, aY] = [aX + x, aY + y];
-}
-
-function clamp(value, min, max) {
-  if (value < min) return min;
-  if (value > max) return max;
-  return value;
-}
-
-function turn(v, direction = -1) {
-  return ChebyshevRotate(v, direction);
 }
 
 function add(a, b, aType, bType) {

@@ -1488,7 +1488,7 @@ Blockly.defineBlocksWithJsonArray([
       {
         type: "input_value",
         name: "VALUE",
-        check: ["Number", "Vector"],
+        check: ["Number", "Vector", "Group", "Element"], //These don't actually matter - this input is rebuilt by the mutator anyway
       },
     ],
     inputsInline: true,
@@ -1544,6 +1544,8 @@ Blockly.Extensions.registerMutator("set_r_mutator", {
     const value = this.appendValueInput("VALUE").setCheck([
       "Number",
       "Element",
+      //"Vector", //TODO
+      "Group",
     ]);
 
     const valueShadow = globalState.workspace.newBlock("number_literal");

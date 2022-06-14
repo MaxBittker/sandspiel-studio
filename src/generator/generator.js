@@ -633,7 +633,7 @@ Blockly.JavaScript["set_r_cell_flexible"] = function (block) {
   const field = block.getFieldValue("DATA");
   const valueCode = `this.clamp(${value}, 0, 100)`;
   if (field === "ELEMENT") {
-    return `this.setSandRelative(${cell}, ${value});\n`;
+    return `this.setSandRelative(${cell}, ${value}, undefined, undefined, undefined, false);\n`;
   } else if (field === "RA") {
     return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
   } else if (field === "RB") {
