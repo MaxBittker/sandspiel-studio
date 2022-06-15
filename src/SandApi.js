@@ -626,6 +626,8 @@ export const fireEvent = (offset) => {
   let y = Math.floor(index / width);
   aX = x;
   aY = y;
+  transformationSet = "ROTATION";
+  transformationId = 0;
   const behaveFunction = globalState.updaters[e];
   if (behaveFunction === undefined) return [];
   // console.log(behaveFunction.toString());
