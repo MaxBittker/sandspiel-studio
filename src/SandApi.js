@@ -504,7 +504,9 @@ if (typeof window !== "undefined") {
     (e) => {
       if (!trackedKeys.has(e.key)) return;
       keys[e.key] = true;
-      e.preventDefault();
+      if (document.activeElement.classList.contains("simulation-button")) {
+        e.preventDefault();
+      }
     },
     { passive: false }
   );
@@ -514,7 +516,6 @@ if (typeof window !== "undefined") {
     (e) => {
       if (!trackedKeys.has(e.key)) return;
       keys[e.key] = false;
-      e.preventDefault();
     },
     { passive: false }
   );
