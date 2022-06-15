@@ -237,10 +237,13 @@ function cloneSandRelative([sx, sy], [bx, by], swaps) {
   if (inertMode) return;
   [sx, sy] = [sx, sy].map((v) => Math.round(v));
   [bx, by] = [bx, by].map((v) => Math.round(v));
-  if (aX + sx < 0 || aX + sx >= width || aY + sy < 0 || aY + sy >= height) {
+  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
+  let [sxt, syt] = transform(sx, sy);
+  let [bxt, byt] = transform(bx, by);
+  if (aX + sxt < 0 || aX + sxt >= width || aY + syt < 0 || aY + syt >= height) {
     return;
   }
-  if (aX + bx < 0 || aX + bx >= width || aY + by < 0 || aY + by >= height) {
+  if (aX + bxt < 0 || aX + bxt >= width || aY + byt < 0 || aY + byt >= height) {
     return;
   }
 
@@ -257,10 +260,14 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
   if (inertMode) return;
   [sx, sy] = [sx, sy].map((v) => Math.round(v));
   [bx, by] = [bx, by].map((v) => Math.round(v));
-  if (aX + sx < 0 || aX + sx >= width || aY + sy < 0 || aY + sy >= height) {
+
+  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
+  let [sxt, syt] = transform(sx, sy);
+  let [bxt, byt] = transform(bx, by);
+  if (aX + sxt < 0 || aX + sxt >= width || aY + syt < 0 || aY + syt >= height) {
     return;
   }
-  if (aX + bx < 0 || aX + bx >= width || aY + by < 0 || aY + by >= height) {
+  if (aX + bxt < 0 || aX + bxt >= width || aY + byt < 0 || aY + byt >= height) {
     return;
   }
 
@@ -287,7 +294,7 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
   sands[bid + 2] = arb;
   sands[bid + 3] = arc;
 
-  swaps.push([aid, bid]);
+  // swaps.push([aid, bid]);
 }
 
 function moveOrigin([x, y]) {
