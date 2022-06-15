@@ -81,6 +81,8 @@ const ExtraUI = () => {
       });
       let data = "data:image/png;base64," + base64ArrayBuffer(buffer);
 
+      useStore.setState({ initialSandsData: new Uint8Array(sands) });
+
       setSharedState(" ...");
 
       fetch("/api/upload", {
