@@ -154,6 +154,9 @@ const App = () => {
           wheel: true,
         }}
         initialXml={starterXMLs[1]}
+        zoom={{
+          controls: true,
+        }}
       >
         <ToolboxBlocks />
       </BlocklyComponent>
