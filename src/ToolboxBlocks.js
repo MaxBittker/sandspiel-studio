@@ -18,6 +18,13 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+      <Block type="clone">
+        <Value name="DIRECTION">
+          <Shadow type="vector_constant">
+            <Field name="VALUE">DOWN</Field>
+          </Shadow>
+        </Value>
+      </Block>
       <Block type="change_into">
         <Value name="CELL">
           <Shadow type="vector_constant">
@@ -27,13 +34,6 @@ export function ToolboxBlocks() {
         <Value name="ELEMENT">
           <Shadow type="element_literal">
             <Field name="VALUE">3</Field>
-          </Shadow>
-        </Value>
-      </Block>
-      <Block type="clone">
-        <Value name="DIRECTION">
-          <Shadow type="vector_constant">
-            <Field name="VALUE">DOWN</Field>
           </Shadow>
         </Value>
       </Block>
@@ -63,9 +63,37 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+
+      <Block type="if"></Block>
+      <Block type="one_in">
+        <Value name="NUMBER">
+          <Shadow type="number_literal">
+            <Field name="VALUE">2</Field>
+          </Shadow>
+        </Value>
+      </Block>
+      <Block type="comparison">
+        <Field name="COMPARISON">IS</Field>
+        <Value name="B">
+          <Shadow type="number_literal">
+            <Field name="VALUE">0</Field>
+          </Shadow>
+        </Value>
+      </Block>
+      <Block type="boolean_operation">
+        <Field name="OPERATION">AND</Field>
+      </Block>
+      <Block type="key_pressed"></Block>
+      {/*<Block type="bool_literal">
+        <Field name="VALUE">TRUE</Field>
+      </Block>*/}
+      <Block type="not"></Block>
+      {/*<Block type="controls_if"></Block>*/}
+
       <Block type="vector_constant">
         <Field name="VALUE">HERE</Field>
       </Block>
+      <Block type="keyboard_vector"></Block>
       {/* <Block type="vector_literal">
         <Value name="X">
           <Shadow type="number_literal">
@@ -78,8 +106,10 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block> */}
-
       <Block type="in_a_random">
+        <Field name="NAME">ROTATION</Field>
+      </Block>
+      <Block type="for_all">
         <Field name="NAME">ROTATION</Field>
       </Block>
       <Block type="rotated_by">
@@ -89,9 +119,7 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
-      <Block type="for_all">
-        <Field name="NAME">ROTATION</Field>
-      </Block>
+
       <Block type="number_literal">
         <Field name="VALUE">0</Field>
       </Block>
@@ -108,6 +136,7 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+
       <Block type="random_number">
         <Value name="MIN">
           <Shadow type="number_literal">
@@ -120,39 +149,6 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
-      <Block type="one_in">
-        <Value name="NUMBER">
-          <Shadow type="number_literal">
-            <Field name="VALUE">2</Field>
-          </Shadow>
-        </Value>
-      </Block>
-      {/* <Block type="repeat">
-                <Value name="NUMBER">
-                  <Shadow type="number_literal">
-                    <Field name="VALUE">2</Field>
-                  </Shadow>
-                </Value>
-              </Block> */}
-      {/*<Block type="controls_if"></Block>*/}
-      <Block type="if"></Block>
-      <Block type="comparison">
-        <Field name="COMPARISON">IS</Field>
-        <Value name="B">
-          <Shadow type="number_literal">
-            <Field name="VALUE">0</Field>
-          </Shadow>
-        </Value>
-      </Block>
-      <Block type="boolean_operation">
-        <Field name="OPERATION">AND</Field>
-      </Block>
-      <Block type="bool_literal">
-        <Field name="VALUE">TRUE</Field>
-      </Block>
-      <Block type="not"></Block>
-      <Block type="key_pressed"></Block>
-      <Block type="keyboard_vector"></Block>
       {/* <Block type="cursor_distance"></Block> */}
 
       <Block type="get_r_cell_flexible">
@@ -174,7 +170,16 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+
+      <Block type="repeat">
+        <Value name="NUMBER">
+          <Shadow type="number_literal">
+            <Field name="VALUE">2</Field>
+          </Shadow>
+        </Value>
+      </Block>
       <Block type="after"></Block>
+
       <Block type="comment"></Block>
     </>
   );
