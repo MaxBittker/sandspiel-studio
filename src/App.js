@@ -150,8 +150,11 @@ const App = () => {
         renderer={"custom_renderer"}
         move={{
           scrollbars: true,
-          drag: false,
+          drag: true,
           wheel: true,
+        }}
+        zoom={{
+          controls: true,
         }}
         initialXml={starterXMLs[1]}
       >
