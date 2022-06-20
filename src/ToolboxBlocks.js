@@ -4,6 +4,7 @@ import { Block, Value, Field, Shadow } from "./Blockly";
 export function ToolboxBlocks() {
   return (
     <>
+    
       <Block type="group">
         <Value name="ITEM0">
           <Shadow type="element_literal">
@@ -64,6 +65,9 @@ export function ToolboxBlocks() {
         </Value>
       </Block>
 
+      
+      <Block type="comment"></Block>
+
       <Block type="if"></Block>
       <Block type="one_in">
         <Value name="NUMBER">
@@ -72,6 +76,7 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+      <Block type="key_pressed"></Block>
       <Block type="comparison">
         <Field name="COMPARISON">IS</Field>
         <Value name="B">
@@ -83,7 +88,6 @@ export function ToolboxBlocks() {
       <Block type="boolean_operation">
         <Field name="OPERATION">AND</Field>
       </Block>
-      <Block type="key_pressed"></Block>
       <Block type="bool_literal">
         <Field name="VALUE">TRUE</Field>
       </Block>
@@ -180,7 +184,6 @@ export function ToolboxBlocks() {
       </Block>
       <Block type="after"></Block>
 
-      <Block type="comment"></Block>
     </>
   );
 }

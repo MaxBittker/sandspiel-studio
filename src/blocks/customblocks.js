@@ -1730,7 +1730,7 @@ Blockly.Blocks["comment"] = {
       .appendField(new Blockly.FieldTextInput("    "), "COMMENT");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(0);
+    this.setColour("#00b7ff");
     this.setTooltip("");
     this.setHelpUrl("");
   },
