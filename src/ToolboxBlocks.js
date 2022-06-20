@@ -4,7 +4,6 @@ import { Block, Value, Field, Shadow } from "./Blockly";
 export function ToolboxBlocks() {
   return (
     <>
-    
       <Block type="group">
         <Value name="ITEM0">
           <Shadow type="element_literal">
@@ -65,7 +64,6 @@ export function ToolboxBlocks() {
         </Value>
       </Block>
 
-      
       <Block type="comment"></Block>
 
       <Block type="if"></Block>
@@ -182,8 +180,14 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+      <Block type="every_n_frames">
+        <Value name="NUMBER">
+          <Shadow type="number_literal">
+            <Field name="VALUE">3</Field>
+          </Shadow>
+        </Value>
+      </Block>
       <Block type="after"></Block>
-
     </>
   );
 }

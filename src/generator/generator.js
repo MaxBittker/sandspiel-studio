@@ -421,6 +421,17 @@ Blockly.JavaScript["repeat"] = function (block) {
   return code;
 };
 
+Blockly.JavaScript["every_n_frames"] = function (block) {
+  const n = Blockly.JavaScript.valueToCode(
+    block,
+    "NUMBER",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const statement = Blockly.JavaScript.statementToCode(block, "STATEMENT");
+  const code = `if (this.t % ${n} === 0) {\n${statement}\n}`;
+  return code;
+};
+
 Blockly.JavaScript["rotated_by"] = function (block) {
   const n = Blockly.JavaScript.valueToCode(
     block,

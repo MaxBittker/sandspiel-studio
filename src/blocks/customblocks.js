@@ -1750,3 +1750,18 @@ Blockly.Blocks["after"] = {
     this.setHelpUrl("");
   },
 };
+
+
+Blockly.Blocks["every_n_frames"] = {
+  init: function () {
+    this.appendValueInput("NUMBER").setCheck("Number").appendField("every");
+    this.appendDummyInput().appendField("frames");
+    this.appendStatementInput("STATEMENT").setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(330);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
