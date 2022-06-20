@@ -32,9 +32,9 @@ export function popUndo() {
   }
 }
 let inertMode = false;
-let t = 0;
+globalState.t = 0;
 function randomData(x, y) {
-  var value = noise.simplex3(x / 3, y / 3, t / 5);
+  var value = noise.simplex3(x / 3, y / 3, globalState.t / 5);
   let d = ((value + 1) * 50) | 0;
 
   return d;
@@ -635,7 +635,7 @@ export const fireEvent = (offset) => {
 };
 
 export const tick = () => {
-  t++;
+  globalState.t++;
   const scheme = UPDATE_SCHEMES[globalState.updateScheme || "RANDOM_CYCLIC"];
   if (typeof scheme === "function") scheme(scheme);
   else scheme.tick(scheme);
