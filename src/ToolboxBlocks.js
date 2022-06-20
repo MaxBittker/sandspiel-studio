@@ -84,9 +84,9 @@ export function ToolboxBlocks() {
         <Field name="OPERATION">AND</Field>
       </Block>
       <Block type="key_pressed"></Block>
-      {/*<Block type="bool_literal">
+      <Block type="bool_literal">
         <Field name="VALUE">TRUE</Field>
-      </Block>*/}
+      </Block>
       <Block type="not"></Block>
       {/*<Block type="controls_if"></Block>*/}
 
