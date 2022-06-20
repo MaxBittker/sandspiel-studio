@@ -508,7 +508,7 @@ Blockly.Blocks["move"] = {
 
 Blockly.Blocks["clone"] = {
   init: function () {
-    this.appendDummyInput().appendField("clone myself");
+    this.appendDummyInput().appendField("copy myself");
     this.appendValueInput("DIRECTION").setCheck("Vector");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -710,9 +710,9 @@ Blockly.Blocks["set_data_cell"] = {
 
 Blockly.Blocks["random_number"] = {
   init: function () {
-    this.appendDummyInput().appendField("random between");
+    this.appendDummyInput().appendField("random from");
     this.appendValueInput("MIN").setCheck(["Number", "Element", "Group"]);
-    this.appendDummyInput().appendField("and");
+    this.appendDummyInput().appendField("to");
     this.appendValueInput("MAX").setCheck(["Number", "Element", "Group"]);
     this.setOutput(true, "Number");
     this.setColour(210);
@@ -863,7 +863,7 @@ Blockly.defineBlocksWithJsonArray([
 
 Blockly.Blocks["is_touching"] = {
   init: function () {
-    this.appendDummyInput().appendField("is touching");
+    this.appendDummyInput().appendField("touching");
     this.appendValueInput("ELEMENT").setCheck(["Element", "Group"]);
     this.setOutput(true, "Boolean");
     this.setColour(160);
@@ -892,7 +892,7 @@ Blockly.Blocks["one_in"] = {
     this.appendDummyInput().appendField("chance");
     this.setInputsInline(true);
     this.setOutput(true, "Boolean");
-    this.setColour(210);
+    this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -1167,7 +1167,7 @@ Blockly.Blocks["repeat"] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(210);
+    this.setColour(330);
     this.setTooltip("");
     this.setHelpUrl("");
   },
@@ -1730,7 +1730,7 @@ Blockly.Blocks["comment"] = {
       .appendField(new Blockly.FieldTextInput("    "), "COMMENT");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(0);
+    this.setColour("#00b7ff");
     this.setTooltip("");
     this.setHelpUrl("");
   },
