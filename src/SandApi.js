@@ -129,6 +129,46 @@ function isTouching([x, y], value, type) {
   return false;
 }
 
+function getNumberTouching([x, y], value, type) {
+  if (inertMode) return false;
+  const right = [x + 1, y];
+  const left = [x - 1, y];
+  const up = [x, y - 1];
+  const down = [x, y + 1];
+
+  const upRight = [x + 1, y - 1];
+  const upleft = [x - 1, y - 1];
+  const downRight = [x + 1, y + 1];
+  const downLeft = [x - 1, y + 1];
+
+  if (type === "Group") {
+    let number = 0;
+    for (const [element] of value) {
+      if (getSandRelative(right) === element) number++;
+      if (getSandRelative(left) === element) number++;
+      if (getSandRelative(up) === element) number++;
+      if (getSandRelative(down) === element) number++;
+      if (getSandRelative(upRight) === element) number++;
+      if (getSandRelative(upleft) === element) number++;
+      if (getSandRelative(downRight) === element) number++;
+      if (getSandRelative(downLeft) === element) number++;
+    }
+    return number;
+  }
+
+  let number = 0;
+  const element = value;
+  if (getSandRelative(right) === element) number++;
+  if (getSandRelative(left) === element) number++;
+  if (getSandRelative(up) === element) number++;
+  if (getSandRelative(down) === element) number++;
+  if (getSandRelative(upRight) === element) number++;
+  if (getSandRelative(upleft) === element) number++;
+  if (getSandRelative(downRight) === element) number++;
+  if (getSandRelative(downLeft) === element) number++;
+  return number;
+}
+
 function eq(a, b, aType, bType) {
   if (aType === "Vector" && bType === "Vector") {
     const [ax, ay] = a;
@@ -565,6 +605,7 @@ globalState.eq = eq;
 globalState.greaterThan = greaterThan;
 globalState.lessThan = lessThan;
 globalState.isTouching = isTouching;
+globalState.getNumberTouching = getNumberTouching;
 globalState.isBlock = isBlock;
 globalState.add = add;
 globalState.clamp = clamp;

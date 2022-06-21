@@ -56,6 +56,13 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
+      <Block type="number_touching">
+        <Value name="ELEMENT">
+          <Shadow type="element_literal">
+            <Field name="VALUE">2</Field>
+          </Shadow>
+        </Value>
+      </Block>
       <Block type="element_cell">
         <Value name="CELL">
           <Shadow type="vector_constant">

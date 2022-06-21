@@ -591,6 +591,22 @@ Blockly.JavaScript["is_touching"] = function (block) {
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
+Blockly.JavaScript["number_touching"] = function (block) {
+  /*const cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );*/
+  const element = Blockly.JavaScript.valueToCode(
+    block,
+    "ELEMENT",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const type = getTypeOfValue(block, "ELEMENT");
+  const code = `this.getNumberTouching([0, 0], ${element}, "${type}")`;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
 Blockly.JavaScript["key_pressed"] = function (block) {
   let key = block.getFieldValue("KEY");
   if (key === "SPACE") key = " "; //Fix for serialization bug - blockly didn't like a whitespace value

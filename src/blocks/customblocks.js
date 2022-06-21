@@ -873,6 +873,19 @@ Blockly.Blocks["is_touching"] = {
   },
 };
 
+Blockly.Blocks["number_touching"] = {
+  init: function () {
+    this.appendDummyInput().appendField("number of");
+    this.appendValueInput("ELEMENT").setCheck(["Element", "Group"]);
+    this.appendDummyInput().appendField("touching");
+    this.setOutput(true, "Number");
+    this.setColour(160);
+    this.setTooltip("");
+    this.setHelpUrl("");
+    this.setInputsInline(true);
+  },
+};
+
 Blockly.Blocks["is_block"] = {
   init: function () {
     this.appendValueInput("CELL").setCheck("Vector");
