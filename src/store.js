@@ -113,7 +113,6 @@ let useStore = create((set, get) => ({
 
 const globalState = {
   updaters: [],
-  pallette: [],
   workspace: undefined,
 };
 

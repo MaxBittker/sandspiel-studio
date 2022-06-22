@@ -7,12 +7,19 @@
 }
 
 .browse.family img {
-  width: 200px;
+  width: 300px;
+  max-width: 50vw;
 }
 
 .post .element-tray {
   width: 400px;
-  display: block;
+  max-width: 50vw;
+  /* display: block; */
+}
+@media only screen and (max-width: 500px) {
+  .family {
+    margin: 0;
+  }
 }
 .browse .post {
   background-color: rgba(250, 247, 247, 0.723);

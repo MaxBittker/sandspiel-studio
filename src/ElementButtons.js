@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import classNames from "classnames";
-// import { pallette } from "./Render";
 import { MAX_ELEMENTS, useStore } from "./store";
-
-// let pallette_data = pallette();
 
 const ElementButton = ({
   i,
@@ -99,7 +96,7 @@ const ElementButtons = ({
           )}
         </span>
       )}
-      <div className={"spacer"} />
+      {!inert && <div className={"spacer"} />}
     </div>
   );
 };

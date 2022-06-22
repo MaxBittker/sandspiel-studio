@@ -162,6 +162,8 @@ const Sand = () => {
         onMouseOut={() => {
           clearInterval(holdInterval);
           setIsDrawing(false);
+          let { setPos } = useStore.getState();
+          setPos([-1, -1]);
         }}
         onMouseMove={mouseMoveCanvas}
         onTouchStart={(e) => {

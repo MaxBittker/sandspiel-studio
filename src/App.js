@@ -10,7 +10,6 @@ import prettier from "prettier";
 import "./blocks/customblocks";
 import "./generator/generator";
 import { loadPostFromServer } from "./loadPostFromServer";
-import { pallette } from "./Render";
 import { ToolboxBlocks } from "./ToolboxBlocks";
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
@@ -102,7 +101,6 @@ const App = () => {
     }
     setSelected(useStore.getState().initialSelected);
     setLoaded(true);
-    pallette();
   }, [simpleWorkspace, fetchedData]);
 
   useEffect(() => {
