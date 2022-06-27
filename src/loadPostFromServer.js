@@ -1,6 +1,6 @@
 import { decode } from "fast-png";
 import starterXMLs from "./starterblocks";
-import { useStore } from "./store";
+import { globalState, useStore } from "./store";
 import { width, height, sands } from "./SandApi";
 
 const imageURLBase =
@@ -54,6 +54,8 @@ export async function loadPostFromServer() {
         post,
         size: size ?? 3,
       });
+
+      globalState.wraparoundEnabled = post.id > 938;
     });
 
   fetch(`${imageURLBase}${id}.data.png`)

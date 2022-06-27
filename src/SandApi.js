@@ -210,18 +210,34 @@ function getIndex(x, y) {
   return (x + y * width) * 4;
 }
 
+function getWrappedPosition(x, y) {
+  if (globalState.wraparoundEnabled) {
+    while (x < 0) x += width;
+    while (x >= width) x -= width;
+    while (y < 0) y += height;
+    while (y >= height) y -= height;
+  }
+  return [x, y];
+}
+
 function getSand(x, y, o = 0) {
   x = Math.round(x);
   y = Math.round(y);
+
+  [x, y] = getWrappedPosition(x, y);
+
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return 1; // wall
   }
+
   return sands[getIndex(x, y) + o];
 }
 export function initSand([x, y], v) {
   setSand(x, y, v, randomData(x, y), 0, 0);
 }
 export function setSand(x, y, v, ra, rb, rc) {
+  [x, y] = getWrappedPosition(x, y);
+
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return;
   }
@@ -253,6 +269,8 @@ function setSandRelative([x, y], v, ra, rb, rc, reset = true) {
 
   x = x + aX;
   y = y + aY;
+
+  [x, y] = getWrappedPosition(x, y);
   if (x < 0 || x >= width || y < 0 || y >= height) {
     return;
   }
@@ -280,15 +298,32 @@ function cloneSandRelative([sx, sy], [bx, by], swaps) {
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
   let [sxt, syt] = transform(sx, sy);
   let [bxt, byt] = transform(bx, by);
-  if (aX + sxt < 0 || aX + sxt >= width || aY + syt < 0 || aY + syt >= height) {
+
+  let [sxtAbsolute, sytAbsolute] = [aX + sxt, aY + syt];
+  let [bxtAbsolute, bytAbsolute] = [aX + bxt, aY + byt];
+
+  [sxtAbsolute, sytAbsolute] = getWrappedPosition(sxtAbsolute, sytAbsolute);
+  [bxtAbsolute, bytAbsolute] = getWrappedPosition(bxtAbsolute, bytAbsolute);
+
+  if (
+    sxtAbsolute < 0 ||
+    sxtAbsolute >= width ||
+    sytAbsolute < 0 ||
+    sytAbsolute >= height
+  ) {
     return;
   }
-  if (aX + bxt < 0 || aX + bxt >= width || aY + byt < 0 || aY + byt >= height) {
+  if (
+    bxtAbsolute < 0 ||
+    bxtAbsolute >= width ||
+    bytAbsolute < 0 ||
+    bytAbsolute >= height
+  ) {
     return;
   }
 
-  let aid = getIndexRelative(sx, sy);
-  let bid = getIndexRelative(bx, by);
+  let aid = getIndex(sxtAbsolute, sytAbsolute);
+  let bid = getIndex(bxtAbsolute, bytAbsolute);
 
   sands[bid] = sands[aid];
   sands[bid + 1] = sands[aid + 1];
@@ -304,15 +339,32 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
   const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
   let [sxt, syt] = transform(sx, sy);
   let [bxt, byt] = transform(bx, by);
-  if (aX + sxt < 0 || aX + sxt >= width || aY + syt < 0 || aY + syt >= height) {
+
+  let [sxtAbsolute, sytAbsolute] = [aX + sxt, aY + syt];
+  let [bxtAbsolute, bytAbsolute] = [aX + bxt, aY + byt];
+
+  [sxtAbsolute, sytAbsolute] = getWrappedPosition(sxtAbsolute, sytAbsolute);
+  [bxtAbsolute, bytAbsolute] = getWrappedPosition(bxtAbsolute, bytAbsolute);
+
+  if (
+    sxtAbsolute < 0 ||
+    sxtAbsolute >= width ||
+    sytAbsolute < 0 ||
+    sytAbsolute >= height
+  ) {
     return;
   }
-  if (aX + bxt < 0 || aX + bxt >= width || aY + byt < 0 || aY + byt >= height) {
+  if (
+    bxtAbsolute < 0 ||
+    bxtAbsolute >= width ||
+    bytAbsolute < 0 ||
+    bytAbsolute >= height
+  ) {
     return;
   }
 
-  let aid = getIndexRelative(sx, sy);
-  let bid = getIndexRelative(bx, by);
+  let aid = getIndex(sxtAbsolute, sytAbsolute);
+  let bid = getIndex(bxtAbsolute, bytAbsolute);
 
   let a = sands[aid];
   let ara = sands[aid + 1];
@@ -338,10 +390,17 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
 }
 
 function moveOrigin([x, y]) {
-  if (aX + x < 0 || aX + x >= width || aY + y < 0 || aY + y >= height) {
+  let [xAbsolute, yAbsolute] = [aX + x, aY + y];
+
+  if (
+    xAbsolute < 0 ||
+    xAbsolute >= width ||
+    yAbsolute < 0 ||
+    yAbsolute >= height
+  ) {
     return;
   }
-  [aX, aY] = [aX + x, aY + y];
+  [aX, aY] = [xAbsolute, yAbsolute];
 }
 
 function add(a, b, aType, bType) {
@@ -695,11 +754,28 @@ export const tick = () => {
 export const reset = () => {
   const data = useStore.getState().initialSandsData;
   if (data === undefined) {
-    return seed();
+    return seedWithBorder();
   }
 
   for (var i = 0; i < width * height * 4; i++) {
     sands[i] = data[i];
+  }
+};
+
+export const seedWithBorder = () => {
+  for (var i = 0; i < sands.length; i += 4) {
+    let x = (i / 4) % width;
+    let y = Math.floor(i / 4 / width);
+
+    if (x === 0 || x === width - 1 || y === 0 || y === height - 1) {
+      sands[i] = 1;
+    } else {
+      sands[i] = 0;
+    }
+
+    sands[i + 1] = randomData(x, y);
+    sands[i + 2] = 0;
+    sands[i + 3] = 0;
   }
 };
 
@@ -714,4 +790,5 @@ export const seed = () => {
     sands[i + 3] = 0;
   }
 };
-seed();
+
+seedWithBorder();

@@ -22,6 +22,7 @@ let useStore = create((set, get) => ({
   initialSelected: 3,
   updateScheme: "RANDOM_CYCLIC",
   taggedMode: false,
+  wraparoundEnabled: true,
   paused: false,
   size: 3,
   post: null,
@@ -114,6 +115,7 @@ let useStore = create((set, get) => ({
 const globalState = {
   updaters: [],
   workspace: undefined,
+  wraparoundEnabled: true,
 };
 
 function deriveColor(xmlString, b = "") {
