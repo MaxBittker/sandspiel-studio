@@ -233,6 +233,10 @@ function getSand(x, y, o = 0) {
   return sands[getIndex(x, y) + o];
 }
 export function initSand([x, y], v) {
+  if (x < 0 || x >= width || y < 0 || y >= height) {
+    return;
+  }
+
   setSand(x, y, v, randomData(x, y), 0, 0);
 }
 export function setSand(x, y, v, ra, rb, rc) {

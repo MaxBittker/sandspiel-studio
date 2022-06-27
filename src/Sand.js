@@ -139,10 +139,10 @@ const Sand = () => {
         id="worldCanvas"
         onMouseDown={(e) => {
           let bounds = canvas.current.getBoundingClientRect();
-          let eX = Math.round(
+          let eX = Math.floor(
             (e.clientX - bounds.left) * (width / bounds.width)
           );
-          let eY = Math.round(
+          let eY = Math.floor(
             (e.clientY - bounds.top) * (height / bounds.height)
           );
 
