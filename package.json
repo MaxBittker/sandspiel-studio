@@ -5,6 +5,7 @@
   "dependencies": {
     "@blockly/block-plus-minus": "^3.0.7",
     "@blockly/continuous-toolbox": "^2.0.24",
+    "@blockly/field-slider": "^3.0.16",
     "@blockly/plugin-cross-tab-copy-paste": "^1.0.5",
     "@google-cloud/storage": "^5.19.4",
     "@next-auth/prisma-adapter": "^1.0.3",

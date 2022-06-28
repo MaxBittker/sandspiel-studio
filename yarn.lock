@@ -209,6 +209,11 @@
   resolved "https://registry.yarnpkg.com/@blockly/continuous-toolbox/-/continuous-toolbox-2.0.31.tgz#3a109dc5ad9019a6475887cbac5d412aaca7ca20"
   integrity sha512-Y+RtYA0002Dl6AHcUxJuUZXAqVU2RR7JWLv0DVhhnJrb9VYsrkJopmQxH5johrfqd+Js3DUoCfJK2XYGFL3qgQ==
 
+"@blockly/field-slider@^3.0.16":
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/@blockly/field-slider/-/field-slider-3.0.16.tgz#acdb8df8a4270dfddcedc6a8285c79f3245b336d"
+  integrity sha512-IxEU28Hk4U01NML1lOFJWXI5VaRY/77ys5+XvfIrfLBeXdsF/80KK20ayMFIxPPadE6rYH2URwvnKIVL68f9Jg==
+
 "@blockly/plugin-cross-tab-copy-paste@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@blockly/plugin-cross-tab-copy-paste/-/plugin-cross-tab-copy-paste-1.0.5.tgz#1b612b94a6c45adb450094c97633a11856cf52ca"

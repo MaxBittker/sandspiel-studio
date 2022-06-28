@@ -26,6 +26,7 @@
 
 import * as Blockly from "blockly/core";
 import { ColorWheelField } from "blockly-field-color-wheel";
+import { FieldSlider } from "@blockly/field-slider";
 
 // Since we're using json to initialize the field, we'll need to import it.
 // import "../fields/BlocklyReactField";
@@ -94,7 +95,20 @@ Blockly.Blocks["number_literal"] = {
   init: function () {
     this.appendDummyInput()
       .setAlign(Blockly.ALIGN_CENTRE)
-      .appendField(new Blockly.FieldNumber(0, -100, 100, 1), "VALUE");
+      .appendField(new FieldSlider(0, -100, 100, 1), "VALUE");
+    this.setOutput(true, "Number");
+    this.setColour(210);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  },
+};
+
+Blockly.Blocks["number_literal_positive"] = {
+  init: function () {
+    const slider = new FieldSlider(0, 0, 100, 1);
+    this.appendDummyInput()
+      .setAlign(Blockly.ALIGN_CENTRE)
+      .appendField(slider, "VALUE");
     this.setOutput(true, "Number");
     this.setColour(210);
     this.setTooltip("");
@@ -1763,7 +1777,6 @@ Blockly.Blocks["after"] = {
     this.setHelpUrl("");
   },
 };
-
 
 Blockly.Blocks["every_n_frames"] = {
   init: function () {

@@ -76,7 +76,7 @@ export function ToolboxBlocks() {
       <Block type="if"></Block>
       <Block type="one_in">
         <Value name="NUMBER">
-          <Shadow type="number_literal">
+          <Shadow type="number_literal_positive">
             <Field name="VALUE">2</Field>
           </Shadow>
         </Value>
@@ -174,7 +174,7 @@ export function ToolboxBlocks() {
       <Block type="set_r_cell_flexible">
         <Field name="DATA">RA</Field>
         <Value name="VALUE">
-          <Shadow type="number_literal">
+          <Shadow type="number_literal_positive">
             <Field name="VALUE">0</Field>
           </Shadow>
         </Value>
@@ -182,14 +182,14 @@ export function ToolboxBlocks() {
 
       <Block type="repeat">
         <Value name="NUMBER">
-          <Shadow type="number_literal">
+          <Shadow type="number_literal_positive">
             <Field name="VALUE">2</Field>
           </Shadow>
         </Value>
       </Block>
       <Block type="every_n_frames">
         <Value name="NUMBER">
-          <Shadow type="number_literal">
+          <Shadow type="number_literal_positive">
             <Field name="VALUE">3</Field>
           </Shadow>
         </Value>

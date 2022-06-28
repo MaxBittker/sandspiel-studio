@@ -61,6 +61,9 @@ Blockly.JavaScript["number_literal"] = function (block) {
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+Blockly.JavaScript["number_literal_positive"] =
+  Blockly.JavaScript["number_literal"];
+
 Blockly.JavaScript["element_literal"] = function (block) {
   const value = block.getFieldValue("VALUE");
   return [value, Blockly.JavaScript.ORDER_ATOMIC];
