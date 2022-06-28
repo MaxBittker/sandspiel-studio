@@ -417,7 +417,7 @@ Blockly.JavaScript["repeat"] = function (block) {
     Blockly.JavaScript.ORDER_ATOMIC
   );
   const statement = Blockly.JavaScript.statementToCode(block, "STATEMENT");
-  const code = `for (let i = 0; i < ${n}; i++) {\n${statement}\n}`;
+  const code = `for (let i = 0; i < Math.round(${n}); i++) {\n${statement}\n}`;
   return code;
 };
 
