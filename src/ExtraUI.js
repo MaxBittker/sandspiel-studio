@@ -3,7 +3,16 @@ import { encode } from "fast-png";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-import { seed, reset, width, height, sands, tick, popUndo } from "./SandApi";
+import {
+  seed,
+  reset,
+  width,
+  height,
+  sands,
+  tick,
+  popUndo,
+  addBorder,
+} from "./SandApi";
 import { snapshot, exportGif } from "./Render";
 import { useStore } from "./store";
 import * as vkbeautify from "vkbeautify";
@@ -207,6 +216,14 @@ const ExtraUI = () => {
           Clear
         </button>
       </div>
+      <button
+        className="simulation-button"
+        onClick={() => {
+          addBorder();
+        }}
+      >
+        Add Border
+      </button>
       <br />
       <div>
         {/* <input

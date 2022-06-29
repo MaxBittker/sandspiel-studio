@@ -795,4 +795,21 @@ export const seed = () => {
   }
 };
 
+export const addBorder = () => {
+  for (var i = 0; i < sands.length; i += 4) {
+    let x = (i / 4) % width;
+    let y = Math.floor(i / 4 / width);
+
+    if (x === 0 || x === width - 1 || y === 0 || y === height - 1) {
+      sands[i] = 1;
+    } else {
+      continue;
+    }
+
+    sands[i + 1] = randomData(x, y);
+    sands[i + 2] = 0;
+    sands[i + 3] = 0;
+  }
+};
+
 seedWithBorder();
