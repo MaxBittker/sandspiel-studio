@@ -274,6 +274,7 @@ const BrowsePostLink = ({ post: initPost }) => {
                   return response.json();
                 })
                 .then(function (new_post) {
+                  new_post.metadata = JSON.parse(new_post.metadata);
                   setPost(new_post);
                 });
             }}
@@ -288,6 +289,7 @@ const BrowsePostLink = ({ post: initPost }) => {
                   params: { featured: true },
                 });
                 let results = result.data;
+                results.metadata = JSON.parse(results.metadata);
                 setPost(results);
               }}
             >
