@@ -4,6 +4,7 @@ import Dropdown from "react-dropdown";
 import { useSession } from "next-auth/react";
 import * as timeago from "timeago.js";
 import Link from "next/link";
+import CreateReactAppEntryPoint from "../App";
 
 import "react-dropdown/style.css";
 import { useQueryParams, StringParam, withDefault } from "next-query-params";
@@ -12,6 +13,7 @@ import { useRouter } from "next/router";
 import Home from "../Auth";
 import axios from "axios";
 import { imageURLBase } from "../ExtraUI";
+import useStore, { globalState } from "../store";
 
 import ElementButtons from "../ElementButtons";
 
@@ -38,6 +40,7 @@ function Browse() {
   });
 
   const [data, setData] = useState([]);
+  // const postId = useStore((state) => state.postId);
   //   const [timeFrame, setTimeFrame] = useState(7);
 
   useEffect(() => {
@@ -53,81 +56,85 @@ function Browse() {
 
   console.log(data);
   return (
-    <div className="browse family">
-      <Link href={`/`}>Editor</Link>
+    <div className="browse-page">
+      <div className="browse family">
+        <Link href={`/`}>Editor</Link>
 
-      <div style={{ position: "absolute", right: 40 }}>
-        <Home />
-      </div>
-      {session && (
-        <span className="filterControls">
-          <button
-            className={query.userId === session.userId ? "selected" : ""}
-            onClick={(e) => {
-              e.preventDefault();
-              setQuery({
-                codeHash: undefined,
-                userId: session.userId,
-                starredBy: undefined,
-              });
-            }}
-          >
-            {" "}
-            my posts
-          </button>
-          <button
-            className={query.starredBy === session.userId ? "selected" : ""}
-            onClick={(e) => {
-              e.preventDefault();
-              setQuery({
-                codeHash: undefined,
-                userId: undefined,
-                starredBy: session.userId,
-              });
-            }}
-          >
-            {" "}
-            my favorites
-          </button>
-          <button
-            className={""}
-            onClick={(e) => {
-              e.preventDefault();
-              setQuery({
-                codeHash: undefined,
-                userId: undefined,
-                starredBy: undefined,
-              });
-            }}
-          >
-            {" "}
-            clear
-          </button>
-        </span>
-      )}
-      <span className="filterControls">
-        <Dropdown
-          options={options}
-          onChange={(e) => {
-            if (e.value === "top") {
-              setQuery({ order: e.value, days: "7" });
-            } else {
-              setQuery({ order: e.value });
-            }
-          }}
-          value={query.order}
-        />
-        {query.order === "top" && (
-          <Dropdown
-            options={optionsTime}
-            onChange={(e) => setQuery({ days: e.value })}
-            value={query.days}
-          />
+        {/* <div style={{ float: "right" }}>
+          <Home />
+        </div> */}
+        {session && (
+          <span className="filterControls">
+            <button
+              className={query.userId === session.userId ? "selected" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({
+                  codeHash: undefined,
+                  userId: session.userId,
+                  starredBy: undefined,
+                });
+              }}
+            >
+              {" "}
+              my posts
+            </button>
+            <button
+              className={query.starredBy === session.userId ? "selected" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({
+                  codeHash: undefined,
+                  userId: undefined,
+                  starredBy: session.userId,
+                });
+              }}
+            >
+              {" "}
+              my favorites
+            </button>
+            <button
+              className={""}
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({
+                  codeHash: undefined,
+                  userId: undefined,
+                  starredBy: undefined,
+                });
+              }}
+            >
+              {" "}
+              clear
+            </button>
+          </span>
         )}
-      </span>
-      {data.map((d) => {
-        return <BrowsePostLink key={d.id} post={d} full />;
-      })}
+        <span className="filterControls">
+          <Dropdown
+            options={options}
+            onChange={(e) => {
+              if (e.value === "top") {
+                setQuery({ order: e.value, days: "7" });
+              } else {
+                setQuery({ order: e.value });
+              }
+            }}
+            value={query.order}
+          />
+          {query.order === "top" && (
+            <Dropdown
+              options={optionsTime}
+              onChange={(e) => setQuery({ days: e.value })}
+              value={query.days}
+            />
+          )}
+        </span>
+        {data.map((d) => {
+          return <BrowsePostLink key={d.id} post={d} full />;
+        })}
+      </div>
+
+      <CreateReactAppEntryPoint playMode />
     </div>
   );
 }
@@ -137,10 +144,16 @@ const BrowsePostLink = ({ post: initPost }) => {
   const [post, setPost] = useState(initPost);
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
+    useStore.setState({
+      postId: post.id,
+    });
     e.preventDefault();
-    router.push(href);
   };
 
+  const handleEdit = (e) => {
+    router.push(href);
+    e.preventDefault();
+  };
   const [query, setQuery] = useQueryParams({
     codeHash: StringParam,
     userId: StringParam,
@@ -191,6 +204,7 @@ const BrowsePostLink = ({ post: initPost }) => {
         </button>
 
         <div style={{ textAlign: "justify" }}>
+          <button onClick={handleEdit}> edit code</button>
           {displayTime}, {post.views} plays
           <br></br>
           <button

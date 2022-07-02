@@ -6,12 +6,11 @@ import { width, height, sands } from "./SandApi";
 const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
-export async function loadPostFromServer() {
-  let id = window.location.pathname.slice(6);
+export async function loadPostFromServer(postId) {
+  let id = postId;
 
-  if (id.length < 1) {
+  if (isNaN(parseInt(id, 10)) || id.length < 1) {
     useStore.getState().setXmls(starterXMLs.slice(0, 4).map((v, i) => v));
-
     return;
   }
 

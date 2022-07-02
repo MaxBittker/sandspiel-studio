@@ -25,6 +25,10 @@ let useStore = create((set, get) => ({
   wraparoundEnabled: true,
   paused: false,
   size: 3,
+  postId:
+    typeof window !== "undefined"
+      ? window?.location?.pathname?.slice(6)
+      : undefined,
   post: null,
   setSize: (e) => set(() => ({ size: e })),
   setPaused: (e) => set(() => ({ paused: e })),

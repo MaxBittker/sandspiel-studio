@@ -16,7 +16,7 @@ globalState.updaters = useStore.getState().elements.map(() => {
 let holdInterval = null;
 let prevPos = [0, 0];
 
-const Sand = () => {
+const Sand = ({ playMode }) => {
   let starterWidth = Math.min(
     window.innerWidth / 2.5,
     window.innerHeight * 0.6
@@ -127,6 +127,9 @@ const Sand = () => {
     <div id="world" style={{ width: drawerWidth }}>
       <div
         className="resizeHandle"
+        style={{
+          display: playMode ? "none" : "",
+        }}
         onMouseDown={() => {
           setIsDragging(true);
         }}

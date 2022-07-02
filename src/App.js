@@ -41,7 +41,7 @@ function generateCode(element, ws) {
       parser: "babel",
       plugins: [parserBabel],
     });
-    console.log(element + "\n" + code);
+    // console.log(element + "\n" + code);
     let xml = Xml.workspaceToDom(ws);
     let xmlText = Xml.domToPrettyText(xml);
     // eslint-disable-next-line no-new-func
@@ -54,20 +54,28 @@ function generateCode(element, ws) {
   }
 }
 
-const App = () => {
+const App = ({ playMode }) => {
   let simpleWorkspace = useRef();
   const router = useRouter();
   const selectedElement = useStore((state) => state.selectedElement);
   const setSelected = useStore((state) => state.setSelected);
+  const postId = useStore((state) => state.postId);
+
   const [loaded, setLoaded] = useState(false);
   const [fetchedData, setFetchedData] = useState(false);
+
+  useEffect(() => {
+    useStore.setState({
+      postId: router.query.id,
+    });
+  }, [router.query.id]);
 
   // generate all the code on start
   useEffect(async () => {
     setFetchedData(false);
-    await loadPostFromServer();
+    await loadPostFromServer(postId);
     setFetchedData(true);
-  }, [router.query.id]);
+  }, [postId]);
 
   // generate all the code on start
   useEffect(async () => {
@@ -136,6 +144,7 @@ const App = () => {
       <BlocklyComponent
         style={{
           filter,
+          display: playMode ? "none" : "",
         }}
         ref={simpleWorkspace}
         collapse={false}
@@ -155,13 +164,10 @@ const App = () => {
           controls: true,
         }}
         initialXml={starterXMLs[1]}
-        zoom={{
-          controls: true,
-        }}
       >
         <ToolboxBlocks />
       </BlocklyComponent>
-      <Sand />
+      <Sand playMode={playMode} />
     </div>
   );
 };
