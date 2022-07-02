@@ -80,7 +80,7 @@ export default async function handler(
         },
         stars: {
           where: {
-            userId: session?.userId,
+            userId: session?.userId ?? "-1",
           },
         },
         parent: {

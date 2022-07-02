@@ -95,78 +95,81 @@ function Browse() {
         {/* <div style={{ float: "right" }}>
           <Home />
         </div> */}
-        {session && (
-          <span className="filterControls">
-            <button
-              className={query.featured === true ? "selected" : ""}
-              onClick={(e) => {
-                e.preventDefault();
-                setQuery({
-                  codeHash: undefined,
-                  userId: undefined,
-                  starredBy: undefined,
-                  featured: true,
-                });
-              }}
-            >
-              {" "}
-              Featured
-            </button>
-            <button
-              className={query.userId === session.userId ? "selected" : ""}
-              onClick={(e) => {
-                e.preventDefault();
-                setQuery({
-                  codeHash: undefined,
-                  userId: session.userId,
-                  starredBy: undefined,
-                  featured: undefined,
-                });
-              }}
-            >
-              {" "}
-              Mine
-            </button>
-            <button
-              className={query.starredBy === session.userId ? "selected" : ""}
-              onClick={(e) => {
-                e.preventDefault();
-                setQuery({
-                  codeHash: undefined,
-                  userId: undefined,
-                  featured: undefined,
+        <span className="filterControls">
+          <button
+            className={query.featured === true ? "selected" : ""}
+            onClick={(e) => {
+              e.preventDefault();
+              setQuery({
+                codeHash: undefined,
+                userId: undefined,
+                starredBy: undefined,
+                featured: true,
+              });
+            }}
+          >
+            {" "}
+            Featured
+          </button>
+          {session && (
+            <>
+              <button
+                className={query.userId === session.userId ? "selected" : ""}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setQuery({
+                    codeHash: undefined,
+                    userId: session.userId,
+                    starredBy: undefined,
+                    featured: undefined,
+                  });
+                }}
+              >
+                {" "}
+                Mine
+              </button>
+              <button
+                className={query.starredBy === session.userId ? "selected" : ""}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setQuery({
+                    codeHash: undefined,
+                    userId: undefined,
+                    featured: undefined,
 
-                  starredBy: session.userId,
-                });
-              }}
-            >
-              {" "}
-              Favorited
-            </button>
+                    starredBy: session.userId,
+                  });
+                }}
+              >
+                {" "}
+                Favorited
+              </button>
+            </>
+          )}
 
-            <button
-              className={
-                query.starredBy !== session.userId &&
-                !query.userId &&
-                !query.featured
-                  ? "selected"
-                  : ""
-              }
-              onClick={(e) => {
-                e.preventDefault();
-                setQuery({
-                  codeHash: undefined,
-                  userId: undefined,
-                  starredBy: undefined,
-                  featured: undefined,
-                });
-              }}
-            >
-              {" "}
-              All
-            </button>
-          </span>
-        )}
+          <button
+            className={
+              query.starredBy !== session?.userId &&
+              !query.userId &&
+              !query.featured
+                ? "selected"
+                : ""
+            }
+            onClick={(e) => {
+              e.preventDefault();
+              setQuery({
+                codeHash: undefined,
+                userId: undefined,
+                starredBy: undefined,
+                featured: undefined,
+              });
+            }}
+          >
+            {" "}
+            All
+          </button>
+        </span>
+
         <span className="filterControls">
           <Dropdown
             options={options}
