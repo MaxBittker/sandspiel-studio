@@ -9,7 +9,7 @@ export default async function handler(
   response: NextApiResponse
 ) {
   const prisma = new PrismaClient();
-  const { order, codeHash, userId, days, starredBy } = request.query;
+  const { order, codeHash, userId, days, starredBy, featured } = request.query;
 
   const session = await getSession({ req: request });
   // const userId = session.userId as string;
@@ -33,6 +33,11 @@ export default async function handler(
   where.public = {
     equals: true,
   };
+  if (featured) {
+    where.featured = {
+      equals: true,
+    };
+  }
   if (userId) {
     where = {
       userId,

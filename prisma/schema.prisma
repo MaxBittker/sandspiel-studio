@@ -4,8 +4,9 @@ generator client {
 }
 
 datasource db {
-    provider             = "mysql"
-    url                  = env("PLANETSCALE_PRISMA_DATABASE_URL")
+    provider = "mysql"
+    url      = env("PLANETSCALE_PRISMA_DATABASE_URL")
+
     referentialIntegrity = "prisma"
 }
 
@@ -17,7 +18,9 @@ model Post {
     codeHash String  @default("")
     code     String  @db.MediumText
     public   Boolean @default(false)
-    title    String? @db.VarChar(511)
+    featured Boolean @default(false)
+
+    title String? @db.VarChar(511)
 
     parentId Int?
     parent   Post?  @relation("PostTree", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -49,6 +52,7 @@ model User {
     id            String    @id @default(cuid())
     name          String?
     email         String?   @unique
+    role          String?   @default("user")
     emailVerified DateTime?
     image         String?
     accounts      Account[]

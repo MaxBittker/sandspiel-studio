@@ -40,10 +40,11 @@ export default NextAuth({
   callbacks: {
     session: async ({ session, user }) => {
       session.userId = user.id;
+      session.role = user.role;
       return Promise.resolve(session);
     },
-    async jwt({ token }) {
-      token.userRole = "player";
+    async jwt({ token, user }) {
+      token.userRole = user.role;
       return token;
     },
   },

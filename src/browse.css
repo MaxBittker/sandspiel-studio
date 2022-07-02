@@ -29,7 +29,9 @@
   width: 300px;
   max-width: 50vw;
 }
-
+.post.placeholder {
+  filter: grayscale(100%) contrast(0.5);
+}
 .post .element-tray {
   width: 400px;
   max-width: 50vw;

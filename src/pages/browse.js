@@ -7,7 +7,12 @@ import Link from "next/link";
 import CreateReactAppEntryPoint from "../App";
 
 import "react-dropdown/style.css";
-import { useQueryParams, StringParam, withDefault } from "next-query-params";
+import {
+  useQueryParams,
+  StringParam,
+  withDefault,
+  BooleanParam,
+} from "next-query-params";
 import { useRouter } from "next/router";
 // import { useSession, signIn, signOut } from "next-auth/react";
 import Home from "../Auth";
@@ -18,7 +23,17 @@ import useStore, { globalState } from "../store";
 import ElementButtons from "../ElementButtons";
 
 // const ago = timeago();
-
+const placeholder = {
+  id: 0,
+  placeholder: true,
+  metadata: {
+    elements: ["a", "b", "c"],
+    disabled: [],
+    colors: ["red", "green", "blue"],
+    color2s: ["red", "green", "blue"],
+  },
+  stars: [],
+};
 const options = ["new", "top"];
 const optionsTime = [
   { value: "1", label: "day" },
@@ -37,22 +52,39 @@ function Browse() {
     starredBy: StringParam,
     order: withDefault(StringParam, "new"),
     days: StringParam,
+    featured: BooleanParam,
   });
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+    { ...placeholder, id: 1 },
+    { ...placeholder, id: 2 },
+    { ...placeholder, id: 3 },
+    { ...placeholder, id: 4 },
+  ]);
   // const postId = useStore((state) => state.postId);
-  //   const [timeFrame, setTimeFrame] = useState(7);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios("/api/query", { params: query });
 
-      console.log(result);
-      setData(result.data);
+      let results = result.data;
+      results = results.map((r) => {
+        r.metadata = JSON.parse(r.metadata);
+        return r;
+      });
+
+      setData(results);
     };
 
     fetchData();
-  }, [query.order, query.userId, query.codeHash, query.starredBy, query.days]);
+  }, [
+    query.order,
+    query.userId,
+    query.codeHash,
+    query.starredBy,
+    query.featured,
+    query.days,
+  ]);
 
   console.log(data);
   return (
@@ -66,6 +98,21 @@ function Browse() {
         {session && (
           <span className="filterControls">
             <button
+              className={query.featured === true ? "selected" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({
+                  codeHash: undefined,
+                  userId: undefined,
+                  starredBy: undefined,
+                  featured: true,
+                });
+              }}
+            >
+              {" "}
+              Featured
+            </button>
+            <button
               className={query.userId === session.userId ? "selected" : ""}
               onClick={(e) => {
                 e.preventDefault();
@@ -73,11 +120,12 @@ function Browse() {
                   codeHash: undefined,
                   userId: session.userId,
                   starredBy: undefined,
+                  featured: undefined,
                 });
               }}
             >
               {" "}
-              my posts
+              Mine
             </button>
             <button
               className={query.starredBy === session.userId ? "selected" : ""}
@@ -86,26 +134,36 @@ function Browse() {
                 setQuery({
                   codeHash: undefined,
                   userId: undefined,
+                  featured: undefined,
+
                   starredBy: session.userId,
                 });
               }}
             >
               {" "}
-              my favorites
+              Favorited
             </button>
+
             <button
-              className={""}
+              className={
+                query.starredBy !== session.userId &&
+                !query.userId &&
+                !query.featured
+                  ? "selected"
+                  : ""
+              }
               onClick={(e) => {
                 e.preventDefault();
                 setQuery({
                   codeHash: undefined,
                   userId: undefined,
                   starredBy: undefined,
+                  featured: undefined,
                 });
               }}
             >
               {" "}
-              clear
+              All
             </button>
           </span>
         )}
@@ -114,7 +172,7 @@ function Browse() {
             options={options}
             onChange={(e) => {
               if (e.value === "top") {
-                setQuery({ order: e.value, days: "7" });
+                setQuery({ order: e.value, days: "365" });
               } else {
                 setQuery({ order: e.value });
               }
@@ -141,6 +199,7 @@ function Browse() {
 
 const BrowsePostLink = ({ post: initPost }) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [post, setPost] = useState(initPost);
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
@@ -159,7 +218,7 @@ const BrowsePostLink = ({ post: initPost }) => {
     userId: StringParam,
   });
 
-  let metadata = JSON.parse(post.metadata);
+  let metadata = post.metadata;
 
   let displayTime = new Date(post.createdAt).toLocaleDateString();
   let msAgo = new Date().getTime() - new Date(post.createdAt).getTime();
@@ -169,7 +228,7 @@ const BrowsePostLink = ({ post: initPost }) => {
   }
 
   return (
-    <div className="post">
+    <div className={"post " + (post.placeholder ? " placeholder" : "")}>
       <a
         className="postThumbnail"
         href={href}
@@ -180,6 +239,8 @@ const BrowsePostLink = ({ post: initPost }) => {
 
         <img
           src={`${imageURLBase}${post.id}.gif`}
+          width={300}
+          height={300}
           onError={(e) => (e.target.src = `${imageURLBase}${post.id}.png`)}
         ></img>
       </a>
@@ -205,7 +266,6 @@ const BrowsePostLink = ({ post: initPost }) => {
 
         <div style={{ textAlign: "justify" }}>
           <button onClick={handleEdit}> edit code</button>
-          {displayTime}, {post.views} plays
           <br></br>
           <button
             onClick={() => {
@@ -220,6 +280,22 @@ const BrowsePostLink = ({ post: initPost }) => {
           >
             {(post.stars.length ? "★: " : "☆: ") + post?._count?.stars ?? 0}
           </button>
+          <br></br>
+          {session?.role === "admin" && (
+            <button
+              onClick={async () => {
+                const result = await axios("/api/update/" + post.id, {
+                  params: { featured: true },
+                });
+                let results = result.data;
+                setPost(results);
+              }}
+            >
+              Feature Post
+            </button>
+          )}
+          <br></br>
+          {displayTime}, {post.views} plays
           {/* <br></br> */}
           {/* Element Set:{"\t\t"} */}
           {"\t\t"}
