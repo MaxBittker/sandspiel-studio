@@ -211,19 +211,20 @@ const ExtraUI = () => {
           className="simulation-button"
           onClick={() => {
             seed();
+            addBorder();
           }}
         >
           Clear
         </button>
       </div>
-      <button
+      {/* <button
         className="simulation-button"
         onClick={() => {
           addBorder();
         }}
       >
         Add Border
-      </button>
+      </button> */}
       <br />
       <div>
         {/* <input
@@ -265,7 +266,6 @@ const ExtraUI = () => {
           </button>
         )}
         <br />
-        <Family />
         {session && post?.user?.id == session.userId && (
           <button
             onClick={() => {

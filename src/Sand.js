@@ -73,6 +73,8 @@ const Sand = ({ playMode }) => {
   let mouseUp = useCallback(
     (e) => {
       setIsDragging(false);
+      clearInterval(holdInterval);
+      setIsDrawing(false);
     },
     [setIsDragging]
   );
@@ -80,8 +82,8 @@ const Sand = ({ playMode }) => {
   useEffect(() => {
     if (isDragging) {
       window.addEventListener("mousemove", mouseMove);
-      window.addEventListener("mouseup", mouseUp);
     }
+    window.addEventListener("mouseup", mouseUp);
 
     return () => {
       window.removeEventListener("mousemove", mouseMove);
@@ -158,13 +160,9 @@ const Sand = ({ playMode }) => {
           }, 60);
           mouseMoveCanvas(e, true);
         }}
-        onMouseUp={() => {
-          clearInterval(holdInterval);
-          setIsDrawing(false);
-        }}
         onMouseOut={() => {
           clearInterval(holdInterval);
-          setIsDrawing(false);
+          // setIsDrawing(false);
           let { setPos } = useStore.getState();
           setPos([-1, -1]);
         }}
