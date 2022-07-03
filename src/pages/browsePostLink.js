@@ -84,7 +84,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
         </button>
 
         <div style={{ textAlign: "justify" }}>
-          <button onClick={handleEdit}> edit code</button>
+          <button onClick={handleEdit}> Edit Code</button>
           <br></br>
           <button
             onClick={() => {
