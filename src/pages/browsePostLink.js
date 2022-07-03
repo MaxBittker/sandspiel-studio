@@ -145,6 +145,44 @@ export const BrowsePostLink = ({ post: initPost }) => {
           )}
         </div>
       </div>
+
+      <style jsx>
+        {`
+          .post .pfp {
+            position: absolute;
+            right: 0;
+            bottom: 2px;
+          }
+
+          .postThumbnail img {
+            width: 300px;
+            max-width: 50vw;
+          }
+          .post.placeholder {
+            filter: grayscale(100%) contrast(0.5);
+          }
+          .post {
+            background-color: rgba(250, 247, 247, 0.723);
+            padding: 5px;
+            margin-bottom: 6px;
+            position: relative;
+          }
+          .browse-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 2px;
+            width: 400px;
+            max-width: 50vw;
+          }
+          .element-set-button {
+            flex-grow: 0;
+            height: auto;
+            text-align: start;
+            padding: 0px;
+          }
+        `}
+      </style>
     </div>
   );
 };

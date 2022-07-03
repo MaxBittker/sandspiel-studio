@@ -1,16 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;400&family=Inter&display=swap");
-* {
-  box-sizing: border-box;
-  /* font-family: "Inconsolata", monospace !important; */
-}
-
-body {
-  background-color: rgb(225, 222, 218);
-  font-family: "Inconsolata", monospace;
-  margin: 0;
-  background-size: 70px;
-}
 pre {
   margin: 0;
 }
@@ -29,7 +16,6 @@ pre {
   /* background-color: rgb(228, 199, 194); */
 
   background-image: url("/tiles/Scatter Pink.png");
-  /* background-image: url("/tiles/ScatterGray.png"); */
   background-size: 80px;
   /* filter: brightness(1.1); */
   /*background-color: rgb(228, 199, 194, 0);*/
@@ -37,20 +23,10 @@ pre {
 
 #world {
   position: relative;
-  /* right: 0; */
-  /* top: 0;  */
   height: 100vh;
   flex-shrink: 0;
   background-image: url("/tiles/ScatterGray.png");
   background-size: 30px;
-}
-
-.element-tray {
-  /*z-index: 1;*/
-}
-
-.blocklyDraggable {
-  /*pointer-events: all;*/
 }
 
 .blocklyMainBackground {
@@ -67,14 +43,6 @@ pre {
   /* transition: filter 10ms linear; */
 }
 
-.update-scheme-tray {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
 .resizeHandle {
   width: 8px;
   height: 100%;
@@ -111,11 +79,4 @@ label {
   bottom: 40px;
   z-index: 2000;
   color: darkslateblue;
-}
-.Auth {
-  font-size: 16px;
-}
-
-.Auth a {
-  display: block;
 }

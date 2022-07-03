@@ -48,10 +48,6 @@ button {
   flex-grow: 10;
   width: auto;
 }
-.update-scheme-button {
-  font-size: 10px;
-  min-width: 200px !important;
-}
 
 button.selected {
   border-color: black;

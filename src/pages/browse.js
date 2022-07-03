@@ -186,8 +186,48 @@ function Browse() {
         })}
         {data.length == 0 && <div style={{ width: 750 }}>No posts found</div>}
       </div>
-
       <CreateReactAppEntryPoint playMode />
+      <style jsx>{`
+        .browse-page {
+          display: flex;
+          height: 100vh;
+          width: 100%;
+          justify-content: center;
+        }
+        @media only screen and (max-width: 700px) {
+          .browse-page {
+            flex-direction: column-reverse;
+            height: auto;
+          }
+        }
+
+        .browse {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          margin: 10px;
+          /* max-width: 90vw; */
+          height: 100%;
+          overflow: scroll;
+        }
+
+        .browse.family {
+          margin: 0;
+          /* min-width: 765px; */
+        }
+
+        @media only screen and (max-width: 500px) {
+          .family {
+            margin: 0;
+          }
+        }
+
+        .filterControls {
+          display: flex;
+          padding: 5px;
+        }
+      `}</style>
+      `
     </div>
   );
 }

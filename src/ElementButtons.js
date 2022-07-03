@@ -97,6 +97,7 @@ const ElementButtons = ({
         </span>
       )}
       {!inert && <div className={"spacer"} />}
+      <style jsx>{``}</style>
     </div>
   );
 };

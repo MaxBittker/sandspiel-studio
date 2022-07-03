@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { NextQueryParamProvider } from "next-query-params";
 
 import "../index.css";
-import "../browse.css";
 import "../App.css";
 import "../game.css";
 import "../Blockly/BlocklyComponent.css";

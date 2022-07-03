@@ -28,6 +28,20 @@ const Home = () => {
         >
           Sign out
         </a>
+        <style jsx>{`
+          .Auth {
+            font-size: 16px;
+          }
+
+          .Auth a {
+            display: block;
+          }
+
+          :global(.pfp) {
+            border-radius: 100%;
+            width: 50px !important;
+          }
+        `}</style>
       </div>
     );
   }
