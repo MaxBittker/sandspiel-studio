@@ -46,6 +46,19 @@ function Spinner() {
     setCount((count + 1) % spinner.length);
   }, 100);
 
-  return <span>{spinner[count]}!!!!</span>;
+  return (
+    <>
+      <span>{spinner[count]}</span>
+      <style jsx>
+        {`
+          span {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+          }
+        `}
+      </style>
+    </>
+  );
 }
 export default Spinner;

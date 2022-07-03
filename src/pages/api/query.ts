@@ -7,7 +7,8 @@ import { withSentry } from "@sentry/nextjs";
 import { prisma } from "../../db/prisma";
 
 async function handler(request: NextApiRequest, response: NextApiResponse) {
-  const { order, codeHash, userId, days, starredBy, featured } = request.query;
+  const { order, codeHash, userId, days, starredBy, featured, skip, take } =
+    request.query;
 
   const session = await getSession({ req: request });
   // const userId = session.userId as string;
@@ -59,11 +60,12 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       ),
     };
   }
+  const skipN = parseInt(skip as string, 10) || 0;
   try {
-    // let userId = request.body.userId;
-
+    // todo cursor based pagination
     let posts = await prisma.post.findMany({
-      take: 100,
+      take: parseInt(take as string, 10) || 50,
+      skip: skipN,
       where,
       orderBy,
       select: {
@@ -95,7 +97,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       },
     });
 
-    response.status(200).json(posts);
+    response.status(200).json({ posts, offset: skipN + posts.length });
   } catch (err) {
     throw err;
   }

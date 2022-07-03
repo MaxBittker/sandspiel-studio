@@ -35,7 +35,7 @@ function prepareExport() {
   return json;
 }
 
-const ExtraUI = () => {
+const ExtraUI = ({ playMode }) => {
   const { data: session } = useSession();
 
   let [copiedState, setCopiedState] = useState(null);
@@ -180,10 +180,10 @@ const ExtraUI = () => {
           </button>
         )}
         <br />
-        <Link href={`/browse`}>Browse</Link>
+        {!playMode && <Link href={`/browse`}>Browse</Link>}
         <Home />
 
-        {window.location.host.includes("localhost") && (
+        {!playMode && window.location.host.includes("localhost") && (
           <button
             className="simulation-button"
             onClick={() => {

@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
+import { useInView } from "react-intersection-observer";
+
 // import { ReactQueryDevtools } from "react-query/devtools";
 import Dropdown from "react-dropdown";
 import { useSession } from "next-auth/react";
@@ -31,12 +33,14 @@ const placeholder = {
   },
   stars: [],
 };
-const placeHolderPosts = [
-  { ...placeholder, id: 1 },
-  { ...placeholder, id: 2 },
-  { ...placeholder, id: 3 },
-  { ...placeholder, id: 4 },
-];
+const placeHolderPosts = {
+  posts: [
+    { ...placeholder, id: 1 },
+    { ...placeholder, id: 2 },
+    { ...placeholder, id: 3 },
+    { ...placeholder, id: 4 },
+  ],
+};
 const options = ["new", "top"];
 const optionsTime = [
   { value: "1", label: "day" },
@@ -60,20 +64,47 @@ function Browse() {
 
   // const postId = useStore((state) => state.postId);
 
-  const { isLoading, error, data, isFetching } = useQuery(
+  const {
+    isLoading,
+    error,
+    data,
+    isFetching,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
     ["browseData", query],
-    async () => {
-      const result = await axios("/api/query", { params: query });
+    async ({ pageParam = 0 }) => {
+      const result = await axios("/api/query", {
+        params: {
+          ...query,
+          take: 20,
+          skip: pageParam,
+        },
+      });
       let results = result.data;
-      results = results.map((r) => {
+      results.posts = results.posts.map((r) => {
         r.metadata = JSON.parse(r.metadata);
         return r;
       });
       return results;
     },
-    { placeholderData: placeHolderPosts }
+    {
+      // placeholderData: { pages: [placeHolderPosts] },
+      getPreviousPageParam: (firstPage) => firstPage.offset || 0,
+      getNextPageParam: (lastPage) => {
+        return lastPage?.offset || 0;
+      },
+    }
   );
+  const { ref, inView } = useInView();
 
+  React.useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+  let dataWithPlaceholder = data ?? { pages: [placeHolderPosts] };
   return (
     <div className="browse-page">
       <div className="browse family">
@@ -181,10 +212,33 @@ function Browse() {
         </span>
         {isLoading && <Spinner></Spinner>}
         {error && <div>Error: {error}</div>}
-        {data.map((d) => {
-          return <BrowsePostLink key={d.id} post={d} full />;
-        })}
-        {data.length == 0 && <div style={{ width: 750 }}>No posts found</div>}
+
+        {dataWithPlaceholder?.pages.map((page) => (
+          <React.Fragment key={page.nextId}>
+            {page.posts.map((d) => {
+              return <BrowsePostLink key={d.id} post={d} full />;
+            })}
+          </React.Fragment>
+        ))}
+        <div>
+          <button
+            ref={ref}
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            {isFetchingNextPage
+              ? "Loading more..."
+              : hasNextPage
+              ? "Load Newer"
+              : "Nothing more to load"}
+          </button>
+        </div>
+        <div>
+          {isFetching && !isFetchingNextPage ? "Background Updating..." : null}
+        </div>
+        {/* {dataWithPlaceholder?.length == 0 && (
+          <div style={{ width: 750 }}>No posts found</div>
+        )} */}
       </div>
       <CreateReactAppEntryPoint playMode />
       <style jsx>{`

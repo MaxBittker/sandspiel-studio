@@ -37,6 +37,7 @@
     "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
     "react-dropdown": "^1.10.0",
+    "react-intersection-observer": "^9.3.5",
     "react-query": "^3.39.1",
     "regl": "^2.1.0",
     "timeago.js": "^4.0.2",

@@ -216,6 +216,7 @@ const Sand = ({ playMode }) => {
       />
 
       <ExtraUI
+        playMode={playMode}
         updateScheme={updateScheme}
         setUpdateScheme={setUpdateScheme}
         taggedMode={taggedMode}
