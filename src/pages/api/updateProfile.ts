@@ -1,14 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
 import { getSession } from "next-auth/react";
 export const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 import { prisma } from "../../db/prisma";
+import { withSentry } from "@sentry/nextjs";
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
+async function handler(request: NextApiRequest, response: NextApiResponse) {
   const session = await getSession({ req: request });
   const userId: string = session?.userId as string;
 
@@ -29,3 +26,4 @@ export default async function handler(
     throw err;
   }
 }
+export default withSentry(handler);

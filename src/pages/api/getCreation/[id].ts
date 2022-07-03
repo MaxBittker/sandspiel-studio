@@ -1,11 +1,9 @@
+import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../db/prisma";
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
+async function handler(request: NextApiRequest, response: NextApiResponse) {
   try {
     const id = parseInt(request.query.id as string, 10);
 
@@ -57,3 +55,4 @@ export default async function handler(
     });
   }
 }
+export default withSentry(handler);

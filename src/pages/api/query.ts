@@ -2,12 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { PostWhereInput } from "@prisma/client/generator-build";
 import { getSession } from "next-auth/react";
+import { withSentry } from "@sentry/nextjs";
+
 import { prisma } from "../../db/prisma";
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
+async function handler(request: NextApiRequest, response: NextApiResponse) {
   const { order, codeHash, userId, days, starredBy, featured } = request.query;
 
   const session = await getSession({ req: request });
@@ -101,3 +100,5 @@ export default async function handler(
     throw err;
   }
 }
+
+export default withSentry(handler);

@@ -166,7 +166,7 @@ function Browse() {
               if (e.value === "top") {
                 setQuery({ order: e.value, days: "365" });
               } else {
-                setQuery({ order: e.value });
+                setQuery({ order: e.value, days: undefined });
               }
             }}
             value={query.order}

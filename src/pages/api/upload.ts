@@ -6,6 +6,7 @@ import { getSession } from "next-auth/react";
 
 import md5 from "md5";
 import { prisma } from "../../db/prisma";
+import { withSentry } from "@sentry/nextjs";
 
 const token = process.env.DISCORD_TOKEN;
 
@@ -32,10 +33,7 @@ function uploadPNG(bucket, id, pngData, suffix) {
   });
 }
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
+async function handler(request: NextApiRequest, response: NextApiResponse) {
   let postId = undefined;
 
   const session = await getSession({ req: request });
@@ -131,3 +129,4 @@ export const config = {
     },
   },
 };
+export default withSentry(handler);
