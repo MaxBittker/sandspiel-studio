@@ -4,6 +4,7 @@ import App from "next/app";
 import Script from "next/script";
 import { useRouter } from "next/router";
 import { SessionProvider } from "next-auth/react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { NextQueryParamProvider } from "next-query-params";
 
 import "../index.css";
@@ -11,6 +12,7 @@ import "../browse.css";
 import "../App.css";
 import "../game.css";
 import "../Blockly/BlocklyComponent.css";
+const queryClient = new QueryClient();
 
 function SafeHydrate({ children }) {
   const [isMounted, setIsMounted] = useState(false);
@@ -49,7 +51,9 @@ function MyApp({ Component, pageProps }) {
       <SafeHydrate>
         <SessionProvider session={pageProps.session} refetchInterval={0}>
           <NextQueryParamProvider>
-            <Component {...pageProps} />
+            <QueryClientProvider client={queryClient}>
+              <Component {...pageProps} />
+            </QueryClientProvider>
           </NextQueryParamProvider>
         </SessionProvider>
 

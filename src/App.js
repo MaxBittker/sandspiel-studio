@@ -126,11 +126,12 @@ const App = ({ playMode }) => {
   useEffect(() => {
     if (!simpleWorkspace.current || !loaded) return;
     simpleWorkspace.current.primaryWorkspace.clear();
-
+    // TODO THERE IS A LOADING BUG WHEN GOING FROM EDIT TO BROWSE
+    const xml =
+      useStore.getState().xmls[useStore.getState().selectedElement ?? 0];
+    if (!xml) return;
     Xml.domToWorkspace(
-      Xml.textToDom(
-        useStore.getState().xmls[useStore.getState().selectedElement ?? 0]
-      ),
+      Xml.textToDom(xml),
       simpleWorkspace.current.primaryWorkspace
     );
   }, [selectedElement, loaded]);
