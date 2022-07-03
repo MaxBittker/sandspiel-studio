@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { PrismaClient } from "@prisma/client";
 import { getSession } from "next-auth/react";
 
-const prisma = new PrismaClient();
+import { prisma } from "../../../db/prisma";
 
 export default async function handler(
   request: NextApiRequest,
@@ -70,7 +69,5 @@ export default async function handler(
     response.status(200).json(post);
   } catch (err) {
     throw err;
-  } finally {
-    await prisma.$disconnect();
   }
 }

@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../../db/prisma";
 
 export default async function handler(
   request: NextApiRequest,
@@ -57,6 +55,5 @@ export default async function handler(
       where: { id },
       data: { views: { increment: 1 } },
     });
-    await prisma.$disconnect();
   }
 }

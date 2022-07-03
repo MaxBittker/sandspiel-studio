@@ -3,13 +3,12 @@ import { PrismaClient } from "@prisma/client";
 import { getSession } from "next-auth/react";
 export const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
+import { prisma } from "../../db/prisma";
 
 export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  const prisma = new PrismaClient();
-
   const session = await getSession({ req: request });
   const userId: string = session?.userId as string;
 
@@ -28,7 +27,5 @@ export default async function handler(
     response.status(200).json(newUser);
   } catch (err) {
     throw err;
-  } finally {
-    await prisma.$disconnect();
   }
 }

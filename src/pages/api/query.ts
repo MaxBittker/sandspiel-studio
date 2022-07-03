@@ -1,14 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { PrismaClient } from "@prisma/client";
 import { PostWhereInput } from "@prisma/client/generator-build";
 import { getSession } from "next-auth/react";
+import { prisma } from "../../db/prisma";
 
 export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  const prisma = new PrismaClient();
   const { order, codeHash, userId, days, starredBy, featured } = request.query;
 
   const session = await getSession({ req: request });
@@ -100,7 +99,5 @@ export default async function handler(
     response.status(200).json(posts);
   } catch (err) {
     throw err;
-  } finally {
-    await prisma.$disconnect();
   }
 }

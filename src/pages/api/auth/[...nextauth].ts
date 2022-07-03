@@ -6,6 +6,7 @@ import DiscordProvider from "next-auth/providers/discord";
 
 import nodemailer from "nodemailer";
 import sgTransport from "nodemailer-sendgrid-transport";
+import { prisma } from "../../../db/prisma";
 
 // api key https://sendgrid.com/docs/Classroom/Send/api_keys.html
 var options = {
@@ -16,7 +17,6 @@ var options = {
 
 var transport = nodemailer.createTransport(sgTransport(options));
 
-const prisma = new PrismaClient();
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({

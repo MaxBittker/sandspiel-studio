@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { Storage } from "@google-cloud/storage";
-import { PrismaClient } from "@prisma/client";
 import { Client, Intents, TextChannel } from "discord.js";
 import { getSession } from "next-auth/react";
 
 import md5 from "md5";
+import { prisma } from "../../db/prisma";
 
 const token = process.env.DISCORD_TOKEN;
 
@@ -36,7 +36,6 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  const prisma = new PrismaClient();
   let postId = undefined;
 
   const session = await getSession({ req: request });
@@ -122,8 +121,6 @@ export default async function handler(
     )) as TextChannel;
 
     channel.send(`https://studio.sandspiel.club/post/${postId}\n ${title}`);
-
-    await prisma.$disconnect();
   }
 }
 
