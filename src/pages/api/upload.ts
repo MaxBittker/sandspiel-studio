@@ -2,11 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { Storage } from "@google-cloud/storage";
 import { Client, Intents, TextChannel } from "discord.js";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { withSentry } from "@sentry/nextjs";
 
 import md5 from "md5";
 import { prisma } from "../../db/prisma";
-import { withSentry } from "@sentry/nextjs";
+import authOptions from "./auth/options";
 
 const token = process.env.DISCORD_TOKEN;
 
@@ -31,7 +32,10 @@ async function getUploadUrl(bucket, id, contentType, suffix) {
 async function handler(request: NextApiRequest, response: NextApiResponse) {
   let postId = undefined;
 
-  const session = await getSession({ req: request });
+  const session = await getServerSession(
+    { req: request, res: response },
+    authOptions
+  );
   const userId: string = session?.userId as string;
 
   try {

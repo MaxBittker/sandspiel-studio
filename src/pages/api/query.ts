@@ -1,16 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { PostWhereInput } from "@prisma/client/generator-build";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 import { withSentry } from "@sentry/nextjs";
-
+import authOptions from "./auth/options";
 import { prisma } from "../../db/prisma";
 
 async function handler(request: NextApiRequest, response: NextApiResponse) {
   const { order, codeHash, userId, days, starredBy, featured, skip, take } =
     request.query;
 
-  const session = await getSession({ req: request });
+  const session = await getServerSession(
+    { req: request, res: response },
+    authOptions
+  );
   // const userId = session.userId as string;
 
   let orderBy: PostWhereInput = { createdAt: "desc" };

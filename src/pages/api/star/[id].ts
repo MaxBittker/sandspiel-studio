@@ -1,15 +1,17 @@
 import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { getSession } from "next-auth/react";
-
+import { getServerSession } from "next-auth";
+import authOptions from "../auth/options";
 import { prisma } from "../../../db/prisma";
 
 async function handler(request: NextApiRequest, response: NextApiResponse) {
   try {
     const id = parseInt(request.query.id as string, 10);
-    const session = await getSession({ req: request });
-
+    const session = await getServerSession(
+      { req: request, res: response },
+      authOptions
+    );
     console.log(session);
     if (!session?.userId) {
       return response.status(500).send("not logged in");

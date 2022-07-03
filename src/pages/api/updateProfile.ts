@@ -1,12 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 export const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 import { prisma } from "../../db/prisma";
+import authOptions from "./auth/options";
+
 import { withSentry } from "@sentry/nextjs";
 
 async function handler(request: NextApiRequest, response: NextApiResponse) {
-  const session = await getSession({ req: request });
+  const session = await getServerSession(
+    { req: request, res: response },
+    authOptions
+  );
   const userId: string = session?.userId as string;
 
   try {
