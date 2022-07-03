@@ -6,6 +6,8 @@ import * as timeago from "timeago.js";
 import "react-dropdown/style.css";
 import { useQueryParams, StringParam } from "next-query-params";
 import { useRouter } from "next/router";
+import classNames from "classnames";
+
 // import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "axios";
 import { imageURLBase } from "../ExtraUI";
@@ -16,6 +18,8 @@ export const BrowsePostLink = ({ post: initPost }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [post, setPost] = useState(initPost);
+  const selected = useStore((state) => state.postId === post.id);
+
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
     useStore.setState({
@@ -43,7 +47,12 @@ export const BrowsePostLink = ({ post: initPost }) => {
   }
 
   return (
-    <div className={"post " + (post.placeholder ? " placeholder" : "")}>
+    <div
+      className={classNames("post", {
+        selected,
+        placeholder: post.placeholder,
+      })}
+    >
       <a
         className="postThumbnail"
         href={href}
@@ -148,24 +157,29 @@ export const BrowsePostLink = ({ post: initPost }) => {
 
       <style jsx>
         {`
-          .post .pfp {
-            position: absolute;
-            right: 0;
-            bottom: 2px;
-          }
-
-          .postThumbnail img {
-            width: 300px;
-            max-width: 50vw;
-          }
-          .post.placeholder {
-            filter: grayscale(100%) contrast(0.5);
-          }
           .post {
             background-color: rgba(250, 247, 247, 0.723);
             padding: 5px;
             margin-bottom: 6px;
             position: relative;
+          }
+          .selected {
+            box-shadow: 0 0 0 4px black inset;
+            background-color: rgba(250, 247, 247, 1);
+          }
+
+          .post.placeholder {
+            filter: grayscale(100%) contrast(0.5);
+          }
+          .postThumbnail {
+            width: 300px;
+            height: 300px;
+            margin-right: 3px;
+          }
+          .postThumbnail img {
+            width: 300px;
+            height: 300px;
+            max-width: 50vw;
           }
           .browse-info {
             display: flex;
@@ -180,6 +194,11 @@ export const BrowsePostLink = ({ post: initPost }) => {
             height: auto;
             text-align: start;
             padding: 0px;
+          }
+          .post .pfp {
+            position: absolute;
+            right: 0;
+            bottom: 2px;
           }
         `}
       </style>

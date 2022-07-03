@@ -109,10 +109,10 @@ summary {
   /* opacity: 0.5; */
 }
 
-.family img {
+/* .family img {
   width: 100px;
   margin-right: 3px;
-}
+} */
 .family img {
   border: 1px solid gainsboro;
 }
