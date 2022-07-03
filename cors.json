@@ -2,7 +2,7 @@
   {
     "origin": ["*"],
     "responseHeader": ["*"],
-    "method": ["GET", "POST", "HEAD"],
+    "method": ["GET", "POST", "PUT", "HEAD"],
     "maxAgeSeconds": 86400
   }
 ]

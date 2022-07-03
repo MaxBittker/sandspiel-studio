@@ -56,7 +56,11 @@ export const BrowsePostLink = ({ post: initPost }) => {
           src={`${imageURLBase}${post.id}.gif`}
           width={300}
           height={300}
-          onError={(e) => (e.target.src = `${imageURLBase}${post.id}.png`)}
+          onError={(e) => {
+            if (e.target.src.endsWith("gif")) {
+              e.target.src = `${imageURLBase}${post.id}.png`;
+            }
+          }}
         ></img>
       </a>
 

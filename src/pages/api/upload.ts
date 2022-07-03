@@ -14,23 +14,18 @@ const token = process.env.DISCORD_TOKEN;
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.login(token);
 
-function uploadPNG(bucket, id, pngData, suffix) {
-  const mimeType = pngData.match(
-    /data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/
-  )[1];
+async function getUploadUrl(bucket, id, contentType, suffix) {
   const filename = `creations/${id}${suffix}`;
-  const base64EncodedImageString = pngData.replace(
-    /^data:image\/\w+;base64,/,
-    ""
-  );
-  const imageBuffer = Buffer.from(base64EncodedImageString, "base64");
 
-  const file = bucket.file(filename);
+  const options = {
+    version: "v4",
+    action: "write",
+    expires: Date.now() + 30 * 60 * 1000, // 30 minutes
+    contentType,
+  };
 
-  return file.save(imageBuffer, {
-    metadata: { contentType: mimeType },
-    validation: "md5",
-  });
+  const [url] = await bucket.file(filename).getSignedUrl(options);
+  return url;
 }
 
 async function handler(request: NextApiRequest, response: NextApiResponse) {
@@ -100,13 +95,15 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
 
     const bucket = storage.bucket(process.env.GCP_BUCKET_NAME);
 
-    await Promise.all([
-      uploadPNG(bucket, newPost.id, request.body.data, ".data.png"),
-      uploadPNG(bucket, newPost.id, request.body.thumbnail, ".png"),
-      uploadPNG(bucket, newPost.id, request.body.gif, ".gif"),
+    let [dataUploadUrl, thumbUploadUrl, gifUploadUrl] = await Promise.all([
+      getUploadUrl(bucket, newPost.id, "image/png", ".data.png"),
+      getUploadUrl(bucket, newPost.id, "image/png", ".png"),
+      getUploadUrl(bucket, newPost.id, "image/gif", ".gif"),
     ]);
 
-    response.status(200).json(newPost);
+    response
+      .status(200)
+      .json({ ...newPost, dataUploadUrl, thumbUploadUrl, gifUploadUrl });
   } catch (err) {
     throw err;
   } finally {
@@ -130,3 +127,28 @@ export const config = {
   },
 };
 export default withSentry(handler);
+
+// await Promise.all([
+//   uploadPNG(bucket, newPost.id, request.body.data, ".data.png"),
+//   uploadPNG(bucket, newPost.id, request.body.thumbnail, ".png"),
+//   uploadPNG(bucket, newPost.id, request.body.gif, ".gif"),
+// ]);
+
+// function uploadPNG(bucket, id, pngData, suffix) {
+//   const mimeType = pngData.match(
+//     /data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/
+//   )[1];
+//   const filename = `creations/${id}${suffix}`;
+//   const base64EncodedImageString = pngData.replace(
+//     /^data:image\/\w+;base64,/,
+//     ""
+//   );
+//   const imageBuffer = Buffer.from(base64EncodedImageString, "base64");
+
+//   const file = bucket.file(filename);
+
+//   return file.save(imageBuffer, {
+//     metadata: { contentType: mimeType },
+//     validation: "md5",
+//   });
+// }

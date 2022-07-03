@@ -165,7 +165,7 @@ export let exportGif = async () => {
     isSnapshot: true,
   });
   let frames = [];
-  const numFrames = 8;
+  const numFrames = 7;
 
   for (var i = 0; i < numFrames; i++) {
     regl.clear({
@@ -213,7 +213,7 @@ export let exportGif = async () => {
       // window.open(URL.createObjectURL(blob));
 
       useStore.setState({ isPaused: initialPauseState });
-      resolve(blobToDataURL(blob));
+      resolve(blob);
     });
   });
 
