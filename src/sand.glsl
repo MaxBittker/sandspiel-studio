@@ -3,6 +3,7 @@ uniform float t;
 uniform sampler2D data;
 uniform vec3 colors[16];
 uniform vec3 color2s[16];
+uniform float scale;
 
 varying vec2 uv;
 
@@ -48,7 +49,8 @@ vec3 hsl2rgb(vec3 hsl) {
 vec3 hsl2rgb(float h, float s, float l) { return hsl2rgb(vec3(h, s, l)); }
 void main() {
   vec2 textCoord = ((uv * vec2(0.5, -0.5)) + vec2(0.5));
-  vec4 data = texture2D(data, textCoord);
+  vec2 scaledTextCoord = textCoord * scale;
+  vec4 data = texture2D(data, scaledTextCoord);
   data.gba = (data.gba * 2.55);
   int type = int((data.r * 255.) + 0.1);
   float hue = 0.0;

@@ -40,6 +40,7 @@ let startWebGL = ({ canvas, width, height, sands, isSnapshot }) => {
         return dataTexture({ width, height, data: sands });
       },
 
+      scale: () => useStore.getState().worldWidth / width,
       "colors[0]": () => useStore.getState().colors[0] ?? [0.5, 0.5, 0.5],
       "colors[1]": () => useStore.getState().colors[1] ?? [0.5, 0.5, 0.5],
       "colors[2]": () => useStore.getState().colors[2] ?? [0.5, 0.5, 0.5],
