@@ -94,8 +94,13 @@ const Sand = ({ playMode }) => {
   let mouseMoveCanvas = useCallback(
     (e, force = false) => {
       let bounds = canvas.current.getBoundingClientRect();
-      let eX = Math.round((e.clientX - bounds.left) * (width / bounds.width));
-      let eY = Math.round((e.clientY - bounds.top) * (height / bounds.height));
+      const { worldWidth, worldHeight } = useStore.getState();
+      let eX = Math.round(
+        (e.clientX - bounds.left) * (worldWidth / bounds.width)
+      );
+      let eY = Math.round(
+        (e.clientY - bounds.top) * (worldHeight / bounds.height)
+      );
       let { size, setPos } = useStore.getState();
       setPos([eX, eY]);
       if (!isDrawing && !force) {
@@ -144,11 +149,12 @@ const Sand = ({ playMode }) => {
         id="worldCanvas"
         onMouseDown={(e) => {
           let bounds = canvas.current.getBoundingClientRect();
+          const { worldWidth, worldHeight } = useStore.getState();
           let eX = Math.round(
-            (e.clientX - bounds.left) * (width / bounds.width)
+            (e.clientX - bounds.left) * (worldWidth / bounds.width)
           );
           let eY = Math.round(
-            (e.clientY - bounds.top) * (height / bounds.height)
+            (e.clientY - bounds.top) * (worldHeight / bounds.height)
           );
 
           prevPos = [eX, eY];
@@ -175,11 +181,12 @@ const Sand = ({ playMode }) => {
           let touch = touches[0];
 
           let bounds = canvas.current.getBoundingClientRect();
+          const { worldWidth, worldHeight } = useStore.getState();
           let eX = Math.round(
-            (touch.clientX - bounds.left) * (width / bounds.width)
+            (touch.clientX - bounds.left) * (worldWidth / bounds.width)
           );
           let eY = Math.round(
-            (touch.clientY - bounds.top) * (height / bounds.height)
+            (touch.clientY - bounds.top) * (worldHeight / bounds.height)
           );
           pushUndo();
           clearInterval(holdInterval);

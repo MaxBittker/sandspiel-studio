@@ -1,5 +1,5 @@
 import React from "react";
-import { seedNewWorldSize, width, height } from "./SandApi.js";
+import { seedNewWorldSize, width, height, seedWithBorder } from "./SandApi.js";
 let worldSizeMap = [1 / 3, 1 / 2, 1];
 import { useStore } from "./store";
 
@@ -16,8 +16,10 @@ const WorldSizeButtons = ({}) => {
           onClick={(e) => {
             const oldSize = worldWidth;
             const newSize = Math.round(v * width);
+            if (newSize === oldSize) return;
             setWorldSize([newSize, newSize]);
-            seedNewWorldSize(oldSize, newSize);
+            //seedNewWorldSize(oldSize, newSize);
+            seedWithBorder();
           }}
           style={{
             padding: "0px",
