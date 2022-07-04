@@ -6,6 +6,7 @@ import { useStore } from "./store";
 const WorldSizeButtons = ({}) => {
   const worldWidth = useStore((state) => state.worldWidth);
   const setWorldSize = useStore((state) => state.setWorldSize);
+  const setWorldScale = useStore((state) => state.setWorldScale);
 
   return (
     <span className="worldSizes">
@@ -19,6 +20,7 @@ const WorldSizeButtons = ({}) => {
             if (newSize === oldSize) return;
             setWorldSize([newSize, newSize]);
             seedNewWorldSize(oldSize, newSize);
+            setWorldScale(v);
             //seedWithBorder();
           }}
           style={{

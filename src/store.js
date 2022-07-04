@@ -25,6 +25,7 @@ let useStore = create((set, get) => ({
   taggedMode: false,
   paused: false,
   size: 3,
+  worldScale: 1,
   worldWidth: 150,
   worldHeight: 150,
   worldCellCount: 150 * 150,
@@ -34,6 +35,7 @@ let useStore = create((set, get) => ({
       : undefined,
   post: null,
   setSize: (e) => set(() => ({ size: e })),
+  setWorldScale: (e) => set(() => ({ worldScale: e })),
   setWorldSize: (e) => {
     const [worldWidth, worldHeight] = e;
     const worldCellCount = worldWidth * worldWidth;

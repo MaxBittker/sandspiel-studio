@@ -45,6 +45,9 @@ export async function loadPostFromServer(postId) {
       if (!worldScaleMap.includes(worldScale)) {
         worldScale = 1;
       }
+      const worldWidth = Math.round(worldScale * width);
+      const worldHeight = Math.round(worldScale * width);
+      useStore.getState().setWorldSize([worldWidth, worldHeight]);
 
       desiredPaused = paused;
 
@@ -58,7 +61,6 @@ export async function loadPostFromServer(postId) {
         //paused,
         post,
         size: size ?? 3,
-        worldSize: [],
       });
 
       globalState.wraparoundEnabled = post.id > 938;

@@ -85,6 +85,7 @@ const UploadButtons = () => {
               color2s: useStore.getState().color2s,
               size: useStore.getState().size,
               selectedElement: useStore.getState().selectedElement,
+              worldScale: useStore.getState().worldScale,
             },
             null,
             " "
