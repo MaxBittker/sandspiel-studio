@@ -1,6 +1,6 @@
 import React from "react";
 import { seedNewWorldSize, width, height, seedWithBorder } from "./SandApi.js";
-let worldSizeMap = [1 / 3, 1 / 2, 1];
+let worldScaleMap = [1 / 3, 1 / 2, 1];
 import { useStore } from "./store";
 
 const WorldSizeButtons = ({}) => {
@@ -9,7 +9,7 @@ const WorldSizeButtons = ({}) => {
 
   return (
     <span className="worldSizes">
-      {worldSizeMap.map((v, i) => (
+      {worldScaleMap.map((v, i) => (
         <button
           key={i}
           className={v * width == worldWidth ? "selected" : ""}
@@ -18,15 +18,15 @@ const WorldSizeButtons = ({}) => {
             const newSize = Math.round(v * width);
             if (newSize === oldSize) return;
             setWorldSize([newSize, newSize]);
-            //seedNewWorldSize(oldSize, newSize);
-            seedWithBorder();
+            seedNewWorldSize(oldSize, newSize);
+            //seedWithBorder();
           }}
           style={{
             padding: "0px",
             marginRight: i === 0 ? 0 : -1,
-            marginRight: i === worldSizeMap.length - 1 ? 2 : 0,
-            borderTopRightRadius: i < worldSizeMap.length - 1 ? 0 : "",
-            borderBottomRightRadius: i < worldSizeMap.length - 1 ? 0 : "",
+            marginRight: i === worldScaleMap.length - 1 ? 2 : 0,
+            borderTopRightRadius: i < worldScaleMap.length - 1 ? 0 : "",
+            borderBottomRightRadius: i < worldScaleMap.length - 1 ? 0 : "",
             borderTopLeftRadius: i > 0 ? 0 : "",
             borderBottomLeftRadius: i > 0 ? 0 : "",
             marginTop: "10px",
@@ -47,4 +47,4 @@ const WorldSizeButtons = ({}) => {
 };
 
 export default WorldSizeButtons;
-export { worldSizeMap };
+export { worldScaleMap };

@@ -801,7 +801,7 @@ export const seedWithBorder = () => {
 };
 
 export const seedNewWorldSize = (oldSize, newSize) => {
-  const offset = Math.abs(Math.round(newSize / 2 - oldSize / 2));
+  let offset = Math.round(Math.abs(newSize / 2 - oldSize / 2));
   const offsetIndex = getIndex(offset, offset);
   if (newSize > oldSize) {
     sands.copyWithin(offsetIndex, 0, sands.length);

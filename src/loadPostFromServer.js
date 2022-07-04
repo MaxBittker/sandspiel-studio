@@ -2,6 +2,7 @@ import { decode } from "fast-png";
 import starterXMLs from "./starterblocks";
 import { globalState, useStore } from "./store";
 import { width, height, sands } from "./SandApi";
+import { worldScaleMap } from "./WorldSizeButtons.js";
 
 const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
@@ -38,7 +39,12 @@ export async function loadPostFromServer(postId) {
         colors,
         color2s,
         elements,
+        worldScale = 1,
       } = JSON.parse(metadata);
+
+      if (!worldScaleMap.includes(worldScale)) {
+        worldScale = 1;
+      }
 
       desiredPaused = paused;
 
@@ -52,6 +58,7 @@ export async function loadPostFromServer(postId) {
         //paused,
         post,
         size: size ?? 3,
+        worldSize: [],
       });
 
       globalState.wraparoundEnabled = post.id > 938;
