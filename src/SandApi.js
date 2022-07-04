@@ -213,11 +213,12 @@ function getIndex(x, y) {
 }
 
 function getWrappedPosition(x, y) {
+  const { worldWidth, worldHeight } = useStore.getState();
   if (globalState.wraparoundEnabled) {
-    while (x < 0) x += width;
-    while (x >= width) x -= width;
-    while (y < 0) y += height;
-    while (y >= height) y -= height;
+    while (x < 0) x += worldWidth;
+    while (x >= worldWidth) x -= worldWidth;
+    while (y < 0) y += worldHeight;
+    while (y >= worldHeight) y -= worldHeight;
   }
   return [x, y];
 }
@@ -228,14 +229,16 @@ function getSand(x, y, o = 0) {
 
   [x, y] = getWrappedPosition(x, y);
 
-  if (x < 0 || x >= width || y < 0 || y >= height) {
+  const { worldWidth, worldHeight } = useStore.getState();
+  if (x < 0 || x >= worldWidth || y < 0 || y >= worldHeight) {
     return 1; // wall
   }
 
   return sands[getIndex(x, y) + o];
 }
 export function initSand([x, y], v) {
-  if (x < 0 || x >= width || y < 0 || y >= height) {
+  const { worldWidth, worldHeight } = useStore.getState();
+  if (x < 0 || x >= worldWidth || y < 0 || y >= worldHeight) {
     return;
   }
 
@@ -244,7 +247,8 @@ export function initSand([x, y], v) {
 export function setSand(x, y, v, ra, rb, rc) {
   [x, y] = getWrappedPosition(x, y);
 
-  if (x < 0 || x >= width || y < 0 || y >= height) {
+  const { worldWidth, worldHeight } = useStore.getState();
+  if (x < 0 || x >= worldWidth || y < 0 || y >= worldHeight) {
     return;
   }
 
@@ -277,7 +281,8 @@ function setSandRelative([x, y], v, ra, rb, rc, reset = true) {
   y = y + aY;
 
   [x, y] = getWrappedPosition(x, y);
-  if (x < 0 || x >= width || y < 0 || y >= height) {
+  const { worldWidth, worldHeight } = useStore.getState();
+  if (x < 0 || x >= worldWidth || y < 0 || y >= worldHeight) {
     return;
   }
   if (inertMode && x !== 0 && y !== 0) return;
@@ -311,19 +316,20 @@ function cloneSandRelative([sx, sy], [bx, by], swaps) {
   [sxtAbsolute, sytAbsolute] = getWrappedPosition(sxtAbsolute, sytAbsolute);
   [bxtAbsolute, bytAbsolute] = getWrappedPosition(bxtAbsolute, bytAbsolute);
 
+  const { worldWidth, worldHeight } = useStore.getState();
   if (
     sxtAbsolute < 0 ||
-    sxtAbsolute >= width ||
+    sxtAbsolute >= worldWidth ||
     sytAbsolute < 0 ||
-    sytAbsolute >= height
+    sytAbsolute >= worldHeight
   ) {
     return;
   }
   if (
     bxtAbsolute < 0 ||
-    bxtAbsolute >= width ||
+    bxtAbsolute >= worldWidth ||
     bytAbsolute < 0 ||
-    bytAbsolute >= height
+    bytAbsolute >= worldHeight
   ) {
     return;
   }
@@ -352,19 +358,20 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
   [sxtAbsolute, sytAbsolute] = getWrappedPosition(sxtAbsolute, sytAbsolute);
   [bxtAbsolute, bytAbsolute] = getWrappedPosition(bxtAbsolute, bytAbsolute);
 
+  const { worldWidth, worldHeight } = useStore.getState();
   if (
     sxtAbsolute < 0 ||
-    sxtAbsolute >= width ||
+    sxtAbsolute >= worldWidth ||
     sytAbsolute < 0 ||
-    sytAbsolute >= height
+    sytAbsolute >= worldHeight
   ) {
     return;
   }
   if (
     bxtAbsolute < 0 ||
-    bxtAbsolute >= width ||
+    bxtAbsolute >= worldWidth ||
     bytAbsolute < 0 ||
-    bytAbsolute >= height
+    bytAbsolute >= worldHeight
   ) {
     return;
   }
@@ -398,11 +405,12 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
 function moveOrigin([x, y]) {
   let [xAbsolute, yAbsolute] = [aX + x, aY + y];
 
+  const { worldWidth, worldHeight } = useStore.getState();
   if (
     xAbsolute < 0 ||
-    xAbsolute >= width ||
+    xAbsolute >= worldWidth ||
     yAbsolute < 0 ||
-    yAbsolute >= height
+    yAbsolute >= worldHeight
   ) {
     return;
   }
@@ -693,7 +701,8 @@ export const fireEventPhase = ({
   bDirection = 1,
   snake = false,
 } = {}) => {
-  const size = width;
+  const { worldWidth } = useStore.getState();
+  const size = worldWidth;
   const aStart = aDirection === 1 ? 0 : size - 1;
   const bStart = bDirection === 1 ? 0 : size - 1;
   const bSnakeStart = bDirection === -1 ? 0 : size - 1;
@@ -769,11 +778,16 @@ export const reset = () => {
 };
 
 export const seedWithBorder = () => {
+  const { worldWidth, worldHeight } = useStore.getState();
   for (var i = 0; i < sands.length; i += 4) {
     let x = (i / 4) % width;
     let y = Math.floor(i / 4 / width);
 
-    if (x === 0 || x === width - 1 || y === 0 || y === height - 1) {
+    if (
+      (x === 0 || x === worldWidth - 1 || y === 0 || y === worldHeight - 1) &&
+      x < worldWidth &&
+      y < worldHeight
+    ) {
       sands[i] = 1;
     } else {
       sands[i] = 0;
@@ -782,6 +796,33 @@ export const seedWithBorder = () => {
     sands[i + 1] = randomData(x, y);
     sands[i + 2] = 0;
     sands[i + 3] = 0;
+  }
+};
+
+export const seedNewWorldSize = (oldSize, newSize) => {
+  const offset = Math.abs(Math.round(newSize / 2 - oldSize / 2));
+  const offsetIndex = getIndex(offset, offset);
+  if (newSize > oldSize) {
+    sands.copyWithin(offsetIndex, 0, sands.length);
+    for (let i = 0; i < offsetIndex; i += 4) {
+      let x = (i / 4) % width;
+      let y = Math.floor(i / 4 / width);
+      sands[i] = 0;
+      sands[i + 1] = randomData(x, y);
+      sands[i + 2] = 0;
+      sands[i + 3] = 0;
+    }
+  } else {
+    sands.copyWithin(0, offsetIndex, sands.length);
+    for (let i = 0; i < sands.length; i += 4) {
+      let x = (i / 4) % width;
+      let y = Math.floor(i / 4 / width);
+      if (x < newSize && y < newSize) continue;
+      sands[i] = 0;
+      sands[i + 1] = randomData(x, y);
+      sands[i + 2] = 0;
+      sands[i + 3] = 0;
+    }
   }
 };
 
@@ -798,11 +839,16 @@ export const seed = () => {
 };
 
 export const addBorder = () => {
+  const { worldWidth, worldHeight } = useStore.getState();
   for (var i = 0; i < sands.length; i += 4) {
     let x = (i / 4) % width;
     let y = Math.floor(i / 4 / width);
 
-    if (x === 0 || x === width - 1 || y === 0 || y === height - 1) {
+    if (
+      (x === 0 || x === worldWidth - 1 || y === 0 || y === worldHeight - 1) &&
+      x < worldWidth &&
+      y < worldHeight
+    ) {
       sands[i] = 1;
     } else {
       continue;
