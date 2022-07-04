@@ -26,7 +26,7 @@ let useStore = create((set, get) => ({
   size: 3,
   worldWidth: 150,
   worldHeight: 150,
-  worldCellCount: 150 ** 150,
+  worldCellCount: 150 * 150,
   postId:
     typeof window !== "undefined"
       ? window?.location?.pathname?.slice(6)

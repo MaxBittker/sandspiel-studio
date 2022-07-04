@@ -1,5 +1,10 @@
-import { cellCount } from "./SandApi";
+import { cellCount, getIndex } from "./SandApi";
 import { sands, fireEvent, fireEventPhase } from "./SandApi";
+import useStore from "./store.js";
+
+// NOTE:
+// Since the world size options were added, most update schemes don't work correctly.
+// RANDOM_CYCLIC was updated to work correctly, because it's the one we use.
 
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -211,12 +216,23 @@ export const UPDATE_SCHEMES = {
     order: [],
     isSetup: false,
     setup: (scheme) => {
-      for (let i = 0; i < cellCount; i++) {
-        scheme.order.push(i * 4);
+      scheme.order.length = 0;
+      const { worldWidth, worldHeight } = useStore.getState();
+      for (let x = 0; x < worldWidth; x++) {
+        for (let y = 0; y < worldHeight; y++) {
+          const index = getIndex(x, y);
+          scheme.order.push(index);
+        }
       }
       scheme.isSetup = true;
     },
     tick: (scheme) => {
+      // Refresh order if world size is changed
+      const { worldCellCount } = useStore.getState();
+      if (scheme.order.length !== worldCellCount) {
+        scheme.isSetup = false;
+      }
+
       if (!scheme.isSetup) scheme.setup(scheme);
 
       shuffle(scheme.order);

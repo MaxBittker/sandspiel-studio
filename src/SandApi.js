@@ -11,6 +11,7 @@ let transformationId = 0;
 
 // This represents the MAXIMUM size of the world, which is fixed
 // 'worldWidth', 'worldHeight' and 'worldCellCount' in store.js represent the CURRENT CHOSEN world size (which might be smaller)
+//export let width = 300; //Uncomment to try out the new world size options (only enabled when in localhost currently)
 export let width = 150;
 export let height = width;
 export let cellCount = width * height;
@@ -208,7 +209,7 @@ function lessThan(a, b, aType, bType) {
   return a < b;
 }
 
-function getIndex(x, y) {
+export function getIndex(x, y) {
   return (x + y * width) * 4;
 }
 

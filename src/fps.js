@@ -1,4 +1,3 @@
-import { width, height } from "./SandApi";
 const fps = new (class {
   constructor() {
     if (typeof window === "undefined") {
