@@ -16,6 +16,7 @@ import { useStore } from "./store";
 import * as vkbeautify from "vkbeautify";
 import PlayPause from "./PlayPauseButton";
 import SizeButtons from "./SizeButtons";
+import WorldSizeButtons from "./WorldSizeButtons";
 import Home from "./Auth";
 import UploadButtons from "./UploadButtons";
 export const imageURLBase =
@@ -80,7 +81,10 @@ const ExtraUI = ({ playMode }) => {
               `${elements[t]}\n${g} Color Fade\n${b} Hue Rotate\n${a} Extra`}
           </pre>
         )}
-        <SizeButtons />
+        <div>
+          <SizeButtons />
+          {window.location.host.includes("localhost") && <WorldSizeButtons />}
+        </div>
       </div>
       <button
         className="simulation-button"

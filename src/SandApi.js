@@ -2,7 +2,6 @@ import { UPDATE_SCHEMES } from "./updateSchemes";
 import { globalState, useStore } from "./store.js";
 import { ChebyshevRotate } from "./Chebyshev.js";
 import noise from "./perlin";
-import { shuffle } from "lodash";
 noise.seed(Math.random());
 
 let aX = 0;
@@ -10,9 +9,12 @@ let aY = 0;
 let transformationSet = "ROTATION";
 let transformationId = 0;
 
+// This represents the MAXIMUM size of the world, which is fixed
+// 'worldWidth', 'worldHeight' and 'worldCellCount' in store.js represent the CURRENT CHOSEN world size (which might be smaller)
 export let width = 150;
 export let height = width;
 export let cellCount = width * height;
+
 export let sands = new Uint8Array(cellCount * 4);
 let undoStack = [];
 let afterFrameStatements = [];

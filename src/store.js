@@ -22,15 +22,22 @@ let useStore = create((set, get) => ({
   initialSelected: 3,
   updateScheme: "RANDOM_CYCLIC",
   taggedMode: false,
-  wraparoundEnabled: true,
   paused: false,
   size: 3,
+  worldWidth: 150,
+  worldHeight: 150,
+  worldCellCount: 150 ** 150,
   postId:
     typeof window !== "undefined"
       ? window?.location?.pathname?.slice(6)
       : undefined,
   post: null,
   setSize: (e) => set(() => ({ size: e })),
+  setWorldSize: (e) => {
+    const [worldWidth, worldHeight] = e;
+    const worldCellCount = worldWidth * worldWidth;
+    set({ worldWidth, worldHeight, worldCellCount });
+  },
   setPaused: (e) => set(() => ({ paused: e })),
   setSelected: (e) => set(() => ({ selectedElement: e })),
   setUpdateScheme: (e) => set(() => ({ updateScheme: e })),
