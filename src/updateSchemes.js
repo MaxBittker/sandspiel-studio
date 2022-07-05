@@ -242,6 +242,38 @@ export const UPDATE_SCHEMES = {
     },
   },
 
+  ["BENCHMARK"]: {
+    order: [],
+    isSetup: false,
+    setup: (scheme) => {
+      scheme.order.length = 0;
+      const { worldWidth, worldHeight } = useStore.getState();
+      for (let x = 0; x < worldWidth; x++) {
+        for (let y = 0; y < worldHeight; y++) {
+          const index = getIndex(x, y);
+          scheme.order.push(index);
+        }
+      }
+      scheme.isSetup = true;
+    },
+    tick: (scheme) => {
+      // Refresh order if world size is changed
+      const { worldCellCount } = useStore.getState();
+      if (scheme.order.length !== worldCellCount) {
+        scheme.isSetup = false;
+      }
+
+      if (!scheme.isSetup) scheme.setup(scheme);
+
+      shuffle(scheme.order);
+      for (const index of scheme.order) {
+        fireEvent(index);
+      }
+
+      console.log("Benchmarking (unimplemented)");
+    },
+  },
+
   /*["ATOM_ORDERED"]: {
       manualTagging: true,
       orderMap: new Map(),

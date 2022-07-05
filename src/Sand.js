@@ -33,6 +33,11 @@ const Sand = ({ playMode }) => {
   const setUpdateScheme = useStore((state) => state.setUpdateScheme);
   const setTaggedMode = useStore((state) => state.setTaggedMode);
 
+  const searchParams = new URLSearchParams(window.location.search);
+  if (searchParams.has("bench")) {
+    globalState.updateScheme = "BENCHMARK";
+  }
+
   const canvas = React.useRef();
   const drawer = React.useRef();
   const [isDrawing, setIsDrawing] = useState(false);
