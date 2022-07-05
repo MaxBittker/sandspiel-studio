@@ -36,11 +36,6 @@ const Home = () => {
           .Auth a {
             display: block;
           }
-
-          :global(.pfp) {
-            border-radius: 100%;
-            width: 50px !important;
-          }
         `}</style>
       </div>
     );

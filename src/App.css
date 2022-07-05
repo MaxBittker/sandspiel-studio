@@ -80,3 +80,7 @@ label {
   z-index: 2000;
   color: darkslateblue;
 }
+.pfp {
+  border-radius: 100%;
+  width: 50px !important;
+}
