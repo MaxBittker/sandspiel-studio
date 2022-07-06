@@ -49,6 +49,7 @@ export async function loadPostFromServer(postId) {
       const worldHeight = Math.round(worldScale * width);
       useStore.getState().setWorldSize([worldWidth, worldHeight]);
 
+      useStore.setState({ paused: true });
       desiredPaused = paused;
 
       useStore.getState().setXmls(xmls);
