@@ -1,4 +1,4 @@
-import { cellCount, getIndex } from "./SandApi";
+import { cellCount, getIndex, runAfterFrameStatements } from "./SandApi";
 import { sands, fireEvent, fireEventPhase } from "./SandApi";
 import useStore from "./store.js";
 
@@ -256,21 +256,102 @@ export const UPDATE_SCHEMES = {
       }
       scheme.isSetup = true;
     },
-    tick: (scheme) => {
-      // Refresh order if world size is changed
+    tick: (scheme, drawer) => {
+      //======= Setup: World Size =======//
       const { worldCellCount } = useStore.getState();
       if (scheme.order.length !== worldCellCount) {
         scheme.isSetup = false;
       }
-
       if (!scheme.isSetup) scheme.setup(scheme);
 
-      shuffle(scheme.order);
-      for (const index of scheme.order) {
-        fireEvent(index);
+      //======= Setup: Benchmark =======//
+      const startingSands = sands.slice();
+      const maxTrials = 50;
+      const maxReps = 20;
+
+      //======= Benchmark =======//
+      let minTotalTime = Infinity;
+      let maxTotalTime = -Infinity;
+      let minUpdateTime = Infinity;
+      let maxUpdateTime = -Infinity;
+      let minDrawTime = Infinity;
+      let maxDrawTime = -Infinity;
+
+      let totalTimeSum = 0;
+      let updateTimeSum = 0;
+      let drawTimeSum = 0;
+
+      for (let trial = 0; trial < maxTrials; trial++) {
+        let repTotalTimeSum = 0;
+        let repUpdateTimeSum = 0;
+        let repDrawTimeSum = 0;
+        for (let rep = 0; rep < maxReps; rep++) {
+          const startTime = performance.now();
+
+          shuffle(scheme.order);
+          for (const index of scheme.order) {
+            fireEvent(index);
+          }
+          runAfterFrameStatements();
+          const updateEndTime = performance.now();
+
+          drawer.current();
+          const drawEndTime = performance.now();
+
+          const totalTime = drawEndTime - startTime;
+          const updateTime = updateEndTime - startTime;
+          const drawTime = drawEndTime - updateEndTime;
+          repTotalTimeSum += totalTime;
+          repUpdateTimeSum += updateTime;
+          repDrawTimeSum += drawTime;
+        }
+
+        const repTotalTimeAverage = repTotalTimeSum / maxReps;
+        const repUpdateTimeAverage = repUpdateTimeSum / maxReps;
+        const repDrawTimeAverage = repDrawTimeSum / maxReps;
+
+        minTotalTime = Math.min(minTotalTime, repTotalTimeAverage);
+        maxTotalTime = Math.max(maxTotalTime, repTotalTimeAverage);
+        minUpdateTime = Math.min(minUpdateTime, repUpdateTimeAverage);
+        maxUpdateTime = Math.max(maxUpdateTime, repUpdateTimeAverage);
+        minDrawTime = Math.min(minDrawTime, repDrawTimeAverage);
+        maxDrawTime = Math.max(maxDrawTime, repDrawTimeAverage);
+
+        totalTimeSum += repTotalTimeAverage;
+        updateTimeSum += repUpdateTimeAverage;
+        drawTimeSum += repDrawTimeAverage;
+
+        // Reset trial
+        for (let i = 0; i < sands.length; i++) {
+          sands[i] = startingSands[i];
+        }
       }
 
-      console.log("Benchmarking (unimplemented)");
+      const totalTimeAverage = totalTimeSum / maxTrials;
+      const updateTimeAverage = updateTimeSum / maxTrials;
+      const drawTimeAverage = drawTimeSum / maxTrials;
+
+      const totalTimeRange = maxTotalTime - minTotalTime;
+      const updateTimeRange = maxUpdateTime - minUpdateTime;
+      const drawTimeRange = maxDrawTime - minDrawTime;
+
+      console.log(
+        `Total:`,
+        parseFloat(totalTimeAverage.toPrecision(3)),
+        `±`,
+        parseFloat(totalTimeRange.toPrecision(2)),
+        `\nUpdate:`,
+        parseFloat(updateTimeAverage.toPrecision(3)),
+        `±`,
+        parseFloat(updateTimeRange.toPrecision(2)),
+        `\nDraw:`,
+        parseFloat(drawTimeAverage.toPrecision(3)),
+        `±`,
+        parseFloat(drawTimeRange.toPrecision(2))
+      );
+
+      //======= Finish =======//
+      useStore.setState({ paused: true });
     },
   },
 

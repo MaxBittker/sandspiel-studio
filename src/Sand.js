@@ -61,7 +61,7 @@ const Sand = ({ playMode }) => {
       return;
     }
     const t0 = performance.now();
-    tick();
+    tick(drawer);
     drawer?.current();
     const t1 = performance.now();
     let d = t1 - t0;

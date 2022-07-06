@@ -750,12 +750,16 @@ export const fireEvent = (offset) => {
   behaveFunction();
 };
 
-export const tick = () => {
+export const tick = (drawer) => {
   globalState.t++;
   const scheme = UPDATE_SCHEMES[globalState.updateScheme || "RANDOM_CYCLIC"];
-  if (typeof scheme === "function") scheme(scheme);
-  else scheme.tick(scheme);
+  if (typeof scheme === "function") scheme(scheme, drawer);
+  else scheme.tick(scheme, drawer);
 
+  runAfterFrameStatements();
+};
+
+export const runAfterFrameStatements = () => {
   for (const statement of afterFrameStatements) {
     aX = statement.aX;
     aY = statement.aY;
