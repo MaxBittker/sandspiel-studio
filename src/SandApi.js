@@ -82,15 +82,16 @@ function resolveGroupToNumber(group) {
 }
 
 function isBlock(pos, value, type) {
+  const cellElement = getSandRelative(pos)
   if (type === "Group") {
     for (const [element] of value) {
-      if (getSandRelative(pos) === element) return true;
+      if (cellElement === element) return true;
     }
     return false;
   }
 
   const element = value;
-  if (getSandRelative(pos) === element) return true;
+  if (cellElement === element) return true;
   return false;
 }
 
