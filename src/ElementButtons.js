@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Hsluv from "hsluv";
 import classNames from "classnames";
 import { MAX_ELEMENTS, useStore } from "./store";
 
@@ -14,11 +15,10 @@ const ElementButton = ({
 }) => {
   const colorData1 = colors[i];
   const colorData2 = color2s[i];
-  let [h, s, l] = colorData1 ?? [0, 0.5, 0.5];
-  let [h2, s2, l2] = colorData2 ?? [0, 0.5, 0.5];
-
-  let color = `hsla(${h * 360},${s * 100}%,${l * 100}%,0.5)`;
-  let color2 = `hsla(${h2 * 360},${s2 * 100}%,${l2 * 100}%,0.5)`;
+  let [h, s, l] = Hsluv.hsluvToRgb(colorData1 ?? [0, 0.5, 0.5]);
+  let [h2, s2, l2] = Hsluv.hsluvToRgb(colorData2 ?? [0, 0.5, 0.5]);
+  let color = `rgba(${h * 255},${s * 255},${l * 255},0.5)`;
+  let color2 = `rgba(${h2 * 255},${s2 * 255},${l2 * 255},0.5)`;
 
   let background = `linear-gradient(45deg,
     ${color}, 
@@ -31,7 +31,7 @@ const ElementButton = ({
         if (!setSelected) return;
         document.querySelector(".blocklyMainBackground").style.fill =
           background;
-        color.replace("0.5", "0.3");
+        color.replace("0.5)", "0.3)");
         setSelected(i);
       }}
       style={{
