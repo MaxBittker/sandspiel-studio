@@ -331,24 +331,26 @@ export const UPDATE_SCHEMES = {
       const updateTimeAverage = updateTimeSum / maxTrials;
       const drawTimeAverage = drawTimeSum / maxTrials;
 
-      const totalTimeRange = maxTotalTime - minTotalTime;
-      const updateTimeRange = maxUpdateTime - minUpdateTime;
-      const drawTimeRange = maxDrawTime - minDrawTime;
+      const totalTimeVariation = (maxTotalTime - minTotalTime) / 2;
+      const updateTimeVariation = (maxUpdateTime - minUpdateTime) / 2;
+      const drawTimeVariation = (maxDrawTime - minDrawTime) / 2;
 
-      console.log(
+      const messageArgs = [
         `Total:`,
         parseFloat(totalTimeAverage.toPrecision(3)),
         `±`,
-        parseFloat(totalTimeRange.toPrecision(2)),
+        parseFloat(totalTimeVariation.toPrecision(2)),
         `\nUpdate:`,
         parseFloat(updateTimeAverage.toPrecision(3)),
         `±`,
-        parseFloat(updateTimeRange.toPrecision(2)),
+        parseFloat(updateTimeVariation.toPrecision(2)),
         `\nDraw:`,
         parseFloat(drawTimeAverage.toPrecision(3)),
         `±`,
-        parseFloat(drawTimeRange.toPrecision(2))
-      );
+        parseFloat(drawTimeVariation.toPrecision(2)),
+      ];
+      console.log(...messageArgs);
+      alert(messageArgs.join(" "));
 
       //======= Finish =======//
       useStore.setState({ paused: true });
