@@ -335,7 +335,7 @@ export const UPDATE_SCHEMES = {
       const updateTimeRange = maxUpdateTime - minUpdateTime;
       const drawTimeRange = maxDrawTime - minDrawTime;
 
-      console.log(
+      const messageArgs = [
         `Total:`,
         parseFloat(totalTimeAverage.toPrecision(3)),
         `±`,
@@ -347,8 +347,11 @@ export const UPDATE_SCHEMES = {
         `\nDraw:`,
         parseFloat(drawTimeAverage.toPrecision(3)),
         `±`,
-        parseFloat(drawTimeRange.toPrecision(2))
-      );
+        parseFloat(drawTimeRange.toPrecision(2)),
+      ];
+
+      console.log(...messageArgs);
+      alert(messageArgs.join(" "));
 
       //======= Finish =======//
       useStore.setState({ paused: true });
