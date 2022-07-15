@@ -1,6 +1,8 @@
 import { cellCount } from "./SandApi.js";
 import create from "zustand";
 import tinycolor2 from "tinycolor2";
+import Hsluv from "hsluv";
+
 import starterXMLs from "./starterblocks";
 let bufferXMLs = starterXMLs;
 
@@ -137,8 +139,12 @@ function deriveColor(xmlString, b = "") {
   let pl = pattern.length;
   let location = xmlString.indexOf(pattern);
   let colorString = xmlString.slice(location + pl, location + pl + 7);
-  let color = tinycolor2(colorString).toHsl();
-  return [color.h / 360, color.s, color.l];
+  let hsluv = Hsluv.hexToHsluv(colorString);
+
+  return hsluv;
+
+  // let color = tinycolor2(colorString).toHsl();
+  // return [color.h / 360, color.s, color.l];
 }
 function deriveName(xmlString) {
   const r = /<field name="ELEMENT_NAME">(.*?)<\/field>/;
