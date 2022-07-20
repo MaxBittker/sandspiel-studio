@@ -43,6 +43,9 @@ Is a cell any of these types?<br>
 Am I touching a certain type of cell?<br>
 ![image](https://user-images.githubusercontent.com/15892272/179959271-24aebdac-1005-4793-8243-f2151cc162c9.png)
 
+Am I touching any of these types of cell?<br>
+![image](https://user-images.githubusercontent.com/15892272/179988358-aa7b97cb-0c08-4b23-81fb-5b3eb01908fa.png)
+
 _Note: A touching cell can be in any of the 8 surrounding cells:_<br>
 🟦🟦🟦<br>
 🟦⬜🟦<br>
@@ -51,6 +54,9 @@ _Note: A touching cell can be in any of the 8 surrounding cells:_<br>
 ## Number Touching
 How many cells am I touching that are a certain type?<br>
 ![image](https://user-images.githubusercontent.com/15892272/179960736-4012156e-3cb9-4b1f-8438-c51b4464d600.png)
+
+How many cells am I touching that are any of these types?<br>
+![image](https://user-images.githubusercontent.com/15892272/179988012-b50018b5-ac86-4f60-95fb-9df4032d57a4.png)
 
 _Note: A touching cell can be in any of the 8 surrounding cells:_<br>
 🟦🟦🟦<br>
@@ -162,3 +168,45 @@ _For example: If you press the right arrow, it will be the 'right' direction._
 
 _Note: You can also do diagonal directions by pressing more than one key._<br>
 _For example: You press the right arrow and the up arrow, it will be the 'NE' direction._
+
+## Random Transformation
+Do something in a random rotation or reflection.<br>
+![image](https://user-images.githubusercontent.com/15892272/179988984-ff28b05c-33b1-4ec1-bc61-b7afdf375f02.png)
+
+_For example: Swap positions in a random direction._<br>
+![image](https://user-images.githubusercontent.com/15892272/179989174-0827a676-f6d1-4eb2-808e-2b1b166a612f.png)
+
+_Note: 'rotation' picks from eight possible 45° rotations._<br>
+_Note: These are all the transformations you can choose from._<br>
+```
+↻ rotation
+✥ reflection
+⟷ horizontal reflection
+↕ vertical reflection
+```
+
+## For Each Transformation
+Repeat something in each rotation or reflection.<br>
+![image](https://user-images.githubusercontent.com/15892272/179990781-46ef26a8-b249-4227-bb39-38d9ede9a892.png)
+
+_For example: Copy myself in all directions._<br>
+![image](https://user-images.githubusercontent.com/15892272/179991164-31aad9ae-5972-44ac-91cd-03e661d57435.png)
+
+_Note: 'rotation' cycles through eight possible 45° rotations._<br>
+_Note: These are all the transformations you can choose from._<br>
+```
+↻ rotation
+✥ reflection
+⟷ horizontal reflection
+↕ vertical reflection
+```
+
+## Rotated
+Do something, rotated by a certain number of 45° rotations.<br>
+![image](https://user-images.githubusercontent.com/15892272/179992323-f8863e6a-9f9e-4f76-a0ca-6fc1e1b0b4e7.png)
+
+_Note: Positive numbers rotate clockwise. Negative numbers rotate anti-clockwise._<br>
+_Note: The number of rotations can be any number from -100 to 100._<br>
+
+_For example: Swap positions with the cell to my left (down rotated by 45° two times, clockwise)._<br>
+![image](https://user-images.githubusercontent.com/15892272/179992517-072d2fb7-39e4-486c-a69f-38423c57ea3d.png)
