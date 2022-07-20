@@ -48,9 +48,9 @@ Am I touching any of these types of cell?<br>
 ![image](https://user-images.githubusercontent.com/15892272/179988358-aa7b97cb-0c08-4b23-81fb-5b3eb01908fa.png)
 
 _Note: A touching cell can be in any of the 8 surrounding cells:_<br>
-🟦🟦🟦<br>
-🟦⬜🟦<br>
-🟦🟦🟦<br>
+🟩🟩🟩<br>
+🟩⬜🟩<br>
+🟩🟩🟩<br>
 
 ## Number Touching
 How many cells am I touching that are a certain type?<br>
@@ -60,9 +60,9 @@ How many cells am I touching that are any of these types?<br>
 ![image](https://user-images.githubusercontent.com/15892272/179988012-b50018b5-ac86-4f60-95fb-9df4032d57a4.png)
 
 _Note: A touching cell can be in any of the 8 surrounding cells:_<br>
-🟦🟦🟦<br>
-🟦⬜🟦<br>
-🟦🟦🟦<br>
+🟩🟩🟩<br>
+🟩⬜🟩<br>
+🟩🟩🟩<br>
 
 ## Cell Type
 The type of a cell.<br>
@@ -246,9 +246,39 @@ _Note: There are some special interactions when you combine numbers and vectors:
 | Vector + Number | Rotate the vector by a number of 45° rotations, clockwise |
 | Vector - Number | Rotate the vector by a number of 45° rotations, anti-clockwise |
 
-_Note: All other number and vector operations apply the number to each co-ordinate of the vector._
+_Note: All other number and vector operations apply the number to each co-ordinate of the vector._<br>
+_For example: When you multiple 'right' (1, 0) by 2, it does (1×2, 0×2). This results in (2, 0)._
 
 ## Random Number
 A random number between a minimum and maximum number.<br>
 ![image](https://user-images.githubusercontent.com/15892272/180003633-ea974ac0-65a7-40f2-8436-951e86f128f7.png)
 
+# Category: Data
+All cells store four different pieces of data.
+| Name | Description | Range | Default
+| :--- | :--- | :--- | :--- |
+| Type | How the cell behaves (eg: Sand) | n/a | n/a | 
+| Color Fade | How much the cell is faded from its primary color to its secondary color | 0 to 100 | A random number | 
+| Hue Rotate | How much the cell's color is changed through the hue wheel. | 0 to 100 (wraps around) | 0 |
+| Extra Data | Does nothing | 0 to 100 | 0 |
+
+## Get Data
+My data.<br>
+![image](https://user-images.githubusercontent.com/15892272/180006996-2393b098-6e49-4cdb-8b51-d4b48e6575bc.png)
+
+When expanded: The data of a cell.<br>
+![image](https://user-images.githubusercontent.com/15892272/180007174-69600d1e-00c0-45c6-b2c8-7a70dc67dd68.png)
+
+# Modify Data
+Increase my data by a certain amount.<br>
+![image](https://user-images.githubusercontent.com/15892272/180007379-0c8291ab-b6f9-4d7b-91ea-7d9232f9b17e.png)
+
+When expanded: Increase the data of a cell by a certain amount.<br>
+![image](https://user-images.githubusercontent.com/15892272/180007505-50be8bf2-f320-43d8-b36b-f36adeb5dba5.png)
+
+# Set Data
+Set my data.<br>
+![image](https://user-images.githubusercontent.com/15892272/180007554-98d71370-11ca-424c-9feb-989dd318c993.png)
+
+When expanded: Set the data of a cell.<br>
+![image](https://user-images.githubusercontent.com/15892272/180007659-a2c9a690-9776-4a76-bea0-da9b6df4e239.png)
