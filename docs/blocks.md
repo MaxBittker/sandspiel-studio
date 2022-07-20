@@ -6,7 +6,7 @@ We're still building Sandspiel Studio! To support us, or join our early-access c
 2. [Comments](#Category-Comments)
 3. [Logic](#Category-Logic)
 4. [Direction](#Category-Direction)
-5. [Numbers](#Category-Numbers)
+5. [Number](#Category-Number)
 6. [Data](#Category-Data)
 7. [Experimental](#Category-Experimental)
 
