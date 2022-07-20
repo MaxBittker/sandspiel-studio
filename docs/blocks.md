@@ -74,3 +74,54 @@ If a condition is true, do something.<br>
 _For example: If I am touching Water, change into Water._<br>
 ![image](https://user-images.githubusercontent.com/15892272/179962655-d5a89dc0-53b5-4b24-9ad5-3bc9d2be7be8.png)
 
+## Chance
+Randomly true with a certain chance.<br>
+![image](https://user-images.githubusercontent.com/15892272/179969142-e4448058-4e2e-4515-8214-d6c22f090b1a.png)
+
+## Keyboard
+Is a keyboard button held down?<br>
+![image](https://user-images.githubusercontent.com/15892272/179969257-80b78cd4-3935-4412-86fd-bd2ec1c4161f.png)
+
+_Note: You can choose from any of these keys._<br>
+_space bar<br>
+➡ right arrow<br>
+⬅ left arrow<br>
+⬆ up arrow<br>
+⬇ down arrow_
+
+## Compare
+Is a value equal to another value?<br>
+![image](https://user-images.githubusercontent.com/15892272/179971002-508b6dd5-2601-4fc8-bae2-52e92599b601.png)
+
+Is a value bigger/smaller than another value?<br>
+![image](https://user-images.githubusercontent.com/15892272/179971049-5e149061-1ba3-408a-b3f0-0cdb86ca6d48.png)<br>
+![image](https://user-images.githubusercontent.com/15892272/179971090-b7564fd7-b845-42d6-99ad-64fba9c80030.png)
+
+_For example: Am I touching more than 3 Water cells?_<br>
+![image](https://user-images.githubusercontent.com/15892272/179971421-438eba25-0494-4ff8-a0af-05124f0f91ae.png)
+
+## And / Or
+Are both things true?<br>
+![image](https://user-images.githubusercontent.com/15892272/179971839-9dd198e7-3695-4746-9cdb-c19c07e9d91a.png)
+
+Is either thing true?<br>
+![image](https://user-images.githubusercontent.com/15892272/179971893-9d4a1fb1-ff4e-4a6f-b0fc-42e3a677d20b.png)
+
+_For example: Am I touching Water, and above Sand?_<br>
+![image](https://user-images.githubusercontent.com/15892272/179972322-0ef7244d-e4fd-4b9f-b8b4-9177cc911a94.png)
+
+## True / False
+True.<br>
+![image](https://user-images.githubusercontent.com/15892272/179972620-3fc56fc8-2f68-4700-aa91-036caab39a13.png)
+
+False (not true).<br>
+![image](https://user-images.githubusercontent.com/15892272/179972654-bfa91b19-18bf-40fd-b010-ce7be18447ae.png)
+
+## Not
+Is a thing not true?<br>
+![image](https://user-images.githubusercontent.com/15892272/179972817-f3cf462d-ae37-4e9d-aae9-0dab4d0f2cee.png)
+
+_For example: Am I not touching Water?_<br>
+![image](https://user-images.githubusercontent.com/15892272/179973645-0433cc0f-9c3e-431e-bf45-d94e26620e77.png)
+
+
