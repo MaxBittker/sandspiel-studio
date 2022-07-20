@@ -1,4 +1,5 @@
-This is a work-in-progress documentation for all the blocks in Sandspiel Studio!
+This is a reference of all blocks that are currently in [Sandspiel Studio](https://studio.sandspiel.club).<br>
+We're still building Sandspiel Studio! To support us, or join our early-access community, please [sign up](https://sandspiel.gumroad.com/l/studio-early-access)! :) 
 
 # Categories
 1. [Cells](#Category-Cells)
@@ -269,16 +270,40 @@ My data.<br>
 When expanded: The data of a cell.<br>
 ![image](https://user-images.githubusercontent.com/15892272/180007174-69600d1e-00c0-45c6-b2c8-7a70dc67dd68.png)
 
-# Modify Data
+## Modify Data
 Increase my data by a certain amount.<br>
 ![image](https://user-images.githubusercontent.com/15892272/180007379-0c8291ab-b6f9-4d7b-91ea-7d9232f9b17e.png)
 
 When expanded: Increase the data of a cell by a certain amount.<br>
 ![image](https://user-images.githubusercontent.com/15892272/180007505-50be8bf2-f320-43d8-b36b-f36adeb5dba5.png)
 
-# Set Data
+## Set Data
 Set my data.<br>
 ![image](https://user-images.githubusercontent.com/15892272/180007554-98d71370-11ca-424c-9feb-989dd318c993.png)
 
 When expanded: Set the data of a cell.<br>
 ![image](https://user-images.githubusercontent.com/15892272/180007659-a2c9a690-9776-4a76-bea0-da9b6df4e239.png)
+
+# Category: Experimental
+These are some experimental blocks that have been added recently.
+
+## Repeat
+Repeat something a certain number of times.<br>
+![image](https://user-images.githubusercontent.com/15892272/180008434-470ca4b0-b734-402f-8d14-f1cf42f43e58.png)
+
+_For example: Swap downwards 2 times._<br>
+![image](https://user-images.githubusercontent.com/15892272/180008669-c43b1fb2-2ec9-4ce2-95a0-9217fe7ad70e.png)
+
+## Every
+Do something occasionally.<br>
+![image](https://user-images.githubusercontent.com/15892272/180009051-54d0ce70-2f1d-4c2d-b099-b36df5d77d14.png)
+
+_For example: Every three frames, swap downwards._<br>
+![image](https://user-images.githubusercontent.com/15892272/180009164-ec2ba8de-beaf-424c-a827-d17554835143.png)
+
+## End of Frame
+Queue something to happen at the end of the frame (after every cell else has behaved).<br>
+![image](https://user-images.githubusercontent.com/15892272/180009378-98fec0ff-7dcd-460a-b748-cd3e532b8e29.png)
+
+_For example: After every cell has behaved, change into Air._<br>
+![image](https://user-images.githubusercontent.com/15892272/180009586-f1140776-2df4-455e-bd80-72da32de5354.png)
