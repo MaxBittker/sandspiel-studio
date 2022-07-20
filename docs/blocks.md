@@ -83,11 +83,13 @@ Is a keyboard button held down?<br>
 ![image](https://user-images.githubusercontent.com/15892272/179969257-80b78cd4-3935-4412-86fd-bd2ec1c4161f.png)
 
 _Note: You can choose from any of these keys._<br>
-_space bar<br>
-➡ right arrow<br>
-⬅ left arrow<br>
-⬆ up arrow<br>
-⬇ down arrow_
+```
+space bar
+➡ right arrow
+⬅ left arrow
+⬆ up arrow
+⬇ down arrow
+```
 
 ## Compare
 Is a value equal to another value?<br>
@@ -124,4 +126,39 @@ Is a thing not true?<br>
 _For example: Am I not touching Water?_<br>
 ![image](https://user-images.githubusercontent.com/15892272/179973645-0433cc0f-9c3e-431e-bf45-d94e26620e77.png)
 
+# Category: Direction
+## Position / Direction
+A position or direction (this block is used for both).<br>
+![image](https://user-images.githubusercontent.com/15892272/179977584-4a32b546-30df-4089-af2c-f1e508dea1c0.png)<br>
+![image](https://user-images.githubusercontent.com/15892272/179974554-9d3f1a3e-fc40-4ce2-a683-55c21798ba1b.png)
 
+_Note: These are the directions that you can choose from._<br>
+```
+me
+➡ right
+⬅ left
+⬆ up
+⬇ down
+↗ NE
+↘ SE
+↙ SW
+↖ NW
+? Neighbor
+Arrow Keys_
+```
+
+_Note: 'me' is the position of this cell._<br>
+_Note: '? Neighbor' chooses a random direction._<br>
+_Note: 'Arrow Keys' direction is controlled by what arrow keys you are pressing._
+
+_Note: Behind-the-scenes, positions and directions are represented with an 'x' and 'y' value.<br>
+For example, 'me' is (0,0) and 'NE' is (1,-1)._
+
+## Arrow Keys Direction
+The direction that the arrow keys are pressed.<br>
+![image](https://user-images.githubusercontent.com/15892272/179979045-6595b375-5fc3-4faa-88de-9668a0f9f63f.png)
+
+_For example: If you press the right arrow, it will be the 'right' direction._
+
+_Note: You can also do diagonal directions by pressing more than one key._<br>
+_For example: You press the right arrow and the up arrow, it will be the 'NE' direction._
