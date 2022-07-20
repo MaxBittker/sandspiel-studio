@@ -6,7 +6,8 @@ This is a work-in-progress documentation for all the blocks in Sandspiel Studio!
 3. [Logic](#Category-Logic)
 4. [Direction](#Category-Direction)
 5. [Numbers](#Category-Numbers)
-6. [Experimental](#Category-Experimental)
+6. [Data](#Category-Data)
+7. [Experimental](#Category-Experimental)
 
 # Category: Cells
 ## Type
@@ -133,12 +134,12 @@ _For example: Am I not touching Water?_<br>
 ![image](https://user-images.githubusercontent.com/15892272/179973645-0433cc0f-9c3e-431e-bf45-d94e26620e77.png)
 
 # Category: Direction
-## Position / Direction
-A position or direction (this block is used for both).<br>
+## Vector
+A position or direction.<br>
 ![image](https://user-images.githubusercontent.com/15892272/179977584-4a32b546-30df-4089-af2c-f1e508dea1c0.png)<br>
 ![image](https://user-images.githubusercontent.com/15892272/179974554-9d3f1a3e-fc40-4ce2-a683-55c21798ba1b.png)
 
-_Note: These are the directions that you can choose from._<br>
+_Note: These are the vectors that you can choose from._<br>
 ```
 me
 ➡ right
@@ -157,7 +158,7 @@ _Note: 'me' is the position of this cell._<br>
 _Note: '? Neighbor' chooses a random direction._<br>
 _Note: 'Arrow Keys' direction is controlled by what arrow keys you are pressing._
 
-_Note: Behind-the-scenes, positions and directions are represented with an 'x' and 'y' value.<br>
+_Note: Behind-the-scenes, vectors are represented with an 'x' and 'y' value.<br>
 For example, 'me' is (0,0) and 'NE' is (1,-1)._
 
 ## Arrow Keys Direction
@@ -206,7 +207,48 @@ Do something, rotated by a certain number of 45° rotations.<br>
 ![image](https://user-images.githubusercontent.com/15892272/179992323-f8863e6a-9f9e-4f76-a0ca-6fc1e1b0b4e7.png)
 
 _Note: Positive numbers rotate clockwise. Negative numbers rotate anti-clockwise._<br>
-_Note: The number of rotations can be any number from -100 to 100._<br>
-
 _For example: Swap positions with the cell to my left (down rotated by 45° two times, clockwise)._<br>
 ![image](https://user-images.githubusercontent.com/15892272/179992517-072d2fb7-39e4-486c-a69f-38423c57ea3d.png)
+
+# Category: Number
+## Number
+A number.<br>
+![image](https://user-images.githubusercontent.com/15892272/179995514-53c7e49a-cf52-4a66-8b4b-719a33f27f98.png)
+
+_Note: Can be any number from -100 to 100._
+
+## Operation
+A math operation between two numbers.<br>
+![image](https://user-images.githubusercontent.com/15892272/179995625-189e0684-f361-4d24-97d1-67ebf69e5a31.png)
+
+_Note: These are all the operations you can do with numbers:_
+| Operator | Description | Example | Result |
+| :--- | :--- | :--- | :--- |
+| + | Add two numbers together | 3 + 2 | 5 |
+| - | Subtract a number from another | 5 - 3 | 2 |
+| × | Multiply two numbers together | 3 × 2 | 6 |
+| ÷ | Divide a number by another | 6 ÷ 2 | 3 |
+| % | Find the remainder when you divide one number by another | 5 % 2 | 1 |
+| difference | Find the difference between two numbers | 3 difference 5 | 2
+
+You can also do operations with two vectors.<br>
+![image](https://user-images.githubusercontent.com/15892272/180000362-04756b4b-447c-46d6-9865-4fb46560c4e1.png)
+
+_Note: When you use two vectors in this block, the operation happens to each co-ordinate._<br>
+_For example, if you add 'right' (1, 0) to 'SE' (1, 1), it does (1+1, 0+1). This results in (2, 1)._
+
+You can also combine numbers and vectors in operations.<br>
+![image](https://user-images.githubusercontent.com/15892272/180001270-de6118fe-3c49-470e-b3cc-393a4a205e82.png)
+
+_Note: There are some special interactions when you combine numbers and vectors:_<br>
+| Operation | Description |
+| :--- | :--- |
+| Vector + Number | Rotate the vector by a number of 45° rotations, clockwise |
+| Vector - Number | Rotate the vector by a number of 45° rotations, anti-clockwise |
+
+_Note: All other number and vector operations apply the number to each co-ordinate of the vector._
+
+## Random Number
+A random number between a minimum and maximum number.<br>
+![image](https://user-images.githubusercontent.com/15892272/180003633-ea974ac0-65a7-40f2-8436-951e86f128f7.png)
+
