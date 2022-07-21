@@ -82,7 +82,7 @@ function resolveGroupToNumber(group) {
 }
 
 function isBlock(pos, value, type) {
-  const cellElement = getSandRelative(pos)
+  const cellElement = getSandRelative(pos);
   if (type === "Group") {
     for (const [element] of value) {
       if (cellElement === element) return true;
@@ -97,6 +97,10 @@ function isBlock(pos, value, type) {
 
 function isTouching([x, y], value, type) {
   if (inertMode) return false;
+
+  x += aX;
+  y += aY;
+
   const right = [x + 1, y];
   const left = [x - 1, y];
   const up = [x, y - 1];
@@ -109,32 +113,36 @@ function isTouching([x, y], value, type) {
 
   if (type === "Group") {
     for (const [element] of value) {
-      if (getSandRelative(right) === element) return true;
-      if (getSandRelative(left) === element) return true;
-      if (getSandRelative(up) === element) return true;
-      if (getSandRelative(down) === element) return true;
-      if (getSandRelative(upRight) === element) return true;
-      if (getSandRelative(upleft) === element) return true;
-      if (getSandRelative(downRight) === element) return true;
-      if (getSandRelative(downLeft) === element) return true;
+      if (getSand(...right) === element) return true;
+      if (getSand(...left) === element) return true;
+      if (getSand(...up) === element) return true;
+      if (getSand(...down) === element) return true;
+      if (getSand(...upRight) === element) return true;
+      if (getSand(...upleft) === element) return true;
+      if (getSand(...downRight) === element) return true;
+      if (getSand(...downLeft) === element) return true;
     }
     return false;
   }
 
   const element = value;
-  if (getSandRelative(right) === element) return true;
-  if (getSandRelative(left) === element) return true;
-  if (getSandRelative(up) === element) return true;
-  if (getSandRelative(down) === element) return true;
-  if (getSandRelative(upRight) === element) return true;
-  if (getSandRelative(upleft) === element) return true;
-  if (getSandRelative(downRight) === element) return true;
-  if (getSandRelative(downLeft) === element) return true;
+  if (getSand(...right) === element) return true;
+  if (getSand(...left) === element) return true;
+  if (getSand(...up) === element) return true;
+  if (getSand(...down) === element) return true;
+  if (getSand(...upRight) === element) return true;
+  if (getSand(...upleft) === element) return true;
+  if (getSand(...downRight) === element) return true;
+  if (getSand(...downLeft) === element) return true;
   return false;
 }
 
 function getNumberTouching([x, y], value, type) {
   if (inertMode) return false;
+
+  x += aX;
+  y += aY;
+
   const right = [x + 1, y];
   const left = [x - 1, y];
   const up = [x, y - 1];
@@ -148,28 +156,28 @@ function getNumberTouching([x, y], value, type) {
   if (type === "Group") {
     let number = 0;
     for (const [element] of value) {
-      if (getSandRelative(right) === element) number++;
-      if (getSandRelative(left) === element) number++;
-      if (getSandRelative(up) === element) number++;
-      if (getSandRelative(down) === element) number++;
-      if (getSandRelative(upRight) === element) number++;
-      if (getSandRelative(upleft) === element) number++;
-      if (getSandRelative(downRight) === element) number++;
-      if (getSandRelative(downLeft) === element) number++;
+      if (getSand(...right) === element) number++;
+      if (getSand(...left) === element) number++;
+      if (getSand(...up) === element) number++;
+      if (getSand(...down) === element) number++;
+      if (getSand(...upRight) === element) number++;
+      if (getSand(...upleft) === element) number++;
+      if (getSand(...downRight) === element) number++;
+      if (getSand(...downLeft) === element) number++;
     }
     return number;
   }
 
   let number = 0;
   const element = value;
-  if (getSandRelative(right) === element) number++;
-  if (getSandRelative(left) === element) number++;
-  if (getSandRelative(up) === element) number++;
-  if (getSandRelative(down) === element) number++;
-  if (getSandRelative(upRight) === element) number++;
-  if (getSandRelative(upleft) === element) number++;
-  if (getSandRelative(downRight) === element) number++;
-  if (getSandRelative(downLeft) === element) number++;
+  if (getSand(...right) === element) number++;
+  if (getSand(...left) === element) number++;
+  if (getSand(...up) === element) number++;
+  if (getSand(...down) === element) number++;
+  if (getSand(...upRight) === element) number++;
+  if (getSand(...upleft) === element) number++;
+  if (getSand(...downRight) === element) number++;
+  if (getSand(...downLeft) === element) number++;
   return number;
 }
 
@@ -236,7 +244,8 @@ function getSand(x, y, o = 0) {
     return 1; // wall
   }
 
-  return sands[getIndex(x, y) + o];
+  const index = getIndex(x, y) + o;
+  return sands[index];
 }
 export function initSand([x, y], v) {
   const { worldWidth, worldHeight } = useStore.getState();
