@@ -8,6 +8,7 @@ let aX = 0;
 let aY = 0;
 let transformationSet = "ROTATION";
 let transformationId = 0;
+let transformationFunc = (x, y) => [x, y];
 
 // This represents the MAXIMUM size of the world, which is fixed
 // 'worldWidth', 'worldHeight' and 'worldCellCount' in store.js represent the CURRENT CHOSEN world size (which might be smaller)
@@ -82,7 +83,7 @@ function resolveGroupToNumber(group) {
 }
 
 function isBlock(pos, value, type) {
-  const cellElement = getSandRelative(pos)
+  const cellElement = getSandRelative(pos);
   if (type === "Group") {
     for (const [element] of value) {
       if (cellElement === element) return true;
@@ -261,20 +262,18 @@ export function setSand(x, y, v, ra, rb, rc) {
   if (rc !== undefined) sands[i + 3] = rc;
 }
 function getIndexRelative(x, y) {
-  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
-  [x, y] = transform(x, y);
+  [x, y] = transformationFunc(x, y);
   return getIndex(x + aX, y + aY);
 }
 function getSandRelative([x, y], o = 0) {
-  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
-  [x, y] = transform(x, y);
-  return getSand(x + aX, y + aY, o);
+  [x, y] = transformationFunc(x, y);
+  const sand = getSand(x + aX, y + aY, o);
+  return sand;
 }
 function setSandRelative([x, y], v, ra, rb, rc, reset = true) {
   // Transformation
   [x, y] = [x, y].map((value) => Math.round(value));
-  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
-  [x, y] = transform(x, y);
+  [x, y] = transformationFunc(x, y);
 
   // Implicitly cast values to numbers
   [v, ra, rb, rc] = [v, ra, rb, rc].map((value) => resolveValueToNumber(value));
@@ -308,9 +307,8 @@ function cloneSandRelative([sx, sy], [bx, by], swaps) {
   if (inertMode) return;
   [sx, sy] = [sx, sy].map((v) => Math.round(v));
   [bx, by] = [bx, by].map((v) => Math.round(v));
-  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
-  let [sxt, syt] = transform(sx, sy);
-  let [bxt, byt] = transform(bx, by);
+  let [sxt, syt] = transformationFunc(sx, sy);
+  let [bxt, byt] = transformationFunc(bx, by);
 
   let [sxtAbsolute, sytAbsolute] = [aX + sxt, aY + syt];
   let [bxtAbsolute, bytAbsolute] = [aX + bxt, aY + byt];
@@ -350,9 +348,8 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
   [sx, sy] = [sx, sy].map((v) => Math.round(v));
   [bx, by] = [bx, by].map((v) => Math.round(v));
 
-  const transform = TRANSFORMATION_SETS[transformationSet][transformationId];
-  let [sxt, syt] = transform(sx, sy);
-  let [bxt, byt] = transform(bx, by);
+  let [sxt, syt] = transformationFunc(sx, sy);
+  let [bxt, byt] = transformationFunc(bx, by);
 
   let [sxtAbsolute, sytAbsolute] = [aX + sxt, aY + syt];
   let [bxtAbsolute, bytAbsolute] = [aX + bxt, aY + byt];
@@ -558,17 +555,24 @@ const TRANSFORMATION_SETS = {
 function setTransformation(set, id) {
   transformationSet = set;
   transformationId = id;
+  updateTransformationFunc();
 }
 
 function setRotation(n) {
   transformationSet = "ROTATION";
   transformationId = (n + 800) % 8;
+  updateTransformationFunc();
+}
+
+function updateTransformationFunc() {
+  transformationFunc = TRANSFORMATION_SETS[transformationSet][transformationId];
 }
 
 function setRandomTransformation(set) {
   transformationSet = set;
   const funcs = TRANSFORMATION_SETS[transformationSet];
   transformationId = Math.floor(Math.random() * funcs.length);
+  updateTransformationFunc();
 }
 
 function loopThroughTransformation(set, func) {
@@ -576,6 +580,7 @@ function loopThroughTransformation(set, func) {
   const transformFuncs = TRANSFORMATION_SETS[transformationSet];
   for (let i = 0; i < transformFuncs.length; i++) {
     transformationId = i;
+    updateTransformationFunc();
     func();
   }
 }
@@ -745,6 +750,7 @@ export const fireEvent = (offset) => {
   aY = y;
   transformationSet = "ROTATION";
   transformationId = 0;
+  updateTransformationFunc();
   const behaveFunction = globalState.updaters[e];
   if (behaveFunction === undefined) return [];
   // console.log(behaveFunction.toString());
@@ -766,6 +772,7 @@ export const runAfterFrameStatements = () => {
     aY = statement.aY;
     transformationSet = statement.transformationSet;
     transformationId = statement.transformationId;
+    updateTransformationFunc();
     statement.func();
   }
 
