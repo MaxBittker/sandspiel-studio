@@ -97,6 +97,10 @@ function isBlock(pos, value, type) {
 
 function isTouching([x, y], value, type) {
   if (inertMode) return false;
+
+  x += aX;
+  y += aY;
+
   const right = [x + 1, y];
   const left = [x - 1, y];
   const up = [x, y - 1];
@@ -135,6 +139,10 @@ function isTouching([x, y], value, type) {
 
 function getNumberTouching([x, y], value, type) {
   if (inertMode) return false;
+
+  x += aX;
+  y += aY;
+
   const right = [x + 1, y];
   const left = [x - 1, y];
   const up = [x, y - 1];
@@ -237,7 +245,7 @@ function getSand(x, y, o = 0) {
   }
 
   const index = getIndex(x, y) + o;
-  return sands[getIndex(x, y) + o];
+  return sands[index];
 }
 export function initSand([x, y], v) {
   const { worldWidth, worldHeight } = useStore.getState();
