@@ -117,7 +117,7 @@ Are both things true?<br>
 Is either thing true?<br>
 ![image](https://user-images.githubusercontent.com/15892272/179971893-9d4a1fb1-ff4e-4a6f-b0fc-42e3a677d20b.png)
 
-_For example: Am I touching Water, and above Sand?_<br>
+_For example: Am I touching Water, and also above Sand?_<br>
 ![image](https://user-images.githubusercontent.com/15892272/179972322-0ef7244d-e4fd-4b9f-b8b4-9177cc911a94.png)
 
 ## True / False
@@ -248,7 +248,7 @@ _Note: There are some special interactions when you combine numbers and vectors:
 | Vector - Number | Rotate the vector by a number of 45° rotations, anti-clockwise |
 
 _Note: All other number and vector operations apply the number to each co-ordinate of the vector._<br>
-_For example: When you multiple 'right' (1, 0) by 2, it does (1×2, 0×2). This results in (2, 0)._
+_For example: When you multiply 'right' (1, 0) by 2, it does (1×2, 0×2). This results in (2, 0)._
 
 ## Random Number
 A random number between a minimum and maximum number.<br>
