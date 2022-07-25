@@ -1,7 +1,7 @@
 import React from "react";
 import { seedNewWorldSize, width, height, seedWithBorder } from "./SandApi.js";
 let worldScaleMap = [1 / 3, 1 / 2, 1];
-import { useStore } from "./store";
+import { globalState, useStore } from "./store";
 
 const WorldSizeButtons = ({}) => {
   const worldWidth = useStore((state) => state.worldWidth);
@@ -18,7 +18,12 @@ const WorldSizeButtons = ({}) => {
             const oldSize = worldWidth;
             const newSize = Math.round(v * width);
             if (newSize === oldSize) return;
+
+            // Store world size in two places for performance reasons
             setWorldSize([newSize, newSize]);
+            globalState.worldWidth = newSize;
+            globalState.worldHeight = newSize;
+
             seedNewWorldSize(oldSize, newSize);
             setWorldScale(v);
             //seedWithBorder();

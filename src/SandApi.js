@@ -11,9 +11,8 @@ let transformationId = 0;
 
 // This represents the MAXIMUM size of the world, which is fixed
 // 'worldWidth', 'worldHeight' and 'worldCellCount' in store.js represent the CURRENT CHOSEN world size (which might be smaller)
-//export let width = 300; //Performance goal!
-export let width = 150;
-export let height = width;
+export let width = globalState.worldWidth;
+export let height = globalState.worldHeight;
 export let cellCount = width * height;
 
 export let sands = new Uint8Array(cellCount * 4);
@@ -223,7 +222,7 @@ export function getIndex(x, y) {
 }
 
 function getWrappedPosition(x, y) {
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   if (globalState.wraparoundEnabled) {
     while (x < 0) x += worldWidth;
     while (x >= worldWidth) x -= worldWidth;
@@ -239,7 +238,7 @@ function getSand(x, y, o = 0) {
 
   [x, y] = getWrappedPosition(x, y);
 
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   if (x < 0 || x >= worldWidth || y < 0 || y >= worldHeight) {
     return 1; // wall
   }
@@ -248,7 +247,7 @@ function getSand(x, y, o = 0) {
   return sands[index];
 }
 export function initSand([x, y], v) {
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   if (x < 0 || x >= worldWidth || y < 0 || y >= worldHeight) {
     return;
   }
@@ -258,7 +257,7 @@ export function initSand([x, y], v) {
 export function setSand(x, y, v, ra, rb, rc) {
   [x, y] = getWrappedPosition(x, y);
 
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   if (x < 0 || x >= worldWidth || y < 0 || y >= worldHeight) {
     return;
   }
@@ -292,7 +291,7 @@ function setSandRelative([x, y], v, ra, rb, rc, reset = true) {
   y = y + aY;
 
   [x, y] = getWrappedPosition(x, y);
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   if (x < 0 || x >= worldWidth || y < 0 || y >= worldHeight) {
     return;
   }
@@ -327,7 +326,7 @@ function cloneSandRelative([sx, sy], [bx, by], swaps) {
   [sxtAbsolute, sytAbsolute] = getWrappedPosition(sxtAbsolute, sytAbsolute);
   [bxtAbsolute, bytAbsolute] = getWrappedPosition(bxtAbsolute, bytAbsolute);
 
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   if (
     sxtAbsolute < 0 ||
     sxtAbsolute >= worldWidth ||
@@ -369,7 +368,7 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
   [sxtAbsolute, sytAbsolute] = getWrappedPosition(sxtAbsolute, sytAbsolute);
   [bxtAbsolute, bytAbsolute] = getWrappedPosition(bxtAbsolute, bytAbsolute);
 
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   if (
     sxtAbsolute < 0 ||
     sxtAbsolute >= worldWidth ||
@@ -416,7 +415,7 @@ function swapSandRelative([sx, sy], [bx, by], swaps) {
 function moveOrigin([x, y]) {
   let [xAbsolute, yAbsolute] = [aX + x, aY + y];
 
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   if (
     xAbsolute < 0 ||
     xAbsolute >= worldWidth ||
@@ -712,7 +711,7 @@ export const fireEventPhase = ({
   bDirection = 1,
   snake = false,
 } = {}) => {
-  const { worldWidth } = useStore.getState();
+  const { worldWidth } = globalState;
   const size = worldWidth;
   const aStart = aDirection === 1 ? 0 : size - 1;
   const bStart = bDirection === 1 ? 0 : size - 1;
@@ -793,7 +792,7 @@ export const reset = () => {
 };
 
 export const seedWithBorder = () => {
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   for (var i = 0; i < sands.length; i += 4) {
     let x = (i / 4) % width;
     let y = Math.floor(i / 4 / width);
@@ -854,7 +853,7 @@ export const seed = () => {
 };
 
 export const addBorder = () => {
-  const { worldWidth, worldHeight } = useStore.getState();
+  const { worldWidth, worldHeight } = globalState;
   for (var i = 0; i < sands.length; i += 4) {
     let x = (i / 4) % width;
     let y = Math.floor(i / 4 / width);

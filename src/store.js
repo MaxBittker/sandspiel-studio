@@ -1,4 +1,4 @@
-import { cellCount } from "./SandApi.js";
+import { cellCount, height, width } from "./SandApi.js";
 import create from "zustand";
 import tinycolor2 from "tinycolor2";
 import starterXMLs from "./starterblocks";
@@ -130,6 +130,8 @@ const globalState = {
   updaters: [],
   workspace: undefined,
   wraparoundEnabled: true,
+  worldWidth: 150,
+  worldHeight: 150,
 };
 
 function deriveColor(xmlString, b = "") {

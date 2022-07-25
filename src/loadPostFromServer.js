@@ -47,7 +47,11 @@ export async function loadPostFromServer(postId) {
       }
       const worldWidth = Math.round(worldScale * width);
       const worldHeight = Math.round(worldScale * width);
+
+      // Store world dimensions in two places for performance reasons
       useStore.getState().setWorldSize([worldWidth, worldHeight]);
+      globalState.worldWidth = worldWidth;
+      globalState.worldHeight = worldHeight;
 
       useStore.setState({ paused: true });
       desiredPaused = paused;
