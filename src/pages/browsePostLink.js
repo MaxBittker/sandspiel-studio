@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import * as timeago from "timeago.js";
 
 import "react-dropdown/style.css";
-import { useQueryParams, StringParam } from "next-query-params";
+import { useQueryParams, StringParam, BooleanParam } from "next-query-params";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 
@@ -45,6 +45,8 @@ export const BrowsePostLink = ({ post: initPost }) => {
   if (msAgo < 24 * 60 * 60 * 1000) {
     displayTime = timeago.format(post.createdAt);
   }
+
+  let [sharedState, setSharedState] = useState(null);
 
   return (
     <div
@@ -113,15 +115,18 @@ export const BrowsePostLink = ({ post: initPost }) => {
           {session?.role === "admin" && (
             <button
               onClick={async () => {
+                setSharedState(" ...");
                 const result = await axios("/api/update/" + post.id, {
-                  params: { featured: true },
+                  params: { featured: !post.featured },
                 });
                 let results = result.data;
                 results.metadata = JSON.parse(results.metadata);
                 setPost(results);
+                setSharedState("");
               }}
             >
-              Feature Post
+              {post.featured === true ? "Unfeature Post" : "Feature Post"}
+              {sharedState}
             </button>
           )}
           <br></br>

@@ -97,6 +97,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
           },
         },
         user: { select: { id: true, name: true, image: true } },
+        featured: true,
       },
     });
 
