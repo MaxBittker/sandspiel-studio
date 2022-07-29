@@ -1,6 +1,6 @@
 import React from "react";
 import { seedNewWorldSize, width, height, seedWithBorder } from "./SandApi.js";
-let worldScaleMap = [1 / 3, 1 / 2, 1];
+let worldScaleMap = [1 / 4, 1 / 2, 1];
 import { globalState, useStore } from "./store";
 
 const WorldSizeButtons = ({}) => {
@@ -36,7 +36,7 @@ const WorldSizeButtons = ({}) => {
             borderBottomRightRadius: i < worldScaleMap.length - 1 ? 0 : "",
             borderTopLeftRadius: i > 0 ? 0 : "",
             borderBottomLeftRadius: i > 0 ? 0 : "",
-            marginTop: "10px",
+            marginTop: "2px",
           }}
         >
           <svg height="23" width="23" id="d" viewBox="0 0 100 100">

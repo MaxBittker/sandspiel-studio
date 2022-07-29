@@ -11,8 +11,8 @@ let transformationId = 0;
 
 // This represents the MAXIMUM size of the world, which is fixed
 // 'worldWidth', 'worldHeight' and 'worldCellCount' in store.js represent the CURRENT CHOSEN world size (which might be smaller)
-export let width = globalState.worldWidth;
-export let height = globalState.worldHeight;
+export let width = 300;
+export let height = 300;
 export let cellCount = width * height;
 
 export let sands = new Uint8Array(cellCount * 4);
@@ -35,7 +35,7 @@ export function popUndo() {
 }
 let inertMode = false;
 globalState.t = 0;
-function randomData(x, y) {
+export function randomData(x, y) {
   var value = noise.simplex3(x / 3, y / 3, globalState.t / 5);
   let d = ((value + 1) * 50) | 0;
 
@@ -784,6 +784,37 @@ export const reset = () => {
   const data = useStore.getState().initialSandsData;
   if (data === undefined) {
     return seedWithBorder();
+  }
+
+  const { initialWorldSize, initialWorldScale } = useStore.getState();
+  useStore.getState().setWorldSize([initialWorldSize, initialWorldSize]);
+  useStore.getState().setWorldScale(initialWorldScale);
+  globalState.worldWidth = initialWorldSize;
+  globalState.worldHeight = initialWorldSize;
+
+  // Backwards compatibility with unresizeable posts
+  if (data.length === 150 * 150 * 4) {
+    let dataIndex = 0;
+    let sandsIndex = 0;
+    for (let x = 0; x < width; x++) {
+      for (let y = 0; y < height; y++) {
+        if (x < 150 && y < 150) {
+          sands[sandsIndex] = data[dataIndex];
+          sands[sandsIndex + 1] = data[dataIndex + 1];
+          sands[sandsIndex + 2] = data[dataIndex + 2];
+          sands[sandsIndex + 3] = data[dataIndex + 3];
+          sandsIndex += 4;
+          dataIndex += 4;
+        } else {
+          sands[sandsIndex] = 0;
+          sands[sandsIndex + 1] = randomData(x, y);
+          sands[sandsIndex + 2] = 0;
+          sands[sandsIndex + 3] = 0;
+          sandsIndex += 4;
+        }
+      }
+    }
+    return;
   }
 
   for (var i = 0; i < width * height * 4; i++) {

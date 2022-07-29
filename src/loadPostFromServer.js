@@ -1,7 +1,7 @@
 import { decode } from "fast-png";
 import starterXMLs from "./starterblocks";
 import { globalState, useStore } from "./store";
-import { width, height, sands } from "./SandApi";
+import { width, height, sands, randomData } from "./SandApi";
 import { worldScaleMap } from "./WorldSizeButtons.js";
 
 const imageURLBase =
@@ -45,6 +45,11 @@ export async function loadPostFromServer(postId) {
       if (!worldScaleMap.includes(worldScale)) {
         worldScale = 1;
       }
+
+      if (id < 1436) {
+        worldScale = 1 / 2;
+      }
+
       const worldWidth = Math.round(worldScale * width);
       const worldHeight = Math.round(worldScale * width);
 
@@ -52,6 +57,11 @@ export async function loadPostFromServer(postId) {
       useStore.getState().setWorldSize([worldWidth, worldHeight]);
       globalState.worldWidth = worldWidth;
       globalState.worldHeight = worldHeight;
+
+      useStore.setState({
+        initialWorldSize: worldWidth,
+        initialWorldScale: worldScale,
+      });
 
       useStore.setState({ paused: true });
       desiredPaused = paused;
@@ -77,9 +87,36 @@ export async function loadPostFromServer(postId) {
       let ab = await blob.arrayBuffer();
       let { data } = decode(ab);
       useStore.setState({ initialSandsData: data });
-      for (var i = 0; i < width * height * 4; i++) {
-        sands[i] = data[i];
+
+      if (id >= 1436) {
+        for (var i = 0; i < width * height * 4; i++) {
+          sands[i] = data[i];
+        }
+      } else {
+        // Backwards compatibility with posts from before the world was resizeable
+        const edgePosition = 150;
+        let dataIndex = 0;
+        let sandsIndex = 0;
+        for (let x = 0; x < width; x++) {
+          for (let y = 0; y < height; y++) {
+            if (x < edgePosition && y < edgePosition) {
+              sands[sandsIndex] = data[dataIndex];
+              sands[sandsIndex + 1] = data[dataIndex + 1];
+              sands[sandsIndex + 2] = data[dataIndex + 2];
+              sands[sandsIndex + 3] = data[dataIndex + 3];
+              sandsIndex += 4;
+              dataIndex += 4;
+            } else {
+              sands[sandsIndex] = 0;
+              sands[sandsIndex + 1] = randomData(x, y);
+              sands[sandsIndex + 2] = 0;
+              sands[sandsIndex + 3] = 0;
+              sandsIndex += 4;
+            }
+          }
+        }
       }
+
       useStore.setState({ paused: desiredPaused });
     });
 }

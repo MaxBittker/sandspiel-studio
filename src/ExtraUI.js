@@ -62,7 +62,7 @@ const ExtraUI = ({ playMode }) => {
   return (
     <div className="extras-tray">
       <div className="first-row">
-        <span>
+        <div>
           <PlayPause />
           {paused && (
             <button
@@ -74,45 +74,57 @@ const ExtraUI = ({ playMode }) => {
               Step
             </button>
           )}
-        </span>
+
+          <div>
+            <button
+              className="simulation-button"
+              onClick={() => {
+                popUndo();
+              }}
+            >
+              Undo
+            </button>
+          </div>
+
+          <div>
+            <button
+              className="simulation-button"
+              onClick={() => {
+                reset();
+              }}
+            >
+              Reset
+            </button>
+            <button
+              className="simulation-button"
+              onClick={() => {
+                seed();
+                addBorder();
+              }}
+            >
+              Clear
+            </button>
+          </div>
+        </div>
         {!mobile && (
           <pre style={{ width: 120, height: "1em" }}>
             {t !== undefined &&
               `${elements[t]}\n${g} Color Fade\n${b} Hue Rotate\n${a} Extra`}
           </pre>
         )}
-        <div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            flexDirection: "column",
+          }}
+        >
           <SizeButtons />
-          {window.location.host.includes("localhost") && <WorldSizeButtons />}
+          <pre style={{ marginTop: "30px" }}>World Size (experimental)</pre>
+          <WorldSizeButtons />
         </div>
       </div>
-      <button
-        className="simulation-button"
-        onClick={() => {
-          popUndo();
-        }}
-      >
-        Undo
-      </button>
-      <div>
-        <button
-          className="simulation-button"
-          onClick={() => {
-            reset();
-          }}
-        >
-          Reset
-        </button>
-        <button
-          className="simulation-button"
-          onClick={() => {
-            seed();
-            addBorder();
-          }}
-        >
-          Clear
-        </button>
-      </div>
+
       {/* <button
         className="simulation-button"
         onClick={() => {
@@ -138,6 +150,7 @@ const ExtraUI = ({ playMode }) => {
 
         {stars !== undefined && (
           <button
+            style={{ marginTop: "5px" }}
             onClick={() => {
               fetch("/api/star/" + post.id)
                 .then(function (response) {
