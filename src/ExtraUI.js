@@ -184,7 +184,7 @@ const ExtraUI = ({ playMode }) => {
           </button>
         )}
         <br />
-        {!playMode && <Link href={`/browse`}>Browse</Link>}
+        {!playMode && <Link href={`/browse?featured=1`}>Browse</Link>}
         <Home />
 
         {!playMode && window.location.host.includes("localhost") && (
