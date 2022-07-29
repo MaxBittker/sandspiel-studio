@@ -17,15 +17,17 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       return response.status(500).send("not logged in");
     }
 
-    if (request.query.featured !== "undefined" && session?.role !== "admin") {
-      return response.status(500).send("not admin");
-    }
+    if (request.query.featured !== "undefined") {
+      if (session?.role !== "admin") {
+        return response.status(500).send("not admin");
+      }
 
-    const featured = request.query.featured === "true";
-    await prisma.post.update({
-      where: { id },
-      data: { featured },
-    });
+      const featured = request.query.featured === "true";
+      await prisma.post.update({
+        where: { id },
+        data: { featured },
+      });
+    }
 
     const post = await prisma.post.findUnique({
       where: {
