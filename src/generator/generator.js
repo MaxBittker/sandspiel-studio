@@ -336,7 +336,7 @@ Blockly.JavaScript["random_number"] = function (block) {
     "MAX",
     Blockly.JavaScript.ORDER_ATOMIC
   );
-  const range = max - min + 1;
+  const range = `(${max} - ${min} + 1)`;
   const code = `(${min} + Math.floor(Math.random() * ${range}))`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
