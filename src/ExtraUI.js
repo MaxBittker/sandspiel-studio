@@ -90,14 +90,6 @@ const ExtraUI = ({ playMode }) => {
             <button
               className="simulation-button"
               onClick={() => {
-                reset();
-              }}
-            >
-              Reset
-            </button>
-            <button
-              className="simulation-button"
-              onClick={() => {
                 seed();
                 addBorder();
               }}
@@ -167,6 +159,20 @@ const ExtraUI = ({ playMode }) => {
           >
             {"☆: " + stars}
           </button>
+        )}
+
+        <br></br>
+        {post ? (
+          <button
+            className="simulation-button"
+            onClick={() => {
+              reset();
+            }}
+          >
+            Reload world
+          </button>
+        ) : (
+          ""
         )}
         <br />
         {session && post?.user?.id == session.userId && (

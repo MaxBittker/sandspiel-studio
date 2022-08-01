@@ -3,7 +3,7 @@ import { encode } from "fast-png";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-import { width, height, sands } from "./SandApi";
+import { width, height, sands, reset } from "./SandApi";
 import { snapshot, exportGif } from "./Render";
 import { useStore } from "./store";
 import * as vkbeautify from "vkbeautify";
