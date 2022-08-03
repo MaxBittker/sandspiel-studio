@@ -34,6 +34,15 @@ const UploadButtons = () => {
 
   let upload = useCallback(
     async (postPublic = false) => {
+      if (
+        sharedState === " saving..." ||
+        sharedState === " posting..." ||
+        sharedState === " ✓ posted" ||
+        sharedState === " ✓ saved"
+      ) {
+        return;
+      }
+      setSharedState(" preparing...");
       if (postPublic && !session) {
         setSharedState("Sign in to post publicly");
         window.setTimeout(() => {
@@ -41,8 +50,6 @@ const UploadButtons = () => {
         }, 3000);
         return;
       }
-      if (sharedState === " ...") return;
-      setSharedState(" ..");
       function dataURItoBlob(dataURI) {
         var binary = atob(dataURI.split(",")[1]);
         var array = [];
@@ -65,7 +72,7 @@ const UploadButtons = () => {
 
       useStore.setState({ initialSandsData: new Uint8Array(sands) });
 
-      setSharedState(" ...");
+      setSharedState(postPublic ? " posting..." : " saving...");
 
       fetch("/api/upload", {
         method: "post",
@@ -140,11 +147,11 @@ const UploadButtons = () => {
           ];
           navigator.clipboard.write(data).then(
             function () {
-              setSharedState(" ✓ Copied");
+              setSharedState(postPublic ? " ✓ posted" : " ✓ saved");
             },
             function (e) {
               console.error(e);
-              setSharedState("...Error");
+              setSharedState("... error");
             }
           );
         })
@@ -164,7 +171,7 @@ const UploadButtons = () => {
       <button className="simulation-button" onClick={() => upload(true)}>
         Post ↑
       </button>
-      {sharedState ?? ""}
+      <span>{sharedState ?? ""}</span>
     </>
   );
 };

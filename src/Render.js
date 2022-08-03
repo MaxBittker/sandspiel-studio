@@ -181,7 +181,7 @@ export let exportGif = async () => {
     let data2 = new ImageData(w, h);
     let pixels = new Uint8Array(data2.data.buffer);
     regl.read(pixels);
-    console.log("adding frame " + i);
+    //console.log("adding frame " + i);
     tctx.clearRect(0, 0, w, h);
     tctx.putImageData(data2, 0, 0);
     tctx2.clearRect(0, 0, w, h);
