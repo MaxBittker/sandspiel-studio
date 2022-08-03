@@ -58,7 +58,7 @@ const ExtraUI = ({ playMode }) => {
   }
 
   let stars = post?._count?.stars;
-  const isStarred = session?.userId && post?.stars.length > 0;
+  const isStarred = session?.userId && post?.stars?.length > 0;
 
   return (
     <div className="extras-tray">
