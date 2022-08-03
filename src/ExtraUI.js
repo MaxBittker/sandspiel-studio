@@ -58,6 +58,7 @@ const ExtraUI = ({ playMode }) => {
   }
 
   let stars = post?._count?.stars;
+  const isStarred = session?.userId && post?.stars.length > 0;
 
   return (
     <div className="extras-tray">
@@ -149,7 +150,7 @@ const ExtraUI = ({ playMode }) => {
                   return response.json();
                 })
                 .then(function (post) {
-                  console.log(post);
+                  //console.log(post);
 
                   useStore.setState({
                     post,
@@ -157,7 +158,7 @@ const ExtraUI = ({ playMode }) => {
                 });
             }}
           >
-            {"☆: " + stars}
+            {(isStarred ? "★: " : "☆ ") + stars}
           </button>
         )}
 

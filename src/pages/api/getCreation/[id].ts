@@ -3,9 +3,18 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../db/prisma";
 
+import { getServerSession } from "next-auth";
+import authOptions from "../auth/options";
+
 async function handler(request: NextApiRequest, response: NextApiResponse) {
   try {
     const id = parseInt(request.query.id as string, 10);
+    const session = await getServerSession(
+      { req: request, res: response },
+      authOptions
+    );
+
+    const userId = session?.userId;
 
     const post = await prisma.post.findUnique({
       where: {
@@ -42,8 +51,14 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
           },
         },
         user: { select: { id: true, name: true, image: true } },
+        stars: {
+          where: {
+            userId,
+          },
+        },
       },
     });
+
     response.status(200).json(post);
   } catch (err) {
     throw err;

@@ -129,7 +129,7 @@ const UploadButtons = () => {
           return post;
         })
         .then(function (post) {
-          console.log(post);
+          //console.log(post);
           window.history.pushState({}, "sand blocks", "/post/" + post.id);
           // setId(post.id);
 
