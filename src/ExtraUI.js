@@ -58,7 +58,18 @@ const ExtraUI = ({ playMode }) => {
   }
 
   let stars = post?._count?.stars;
-  const isStarred = session?.userId && post?.stars?.length > 0;
+  const [starsOverride, setStarsOverride] = useState(null);
+
+  if (starsOverride !== null) {
+    stars = starsOverride;
+  }
+
+  let isStarred = session?.userId && post?.stars?.length > 0;
+  const [isStarredOverride, setIsStarredOverride] = useState(null);
+
+  if (isStarredOverride !== null) {
+    isStarred = isStarredOverride;
+  }
 
   return (
     <div className="extras-tray">
@@ -145,6 +156,8 @@ const ExtraUI = ({ playMode }) => {
           <button
             style={{ marginTop: "5px" }}
             onClick={() => {
+              setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
+              setIsStarredOverride(!isStarred);
               fetch("/api/star/" + post.id)
                 .then(function (response) {
                   return response.json();
@@ -155,10 +168,13 @@ const ExtraUI = ({ playMode }) => {
                   useStore.setState({
                     post,
                   });
+
+                  setIsStarredOverride(null);
+                  setStarsOverride(null);
                 });
             }}
           >
-            {(isStarred ? "★: " : "☆ ") + stars}
+            {(isStarred ? "★: " : "☆: ") + stars}
           </button>
         )}
 
