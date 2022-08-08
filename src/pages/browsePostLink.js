@@ -20,6 +20,20 @@ export const BrowsePostLink = ({ post: initPost }) => {
   const [post, setPost] = useState(initPost);
   const selected = useStore((state) => state.postId === post.id);
 
+  let stars = post?._count?.stars;
+  const [starsOverride, setStarsOverride] = useState(null);
+
+  if (starsOverride !== null) {
+    stars = starsOverride;
+  }
+
+  let isStarred = session?.userId && post?.stars?.length > 0;
+  const [isStarredOverride, setIsStarredOverride] = useState(null);
+
+  if (isStarredOverride !== null) {
+    isStarred = isStarredOverride;
+  }
+
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
     useStore.setState({
@@ -99,6 +113,8 @@ export const BrowsePostLink = ({ post: initPost }) => {
           <br></br>
           <button
             onClick={() => {
+              setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
+              setIsStarredOverride(!isStarred);
               fetch("/api/star/" + post.id)
                 .then(function (response) {
                   return response.json();
@@ -106,10 +122,13 @@ export const BrowsePostLink = ({ post: initPost }) => {
                 .then(function (new_post) {
                   new_post.metadata = JSON.parse(new_post.metadata);
                   setPost(new_post);
+
+                  setIsStarredOverride(null);
+                  setStarsOverride(null);
                 });
             }}
           >
-            {(post.stars.length ? "★: " : "☆: ") + post?._count?.stars ?? 0}
+            {(isStarred ? "★: " : "☆: ") + stars}
           </button>
           <br></br>
           {session?.role === "admin" && (
