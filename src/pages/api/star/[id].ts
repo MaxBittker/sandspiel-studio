@@ -12,16 +12,39 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       { req: request, res: response },
       authOptions
     );
-    console.log(session);
+    //console.log(session);
     if (!session?.userId) {
       return response.status(500).send("not logged in");
     }
-    const star = await prisma.star.create({
-      data: {
-        postId: id,
-        userId: session.userId as string,
+
+    const star = await prisma.star.findUnique({
+      where: {
+        postId_userId: {
+          postId: id,
+          userId: session.userId as string,
+        },
       },
     });
+
+    if (star === null) {
+      // Create a star if one doesn't exist...
+      await prisma.star.create({
+        data: {
+          postId: id,
+          userId: session.userId as string,
+        },
+      });
+    } else {
+      // Otherwise, delete the star...
+      await prisma.star.delete({
+        where: {
+          postId_userId: {
+            postId: id,
+            userId: session.userId as string,
+          },
+        },
+      });
+    }
 
     const post = await prisma.post.findUnique({
       where: {
