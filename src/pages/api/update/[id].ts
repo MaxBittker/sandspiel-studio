@@ -2,32 +2,68 @@ import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { getServerSession } from "next-auth";
+import { Client, Intents, TextChannel } from "discord.js";
+
 import authOptions from "../auth/options";
 
 import { prisma } from "../../../db/prisma";
 
+const token = process.env.DISCORD_TOKEN;
+
+// Create a new client instance
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+client.login(token);
+
 async function handler(request: NextApiRequest, response: NextApiResponse) {
+  let risingEdge = false;
+  const id = parseInt(request.query.id as string, 10);
+
   try {
-    const id = parseInt(request.query.id as string, 10);
     const session = await getServerSession(
       { req: request, res: response },
       authOptions
     );
+    const { featured, public: isPublic } = request.query;
     if (!session?.userId) {
       return response.status(500).send("not logged in");
     }
+    let data: any = {};
 
-    if (request.query.featured !== "undefined") {
+    if (featured !== undefined) {
       if (session?.role !== "admin") {
         return response.status(500).send("not admin");
       }
-
-      const featured = request.query.featured === "true";
-      await prisma.post.update({
-        where: { id },
-        data: { featured },
-      });
+      data.featured = featured === "true";
     }
+
+    if (isPublic !== undefined) {
+      if (!session?.userId) {
+        return response.status(500).send("not logged in");
+      }
+      const post = await prisma.post.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          userId: true,
+          public: true,
+        },
+      });
+
+      if (session?.userId !== post.userId) {
+        return response.status(500).send("can't change others posts");
+      }
+
+      data.public = isPublic === "true";
+      if (!post.public && data.public) {
+        risingEdge = true;
+      }
+    }
+
+    await prisma.post.update({
+      where: { id },
+      data,
+    });
 
     const post = await prisma.post.findUnique({
       where: {
@@ -75,6 +111,27 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
     response.status(200).json(post);
   } catch (err) {
     throw err;
+  } finally {
+    if (risingEdge) {
+      const post = await prisma.post.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          metadata: true,
+        },
+      });
+
+
+      let { elements, disabled } = JSON.parse(post.metadata);
+      let enabledElements = elements.filter((_, i) => !disabled[i]);
+      let title = enabledElements.join(" ");
+      const channel = (await client.channels.fetch(
+        "978159725663367188"
+      )) as TextChannel;
+
+      channel.send(`https://studio.sandspiel.club/post/${id}\n ${title}`);
+    }
   }
 }
 export default withSentry(handler);

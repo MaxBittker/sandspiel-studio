@@ -85,7 +85,7 @@ const UploadButtons = () => {
       },
       body: JSON.stringify({
         parentId: id,
-        public: postPublic,
+        // public: postPublic, // we set this after the upload 
         title,
         metadata: JSON.stringify(
           {
@@ -130,7 +130,11 @@ const UploadButtons = () => {
           uploadFile(gifUploadUrl, "image/gif", gif),
         ]);
 
-        return post;
+        const result = await axios("/api/update/" + post.id, {
+          params: { public: postPublic },
+        });
+
+        return result.data;
       })
       .then(function (post) {
         //console.log(post);

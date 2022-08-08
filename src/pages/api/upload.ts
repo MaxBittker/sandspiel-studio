@@ -1,19 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { Storage } from "@google-cloud/storage";
-import { Client, Intents, TextChannel } from "discord.js";
 import { getServerSession } from "next-auth";
 import { withSentry } from "@sentry/nextjs";
 
 import md5 from "md5";
 import { prisma } from "../../db/prisma";
 import authOptions from "./auth/options";
-
-const token = process.env.DISCORD_TOKEN;
-
-// Create a new client instance
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-client.login(token);
 
 async function getUploadUrl(bucket, id, contentType, suffix) {
   const filename = `creations/${id}${suffix}`;
@@ -110,17 +103,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       .json({ ...newPost, dataUploadUrl, thumbUploadUrl, gifUploadUrl });
   } catch (err) {
     throw err;
-  } finally {
-    // let title = request.body.title.slice(0, 500);
-    let { elements, disabled } = JSON.parse(request.body.metadata);
-    let enabledElements = elements.filter((_, i) => !disabled[i]);
-    let title = enabledElements.join(" ");
-    const channel = (await client.channels.fetch(
-      request.body.public ? "978159725663367188" : "983217410205167631"
-    )) as TextChannel;
-
-    channel.send(`https://studio.sandspiel.club/post/${postId}\n ${title}`);
-  }
+  } 
 }
 
 export const config = {
