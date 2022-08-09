@@ -85,7 +85,7 @@ const UploadButtons = () => {
       },
       body: JSON.stringify({
         parentId: id,
-        // public: postPublic, // we set this after the upload 
+        // public: postPublic, // we set this after the upload
         title,
         metadata: JSON.stringify(
           {
