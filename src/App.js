@@ -112,7 +112,7 @@ const App = ({ playMode }) => {
   }, [simpleWorkspace, fetchedData]);
 
   useEffect(() => {
-    if (simpleWorkspace.current && loaded) {
+    if (simpleWorkspace.current && loaded && !playMode) {
       let ws = simpleWorkspace.current.primaryWorkspace;
       globalState.workspace = ws;
       let cb = () => generateCode(selectedElement, ws);
