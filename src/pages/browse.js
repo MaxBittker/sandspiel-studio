@@ -23,7 +23,7 @@ import BrowsePostLink from "./browsePostLink";
 import Spinner from "./spinner";
 
 const placeholder = {
-  id: 0,
+  id: 1,
   placeholder: true,
   metadata: {
     elements: ["a", "b", "c"],
@@ -31,14 +31,15 @@ const placeholder = {
     colors: ["red", "green", "blue"],
     color2s: ["red", "green", "blue"],
   },
+  _count: { stars: 0 },
   stars: [],
 };
 const placeHolderPosts = {
   posts: [
-    { ...placeholder, id: 1 },
-    { ...placeholder, id: 2 },
-    { ...placeholder, id: 3 },
-    { ...placeholder, id: 4 },
+    { ...placeholder, key: 1 },
+    { ...placeholder, key: 2 },
+    { ...placeholder, key: 3 },
+    { ...placeholder, key: 4 },
   ],
 };
 const options = ["new", "top"];
@@ -216,7 +217,7 @@ function Browse() {
         {dataWithPlaceholder?.pages.map((page) => (
           <React.Fragment key={page.nextId}>
             {page.posts.map((d) => {
-              return <BrowsePostLink key={d.id} post={d} full />;
+              return <BrowsePostLink key={d.key ?? d.id} post={d} full />;
             })}
           </React.Fragment>
         ))}
