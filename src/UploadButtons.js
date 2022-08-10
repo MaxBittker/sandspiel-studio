@@ -35,11 +35,10 @@ const UploadButtons = () => {
   let [title, setTitle] = useState("");
   let [sharedState, setSharedState] = useState(null);
   const post = useStore((state) => state.post);
-  useEffect(() => {
-    if (post?.title) {
-      setTitle(post.title);
-    }
-  }, [post]);
+
+  if (post?.title) {
+    title = post.title;
+  }
 
   let upload = async (postPublic = false) => {
     if (
