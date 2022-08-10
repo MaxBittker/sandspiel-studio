@@ -112,6 +112,18 @@ const App = ({ playMode }) => {
   }, [simpleWorkspace, fetchedData]);
 
   useEffect(() => {
+    if (simpleWorkspace.current && loaded) {
+      let ws = simpleWorkspace.current.primaryWorkspace;
+      globalState.workspace = ws;
+      let cb = () => generateCode(selectedElement, ws);
+      ws.addChangeListener(cb);
+      return () => {
+        ws.removeChangeListener(cb);
+      };
+    }
+  }, [simpleWorkspace, selectedElement, loaded]);
+
+  useEffect(() => {
     if (!simpleWorkspace.current || !loaded) return;
     simpleWorkspace.current.primaryWorkspace.clear();
     // TODO THERE IS A LOADING BUG WHEN GOING FROM EDIT TO BROWSE
