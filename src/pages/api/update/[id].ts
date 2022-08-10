@@ -50,7 +50,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         },
       });
 
-      if (session?.userId !== post.userId) {
+      if (session?.userId !== post.userId && session?.role !== "admin") {
         return response.status(500).send("can't change others posts");
       }
 
@@ -121,7 +121,6 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
           metadata: true,
         },
       });
-
 
       let { elements, disabled } = JSON.parse(post.metadata);
       let enabledElements = elements.filter((_, i) => !disabled[i]);

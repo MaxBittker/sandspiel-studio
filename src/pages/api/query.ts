@@ -78,6 +78,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         views: true,
         metadata: true,
         codeHash: true,
+        public: true,
         _count: {
           select: { stars: true },
         },

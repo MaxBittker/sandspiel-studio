@@ -60,7 +60,8 @@ export const BrowsePostLink = ({ post: initPost }) => {
     displayTime = timeago.format(post.createdAt);
   }
 
-  let [sharedState, setSharedState] = useState(null);
+  let [adminFeaturingStatus, setAdminFeaturingStatus] = useState(null);
+  let [adminPublishingStatus, setAdminPublishingStatus] = useState(null);
 
   return (
     <div
@@ -132,21 +133,39 @@ export const BrowsePostLink = ({ post: initPost }) => {
           </button>
           <br></br>
           {session?.role === "admin" && (
-            <button
-              onClick={async () => {
-                setSharedState(" ...");
-                const result = await axios("/api/update/" + post.id, {
-                  params: { featured: !post.featured },
-                });
-                let results = result.data;
-                results.metadata = JSON.parse(results.metadata);
-                setPost(results);
-                setSharedState("");
-              }}
-            >
-              {post.featured === true ? "Unfeature Post" : "Feature Post"}
-              {sharedState}
-            </button>
+            <div>
+              Admin:&nbsp;
+              <button
+                onClick={async () => {
+                  setAdminFeaturingStatus(" ...");
+                  const result = await axios("/api/update/" + post.id, {
+                    params: { featured: !post.featured },
+                  });
+                  let results = result.data;
+                  results.metadata = JSON.parse(results.metadata);
+                  setPost(results);
+                  setAdminFeaturingStatus("");
+                }}
+              >
+                {post.featured === true ? "Unfeature Post" : "Feature Post"}
+                {adminFeaturingStatus}
+              </button>
+              <button
+                onClick={async () => {
+                  setAdminPublishingStatus(" ...");
+                  const result = await axios("/api/update/" + post.id, {
+                    params: { public: !post.public },
+                  });
+                  let results = result.data;
+                  results.metadata = JSON.parse(results.metadata);
+                  setPost(results);
+                  setAdminPublishingStatus("");
+                }}
+              >
+                {post.public === true ? "Make Private" : "Make Public"}
+                {adminPublishingStatus}
+              </button>
+            </div>
           )}
           <br></br>
           {displayTime}, {post.views} plays
