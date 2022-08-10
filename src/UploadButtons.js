@@ -171,6 +171,12 @@ const UploadButtons = () => {
   };
   return (
     <>
+      <input
+        type="text"
+        placeholder="creation title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
       <button className="simulation-button" onClick={() => upload(false)}>
         Save
       </button>

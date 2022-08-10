@@ -76,8 +76,6 @@ export const BrowsePostLink = ({ post: initPost }) => {
         style={{ fontSize: "1rem" }}
         onClick={handleClick}
       >
-        {/* <span className="title">{post.title}</span> */}
-
         <img
           src={`${imageURLBase}${post.id}.gif`}
           width={300}
@@ -108,6 +106,10 @@ export const BrowsePostLink = ({ post: initPost }) => {
             selectedElement={-1}
           ></ElementButtons>
         </button>
+
+        <div className="title-container">
+          <div className="title">{post.title}</div>
+        </div>
 
         <div style={{ textAlign: "justify" }}>
           <button onClick={handleEdit}> Edit Code</button>

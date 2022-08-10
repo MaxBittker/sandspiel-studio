@@ -139,13 +139,6 @@ const ExtraUI = ({ playMode }) => {
       </button> */}
       <br />
       <div>
-        {/* <input
-          type="text"
-          placeholder="creation title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        /> */}
-
         <UploadButtons />
 
         <br />
