@@ -58,8 +58,11 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         },
       },
     });
-
-    response.status(200).json(post);
+    if (!post) {
+      response.status(404);
+    } else {
+      response.status(200).json(post);
+    }
   } catch (err) {
     throw err;
   } finally {

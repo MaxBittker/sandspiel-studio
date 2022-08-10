@@ -3,11 +3,12 @@ import starterXMLs from "./starterblocks";
 import { globalState, useStore } from "./store";
 import { width, height, sands, randomData } from "./SandApi";
 import { worldScaleMap } from "./WorldSizeButtons.js";
+import * as Sentry from "@sentry/nextjs";
 
 const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
 
-export async function loadPostFromServer(postId) {
+export async function loadPostFromServer(postId, retrys = 0) {
   let id = postId;
 
   if (isNaN(parseInt(id, 10)) || id.length < 1) {
@@ -22,7 +23,8 @@ export async function loadPostFromServer(postId) {
       if (response.status == 200) {
         return response.text();
       } else {
-        alert("I couldnt' find that data: " + id);
+        console.error("I couldnt' find that data: " + id);
+        throw "getCreation err";
       }
     })
     .then((raw) => {
@@ -79,6 +81,15 @@ export async function loadPostFromServer(postId) {
       });
 
       globalState.wraparoundEnabled = post.id > 938;
+    })
+    .catch((err) => {
+      console.error(err);
+      if (retrys < 5) {
+        console.warn("retrying");
+        return loadPostFromServer(postId, retrys + 1);
+      } else {
+        Sentry.captureException(err);
+      }
     });
 
   fetch(`${imageURLBase}${id}.data.png`)
