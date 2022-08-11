@@ -76,7 +76,7 @@ button:hover {
   flex-wrap: wrap;
 }
 .extras-tray .Auth {
-  position: absolute;
+  position: fixed;
   right: 5px;
   bottom: 60px;
 }
