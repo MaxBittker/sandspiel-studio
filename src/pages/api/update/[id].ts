@@ -11,8 +11,8 @@ import { prisma } from "../../../db/prisma";
 const token = process.env.DISCORD_TOKEN;
 
 // Create a new client instance
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-client.login(token);
+// const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+// client.login(token);
 
 async function handler(request: NextApiRequest, response: NextApiResponse) {
   let risingEdge = false;
@@ -53,6 +53,23 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       if (session?.userId !== post.userId && session?.role !== "admin") {
         return response.status(500).send("can't change others posts");
       }
+
+       const count = await prisma.post.count({
+         where: {
+         userId: session.userId,
+         createdAt: {
+          gte: new Date(
+            Date.now() - 1 * 24 * 60 * 60 * 1000 // 24 hours
+          ),
+         }
+         }
+       })
+
+       if(count > 4){
+        return response.status(500).send("4 public posts per person per day");
+       }
+       
+  
 
       data.public = isPublic === "true";
       if (!post.public && data.public) {
@@ -112,25 +129,25 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
   } catch (err) {
     throw err;
   } finally {
-    if (risingEdge) {
-      const post = await prisma.post.findUnique({
-        where: {
-          id,
-        },
-        select: {
-          metadata: true,
-        },
-      });
+    // if (risingEdge) {
+    //   const post = await prisma.post.findUnique({
+    //     where: {
+    //       id,
+    //     },
+    //     select: {
+    //       metadata: true,
+    //     },
+    //   });
 
-      let { elements, disabled } = JSON.parse(post.metadata);
-      let enabledElements = elements.filter((_, i) => !disabled[i]);
-      let title = enabledElements.join(" ");
-      const channel = (await client.channels.fetch(
-        "978159725663367188"
-      )) as TextChannel;
+    //   let { elements, disabled } = JSON.parse(post.metadata);
+    //   let enabledElements = elements.filter((_, i) => !disabled[i]);
+    //   let title = enabledElements.join(" ");
+    //   const channel = (await client.channels.fetch(
+    //     "978159725663367188"
+    //   )) as TextChannel;
 
-      channel.send(`https://studio.sandspiel.club/post/${id}\n ${title}`);
-    }
+    //   channel.send(`https://studio.sandspiel.club/post/${id}\n ${title}`);
+    // }
   }
 }
 export default withSentry(handler);

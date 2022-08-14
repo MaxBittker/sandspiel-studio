@@ -53,7 +53,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         code: request.body.code,
         codeHash: md5(request.body.code),
         metadata: request.body.metadata,
-        public: request.body.public,
+        public: false,
         parentId: parentId,
       },
       include: {
