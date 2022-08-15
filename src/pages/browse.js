@@ -263,7 +263,7 @@ function Browse() {
           margin: 10px;
           /* max-width: 90vw; */
           height: 100%;
-          /* overflow: scroll; */
+          overflow: scroll;
         }
 
         .browse.family {
