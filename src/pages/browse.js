@@ -275,6 +275,9 @@ function Browse() {
           .family {
             margin: 0;
           }
+          .browse {
+            overflow: visible;
+          }
         }
 
         .filterControls {
