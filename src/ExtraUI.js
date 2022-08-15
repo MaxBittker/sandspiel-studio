@@ -124,7 +124,7 @@ const ExtraUI = ({ playMode }) => {
           }}
         >
           <SizeButtons />
-          <pre style={{ marginTop: "30px" }}>World Size (experimental)</pre>
+          <pre style={{ marginTop: "30px" }}>World Size</pre>
           <WorldSizeButtons />
         </div>
       </div>
