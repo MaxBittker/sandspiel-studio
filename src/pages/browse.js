@@ -276,7 +276,8 @@ function Browse() {
             margin: 0;
           }
           .browse {
-            overflow: visible;
+            overflow-y: visible;
+            overflow-x: scroll;
           }
         }
 
