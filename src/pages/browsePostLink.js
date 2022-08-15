@@ -224,7 +224,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
           .postThumbnail img {
             width: 300px;
             height: 300px;
-            max-width: 50vw;
+            /*max-width: 50vw;*/
           }
           .browse-info {
             display: flex;
