@@ -31,7 +31,7 @@ button {
   z-index: 1;
   width: 100%;
   border: 3px ridge gray;
-  border-left: 1px solid black;
+  /* border-left: 1px solid black; */
   touch-action: pinch-zoom;
 }
 
@@ -105,8 +105,17 @@ summary {
   width: 180px;
   right: 0px;
   margin-bottom: 0;
+  pointer-events: none;
   /* image-rendering: pixelated; */
   /* opacity: 0.5; */
+}
+
+@media only screen and (max-width: 700px) {
+  .extras-tray .Auth {
+    position: relative;
+    float: right;
+    bottom: 0px;
+  }
 }
 
 /* .family img {

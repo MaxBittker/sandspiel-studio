@@ -28,7 +28,7 @@ pre {
   background-image: url("/tiles/ScatterGray.png");
   background-size: 30px;
 }
-    
+
 @media only screen and (max-width: 700px) {
   #world {
     height: auto;
@@ -85,7 +85,9 @@ label {
   bottom: 40px;
   z-index: 2000;
   color: darkslateblue;
+  pointer-events: none;
 }
+
 .pfp {
   border-radius: 100%;
   width: 50px !important;
