@@ -247,13 +247,9 @@ function Browse() {
           display: flex;
           height: 100vh;
           width: 100%;
+          max-width: 100vw;
           justify-content: center;
-        }
-        @media only screen and (max-width: 700px) {
-          .browse-page {
-            flex-direction: column-reverse;
-            height: auto;
-          }
+          overflow-x: hidden;
         }
 
         .browse {
@@ -266,6 +262,17 @@ function Browse() {
           overflow: scroll;
         }
 
+        @media only screen and (max-width: 700px) {
+          .browse-page {
+            flex-direction: column-reverse;
+            height: auto;
+          }
+
+          .browse {
+            height: 85vh;
+          }
+        }
+
         .browse.family {
           margin: 0;
           /* min-width: 765px; */
@@ -274,10 +281,6 @@ function Browse() {
         @media only screen and (max-width: 500px) {
           .family {
             margin: 0;
-          }
-          .browse {
-            overflow-y: visible;
-            overflow-x: scroll;
           }
         }
 

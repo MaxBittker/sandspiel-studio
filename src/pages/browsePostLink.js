@@ -220,11 +220,12 @@ export const BrowsePostLink = ({ post: initPost }) => {
             width: 300px;
             height: 300px;
             margin-right: 3px;
+            max-width: calc(50vw - 6px - 10px);
+            max-height: calc(50vw - 6px - 10px);
           }
           .postThumbnail img {
-            width: 300px;
-            height: 300px;
-            /*max-width: 50vw;*/
+            width: 100%;
+            height: 100%;
           }
           .browse-info {
             display: flex;
@@ -232,7 +233,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
             justify-content: space-between;
             padding-bottom: 2px;
             width: 400px;
-            max-width: 50vw;
+            max-width: calc(50vw - 5px);
           }
           .element-set-button {
             flex-grow: 0;

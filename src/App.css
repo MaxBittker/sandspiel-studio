@@ -28,6 +28,12 @@ pre {
   background-image: url("/tiles/ScatterGray.png");
   background-size: 30px;
 }
+    
+@media only screen and (max-width: 700px) {
+  #world {
+    height: auto;
+  }
+}
 
 .blocklyMainBackground {
   stroke: none;

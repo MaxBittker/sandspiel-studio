@@ -23,7 +23,7 @@ const Sand = ({ playMode }) => {
   );
   let mobile = false;
   if (window.innerWidth < 900) {
-    starterWidth = window.innerWidth;
+    starterWidth = window.innerWidth - 6;
     mobile = true;
   }
   const selectedElement = useStore((state) => state.selectedElement);
