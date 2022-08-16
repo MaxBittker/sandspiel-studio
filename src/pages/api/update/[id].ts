@@ -54,22 +54,21 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         return response.status(500).send("can't change others posts");
       }
 
-       const count = await prisma.post.count({
-         where: {
-         userId: session.userId,
-         createdAt: {
-          gte: new Date(
-            Date.now() - 1 * 24 * 60 * 60 * 1000 // 24 hours
-          ),
-         }
-         }
-       })
+      const count = await prisma.post.count({
+        where: {
+          userId: session.userId,
+          public: true,
+          createdAt: {
+            gte: new Date(
+              Date.now() - 1 * 24 * 60 * 60 * 1000 // 24 hours
+            ),
+          },
+        },
+      });
 
-       if(count > 4){
-        return response.status(500).send("4 public posts per person per day");
-       }
-       
-  
+      if (count >= 3) {
+        return response.status(500).send("3 public posts per person per day");
+      }
 
       data.public = isPublic === "true";
       if (!post.public && data.public) {
@@ -138,14 +137,12 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
     //       metadata: true,
     //     },
     //   });
-
     //   let { elements, disabled } = JSON.parse(post.metadata);
     //   let enabledElements = elements.filter((_, i) => !disabled[i]);
     //   let title = enabledElements.join(" ");
     //   const channel = (await client.channels.fetch(
     //     "978159725663367188"
     //   )) as TextChannel;
-
     //   channel.send(`https://studio.sandspiel.club/post/${id}\n ${title}`);
     // }
   }
