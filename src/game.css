@@ -133,7 +133,7 @@ summary {
 
   font-size: 20px;
   font-weight: bold;
-  flex-basis: 0px;
+  flex-basis: 50px;
   flex-grow: 1;
 
   display: flex;
@@ -142,6 +142,7 @@ summary {
   flex-direction: column;
 
   overflow-y: auto;
+  text-align: center;
 }
 
 .family .title {
