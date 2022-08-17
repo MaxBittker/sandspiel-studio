@@ -443,7 +443,7 @@ Blockly.JavaScript["rotated_by"] = function (block) {
   );
 
   const statement = Blockly.JavaScript.statementToCode(block, "BODY");
-  const code = `{const oldTransformation = this.getTransformation();\n this.setRotation(${n});\n${statement}this.setTransformation(...oldTransformation);}\n`;
+  const code = `{const oldTransformation = this.getTransformation();\n this.setRotation(Math.round(${n}));\n${statement}this.setTransformation(...oldTransformation);}\n`;
   return code;
 };
 
