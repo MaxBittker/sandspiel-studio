@@ -41,11 +41,11 @@ export async function loadPostFromServer(postId, retrys = 0) {
         colors,
         color2s,
         elements,
-        worldScale = 1,
+        worldScale = 1 / 2,
       } = JSON.parse(metadata);
 
       if (!worldScaleMap.includes(worldScale)) {
-        worldScale = 1;
+        worldScale = 1 / 2;
       }
 
       if (id < 1436) {
@@ -60,6 +60,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
       globalState.worldWidth = worldWidth;
       globalState.worldHeight = worldHeight;
 
+      useStore.getState().setWorldScale(worldScale);
       useStore.setState({
         initialWorldSize: worldWidth,
         initialWorldScale: worldScale,
