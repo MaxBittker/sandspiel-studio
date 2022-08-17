@@ -24,22 +24,22 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       authOptions
     );
     const { featured, public: isPublic } = request.query;
+
+    // Ensure user is logged in
     if (!session?.userId) {
       return response.status(500).send("not logged in");
     }
+
     let data: any = {};
 
     if (featured !== undefined) {
-      if (session?.role !== "admin") {
+      if (session.role !== "admin") {
         return response.status(500).send("not admin");
       }
       data.featured = featured === "true";
     }
 
     if (isPublic !== undefined) {
-      if (!session?.userId) {
-        return response.status(500).send("not logged in");
-      }
       const post = await prisma.post.findUnique({
         where: {
           id,
@@ -50,7 +50,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         },
       });
 
-      if (session?.userId !== post.userId && session?.role !== "admin") {
+      if (session.userId !== post.userId && session.role !== "admin") {
         return response.status(500).send("can't change others posts");
       }
 
@@ -66,7 +66,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         },
       });
 
-      if (count >= 3 && session?.role !== "admin") {
+      if (count >= 3 && session.role !== "admin") {
         return response.status(500).send("3 public posts per person per day");
       }
 
