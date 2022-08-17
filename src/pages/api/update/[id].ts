@@ -66,7 +66,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         },
       });
 
-      if (count >= 3) {
+      if (count >= 3 && session?.role !== "admin") {
         return response.status(500).send("3 public posts per person per day");
       }
 
