@@ -149,7 +149,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
                   setAdminFeaturingStatus("");
                 }}
               >
-                {post.featured === true ? "Unfeature Post" : "Feature Post"}
+                {post.featuredAt ? "Unfeature Post" : "Feature Post"}
                 {adminFeaturingStatus}
               </button>
               <button

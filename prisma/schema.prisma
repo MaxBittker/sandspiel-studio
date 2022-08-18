@@ -18,7 +18,6 @@ model Post {
     codeHash   String    @default("")
     code       String    @db.MediumText
     public     Boolean   @default(false)
-    featured   Boolean   @default(false)
     featuredAt DateTime? @db.Timestamp(6)
 
     title String? @db.VarChar(511)
