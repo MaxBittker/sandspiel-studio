@@ -36,9 +36,13 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
     equals: true,
   };
   if (featured) {
-    where.featured = {
-      equals: true,
-    };
+    where.NOT = [
+      {
+        featuredAt: {
+          equals: null,
+        },
+      },
+    ];
   }
   if (userId) {
     where = {

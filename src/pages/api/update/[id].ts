@@ -36,7 +36,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       if (session.role !== "admin") {
         return response.status(500).send("not admin");
       }
-      data.featured = featured === "true";
+      data.featuredAt = featured === "true" ? Date.now() : null;
     }
 
     if (isPublic !== undefined) {

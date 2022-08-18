@@ -15,10 +15,11 @@ model Post {
     createdAt DateTime @default(now()) @db.Timestamp(6)
     metadata  String   @db.MediumText
 
-    codeHash String  @default("")
-    code     String  @db.MediumText
-    public   Boolean @default(false)
-    featured Boolean @default(false)
+    codeHash   String    @default("")
+    code       String    @db.MediumText
+    public     Boolean   @default(false)
+    featured   Boolean   @default(false)
+    featuredAt DateTime? @db.Timestamp(6)
 
     title String? @db.VarChar(511)
 
@@ -44,6 +45,7 @@ model Star {
 
     userId String
     User   User   @relation(fields: [userId], references: [id])
+
     @@unique([postId, userId])
 }
 
