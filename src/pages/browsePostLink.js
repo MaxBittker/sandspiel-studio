@@ -141,7 +141,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
                 onClick={async () => {
                   setAdminFeaturingStatus(" ...");
                   const result = await axios("/api/update/" + post.id, {
-                    params: { featured: !post.featured },
+                    params: { featured: !post.featuredAt },
                   });
                   let results = result.data;
                   results.metadata = JSON.parse(results.metadata);
