@@ -90,6 +90,7 @@ let useStore = create((set, get) => ({
 
   setXmls: (xmls) =>
     set(() => {
+      xmls = xmls.filter((xml) => xml !== null);
       let colors = xmls.map((x) => deriveColor(x));
       let color2s = xmls.map((x) => deriveColor(x, 2));
       let elements = xmls.map((x) => deriveName(x));
