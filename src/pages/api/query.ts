@@ -43,6 +43,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         },
       },
     ];
+    orderBy = { featuredAt: "desc" };
   }
   if (userId) {
     where = {
