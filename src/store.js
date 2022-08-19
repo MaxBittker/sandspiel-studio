@@ -26,6 +26,7 @@ let useStore = create((set, get) => ({
   updateScheme: "RANDOM_CYCLIC",
   taggedMode: false,
   paused: false,
+  initialPaused: false,
   size: 3,
   worldScale: 1 / 2,
   worldWidth: 150,

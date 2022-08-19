@@ -113,6 +113,7 @@ const App = ({ playMode }) => {
     }
     setSelected(useStore.getState().initialSelected);
     setLoaded(true);
+    useStore.setState({ paused: useStore.getState().initialPaused });
   }, [simpleWorkspace, fetchedData]);
 
   useEffect(() => {
@@ -130,7 +131,6 @@ const App = ({ playMode }) => {
   useEffect(() => {
     if (!simpleWorkspace.current || !loaded || playMode) return;
     simpleWorkspace.current.primaryWorkspace.clear();
-    // TODO THERE IS A LOADING BUG WHEN GOING FROM EDIT TO BROWSE
     const xml =
       useStore.getState().xmls[useStore.getState().selectedElement ?? 0];
     if (!xml) return;

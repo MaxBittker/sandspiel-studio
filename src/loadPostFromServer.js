@@ -16,8 +16,6 @@ export async function loadPostFromServer(postId, retrys = 0) {
     return;
   }
 
-  let desiredPaused = false;
-
   await fetch("/api/getCreation/" + id)
     .then((response) => {
       if (response.status == 200) {
@@ -67,7 +65,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
       });
 
       useStore.setState({ paused: true });
-      desiredPaused = paused;
+      useStore.setState({ initialPaused: paused });
 
       useStore.getState().setXmls(xmls);
       // useStore.getState().setSelected(selectedElement);
@@ -93,7 +91,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
       }
     });
 
-  fetch(`${imageURLBase}${id}.data.png`)
+  await fetch(`${imageURLBase}${id}.data.png`)
     .then((res) => res.blob())
     .then(async (blob) => {
       let ab = await blob.arrayBuffer();
@@ -128,7 +126,5 @@ export async function loadPostFromServer(postId, retrys = 0) {
           }
         }
       }
-
-      useStore.setState({ paused: desiredPaused });
     });
 }
