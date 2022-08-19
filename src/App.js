@@ -73,6 +73,10 @@ const App = ({ playMode }) => {
   // generate all the code on start
   useEffect(async () => {
     setFetchedData(false);
+    if (postId === undefined) {
+      setFetchedData(true);
+      return;
+    }
     await loadPostFromServer(postId);
     setFetchedData(true);
   }, [postId]);
@@ -124,7 +128,7 @@ const App = ({ playMode }) => {
   }, [simpleWorkspace, selectedElement, loaded]);
 
   useEffect(() => {
-    if (!simpleWorkspace.current || !loaded) return;
+    if (!simpleWorkspace.current || !loaded || playMode) return;
     simpleWorkspace.current.primaryWorkspace.clear();
     // TODO THERE IS A LOADING BUG WHEN GOING FROM EDIT TO BROWSE
     const xml =
