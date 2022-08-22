@@ -111,7 +111,7 @@ function Browse() {
       <div className="browse family">
         {/* <ReactQueryDevtools initialIsOpen /> */}
 
-        <Link href={`/`}>Editor</Link>
+        <Link href={`/editor`}>Editor</Link>
 
         {/* <div style={{ float: "right" }}>
           <Home />
