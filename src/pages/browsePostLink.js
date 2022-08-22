@@ -133,6 +133,9 @@ export const BrowsePostLink = ({ post: initPost }) => {
           >
             {(isStarred ? "★: " : "☆: ") + stars}
           </button>
+          <span className="featured-flag">
+            {post.featuredAt ? "🏆FEATURED" : ""}
+          </span>
           <br></br>
           {session?.role === "admin" && (
             <div>

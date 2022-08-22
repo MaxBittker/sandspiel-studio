@@ -173,3 +173,7 @@ summary {
   position: absolute;
   top: -1.2em;
 }
+
+.featured-flag {
+  margin-left: 5px;
+}
