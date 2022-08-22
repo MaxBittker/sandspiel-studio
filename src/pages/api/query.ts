@@ -35,7 +35,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
   where.public = {
     equals: true,
   };
-  if (featured) {
+  if (featured === "true") {
     where.NOT = [
       {
         featuredAt: {
