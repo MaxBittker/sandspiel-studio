@@ -169,9 +169,7 @@ function Browse() {
 
           <button
             className={
-              query.starredBy !== session?.userId &&
-              !query.userId &&
-              !query.featured
+              !query.starredBy && !query.userId && !query.featured
                 ? "selected"
                 : ""
             }
