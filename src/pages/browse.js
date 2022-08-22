@@ -60,7 +60,7 @@ function Browse() {
     starredBy: StringParam,
     order: withDefault(StringParam, "new"),
     days: StringParam,
-    featured: BooleanParam,
+    featured: withDefault(BooleanParam, true),
   });
 
   // const postId = useStore((state) => state.postId);
@@ -125,7 +125,7 @@ function Browse() {
                 codeHash: undefined,
                 userId: undefined,
                 starredBy: undefined,
-                featured: true,
+                featured: undefined,
               });
             }}
           >
@@ -142,7 +142,7 @@ function Browse() {
                     codeHash: undefined,
                     userId: session.userId,
                     starredBy: undefined,
-                    featured: undefined,
+                    featured: false,
                   });
                 }}
               >
@@ -156,8 +156,7 @@ function Browse() {
                   setQuery({
                     codeHash: undefined,
                     userId: undefined,
-                    featured: undefined,
-
+                    featured: false,
                     starredBy: session.userId,
                   });
                 }}
@@ -182,7 +181,7 @@ function Browse() {
                 codeHash: undefined,
                 userId: undefined,
                 starredBy: undefined,
-                featured: undefined,
+                featured: false,
               });
             }}
           >
