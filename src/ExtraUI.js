@@ -142,10 +142,10 @@ const ExtraUI = ({ playMode }) => {
         <UploadButtons />
 
         <br />
-        {post?.views && "views: " + post.views}
+        {!playMode && post?.views && "views: " + post.views}
         <br />
 
-        {stars !== undefined && (
+        {!playMode && stars !== undefined && (
           <button
             style={{ marginTop: "5px" }}
             onClick={() => {
@@ -213,7 +213,7 @@ const ExtraUI = ({ playMode }) => {
           </button>
         )}
         <br />
-        {!playMode && <Link href={`/browse?featured=1`}>Browse</Link>}
+        {!playMode && <Link href={`/browse?featured=1`}>Close Editor</Link>}
         <Home />
 
         {!playMode && window.location.host.includes("localhost") && (
