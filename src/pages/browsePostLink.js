@@ -49,6 +49,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
   const [query, setQuery] = useQueryParams({
     codeHash: StringParam,
     userId: StringParam,
+    featured: BooleanParam,
   });
 
   let metadata = post.metadata;
@@ -183,7 +184,11 @@ export const BrowsePostLink = ({ post: initPost }) => {
               className="pfp"
               onClick={(e) => {
                 e.preventDefault();
-                setQuery({ codeHash: undefined, userId: post.user.id });
+                setQuery({
+                  codeHash: undefined,
+                  userId: post.user.id,
+                  featured: false,
+                });
               }}
               src={post?.user?.image}
             ></img>
