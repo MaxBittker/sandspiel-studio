@@ -43,7 +43,9 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         },
       },
     ];
-    orderBy = { featuredAt: "desc" };
+    if (order !== "top") {
+      orderBy = { featuredAt: "desc" };
+    }
   }
   if (userId) {
     where = {
