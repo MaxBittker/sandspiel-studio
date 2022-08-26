@@ -1,7 +1,7 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
-import { globalState, useStore } from "./store.js";
-import { ChebyshevRotate } from "./Chebyshev.js";
-import noise from "./perlin";
+import { globalState, useStore } from "../store.js";
+import { ChebyshevRotate } from "../utils/Chebyshev.js";
+import noise from "../utils/perlin";
 noise.seed(Math.random());
 
 let aX = 0;

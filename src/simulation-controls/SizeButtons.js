@@ -1,6 +1,6 @@
 import React from "react";
 let sizeMap = [1.5, 3, 5, 7, 19];
-import { useStore } from "./store";
+import { useStore } from "../store";
 
 const SizeButtons = ({}) => {
   const size = useStore((state) => state.size);

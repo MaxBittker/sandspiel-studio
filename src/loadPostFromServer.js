@@ -1,8 +1,8 @@
 import { decode } from "fast-png";
-import starterXMLs from "./starterblocks";
+import starterXMLs from "./blocks/starterblocks";
 import { globalState, useStore } from "./store";
-import { width, height, sands, randomData } from "./SandApi";
-import { worldScaleMap } from "./WorldSizeButtons.js";
+import { width, height, sands, randomData } from "./simulation/SandApi";
+import { worldScaleMap } from "./simulation-controls/WorldSizeButtons.js";
 import * as Sentry from "@sentry/nextjs";
 
 const imageURLBase =

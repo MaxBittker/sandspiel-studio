@@ -1,6 +1,6 @@
 import { cellCount, getIndex, runAfterFrameStatements } from "./SandApi";
 import { sands, fireEvent, fireEventPhase } from "./SandApi";
-import useStore from "./store.js";
+import useStore from "../store.js";
 
 // NOTE:
 // Since the world size options were added, most update schemes don't work correctly.

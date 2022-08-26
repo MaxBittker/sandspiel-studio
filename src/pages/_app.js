@@ -7,9 +7,9 @@ import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { NextQueryParamProvider } from "next-query-params";
 
-import "../index.css";
-import "../App.css";
-import "../game.css";
+import "../style/index.css";
+import "../style/App.css";
+import "../style/game.css";
 import "../Blockly/BlocklyComponent.css";
 const queryClient = new QueryClient();
 

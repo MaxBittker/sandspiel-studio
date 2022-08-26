@@ -1,7 +1,7 @@
-import { cellCount, height, width } from "./SandApi.js";
+import { cellCount, height, width } from "./simulation/SandApi.js";
 import create from "zustand";
 import tinycolor2 from "tinycolor2";
-import starterXMLs from "./starterblocks";
+import starterXMLs from "./blocks/starterblocks";
 let bufferXMLs = starterXMLs;
 
 function generatePlaceholder(i) {

@@ -3,9 +3,9 @@ import { encode } from "fast-png";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-import { width, height, sands, reset } from "./SandApi";
-import { snapshot, exportGif } from "./Render";
-import { useStore } from "./store";
+import { width, height, sands, reset } from "../simulation/SandApi";
+import { snapshot, exportGif } from "../simulation/Render";
+import { useStore } from "../store";
 import * as vkbeautify from "vkbeautify";
 
 export const imageURLBase =

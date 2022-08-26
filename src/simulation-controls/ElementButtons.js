@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import classNames from "classnames";
-import { MAX_ELEMENTS, useStore } from "./store";
+import { MAX_ELEMENTS, useStore } from "../store";
 
 const ElementButton = ({
   i,

@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import useAnimationFrame from "use-animation-frame";
 import { startWebGL } from "./Render";
-import useStore, { globalState } from "./store";
+import useStore, { globalState } from "../store";
 import { fps } from "./fps";
-import { WrappedElementButtons } from "./ElementButtons";
-import ExtraUI from "./ExtraUI";
+import { WrappedElementButtons } from "../simulation-controls/ElementButtons";
+import ExtraUI from "../simulation-controls/ExtraUI";
 
 import { sands, width, height, tick, initSand, pushUndo } from "./SandApi";
-import { pointsAlongLine } from "./utils";
+import { pointsAlongLine } from "../utils/utils";
 let dpi = 4;
 
 globalState.updaters = useStore.getState().elements.map(() => {

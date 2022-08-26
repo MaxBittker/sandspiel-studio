@@ -1,6 +1,6 @@
 import React from "react";
 
-import useStore from "./store";
+import useStore from "../store";
 
 const PlayPause = ({}) => {
   const paused = useStore((state) => state.paused);

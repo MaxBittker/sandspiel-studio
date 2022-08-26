@@ -11,7 +11,7 @@ import {
 } from "./SandApi";
 import GIF from "gif.js";
 
-import useStore, { globalState } from "./store";
+import useStore, { globalState } from "../store";
 import fsh from "./sand.glsl";
 
 let vsh = `
