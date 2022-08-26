@@ -10,9 +10,9 @@ import classNames from "classnames";
 
 // import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "axios";
-import { imageURLBase } from "../ExtraUI";
+import { imageURLBase } from "../simulation-controls/ExtraUI";
 import useStore, { globalState } from "../store";
-import ElementButtons from "../ElementButtons";
+import ElementButtons from "../simulation-controls/ElementButtons";
 
 export const BrowsePostLink = ({ post: initPost }) => {
   const router = useRouter();

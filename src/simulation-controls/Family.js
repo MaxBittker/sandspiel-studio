@@ -1,6 +1,6 @@
 import React from "react";
 
-import useStore from "./store";
+import useStore from "../store";
 import { imageURLBase } from "./ExtraUI";
 import { useRouter } from "next/router";
 

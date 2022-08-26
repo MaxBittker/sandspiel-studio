@@ -1,5 +1,5 @@
 import React from "react";
-import { Block, Value, Field, Shadow } from "./Blockly";
+import { Block, Value, Field, Shadow } from "../Blockly";
 
 export function ToolboxBlocks() {
   return (

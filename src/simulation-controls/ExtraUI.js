@@ -11,13 +11,13 @@ import {
   tick,
   popUndo,
   addBorder,
-} from "./SandApi";
-import { useStore } from "./store";
+} from "../simulation/SandApi";
+import { useStore } from "../store";
 import * as vkbeautify from "vkbeautify";
 import PlayPause from "./PlayPauseButton";
 import SizeButtons from "./SizeButtons";
 import WorldSizeButtons from "./WorldSizeButtons";
-import Home from "./Auth";
+import Home from "../Auth";
 import UploadButtons from "./UploadButtons";
 export const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";

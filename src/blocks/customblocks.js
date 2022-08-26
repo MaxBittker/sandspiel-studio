@@ -29,10 +29,10 @@ import { ColorWheelField } from "blockly-field-color-wheel";
 import { FieldSlider } from "@blockly/field-slider";
 
 // Since we're using json to initialize the field, we'll need to import it.
-// import "../fields/BlocklyReactField";
-// import "../fields/DateField";
+// import "../Blockly/BlocklyReactField";
+// import "../Blockly/DateField";
 import { globalState, useStore } from "../store.js";
-import { getTypeOfValue } from "../generator/generator.js";
+import { getTypeOfValue } from "./generator.js";
 
 Blockly.Blocks["sand_behavior_base"] = {
   init: function () {
