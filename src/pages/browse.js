@@ -62,7 +62,10 @@ function Browse() {
     order: withDefault(StringParam, "new"),
     days: StringParam,
     featured: withDefault(BooleanParam, true),
+    edit: withDefault(BooleanParam, false),
   });
+
+  const playMode = !query.edit;
 
   // const postId = useStore((state) => state.postId);
 
@@ -107,136 +110,152 @@ function Browse() {
     }
   }, [inView]);
   let dataWithPlaceholder = data ?? { pages: [placeHolderPosts] };
+  //if (!playMode) return <CreateReactAppEntryPoint />;
   return (
-    <div className="browse-page">
-      <div className="browse family">
-        {/* <ReactQueryDevtools initialIsOpen /> */}
+    <div
+      className="browse-page"
+      style={{
+        flexDirection: playMode ? "" : "column-reverse",
+      }}
+    >
+      {
+        <div
+          className="browse family"
+          style={{
+            display: playMode ? "" : "none",
+          }}
+        >
+          {/* <ReactQueryDevtools initialIsOpen /> */}
 
-        {/*<button onClick={(e) => {}}>Open Editor</button>*/}
-
-        {/* <div style={{ float: "right" }}>
+          {/* <div style={{ float: "right" }}>
           <Home />
         </div> */}
-        <span className="filterControls">
-          <button
-            className={query.featured === true ? "selected" : ""}
-            onClick={(e) => {
-              e.preventDefault();
-              setQuery({
-                codeHash: undefined,
-                userId: undefined,
-                starredBy: undefined,
-                featured: undefined,
-              });
-            }}
-          >
-            {" "}
-            Featured
-          </button>
-          {session && (
-            <>
-              <button
-                className={query.userId === session.userId ? "selected" : ""}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setQuery({
-                    codeHash: undefined,
-                    userId: session.userId,
-                    starredBy: undefined,
-                    featured: false,
-                  });
-                }}
-              >
-                {" "}
-                Mine
-              </button>
-              <button
-                className={query.starredBy === session.userId ? "selected" : ""}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setQuery({
-                    codeHash: undefined,
-                    userId: undefined,
-                    featured: false,
-                    starredBy: session.userId,
-                  });
-                }}
-              >
-                {" "}
-                Favorited
-              </button>
-            </>
-          )}
 
-          <button
-            className={
-              !query.starredBy && !query.userId && !query.featured
-                ? "selected"
-                : ""
-            }
-            onClick={(e) => {
-              e.preventDefault();
-              setQuery({
-                codeHash: undefined,
-                userId: undefined,
-                starredBy: undefined,
-                featured: false,
-              });
-            }}
-          >
-            {" "}
-            All
-          </button>
-        </span>
+          <span className="filterControls">
+            <button
+              className={query.featured === true ? "selected" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({
+                  codeHash: undefined,
+                  userId: undefined,
+                  starredBy: undefined,
+                  featured: undefined,
+                });
+              }}
+            >
+              {" "}
+              Featured
+            </button>
+            {session && (
+              <>
+                <button
+                  className={query.userId === session.userId ? "selected" : ""}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setQuery({
+                      codeHash: undefined,
+                      userId: session.userId,
+                      starredBy: undefined,
+                      featured: false,
+                    });
+                  }}
+                >
+                  {" "}
+                  Mine
+                </button>
+                <button
+                  className={
+                    query.starredBy === session.userId ? "selected" : ""
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setQuery({
+                      codeHash: undefined,
+                      userId: undefined,
+                      featured: false,
+                      starredBy: session.userId,
+                    });
+                  }}
+                >
+                  {" "}
+                  Favorited
+                </button>
+              </>
+            )}
 
-        <span className="filterControls">
-          <Dropdown
-            options={options}
-            onChange={(e) => {
-              if (e.value === "top") {
-                setQuery({ order: e.value, days: "365" });
-              } else {
-                setQuery({ order: e.value, days: undefined });
+            <button
+              className={
+                !query.starredBy && !query.userId && !query.featured
+                  ? "selected"
+                  : ""
               }
-            }}
-            value={query.order}
-          />
-          {query.order === "top" && (
-            <Dropdown
-              options={optionsTime}
-              onChange={(e) => setQuery({ days: e.value })}
-              value={query.days}
-            />
-          )}
-        </span>
-        {isLoading && <Spinner></Spinner>}
-        {error && <div>Error: {error}</div>}
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({
+                  codeHash: undefined,
+                  userId: undefined,
+                  starredBy: undefined,
+                  featured: false,
+                });
+              }}
+            >
+              {" "}
+              All
+            </button>
+          </span>
 
-        {dataWithPlaceholder?.pages.map((page) => (
-          <React.Fragment key={page.nextId}>
-            {page.posts.map((d) => {
-              return <BrowsePostLink key={d.key ?? d.id} post={d} full />;
-            })}
-          </React.Fragment>
-        ))}
-        <div>
-          <button
-            ref={ref}
-            onClick={() => fetchNextPage()}
-            disabled={!hasNextPage || isFetchingNextPage}
-          >
-            {isFetchingNextPage
-              ? "Loading more..."
-              : hasNextPage
-              ? "Load Newer"
-              : "Nothing more to load"}
-          </button>
+          <span className="filterControls">
+            <Dropdown
+              options={options}
+              onChange={(e) => {
+                if (e.value === "top") {
+                  setQuery({ order: e.value, days: "365" });
+                } else {
+                  setQuery({ order: e.value, days: undefined });
+                }
+              }}
+              value={query.order}
+            />
+            {query.order === "top" && (
+              <Dropdown
+                options={optionsTime}
+                onChange={(e) => setQuery({ days: e.value })}
+                value={query.days}
+              />
+            )}
+          </span>
+          {isLoading && <Spinner></Spinner>}
+          {error && <div>Error: {error}</div>}
+
+          {dataWithPlaceholder?.pages.map((page) => (
+            <React.Fragment key={page.nextId}>
+              {page.posts.map((d) => {
+                return <BrowsePostLink key={d.key ?? d.id} post={d} full />;
+              })}
+            </React.Fragment>
+          ))}
+          <div>
+            <button
+              ref={ref}
+              onClick={() => fetchNextPage()}
+              disabled={!hasNextPage || isFetchingNextPage}
+            >
+              {isFetchingNextPage
+                ? "Loading more..."
+                : hasNextPage
+                ? "Load Newer"
+                : "Nothing more to load"}
+            </button>
+          </div>
+          <div>
+            {isFetching && !isFetchingNextPage
+              ? "Background Updating..."
+              : null}
+          </div>
         </div>
-        <div>
-          {isFetching && !isFetchingNextPage ? "Background Updating..." : null}
-        </div>
-      </div>
-      <CreateReactAppEntryPoint playMode />
+      }
+      <CreateReactAppEntryPoint />
     </div>
   );
 }

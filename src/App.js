@@ -1,19 +1,19 @@
 import React, { useRef, useState, useEffect } from "react";
-import parserBabel from "prettier/parser-babel";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
 import starterXMLs from "./blocks/starterblocks";
 import Sand from "./simulation/Sand.js";
 import useStore, { globalState } from "./store";
 import BlocklyComponent from "./Blockly";
-import prettier from "prettier";
 import "./blocks/customblocks";
 import "./blocks/generator";
 import { loadPostFromServer } from "./loadPostFromServer";
 import { ToolboxBlocks } from "./blocks/ToolboxBlocks";
+import { generateCode } from "./blocks/generator";
 // import * as Sentry from "@sentry/browser";
 // import { BrowserTracing } from "@sentry/tracing";
 import { useRouter } from "next/router";
+import { useQueryParams, withDefault, BooleanParam } from "next-query-params";
 
 // if (typeof window !== "undefined") {
 //   if (!window?.location?.host?.includes("localhost")) {
@@ -25,36 +25,11 @@ import { useRouter } from "next/router";
 //   }
 // }
 
-function generateCode(element, ws) {
-  let baseBlock = undefined;
-  for (let i = 0; i < ws.topBlocks_.length; i++) {
-    const block = ws.topBlocks_[i];
-    if (block.type == "sand_behavior_base") {
-      baseBlock = block;
-      break;
-    }
-  }
-  try {
-    let code = BlocklyJS.blockToCode(baseBlock);
-
-    code = prettier.format(code, {
-      parser: "babel",
-      plugins: [parserBabel],
-    });
-    // console.log(element + "\n" + code);
-    let xml = Xml.workspaceToDom(ws);
-    let xmlText = Xml.domToPrettyText(xml);
-    // eslint-disable-next-line no-new-func
-    let fn = Function(code);
-    useStore.getState().setXml(xmlText, element);
-    globalState.updaters[element] = fn.bind(globalState);
-  } catch (e) {
-    console.error(e);
-    return;
-  }
-}
-
-const App = ({ playMode }) => {
+const App = () => {
+  const [query, setQuery] = useQueryParams({
+    edit: withDefault(BooleanParam, false),
+  });
+  const playMode = !query.edit;
   let simpleWorkspace = useRef();
   const router = useRouter();
   const selectedElement = useStore((state) => state.selectedElement);
@@ -64,13 +39,13 @@ const App = ({ playMode }) => {
   const [loaded, setLoaded] = useState(false);
   const [fetchedData, setFetchedData] = useState(false);
 
-  useEffect(() => {
+  /*useEffect(() => {
     useStore.setState({
       postId: router.query.id,
     });
-  }, [router.query.id]);
+  }, [router.query.id]);*/
 
-  // generate all the code on start
+  // Generate code when a post is loaded into the editor
   useEffect(async () => {
     setFetchedData(false);
     if (postId === undefined) {
@@ -81,7 +56,7 @@ const App = ({ playMode }) => {
     setFetchedData(true);
   }, [postId]);
 
-  // generate all the code on start
+  // Generate code when we start the editor
   useEffect(async () => {
     if (!fetchedData || !simpleWorkspace.current) {
       return;
@@ -116,6 +91,7 @@ const App = ({ playMode }) => {
     useStore.setState({ paused: useStore.getState().initialPaused });
   }, [simpleWorkspace, fetchedData]);
 
+  // Generate code whenever you change something in the editor
   useEffect(() => {
     if (simpleWorkspace.current && loaded && !playMode) {
       let ws = simpleWorkspace.current.primaryWorkspace;
@@ -126,8 +102,9 @@ const App = ({ playMode }) => {
         ws.removeChangeListener(cb);
       };
     }
-  }, [simpleWorkspace, selectedElement, loaded]);
+  }, [simpleWorkspace, selectedElement, loaded, playMode]);
 
+  // When you change the selected element, show that element's code in the editor
   useEffect(() => {
     if (!simpleWorkspace.current || !loaded || playMode) return;
     simpleWorkspace.current.primaryWorkspace.clear();
@@ -138,7 +115,7 @@ const App = ({ playMode }) => {
       Xml.textToDom(xml),
       simpleWorkspace.current.primaryWorkspace
     );
-  }, [selectedElement, loaded]);
+  }, [selectedElement, loaded, playMode]);
 
   let filter = ` brightness(1.0) contrast(0.1) saturate(0.1)`;
   if (loaded) {

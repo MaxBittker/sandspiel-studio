@@ -7,6 +7,11 @@
   overflow-x: hidden;
 }
 
+/* Placeholder */
+button.editor-toggle {
+  background-color: #a192ff;
+}
+
 .browse {
   display: flex;
   flex-direction: column;
@@ -41,5 +46,5 @@
 
 .filterControls {
   display: flex;
-  padding: 5px;
+  padding-top: 5px;
 }

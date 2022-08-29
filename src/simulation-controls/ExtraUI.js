@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useQueryParams, withDefault, BooleanParam } from "next-query-params";
 
 import {
   seed,
@@ -36,7 +37,12 @@ function prepareExport() {
   return json;
 }
 
-const ExtraUI = ({ playMode }) => {
+const ExtraUI = () => {
+  const [query, setQuery] = useQueryParams({
+    edit: withDefault(BooleanParam, false),
+  });
+  const playMode = !query.edit;
+
   const { data: session } = useSession();
 
   let [copiedState, setCopiedState] = useState(null);
@@ -141,11 +147,9 @@ const ExtraUI = ({ playMode }) => {
       <div>
         <UploadButtons />
 
-        <br />
-        {!playMode && post?.views && "views: " + post.views}
-        <br />
+        {/*!playMode && post?.views && "views: " + post.views*/}
 
-        {!playMode && stars !== undefined && (
+        {/*!playMode && stars !== undefined && (
           <button
             style={{ marginTop: "5px" }}
             onClick={() => {
@@ -169,10 +173,8 @@ const ExtraUI = ({ playMode }) => {
           >
             {(isStarred ? "★: " : "☆: ") + stars}
           </button>
-        )}
-
-        <br></br>
-        {post ? (
+        )*/}
+        {/*post ? (
           <button
             className="simulation-button"
             onClick={() => {
@@ -183,9 +185,8 @@ const ExtraUI = ({ playMode }) => {
           </button>
         ) : (
           ""
-        )}
-        <br />
-        {session && post?.user?.id == session.userId && (
+        )*/}
+        {/*session && post?.user?.id == session.userId && (
           <button
             onClick={() => {
               fetch("/api/updateProfile/", {
@@ -211,12 +212,20 @@ const ExtraUI = ({ playMode }) => {
           >
             Set this post as my avatar
           </button>
-        )}
+        )*/}
         <br />
-        {!playMode && <Link href={`/browse?featured=1`}>Close Editor</Link>}
+        <button
+          className="editor-toggle"
+          onClick={(e) => {
+            setQuery({ edit: playMode });
+          }}
+        >
+          {playMode ? "Open Editor ➡" : "⬅ Close Editor"}
+        </button>
+
         <Home />
 
-        {!playMode && window.location.host.includes("localhost") && (
+        {/*!playMode && window.location.host.includes("localhost") && (
           <button
             className="simulation-button"
             onClick={() => {
@@ -247,7 +256,7 @@ const ExtraUI = ({ playMode }) => {
           >
             Export to Clipboard {copiedState}
           </button>
-        )}
+          )*/}
 
         <img className="wordmark" src="/sandspiel.png"></img>
       </div>

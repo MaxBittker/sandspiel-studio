@@ -6,7 +6,7 @@ let bufferXMLs = starterXMLs;
 export const MAX_ELEMENTS = 9;
 
 let useStore = create((set, get) => ({
-  // LOADED POST - BROWSE
+  // BROWSE
   postId:
     typeof window !== "undefined"
       ? window?.location?.pathname?.slice(6)
@@ -18,7 +18,7 @@ let useStore = create((set, get) => ({
   initialWorldScale: 1 / 2,
   initialPaused: false,
 
-  // SIMULATION - PLAYGROUND
+  // PLAYGROUND
   pos: [0, 0],
   setPos: (e) => set(() => ({ pos: e })),
   selectedElement: 0,
@@ -44,7 +44,7 @@ let useStore = create((set, get) => ({
   taggedMode: false,
   setTaggedMode: (e) => set(() => ({ taggedMode: e })),
 
-  // ELEMENTS - EDITOR+PLAYGROUND
+  // EDITOR + PLAYGROUND
   xmls: [],
   disabled: [],
   elements: ["Air", "Wall", "Water", "Sand"],

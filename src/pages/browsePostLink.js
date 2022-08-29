@@ -90,14 +90,13 @@ export const BrowsePostLink = ({ post: initPost }) => {
       </a>
 
       <div className="browse-info">
-        <button
+        {/*<button
           className="element-set-button"
           onClick={(e) => {
             e.preventDefault();
             setQuery({ codeHash: post.codeHash, userId: undefined });
           }}
         >
-          {/* {post.codeHash.slice(0, 6)} */}
           <ElementButtons
             elements={metadata.elements}
             disabled={metadata.disabled}
@@ -106,14 +105,14 @@ export const BrowsePostLink = ({ post: initPost }) => {
             inert={true}
             selectedElement={-1}
           ></ElementButtons>
-        </button>
+        </button>*/}
 
         <div className="title-container">
           <div className="title">{post.title}</div>
         </div>
 
         <div style={{ textAlign: "justify" }}>
-          <button onClick={handleEdit}> Edit Code</button>
+          {/*<button onClick={handleEdit}> Edit Code</button>*/}
           <br></br>
           <button
             onClick={() => {

@@ -6,6 +6,13 @@ import { fps } from "./fps";
 import { WrappedElementButtons } from "../simulation-controls/ElementButtons";
 import ExtraUI from "../simulation-controls/ExtraUI";
 
+import {
+  useQueryParams,
+  StringParam,
+  withDefault,
+  BooleanParam,
+} from "next-query-params";
+
 import { sands, width, height, tick, initSand, pushUndo } from "./SandApi";
 import { pointsAlongLine } from "../utils/utils";
 let dpi = 4;
@@ -16,7 +23,11 @@ globalState.updaters = useStore.getState().elements.map(() => {
 let holdInterval = null;
 let prevPos = [0, 0];
 
-const Sand = ({ playMode }) => {
+const Sand = () => {
+  const [query, setQuery] = useQueryParams({
+    edit: withDefault(BooleanParam, false),
+  });
+  const playMode = !query.edit;
   let starterWidth = Math.min(
     window.innerWidth / 2.5,
     window.innerHeight * 0.6
