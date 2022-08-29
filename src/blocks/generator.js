@@ -24,6 +24,7 @@
 // More on generating code:
 // https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
 
+import tinycolor2 from "tinycolor2";
 import { getEnvelopeEndpointWithUrlEncodedAuth } from "@sentry/core";
 import * as Blockly from "blockly/core";
 import "blockly/javascript";
@@ -711,3 +712,21 @@ Blockly.JavaScript["after"] = function (block) {
   const code = `this.callAfterFrame(() => {\n${statement}\n});`;
   return code;
 };
+
+export function deriveColor(xmlString, b = "") {
+  let pattern = `<field name="COLOR${b}">`;
+  let pl = pattern.length;
+  let location = xmlString.indexOf(pattern);
+  let colorString = xmlString.slice(location + pl, location + pl + 7);
+  let color = tinycolor2(colorString).toHsl();
+  return [color.h / 360, color.s, color.l];
+}
+
+export function deriveName(xmlString) {
+  const r = /<field name="ELEMENT_NAME">(.*?)<\/field>/;
+  const match = r.exec(xmlString);
+  if (!match) {
+    return "?";
+  }
+  return match[1];
+}

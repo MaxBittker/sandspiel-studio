@@ -234,7 +234,9 @@ const Sand = ({ playMode }) => {
         taggedMode={taggedMode}
         setTaggedMode={setTaggedMode}
       />
-      {!playMode && mobile && <h2> &nbsp; To edit elements, use a bigger screen!</h2>}
+      {!playMode && mobile && (
+        <h2> &nbsp; To edit elements, use a bigger screen!</h2>
+      )}
     </div>
   );
 };

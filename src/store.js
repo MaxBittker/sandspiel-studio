@@ -1,53 +1,50 @@
-import { cellCount, height, width } from "./simulation/SandApi.js";
 import create from "zustand";
-import tinycolor2 from "tinycolor2";
-import starterXMLs from "./blocks/starterblocks";
+import { starterXMLs, generatePlaceholder } from "./blocks/starterblocks";
+import { deriveColor, deriveName } from "./blocks/generator";
 let bufferXMLs = starterXMLs;
-
-function generatePlaceholder(i) {
-  const color = tinycolor2.random();
-  const name = "ABCDEABCDEFGHIJKLMNOPQRSTUVWXYZ"[i];
-  return `<xml xmlns="https://developers.google.com/blockly/xml"><block type="sand_behavior_base"  deletable="false" x="40" y="100"><field name="ELEMENT_NAME">${name}?</field><field name="COLOR">${color
-    .lighten(15)
-    .toHex()}</field><field name="COLOR2">${color.darken(15).toHex()}</field>
-<next><block type="if" ><mutation elseIds=""></mutation><value name="CONDITION"><block type="is_block" ><value name="CELL"><shadow type="vector_constant" ><field name="VALUE">DOWN</field></shadow></value><value name="ELEMENT"><shadow type="element_literal" ><field name="VALUE">0</field></shadow><block type="group" ><mutation itemCount="1"></mutation><value name="ITEM0"><shadow type="element_literal" ><field name="VALUE">0</field></shadow></value></block></value></block></value><statement name="THEN"><block type="move" ><value name="DIRECTION"><shadow type="vector_constant" ><field name="VALUE">DOWN</field></shadow></value></block></statement></block></next></block></xml>`;
-}
 
 export const MAX_ELEMENTS = 9;
 
 let useStore = create((set, get) => ({
-  pos: [0, 0],
-  setPos: (e) => set(() => ({ pos: e })),
-  selectedElement: 0,
-  initialSandsData: undefined,
-  initialSelected: 3,
-  initialWorldSize: 150,
-  initialWorldScale: 1 / 2,
-  updateScheme: "RANDOM_CYCLIC",
-  taggedMode: false,
-  paused: false,
-  initialPaused: false,
-  size: 3,
-  worldScale: 1 / 2,
-  worldWidth: 150,
-  worldHeight: 150,
-  worldCellCount: 150 * 150,
+  // LOADED POST - BROWSE
   postId:
     typeof window !== "undefined"
       ? window?.location?.pathname?.slice(6)
       : undefined,
   post: null,
+  initialSandsData: undefined,
+  initialSelected: 3,
+  initialWorldSize: 150,
+  initialWorldScale: 1 / 2,
+  initialPaused: false,
+
+  // SIMULATION - PLAYGROUND
+  pos: [0, 0],
+  setPos: (e) => set(() => ({ pos: e })),
+  selectedElement: 0,
+  setSelected: (e) => set(() => ({ selectedElement: e })),
+  paused: false,
+  setPaused: (e) => set(() => ({ paused: e })),
+
+  size: 3,
   setSize: (e) => set(() => ({ size: e })),
+  worldScale: 1 / 2,
   setWorldScale: (e) => set(() => ({ worldScale: e })),
+  worldWidth: 150,
+  worldHeight: 150,
+  worldCellCount: 150 * 150,
   setWorldSize: (e) => {
     const [worldWidth, worldHeight] = e;
     const worldCellCount = worldWidth * worldWidth;
     set({ worldWidth, worldHeight, worldCellCount });
   },
-  setPaused: (e) => set(() => ({ paused: e })),
-  setSelected: (e) => set(() => ({ selectedElement: e })),
+
+  updateScheme: "RANDOM_CYCLIC",
   setUpdateScheme: (e) => set(() => ({ updateScheme: e })),
+  taggedMode: false,
   setTaggedMode: (e) => set(() => ({ taggedMode: e })),
+
+  // ELEMENTS - EDITOR+PLAYGROUND
   xmls: [],
   disabled: [],
   elements: ["Air", "Wall", "Water", "Sand"],
@@ -69,7 +66,6 @@ let useStore = create((set, get) => ({
 
       return { disabled, selectedElement };
     }),
-
   newElement: () =>
     set(() => {
       let { disabled, selectedElement, elements, xmls, setXmls } = get();
@@ -88,7 +84,6 @@ let useStore = create((set, get) => ({
       setXmls(xmls);
       return { disabled, selectedElement };
     }),
-
   setXmls: (xmls) =>
     set(() => {
       xmls = xmls.filter((xml) => xml !== null);
@@ -97,7 +92,6 @@ let useStore = create((set, get) => ({
       let elements = xmls.map((x) => deriveName(x));
       return { xmls, colors, color2s, elements };
     }),
-
   setXml: (x, i) =>
     set(() => {
       let { colors, color2s, xmls, elements } = get();
@@ -118,7 +112,6 @@ let useStore = create((set, get) => ({
 
       return { xmls, colors, color2s, elements };
     }),
-
   setElementName: (i, name) =>
     set(() => {
       let { elements } = get();
@@ -130,6 +123,7 @@ let useStore = create((set, get) => ({
     }),
 }));
 
+// Cached separately for performance reasons
 const globalState = {
   updaters: [],
   workspace: undefined,
@@ -137,23 +131,6 @@ const globalState = {
   worldWidth: 150,
   worldHeight: 150,
 };
-
-function deriveColor(xmlString, b = "") {
-  let pattern = `<field name="COLOR${b}">`;
-  let pl = pattern.length;
-  let location = xmlString.indexOf(pattern);
-  let colorString = xmlString.slice(location + pl, location + pl + 7);
-  let color = tinycolor2(colorString).toHsl();
-  return [color.h / 360, color.s, color.l];
-}
-function deriveName(xmlString) {
-  const r = /<field name="ELEMENT_NAME">(.*?)<\/field>/;
-  const match = r.exec(xmlString);
-  if (!match) {
-    return "?";
-  }
-  return match[1];
-}
 
 if (typeof window !== "undefined") {
   window.globalState = globalState;

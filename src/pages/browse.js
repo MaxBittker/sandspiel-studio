@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useInView } from "react-intersection-observer";
 
@@ -21,6 +21,7 @@ import axios from "axios";
 import CreateReactAppEntryPoint from "../App";
 import BrowsePostLink from "./browsePostLink";
 import Spinner from "./spinner";
+import useStore from "../store.js";
 
 const placeholder = {
   id: 1,
@@ -111,7 +112,7 @@ function Browse() {
       <div className="browse family">
         {/* <ReactQueryDevtools initialIsOpen /> */}
 
-        <Link href={`/editor`}>Open Editor</Link>
+        {/*<button onClick={(e) => {}}>Open Editor</button>*/}
 
         {/* <div style={{ float: "right" }}>
           <Home />
@@ -234,59 +235,8 @@ function Browse() {
         <div>
           {isFetching && !isFetchingNextPage ? "Background Updating..." : null}
         </div>
-        {/* {dataWithPlaceholder?.length == 0 && (
-          <div style={{ width: 750 }}>No posts found</div>
-        )} */}
       </div>
       <CreateReactAppEntryPoint playMode />
-      <style jsx>{`
-        .browse-page {
-          display: flex;
-          height: 100vh;
-          width: 100%;
-          max-width: 100vw;
-          justify-content: center;
-          overflow-x: hidden;
-        }
-
-        .browse {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          margin: 10px;
-          /* max-width: 90vw; */
-          height: 100%;
-          overflow: scroll;
-        }
-
-        @media only screen and (max-width: 700px) {
-          .browse-page {
-            flex-direction: column-reverse;
-            height: auto;
-          }
-
-          .browse {
-            height: 85vh;
-          }
-        }
-
-        .browse.family {
-          margin: 0;
-          /* min-width: 765px; */
-        }
-
-        @media only screen and (max-width: 500px) {
-          .family {
-            margin: 0;
-          }
-        }
-
-        .filterControls {
-          display: flex;
-          padding: 5px;
-        }
-      `}</style>
-      `
     </div>
   );
 }
