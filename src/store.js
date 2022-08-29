@@ -1,5 +1,5 @@
 import create from "zustand";
-import { starterXMLs, generatePlaceholder } from "./blocks/starterblocks";
+import starterXMLs, { generatePlaceholder } from "./blocks/starterblocks";
 import { deriveColor, deriveName } from "./blocks/generator";
 let bufferXMLs = starterXMLs;
 
