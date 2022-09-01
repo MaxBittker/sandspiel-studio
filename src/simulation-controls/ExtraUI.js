@@ -59,7 +59,7 @@ const ExtraUI = () => {
   let a = sands[index + 3];
 
   let mobile = false;
-  if (window.innerWidth < 700) {
+  if (window.innerWidth <= 700) {
     mobile = true;
   }
 

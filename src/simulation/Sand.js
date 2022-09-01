@@ -34,7 +34,7 @@ const Sand = () => {
   const resize = () => {
     starterWidth = Math.min(window.innerWidth / 2.5, window.innerHeight * 0.6);
     mobile = false;
-    if (window.innerWidth < 700) {
+    if (window.innerWidth <= 700) {
       starterWidth = window.innerWidth - 6;
       mobile = true;
     }
