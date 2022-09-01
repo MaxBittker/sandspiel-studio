@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import * as timeago from "timeago.js";
 
 import "react-dropdown/style.css";
-import { useQueryParams, StringParam, BooleanParam } from "next-query-params";
+import { useQueryParams, StringParam, BooleanParam, withDefault } from "next-query-params";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 
@@ -50,6 +50,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
     codeHash: StringParam,
     userId: StringParam,
     featured: BooleanParam,
+    admin: withDefault(BooleanParam, true),
   });
 
   let metadata = post.metadata;
@@ -106,6 +107,8 @@ export const BrowsePostLink = ({ post: initPost }) => {
             selectedElement={-1}
           ></ElementButtons>
         </button>*/}
+        
+        {displayTime}, {post.views} plays
 
         <div className="title-container">
           <div className="title">{post.title}</div>
@@ -137,7 +140,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
             {post.featuredAt ? "🏆FEATURED" : ""}
           </span>
           <br></br>
-          {session?.role === "admin" && (
+          {session?.role === "admin" && query.admin && (
             <div>
               Admin:&nbsp;
               <button
@@ -172,8 +175,6 @@ export const BrowsePostLink = ({ post: initPost }) => {
               </button>
             </div>
           )}
-          <br></br>
-          {displayTime}, {post.views} plays
           {/* <br></br> */}
           {/* Element Set:{"\t\t"} */}
           {"\t\t"}
