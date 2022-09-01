@@ -24,8 +24,14 @@
 // More on generating code:
 // https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
 
+import tinycolor2 from "tinycolor2";
 import { getEnvelopeEndpointWithUrlEncodedAuth } from "@sentry/core";
 import * as Blockly from "blockly/core";
+import { Xml } from "blockly/core";
+import BlocklyJS from "blockly/javascript";
+import useStore, { globalState } from "../store";
+import prettier from "prettier";
+import parserBabel from "prettier/parser-babel";
 import "blockly/javascript";
 
 const getTypeOfCheck = (check) => {
@@ -711,3 +717,50 @@ Blockly.JavaScript["after"] = function (block) {
   const code = `this.callAfterFrame(() => {\n${statement}\n});`;
   return code;
 };
+
+export function deriveColor(xmlString, b = "") {
+  let pattern = `<field name="COLOR${b}">`;
+  let pl = pattern.length;
+  let location = xmlString.indexOf(pattern);
+  let colorString = xmlString.slice(location + pl, location + pl + 7);
+  let color = tinycolor2(colorString).toHsl();
+  return [color.h / 360, color.s, color.l];
+}
+
+export function deriveName(xmlString) {
+  const r = /<field name="ELEMENT_NAME">(.*?)<\/field>/;
+  const match = r.exec(xmlString);
+  if (!match) {
+    return "?";
+  }
+  return match[1];
+}
+
+export function generateCode(element, ws) {
+  let baseBlock = undefined;
+  for (let i = 0; i < ws.topBlocks_.length; i++) {
+    const block = ws.topBlocks_[i];
+    if (block.type == "sand_behavior_base") {
+      baseBlock = block;
+      break;
+    }
+  }
+  try {
+    let code = BlocklyJS.blockToCode(baseBlock);
+
+    code = prettier.format(code, {
+      parser: "babel",
+      plugins: [parserBabel],
+    });
+    // console.log(element + "\n" + code);
+    let xml = Xml.workspaceToDom(ws);
+    let xmlText = Xml.domToPrettyText(xml);
+    // eslint-disable-next-line no-new-func
+    let fn = Function(code);
+    useStore.getState().setXml(xmlText, element);
+    globalState.updaters[element] = fn.bind(globalState);
+  } catch (e) {
+    console.error(e);
+    return;
+  }
+}

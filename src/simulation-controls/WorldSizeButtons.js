@@ -1,5 +1,10 @@
 import React from "react";
-import { seedNewWorldSize, width, height, seedWithBorder } from "../simulation/SandApi.js";
+import {
+  seedNewWorldSize,
+  width,
+  height,
+  seedWithBorder,
+} from "../simulation/SandApi.js";
 let worldScaleMap = [1 / 4, 1 / 2, 1];
 import { globalState, useStore } from "../store";
 

@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import * as timeago from "timeago.js";
 
 import "react-dropdown/style.css";
-import { useQueryParams, StringParam, BooleanParam } from "next-query-params";
+import {
+  useQueryParams,
+  StringParam,
+  BooleanParam,
+  withDefault,
+} from "next-query-params";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 
@@ -50,6 +55,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
     codeHash: StringParam,
     userId: StringParam,
     featured: BooleanParam,
+    admin: withDefault(BooleanParam, true),
   });
 
   let metadata = post.metadata;
@@ -90,14 +96,13 @@ export const BrowsePostLink = ({ post: initPost }) => {
       </a>
 
       <div className="browse-info">
-        <button
+        {/*<button
           className="element-set-button"
           onClick={(e) => {
             e.preventDefault();
             setQuery({ codeHash: post.codeHash, userId: undefined });
           }}
         >
-          {/* {post.codeHash.slice(0, 6)} */}
           <ElementButtons
             elements={metadata.elements}
             disabled={metadata.disabled}
@@ -106,15 +111,40 @@ export const BrowsePostLink = ({ post: initPost }) => {
             inert={true}
             selectedElement={-1}
           ></ElementButtons>
-        </button>
+        </button>*/}
 
         <div className="title-container">
+          {post?.user?.image ? (
+            <img
+              className="pfp"
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({
+                  codeHash: undefined,
+                  userId: post.user.id,
+                  featured: false,
+                });
+              }}
+              src={post?.user?.image}
+            ></img>
+          ) : (
+            <>
+              Author:{"\t\t"}
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setQuery({ codeHash: undefined, userId: post.user.id });
+                }}
+              >
+                {post?.user?.name ?? post?.user?.id.slice(0, 6)}
+              </button>
+            </>
+          )}
           <div className="title">{post.title}</div>
         </div>
 
         <div style={{ textAlign: "justify" }}>
-          <button onClick={handleEdit}> Edit Code</button>
-          <br></br>
+          {/*<button onClick={handleEdit}> Edit Code</button>*/}
           <button
             onClick={() => {
               setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
@@ -138,7 +168,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
             {post.featuredAt ? "🏆FEATURED" : ""}
           </span>
           <br></br>
-          {session?.role === "admin" && (
+          {session?.role === "admin" && query.admin && (
             <div>
               Admin:&nbsp;
               <button
@@ -173,89 +203,48 @@ export const BrowsePostLink = ({ post: initPost }) => {
               </button>
             </div>
           )}
-          <br></br>
-          {displayTime}, {post.views} plays
           {/* <br></br> */}
           {/* Element Set:{"\t\t"} */}
-          {"\t\t"}
           {/* <br></br> */}
-          {post?.user?.image ? (
-            <img
-              className="pfp"
-              onClick={(e) => {
-                e.preventDefault();
-                setQuery({
-                  codeHash: undefined,
-                  userId: post.user.id,
-                  featured: false,
-                });
+          {session && post?.user?.id == session.userId && (
+            <button
+              onClick={() => {
+                fetch("/api/updateProfile/", {
+                  method: "post",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    postId: post.id,
+                  }),
+                })
+                  .then(function (response) {
+                    return response.json();
+                  })
+                  .then(function (post) {
+                    console.log(post);
+
+                    useStore.setState({
+                      post,
+                    });
+                  });
               }}
-              src={post?.user?.image}
-            ></img>
-          ) : (
-            <>
-              Author:{"\t\t"}
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setQuery({ codeHash: undefined, userId: post.user.id });
-                }}
-              >
-                {post?.user?.name ?? post?.user?.id.slice(0, 6)}
-              </button>
-            </>
+            >
+              Set this post as my avatar
+            </button>
           )}
+          {
+            <div className="browse-post-metadata-row">
+              <div>{post.views} plays</div>
+              {/*<div className="featured-flag">
+                {post.featuredAt ? "🏆FEATURED" : ""}
+              </div>*/}
+
+              <div style={{ textAlign: "right" }}>{displayTime}</div>
+            </div>
+          }
         </div>
       </div>
-
-      <style jsx>
-        {`
-          .post {
-            background-color: rgba(250, 247, 247, 0.723);
-            padding: 5px;
-            margin-bottom: 6px;
-            position: relative;
-          }
-          .selected {
-            box-shadow: 0 0 0 4px black inset;
-            background-color: rgba(250, 247, 247, 1);
-          }
-
-          .post.placeholder {
-            filter: grayscale(100%) contrast(0.5);
-          }
-          .postThumbnail {
-            width: 300px;
-            height: 300px;
-            margin-right: 3px;
-            max-width: calc(50vw - 6px - 10px);
-            max-height: calc(50vw - 6px - 10px);
-          }
-          .postThumbnail img {
-            width: 100%;
-            height: 100%;
-          }
-          .browse-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding-bottom: 2px;
-            width: 400px;
-            max-width: calc(50vw - 5px);
-          }
-          .element-set-button {
-            flex-grow: 0;
-            height: auto;
-            text-align: start;
-            padding: 0px;
-          }
-          .post .pfp {
-            position: absolute;
-            right: 0;
-            bottom: 2px;
-          }
-        `}
-      </style>
     </div>
   );
 };

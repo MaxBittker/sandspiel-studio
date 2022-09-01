@@ -1,0 +1,50 @@
+.browse-page {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+/* Placeholder */
+button.editor-toggle {
+  background-color: #a192ff;
+}
+
+.browse {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 10px;
+  /* max-width: 90vw; */
+  height: 100%;
+  overflow: scroll;
+}
+
+@media only screen and (max-width: 700px) {
+  .browse-page {
+    flex-direction: column-reverse;
+    height: auto;
+  }
+
+  .browse {
+    height: 85vh;
+  }
+}
+
+.browse.family {
+  margin: 0;
+  /* min-width: 765px; */
+}
+
+@media only screen and (max-width: 500px) {
+  .family {
+    margin: 0;
+  }
+}
+
+.filterControls {
+  display: flex;
+  padding-top: 5px;
+}
