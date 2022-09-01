@@ -3,7 +3,7 @@ import starterXMLs, { generatePlaceholder } from "./blocks/starterblocks";
 import { deriveColor, deriveName } from "./blocks/generator";
 let bufferXMLs = starterXMLs;
 
-export const MAX_ELEMENTS = 9;
+export const MAX_ELEMENTS = 15;
 
 let useStore = create((set, get) => ({
   // BROWSE
