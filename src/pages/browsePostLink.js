@@ -205,9 +205,34 @@ export const BrowsePostLink = ({ post: initPost }) => {
           )}
           {/* <br></br> */}
           {/* Element Set:{"\t\t"} */}
-          {"\t\t"}
           {/* <br></br> */}
+          {session && post?.user?.id == session.userId && (
+            <button
+              onClick={() => {
+                fetch("/api/updateProfile/", {
+                  method: "post",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    postId: post.id,
+                  }),
+                })
+                  .then(function (response) {
+                    return response.json();
+                  })
+                  .then(function (post) {
+                    console.log(post);
 
+                    useStore.setState({
+                      post,
+                    });
+                  });
+              }}
+            >
+              Set this post as my avatar
+            </button>
+          )}
           {
             <div className="browse-post-metadata-row">
               <div>{post.views} plays</div>
