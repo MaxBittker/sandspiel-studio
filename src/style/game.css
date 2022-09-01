@@ -49,17 +49,6 @@ button {
   width: auto;
 }
 
-button.selected {
-  border-color: black;
-  background: black;
-  color: white;
-  /* border-radius: 6px; */
-  text-shadow: 1px 0px rgba(0, 0, 0, 0.5), -1px 0px rgba(0, 0, 0, 0.5),
-    0px 1px rgba(0, 0, 0, 0.5), 0px -1px rgba(0, 0, 0, 0.5);
-}
-button:hover {
-  filter: brightness(0.9);
-}
 .element-tray {
   display: flex;
   flex-wrap: wrap;
@@ -140,13 +129,20 @@ summary {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 10px;
 
-  overflow-y: auto;
   text-align: center;
 }
 
+@media only screen and (max-width: 700px) {
+  .family .title-container {
+    font-size: 20px;
+  }
+}
+
 .family .title {
-  max-height: 100%;
+  overflow-y: scroll;
+  max-height: 180px;
 }
 
 .family .info {
@@ -155,9 +151,6 @@ summary {
 }
 .postThumbnail {
   position: relative;
-}
-.post {
-  display: flex;
 }
 .family {
   margin-top: 1.5em;
@@ -176,4 +169,84 @@ summary {
 
 .featured-flag {
   margin-left: 5px;
+}
+
+.play-count {
+  margin-left: 5px;
+}
+
+.browse-post-metadata-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1px;
+}
+
+.post {
+  background-color: rgba(250, 247, 247, 0.723);
+  padding: 5px;
+  margin-bottom: 6px;
+  position: relative;
+  display: flex;
+}
+
+.selected {
+  box-shadow: 0 0 0 1px black inset;
+  background-color: rgba(250, 247, 247, 1);
+}
+
+.post.placeholder {
+  filter: grayscale(100%) contrast(0.5);
+}
+
+.postThumbnail {
+  margin-right: 3px;
+}
+
+.postThumbnail img {
+  width: 300px;
+  height: 300px;
+
+  max-width: calc(20vw - 6px - 10px);
+  max-height: calc(20vw - 6px - 10px);
+  min-width: 100px;
+  min-height: 100px;
+
+  /*width: 100%;
+  height: 100%;*/
+}
+
+.browse-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 2px;
+  max-width: 400px;
+  /*max-width: calc(50vw - 5px);*/
+}
+
+.element-set-button {
+  flex-grow: 0;
+  height: auto;
+  text-align: start;
+  padding: 0px;
+}
+
+.pfp {
+  border-radius: 100%;
+  width: 50px !important;
+  cursor: pointer;
+}
+
+button.selected {
+  border-color: black;
+  background: black;
+  color: white;
+  /* border-radius: 6px; */
+  text-shadow: 1px 0px rgba(0, 0, 0, 0.5), -1px 0px rgba(0, 0, 0, 0.5),
+    0px 1px rgba(0, 0, 0, 0.5), 0px -1px rgba(0, 0, 0, 0.5);
+}
+button:hover {
+  filter: brightness(0.9);
 }

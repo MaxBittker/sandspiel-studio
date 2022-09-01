@@ -87,8 +87,3 @@ label {
   color: darkslateblue;
   pointer-events: none;
 }
-
-.pfp {
-  border-radius: 100%;
-  width: 50px !important;
-}

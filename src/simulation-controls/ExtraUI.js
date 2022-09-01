@@ -59,7 +59,7 @@ const ExtraUI = () => {
   let a = sands[index + 3];
 
   let mobile = false;
-  if (window.innerWidth < 900) {
+  if (window.innerWidth < 700) {
     mobile = true;
   }
 
@@ -217,7 +217,7 @@ const ExtraUI = () => {
         <button
           className="editor-toggle"
           onClick={(e) => {
-            setQuery({ edit: playMode? 1 : undefined });
+            setQuery({ edit: playMode ? 1 : undefined });
           }}
         >
           {playMode ? "Open Editor ➡" : "⬅ Close Editor"}

@@ -28,15 +28,19 @@ const Sand = () => {
     edit: withDefault(BooleanParam, false),
   });
   const playMode = !query.edit;
-  let starterWidth = Math.min(
-    window.innerWidth / 2.5,
-    window.innerHeight * 0.6
-  );
+
+  let starterWidth = 700;
   let mobile = false;
-  if (window.innerWidth < 900) {
-    starterWidth = window.innerWidth - 6;
-    mobile = true;
-  }
+  const resize = () => {
+    starterWidth = Math.min(window.innerWidth / 2.5, window.innerHeight * 0.6);
+    mobile = false;
+    if (window.innerWidth < 700) {
+      starterWidth = window.innerWidth - 6;
+      mobile = true;
+    }
+  };
+  resize();
+
   const selectedElement = useStore((state) => state.selectedElement);
   const updateScheme = useStore((state) => state.updateScheme);
   const taggedMode = useStore((state) => state.taggedMode);
@@ -105,7 +109,17 @@ const Sand = () => {
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
     };
-  }, [isDragging, mouseMove, mouseUp]);
+  }, [isDragging]);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      resize();
+      setWidth(starterWidth);
+    });
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  });
 
   let mouseMoveCanvas = useCallback(
     (e, force = false) => {
@@ -147,7 +161,7 @@ const Sand = () => {
   );
 
   return (
-    <div id="world" style={{ width: playMode? starterWidth : drawerWidth }}>
+    <div id="world" style={{ width: playMode ? starterWidth : drawerWidth }}>
       <div
         className="resizeHandle"
         style={{
