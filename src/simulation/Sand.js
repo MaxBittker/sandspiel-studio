@@ -147,7 +147,7 @@ const Sand = () => {
   );
 
   return (
-    <div id="world" style={{ width: drawerWidth }}>
+    <div id="world" style={{ width: playMode? starterWidth : drawerWidth }}>
       <div
         className="resizeHandle"
         style={{
