@@ -1,3 +1,3 @@
-import CreateReactAppEntryPoint from "../../App";
+import Browse from "../browse.js";
 
-export default CreateReactAppEntryPoint;
+export default Browse;
