@@ -9,6 +9,6 @@ function Post() {
     href += `&edit=${router.query.edit}`;
   }
   router.push(href);
-  return <Browse />;
+  return Browse();
 }
 export default Post;
