@@ -13,7 +13,12 @@ import { generateCode } from "./blocks/generator";
 // import * as Sentry from "@sentry/browser";
 // import { BrowserTracing } from "@sentry/tracing";
 import { useRouter } from "next/router";
-import { useQueryParams, withDefault, BooleanParam } from "next-query-params";
+import {
+  useQueryParams,
+  withDefault,
+  BooleanParam,
+  NumberParam,
+} from "next-query-params";
 
 // if (typeof window !== "undefined") {
 //   if (!window?.location?.host?.includes("localhost")) {
@@ -28,7 +33,11 @@ import { useQueryParams, withDefault, BooleanParam } from "next-query-params";
 const App = () => {
   const [query, setQuery] = useQueryParams({
     edit: withDefault(BooleanParam, false),
+    id: NumberParam,
   });
+  if (query.id !== undefined) {
+    useStore.setState({ postId: query.id });
+  }
   const playMode = !query.edit;
   let simpleWorkspace = useRef();
   const router = useRouter();
