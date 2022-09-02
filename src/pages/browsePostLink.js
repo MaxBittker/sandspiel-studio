@@ -9,6 +9,7 @@ import {
   StringParam,
   BooleanParam,
   withDefault,
+  NumberParam,
 } from "next-query-params";
 import { useRouter } from "next/router";
 import classNames from "classnames";
@@ -39,7 +40,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
     isStarred = isStarredOverride;
   }
 
-  const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
+  const href = `${window.location.protocol}//${window.location.host}/?id=${post.id}`;
   const handleClick = (e) => {
     useStore.setState({
       postId: post.id,
@@ -56,6 +57,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
     userId: StringParam,
     featured: BooleanParam,
     admin: withDefault(BooleanParam, true),
+    id: NumberParam,
   });
 
   let metadata = post.metadata;
@@ -123,6 +125,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
                   codeHash: undefined,
                   userId: post.user.id,
                   featured: false,
+                  id: undefined,
                 });
               }}
               src={post?.user?.image}
@@ -133,7 +136,12 @@ export const BrowsePostLink = ({ post: initPost }) => {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  setQuery({ codeHash: undefined, userId: post.user.id });
+                  setQuery({
+                    codeHash: undefined,
+                    userId: post.user.id,
+                    featured: false,
+                    id: undefined,
+                  });
                 }}
               >
                 {post?.user?.name ?? post?.user?.id.slice(0, 6)}

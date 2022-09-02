@@ -14,6 +14,7 @@ import {
   StringParam,
   withDefault,
   BooleanParam,
+  NumberParam,
 } from "next-query-params";
 import { useRouter } from "next/router";
 // import { useSession, signIn, signOut } from "next-auth/react";
@@ -63,6 +64,7 @@ function Browse() {
     days: StringParam,
     featured: withDefault(BooleanParam, true),
     edit: withDefault(BooleanParam, false),
+    id: NumberParam,
   });
 
   const playMode = !query.edit;
@@ -133,7 +135,11 @@ function Browse() {
 
           <span className="filterControls">
             <button
-              className={query.featured === true ? "selected" : ""}
+              className={
+                query.featured === true && query.id === undefined
+                  ? "selected"
+                  : ""
+              }
               onClick={(e) => {
                 e.preventDefault();
                 setQuery({
@@ -141,6 +147,7 @@ function Browse() {
                   userId: undefined,
                   starredBy: undefined,
                   featured: undefined,
+                  id: undefined,
                 });
               }}
             >
@@ -158,6 +165,7 @@ function Browse() {
                       userId: session.userId,
                       starredBy: undefined,
                       featured: false,
+                      id: undefined,
                     });
                   }}
                 >
@@ -175,6 +183,7 @@ function Browse() {
                       userId: undefined,
                       featured: false,
                       starredBy: session.userId,
+                      id: undefined,
                     });
                   }}
                 >
@@ -197,6 +206,7 @@ function Browse() {
                   userId: undefined,
                   starredBy: undefined,
                   featured: false,
+                  id: undefined,
                 });
               }}
             >
@@ -206,18 +216,20 @@ function Browse() {
           </span>
 
           <span className="filterControls">
-            <Dropdown
-              options={options}
-              onChange={(e) => {
-                if (e.value === "top") {
-                  setQuery({ order: e.value, days: "365" });
-                } else {
-                  setQuery({ order: e.value, days: undefined });
-                }
-              }}
-              value={query.order}
-            />
-            {query.order === "top" && (
+            {query.id === undefined && (
+              <Dropdown
+                options={options}
+                onChange={(e) => {
+                  if (e.value === "top") {
+                    setQuery({ order: e.value, days: "365" });
+                  } else {
+                    setQuery({ order: e.value, days: undefined });
+                  }
+                }}
+                value={query.order}
+              />
+            )}
+            {query.id === undefined && query.order === "top" && (
               <Dropdown
                 options={optionsTime}
                 onChange={(e) => setQuery({ days: e.value })}
@@ -235,24 +247,26 @@ function Browse() {
               })}
             </React.Fragment>
           ))}
-          <div>
-            <button
-              ref={ref}
-              onClick={() => fetchNextPage()}
-              disabled={!hasNextPage || isFetchingNextPage}
-            >
-              {isFetchingNextPage
-                ? "Loading more..."
-                : hasNextPage
-                ? "Load Newer"
-                : "Nothing more to load"}
-            </button>
-          </div>
-          <div>
+          {query.id === undefined && (
+            <div>
+              <button
+                ref={ref}
+                onClick={() => fetchNextPage()}
+                disabled={!hasNextPage || isFetchingNextPage}
+              >
+                {isFetchingNextPage
+                  ? "Loading more..."
+                  : hasNextPage
+                  ? "Load Newer"
+                  : "Nothing more to load"}
+              </button>
+            </div>
+          )}
+          {/*<div>
             {isFetching && !isFetchingNextPage
               ? "Background Updating..."
               : null}
-          </div>
+          </div>*/}
         </div>
       }
       <CreateReactAppEntryPoint />

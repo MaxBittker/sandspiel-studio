@@ -7,8 +7,10 @@ import authOptions from "./auth/options";
 import { prisma } from "../../db/prisma";
 
 async function handler(request: NextApiRequest, response: NextApiResponse) {
-  const { order, codeHash, userId, days, starredBy, featured, skip, take } =
+  const { order, codeHash, userId, days, starredBy, featured, skip, take, id } =
     request.query;
+
+  const idInt = parseInt(id as string);
 
   const session = await getServerSession(
     { req: request, res: response },
@@ -50,6 +52,11 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
   if (userId) {
     where = {
       userId,
+    };
+  }
+  if (!isNaN(idInt)) {
+    where = {
+      id: idInt,
     };
   }
   if (starredBy) {

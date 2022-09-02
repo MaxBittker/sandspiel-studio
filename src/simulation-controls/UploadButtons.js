@@ -3,6 +3,14 @@ import { encode } from "fast-png";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
+import {
+  useQueryParams,
+  StringParam,
+  withDefault,
+  BooleanParam,
+  NumberParam,
+} from "next-query-params";
+
 import { width, height, sands, reset } from "../simulation/SandApi";
 import { snapshot, exportGif } from "../simulation/Render";
 import { useStore } from "../store";
@@ -29,6 +37,17 @@ function dataURItoBlob(dataURI) {
 }
 
 const UploadButtons = () => {
+  const [query, setQuery] = useQueryParams({
+    codeHash: StringParam,
+    userId: StringParam,
+    starredBy: StringParam,
+    order: withDefault(StringParam, "new"),
+    days: StringParam,
+    featured: withDefault(BooleanParam, true),
+    edit: withDefault(BooleanParam, false),
+    id: NumberParam,
+  });
+
   const { data: session } = useSession();
 
   // let [id, setId] = useState(null);
@@ -141,7 +160,7 @@ const UploadButtons = () => {
       })
       .then(function (post) {
         //console.log(post);
-        window.history.pushState({}, "sand blocks", "/post/" + post.id);
+        window.history.pushState({}, "sand blocks", "/?id=" + post.id);
         // setId(post.id);
 
         useStore.setState({
@@ -159,6 +178,14 @@ const UploadButtons = () => {
         navigator.clipboard.write(data).then(
           function () {
             setSharedState(postPublic ? " ✓ posted" : " ✓ saved");
+            setQuery({
+              codeHash: undefined,
+              userId: undefined,
+              starredBy: undefined,
+              featured: undefined,
+              edit: undefined,
+              id: post.id,
+            });
           },
           function (e) {
             console.error(e);
