@@ -174,7 +174,8 @@ const ExtraUI = () => {
             {(isStarred ? "★: " : "☆: ") + stars}
           </button>
         )*/}
-        {/*post ? (
+        <br></br>
+        {post ? (
           <button
             className="simulation-button"
             onClick={() => {
@@ -185,7 +186,7 @@ const ExtraUI = () => {
           </button>
         ) : (
           ""
-        )*/}
+        )}
         {/*session && post?.user?.id == session.userId && (
           <button
             onClick={() => {
