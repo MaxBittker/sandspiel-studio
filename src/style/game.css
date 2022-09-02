@@ -21,6 +21,12 @@ button {
   z-index: 1;
   width: fit-content;
 }
+.play-pause-button {
+  min-width: 80px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
 .element-tray button.element-control {
   min-width: 30px;
   width: 30px;
@@ -69,14 +75,15 @@ button {
   right: 5px;
   bottom: 60px;
 }
-.first-row {
+.controls-row {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
 }
-.first-row span {
+.controls-row span {
   display: flex;
 }
-.first-row * {
+.controls-row * {
   flex-grow: 0;
 }
 

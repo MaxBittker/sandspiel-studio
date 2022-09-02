@@ -79,7 +79,7 @@ const ExtraUI = () => {
 
   return (
     <div className="extras-tray">
-      <div className="first-row">
+      <div className="controls-row">
         <div>
           <PlayPause />
           {paused && (
@@ -93,28 +93,18 @@ const ExtraUI = () => {
             </button>
           )}
 
-          <div>
+          {post ? (
             <button
               className="simulation-button"
               onClick={() => {
-                popUndo();
+                reset();
               }}
             >
-              Undo
+              Restart
             </button>
-          </div>
-
-          <div>
-            <button
-              className="simulation-button"
-              onClick={() => {
-                seed();
-                addBorder();
-              }}
-            >
-              Clear
-            </button>
-          </div>
+          ) : (
+            ""
+          )}
         </div>
         {!mobile && (
           <pre style={{ width: 120, height: "1em" }}>
@@ -131,8 +121,32 @@ const ExtraUI = () => {
         >
           <SizeButtons />
           <pre style={{ marginTop: "30px" }}>World Size</pre>
-          <WorldSizeButtons />
         </div>
+      </div>
+
+      <div className="controls-row">
+        <button
+          className="simulation-button"
+          onClick={() => {
+            popUndo();
+          }}
+        >
+          Undo
+        </button>
+
+        <WorldSizeButtons />
+      </div>
+
+      <div>
+        <button
+          className="simulation-button"
+          onClick={() => {
+            seed();
+            addBorder();
+          }}
+        >
+          Clear
+        </button>
       </div>
 
       {/* <button
@@ -174,19 +188,6 @@ const ExtraUI = () => {
             {(isStarred ? "★: " : "☆: ") + stars}
           </button>
         )*/}
-        <br></br>
-        {post ? (
-          <button
-            className="simulation-button"
-            onClick={() => {
-              reset();
-            }}
-          >
-            Reload world
-          </button>
-        ) : (
-          ""
-        )}
         {/*session && post?.user?.id == session.userId && (
           <button
             onClick={() => {
