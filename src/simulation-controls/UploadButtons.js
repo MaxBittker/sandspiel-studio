@@ -160,38 +160,52 @@ const UploadButtons = () => {
       })
       .then(function (post) {
         //console.log(post);
-        window.history.pushState({}, "sand blocks", "/?id=" + post.id);
+        //window.history.pushState({}, "sand blocks", "/?id=" + post.id);
         // setId(post.id);
 
         useStore.setState({
           post,
         });
 
-        var data = [
-          // eslint-disable-next-line no-undef
-          new ClipboardItem({
-            "text/plain": new Blob([window.location.href], {
-              type: "text/plain",
+        try {
+          var data = [
+            // eslint-disable-next-line no-undef
+            new ClipboardItem({
+              "text/plain": new Blob([window.location.href], {
+                type: "text/plain",
+              }),
             }),
-          }),
-        ];
-        navigator.clipboard.write(data).then(
-          function () {
-            setSharedState(postPublic ? " ✓ posted" : " ✓ saved");
-            setQuery({
-              codeHash: undefined,
-              userId: undefined,
-              starredBy: undefined,
-              featured: undefined,
-              edit: undefined,
-              id: post.id,
-            });
-          },
-          function (e) {
-            console.error(e);
-            setSharedState("... error");
-          }
-        );
+          ];
+          navigator.clipboard.write(data).then(
+            function () {
+              setSharedState(postPublic ? " ✓ posted" : " ✓ saved");
+              setQuery({
+                codeHash: undefined,
+                userId: undefined,
+                starredBy: undefined,
+                featured: undefined,
+                edit: undefined,
+                id: post.id,
+              });
+            },
+            function (e) {
+              console.error(e);
+              setSharedState("... error");
+            }
+          );
+        } catch (e) {
+          // Avoided a crash in Firefox
+          // TODO: fix this
+          setSharedState(postPublic ? " ✓ posted" : " ✓ saved");
+          setQuery({
+            codeHash: undefined,
+            userId: undefined,
+            starredBy: undefined,
+            featured: undefined,
+            edit: undefined,
+            id: post.id,
+          });
+        }
       })
       .finally(() => {
         window.setTimeout(() => {
