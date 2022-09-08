@@ -14,8 +14,8 @@ let useStore = create((set, get) => ({
   post: null,
   initialSandsData: undefined,
   initialSelected: 3,
-  initialWorldSize: 150,
-  initialWorldScale: 1 / 2,
+  initialWorldSize: 75,
+  initialWorldScale: 1 / 4,
   initialPaused: false,
 
   // PLAYGROUND
@@ -28,11 +28,11 @@ let useStore = create((set, get) => ({
 
   size: 3,
   setSize: (e) => set(() => ({ size: e })),
-  worldScale: 1 / 2,
+  worldScale: 1 / 4,
   setWorldScale: (e) => set(() => ({ worldScale: e })),
-  worldWidth: 150,
-  worldHeight: 150,
-  worldCellCount: 150 * 150,
+  worldWidth: 75,
+  worldHeight: 75,
+  worldCellCount: 75 * 75,
   setWorldSize: (e) => {
     const [worldWidth, worldHeight] = e;
     const worldCellCount = worldWidth * worldWidth;
@@ -128,8 +128,8 @@ const globalState = {
   updaters: [],
   workspace: undefined,
   wraparoundEnabled: true,
-  worldWidth: 150,
-  worldHeight: 150,
+  worldWidth: 75,
+  worldHeight: 75,
 };
 
 if (typeof window !== "undefined") {
