@@ -73,7 +73,7 @@ let useStore = create((set, get) => ({
       if (xmls.length >= MAX_ELEMENTS && disabled.length == 0) return;
 
       for (var i = 0; i < 16; i++) {
-        if (disabled[i]) {
+        if (!elements[i] || disabled[i]) {
           disabled[i] = false;
           xmls[i] = xmls[i] ?? bufferXMLs[i] ?? generatePlaceholder(i);
           selectedElement = i;
