@@ -1,6 +1,6 @@
 import { decode } from "fast-png";
 import starterXMLs from "./blocks/starterblocks";
-import { globalState, useStore } from "./store";
+import { globalState, MAX_ELEMENTS, useStore } from "./store";
 import { width, height, sands, randomData } from "./simulation/SandApi";
 import { worldScaleMap } from "./simulation-controls/WorldSizeButtons.js";
 import * as Sentry from "@sentry/nextjs";
@@ -11,8 +11,19 @@ const imageURLBase =
 export async function loadPostFromServer(postId, retrys = 0) {
   let id = postId;
 
+  // Only load the starter elements if no post is getting loaded
   if (isNaN(parseInt(id, 10)) || id.length < 1) {
-    useStore.getState().setXmls(starterXMLs.slice(0, 4).map((v, i) => v));
+    useStore.getState().setXmls(starterXMLs);
+
+    const disabled = [];
+    for (let i = 0; i < 4; i++) {
+      disabled[i] = false;
+    }
+
+    for (let i = 4; i < MAX_ELEMENTS; i++) {
+      disabled[i] = true;
+    }
+    useStore.setState({ disabled });
     return;
   }
 

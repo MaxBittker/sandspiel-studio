@@ -136,7 +136,8 @@ Blockly.Blocks["element_literal"] = {
           return;
         }
       }
-      this.selectedOption_ = ["???", newValue.toString()];
+      const { elements } = useStore.getState();
+      this.selectedOption_ = [elements[parseInt(newValue)], newValue];
     };
     Blockly.FieldDropdown.prototype.doClassValidation_ = laxValidator;
     Blockly.FieldDropdown.prototype.doValueUpdate_ = laxUpdater;
