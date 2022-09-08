@@ -40,6 +40,7 @@ function prepareExport() {
 const ExtraUI = () => {
   const [query, setQuery] = useQueryParams({
     edit: withDefault(BooleanParam, false),
+    admin: withDefault(BooleanParam, true),
   });
   const playMode = !query.edit;
 
@@ -227,38 +228,40 @@ const ExtraUI = () => {
 
         <Home />
 
-        {/*!playMode && window.location.host.includes("localhost") && (
-          <button
-            className="simulation-button"
-            onClick={() => {
-              let json = prepareExport();
+        {!playMode &&
+          query.admin &&
+          window.location.host.includes("localhost") && (
+            <button
+              className="simulation-button"
+              onClick={() => {
+                let json = prepareExport();
 
-              var data = [
-                // eslint-disable-next-line no-undef
-                new ClipboardItem({
-                  "text/plain": new Blob([json], { type: "text/plain" }),
-                }),
-              ];
-              navigator.clipboard
-                .write(data)
-                .then(
-                  function () {
-                    setCopiedState(" ✓");
-                  },
-                  function () {
-                    setCopiedState("...Error");
-                  }
-                )
-                .finally(() => {
-                  window.setTimeout(() => {
-                    setCopiedState(null);
-                  }, 3000);
-                });
-            }}
-          >
-            Export to Clipboard {copiedState}
-          </button>
-          )*/}
+                var data = [
+                  // eslint-disable-next-line no-undef
+                  new ClipboardItem({
+                    "text/plain": new Blob([json], { type: "text/plain" }),
+                  }),
+                ];
+                navigator.clipboard
+                  .write(data)
+                  .then(
+                    function () {
+                      setCopiedState(" ✓");
+                    },
+                    function () {
+                      setCopiedState("...Error");
+                    }
+                  )
+                  .finally(() => {
+                    window.setTimeout(() => {
+                      setCopiedState(null);
+                    }, 3000);
+                  });
+              }}
+            >
+              Export to Clipboard {copiedState}
+            </button>
+          )}
 
         <img className="wordmark" src="/sandspiel.png"></img>
       </div>
