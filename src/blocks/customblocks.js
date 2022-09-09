@@ -1452,7 +1452,7 @@ Blockly.Extensions.registerMutator("get_r_mutator", {
 
     if (this.expanded) {
       this.appendDummyInput("OF").appendField("of");
-      const cell = this.appendValueInput("CELL");
+      const cell = this.appendValueInput("CELL").setCheck("Vector");
 
       const shadow = globalState.workspace.newBlock("vector_constant");
       shadow.setShadow(true);
@@ -1559,7 +1559,7 @@ Blockly.Extensions.registerMutator("set_r_mutator", {
     if (this.expanded) {
       this.appendDummyInput("OF").appendField("of");
 
-      const cell = this.appendValueInput("CELL");
+      const cell = this.appendValueInput("CELL").setCheck("Vector");
       const cellShadow = globalState.workspace.newBlock("vector_constant");
       cellShadow.setShadow(true);
       cellShadow.initSvg();
@@ -1689,7 +1689,7 @@ Blockly.Extensions.registerMutator("modify_r_mutator", {
     if (this.expanded) {
       this.appendDummyInput("OF").appendField("of");
 
-      const cell = this.appendValueInput("CELL");
+      const cell = this.appendValueInput("CELL").setCheck("Vector");
       const cellShadow = globalState.workspace.newBlock("vector_constant");
       cellShadow.setShadow(true);
       cellShadow.initSvg();
