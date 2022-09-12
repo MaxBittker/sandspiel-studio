@@ -89,7 +89,9 @@ function Browse() {
     router.push({ pathname: `/post/${query.id}`, query: persistingQuery });
   }
 
-  // const postId = useStore((state) => state.postId);
+  if (singlePost) {
+    useStore.setState({ postId });
+  }
 
   const {
     isLoading,
