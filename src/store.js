@@ -7,10 +7,7 @@ export const MAX_ELEMENTS = 15;
 
 let useStore = create((set, get) => ({
   // BROWSE
-  postId:
-    typeof window !== "undefined"
-      ? window?.location?.pathname?.slice(6)
-      : undefined,
+  postId: "",
   post: null,
   initialSandsData: undefined,
   initialSelected: 3,
