@@ -197,6 +197,16 @@ summary {
   display: flex;
 }
 
+.post.home {
+  display: block;
+  font-size: 19px;
+  margin-top: 1px;
+}
+
+.post.home > p {
+  margin: 5px 5px 10px 5px;
+}
+
 .selected {
   box-shadow: 0 0 0 1px black inset;
   background-color: rgba(250, 247, 247, 1);

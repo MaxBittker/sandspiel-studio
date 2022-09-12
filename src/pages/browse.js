@@ -23,6 +23,7 @@ import CreateReactAppEntryPoint from "../App";
 import BrowsePostLink from "./browsePostLink";
 import Spinner from "./spinner";
 import useStore from "../store.js";
+import Home from "./home.js";
 
 const placeholder = {
   id: 1,
@@ -62,11 +63,13 @@ function Browse() {
     starredBy: StringParam,
     order: withDefault(StringParam, "new"),
     days: StringParam,
-    featured: withDefault(BooleanParam, true),
+    featured: BooleanParam,
     edit: withDefault(BooleanParam, false),
     id: NumberParam,
   });
 
+  //const home = router.route === "/";
+  const home = query.featured === undefined;
   const playMode = !query.edit;
 
   // const postId = useStore((state) => state.postId);
@@ -85,6 +88,7 @@ function Browse() {
       const result = await axios("/api/query", {
         params: {
           ...query,
+          featured: query.featured === undefined ? true : query.featured,
           take: 20,
           skip: pageParam,
         },
@@ -129,14 +133,10 @@ function Browse() {
         >
           {/* <ReactQueryDevtools initialIsOpen /> */}
 
-          {/* <div style={{ float: "right" }}>
-          <Home />
-        </div> */}
-
           <span className="filterControls">
             <button
               className={
-                query.featured === true && query.id === undefined
+                query.featured === undefined && query.id === undefined
                   ? "selected"
                   : ""
               }
@@ -152,7 +152,48 @@ function Browse() {
               }}
             >
               {" "}
+              Home
+            </button>
+            <button
+              className={
+                query.featured === true && query.id === undefined && !home
+                  ? "selected"
+                  : ""
+              }
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({
+                  codeHash: undefined,
+                  userId: undefined,
+                  starredBy: undefined,
+                  featured: true,
+                  id: undefined,
+                });
+              }}
+            >
+              {" "}
               Featured
+            </button>
+
+            <button
+              className={
+                !query.starredBy && !query.userId && query.featured === false
+                  ? "selected"
+                  : ""
+              }
+              onClick={(e) => {
+                e.preventDefault();
+                setQuery({
+                  codeHash: undefined,
+                  userId: undefined,
+                  starredBy: undefined,
+                  featured: false,
+                  id: undefined,
+                });
+              }}
+            >
+              {" "}
+              All
             </button>
             {session && (
               <>
@@ -188,35 +229,14 @@ function Browse() {
                   }}
                 >
                   {" "}
-                  Favorited
+                  Liked
                 </button>
               </>
             )}
-
-            <button
-              className={
-                !query.starredBy && !query.userId && !query.featured
-                  ? "selected"
-                  : ""
-              }
-              onClick={(e) => {
-                e.preventDefault();
-                setQuery({
-                  codeHash: undefined,
-                  userId: undefined,
-                  starredBy: undefined,
-                  featured: false,
-                  id: undefined,
-                });
-              }}
-            >
-              {" "}
-              All
-            </button>
           </span>
 
           <span className="filterControls">
-            {query.id === undefined && (
+            {!home && query.id === undefined && (
               <Dropdown
                 options={options}
                 onChange={(e) => {
@@ -240,6 +260,7 @@ function Browse() {
           {isLoading && <Spinner></Spinner>}
           {error && <div>Error: {error}</div>}
 
+          {home && <Home />}
           {dataWithPlaceholder?.pages.map((page) => (
             <React.Fragment key={page.nextId}>
               {page.posts.map((d) => {
