@@ -13,7 +13,7 @@ export default function Home() {
         </p>
         <p>
           Thank you for testing out Sandspiel Studio while it{"'"}s in
-          development! We{"'"}re working working hard to make it powerful and
+          development! We{"'"}re working hard to make it powerful and
           fun, and we{"'"}re very excited to see what you{"'"}ll invent with it!
         </p>
         <p>
