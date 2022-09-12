@@ -39,10 +39,10 @@ const placeholder = {
 };
 const placeHolderPosts = {
   posts: [
-    { ...placeholder, key: 1 },
-    { ...placeholder, key: 2 },
-    { ...placeholder, key: 3 },
-    { ...placeholder, key: 4 },
+    { ...placeholder, key: "placeholder1" },
+    { ...placeholder, key: "placeholder2" },
+    { ...placeholder, key: "placeholder3" },
+    { ...placeholder, key: "placeholder4" },
   ],
 };
 const options = ["new", "top"];
@@ -58,19 +58,36 @@ function Browse() {
   const { data: session } = useSession();
 
   const [query, setQuery] = useQueryParams({
-    codeHash: StringParam,
-    userId: StringParam,
-    starredBy: StringParam,
+    //codeHash: StringParam,
+    //userId: StringParam,
+    //starredBy: StringParam,
     order: withDefault(StringParam, "new"),
     days: StringParam,
-    featured: BooleanParam,
+    //featured: BooleanParam,
     edit: withDefault(BooleanParam, false),
     id: NumberParam,
+    admin: BooleanParam,
   });
 
-  //const home = router.route === "/";
-  const home = query.featured === undefined;
+  const persistingQuery = {};
+  if (query.admin !== undefined) {
+    persistingQuery.admin = query.admin ? 1 : 0;
+  }
+
+  const home = router.route === "/";
+  const featured = home || router.route === "/featured";
+  const all = router.route === "/all";
   const playMode = !query.edit;
+  const userId = router.query.userid;
+  const liked = router.route === "/user/[userid]/likes";
+
+  let singlePost = router.route === "/post/[id]";
+  let postId = router.query.id;
+
+  // Backwards compatibility
+  if (home && query.id !== undefined) {
+    router.push({ pathname: `/post/${query.id}`, query: persistingQuery });
+  }
 
   // const postId = useStore((state) => state.postId);
 
@@ -83,16 +100,19 @@ function Browse() {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ["browseData", query],
+    ["browseData", query, router],
     async ({ pageParam = 0 }) => {
       const result = await axios("/api/query", {
         params: {
           ...query,
-          featured: home ? true : query.featured,
+          featured,
           order: home ? "top" : query.order,
           days: home ? "30" : query.days,
-          take: 20,
+          take: home ? 10 : 10,
           skip: pageParam,
+          id: singlePost ? postId : undefined,
+          userId: !liked ? userId : undefined,
+          starredBy: liked ? userId : undefined,
         },
       });
       let results = result.data;
@@ -137,40 +157,34 @@ function Browse() {
 
           <span className="filterControls">
             <button
-              className={
-                query.featured === undefined && query.id === undefined
-                  ? "selected"
-                  : ""
-              }
+              className={home ? "selected" : ""}
               onClick={(e) => {
                 e.preventDefault();
-                setQuery({
+                router.push({ pathname: "/", query: persistingQuery });
+                /*setQuery({
                   codeHash: undefined,
                   userId: undefined,
                   starredBy: undefined,
                   featured: undefined,
                   id: undefined,
-                });
+                });*/
               }}
             >
               {" "}
               Home
             </button>
             <button
-              className={
-                query.featured === true && query.id === undefined && !home
-                  ? "selected"
-                  : ""
-              }
+              className={!home && featured ? "selected" : ""}
               onClick={(e) => {
                 e.preventDefault();
-                setQuery({
+                router.push({ pathname: "/featured", query: persistingQuery });
+                /*setQuery({
                   codeHash: undefined,
                   userId: undefined,
                   starredBy: undefined,
                   featured: true,
                   id: undefined,
-                });
+                });*/
               }}
             >
               {" "}
@@ -178,20 +192,17 @@ function Browse() {
             </button>
 
             <button
-              className={
-                !query.starredBy && !query.userId && query.featured === false
-                  ? "selected"
-                  : ""
-              }
+              className={all ? "selected" : ""}
               onClick={(e) => {
                 e.preventDefault();
-                setQuery({
+                router.push({ pathname: "/all", query: persistingQuery });
+                /*setQuery({
                   codeHash: undefined,
                   userId: undefined,
                   starredBy: undefined,
                   featured: false,
                   id: undefined,
-                });
+                });*/
               }}
             >
               {" "}
@@ -200,44 +211,54 @@ function Browse() {
             {session && (
               <>
                 <button
-                  className={query.userId === session.userId ? "selected" : ""}
+                  className={
+                    !liked && userId === session.userId ? "selected" : ""
+                  }
                   onClick={(e) => {
                     e.preventDefault();
-                    setQuery({
+                    router.push({
+                      pathname: `/user/${session.userId}`,
+                      query: persistingQuery,
+                    });
+                    /*setQuery({
                       codeHash: undefined,
                       userId: session.userId,
                       starredBy: undefined,
                       featured: false,
                       id: undefined,
-                    });
+                    });*/
                   }}
                 >
                   {" "}
-                  Mine
+                  My Profile
                 </button>
                 <button
                   className={
-                    query.starredBy === session.userId ? "selected" : ""
+                    liked && userId === session.userId ? "selected" : ""
                   }
                   onClick={(e) => {
                     e.preventDefault();
-                    setQuery({
+                    router.push({
+                      pathname: `/user/${session.userId}/likes`,
+                      query: persistingQuery,
+                    });
+                    /*setQuery({
                       codeHash: undefined,
                       userId: undefined,
                       featured: false,
                       starredBy: session.userId,
                       id: undefined,
-                    });
+                    });*/
                   }}
                 >
                   {" "}
-                  Liked
+                  My Likes
                 </button>
               </>
             )}
           </span>
 
-          {!home && query.id === undefined && (
+          {!singlePost && !home && (
             <span className="filterControls">
               <Dropdown
                 options={options}
@@ -251,7 +272,7 @@ function Browse() {
                 value={query.order}
               />
 
-              {query.id === undefined && query.order === "top" && (
+              {query.order === "top" && (
                 <Dropdown
                   options={optionsTime}
                   onChange={(e) => setQuery({ days: e.value })}
@@ -264,14 +285,20 @@ function Browse() {
           {error && <div>Error: {error}</div>}
 
           {home && <Home />}
-          {dataWithPlaceholder?.pages.map((page) => (
-            <React.Fragment key={page.nextId}>
+          {dataWithPlaceholder?.pages.map((page, i) => (
+            <React.Fragment key={`page${i}`}>
               {page.posts.map((d) => {
-                return <BrowsePostLink key={d.key ?? d.id} post={d} full />;
+                return (
+                  <BrowsePostLink
+                    key={d.key === undefined ? d.id : d.key}
+                    post={d}
+                    full
+                  />
+                );
               })}
             </React.Fragment>
           ))}
-          {query.id === undefined && (
+          {!singlePost && (
             <div>
               <button
                 ref={ref}

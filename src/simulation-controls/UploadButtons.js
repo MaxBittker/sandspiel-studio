@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { encode } from "fast-png";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router.js";
 
 import {
   useQueryParams,
@@ -37,6 +38,7 @@ function dataURItoBlob(dataURI) {
 }
 
 const UploadButtons = () => {
+  const router = useRouter();
   const [query, setQuery] = useQueryParams({
     codeHash: StringParam,
     userId: StringParam,
@@ -46,7 +48,13 @@ const UploadButtons = () => {
     featured: withDefault(BooleanParam, true),
     edit: withDefault(BooleanParam, false),
     id: NumberParam,
+    admin: BooleanParam,
   });
+
+  const persistingQuery = {};
+  if (query.admin !== undefined) {
+    persistingQuery.admin = query.admin;
+  }
 
   const { data: session } = useSession();
 
@@ -179,14 +187,18 @@ const UploadButtons = () => {
           navigator.clipboard.write(data).then(
             function () {
               setSharedState(postPublic ? " ✓ posted" : " ✓ saved");
-              setQuery({
+              router.push({
+                pathname: `/post/${post.id}`,
+                query: persistingQuery,
+              });
+              /*setQuery({
                 codeHash: undefined,
                 userId: undefined,
                 starredBy: undefined,
                 featured: undefined,
                 edit: undefined,
                 id: post.id,
-              });
+              });*/
             },
             function (e) {
               console.error(e);
@@ -197,14 +209,18 @@ const UploadButtons = () => {
           // Avoided a crash in Firefox
           // TODO: fix this
           setSharedState(postPublic ? " ✓ posted" : " ✓ saved");
-          setQuery({
+          router.push({
+            pathname: `/post/${post.id}`,
+            query: persistingQuery,
+          });
+          /*setQuery({
             codeHash: undefined,
             userId: undefined,
             starredBy: undefined,
             featured: undefined,
             edit: undefined,
             id: post.id,
-          });
+          });*/
         }
       })
       .finally(() => {
