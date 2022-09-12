@@ -5,7 +5,7 @@ import { useInView } from "react-intersection-observer";
 
 // import { ReactQueryDevtools } from "react-query/devtools";
 import Dropdown from "react-dropdown";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 
 import "react-dropdown/style.css";
@@ -24,6 +24,7 @@ import BrowsePostLink from "./browsePostLink";
 import Spinner from "./spinner";
 import useStore from "../store.js";
 import Home from "./home.js";
+import Profile from "./profile.js";
 
 const placeholder = {
   id: 1,
@@ -232,7 +233,7 @@ function Browse() {
               </button>
             </div>
             <div className="nav-bar-group">
-              {session && (
+              {session ? (
                 <button
                   className={
                     !liked && userId === session.userId ? "selected" : ""
@@ -258,6 +259,15 @@ function Browse() {
                 >
                   {" "}
                   My Profile
+                </button>
+              ) : (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signIn();
+                  }}
+                >
+                  Sign In
                 </button>
               )}
             </div>
@@ -290,6 +300,7 @@ function Browse() {
           {error && <div>Error: {error}</div>}
 
           {home && <Home />}
+          {userId && <Profile />}
           {dataWithPlaceholder?.pages.map((page, i) => (
             <React.Fragment key={`page${i}`}>
               {page.posts.map((d) => {

@@ -197,14 +197,20 @@ summary {
   display: flex;
 }
 
-.post.home {
+.post.splash {
   display: block;
   font-size: 19px;
   margin-top: 0px;
 }
 
-.post.home > p {
+.post.splash p {
   margin: 5px 5px 10px 5px;
+}
+
+.post > .profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .selected {

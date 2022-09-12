@@ -226,7 +226,7 @@ const ExtraUI = () => {
           {playMode ? "Open Editor ➡" : "⬅ Close Editor"}
         </button>
 
-        <Home />
+        {/*<Home />*/}
 
         {!playMode &&
           query.admin &&
