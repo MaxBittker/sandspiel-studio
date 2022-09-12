@@ -33,7 +33,7 @@ export default function Profile() {
           </div>
         </div>
       )}
-      <div className="post splash">User's Creations</div>
+      <div className="post splash">User{"'"}es Creations</div>
     </>
   );
 }
