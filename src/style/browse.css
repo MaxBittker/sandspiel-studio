@@ -49,3 +49,13 @@ button.editor-toggle {
   display: flex;
   margin-bottom: 6px;
 }
+
+.nav-bar {
+  display: flex;
+  margin-bottom: 6px;
+  justify-content: space-between;
+}
+
+.nav-bar-group {
+  display: flex;
+}

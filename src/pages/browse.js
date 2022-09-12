@@ -157,61 +157,66 @@ function Browse() {
         >
           {/* <ReactQueryDevtools initialIsOpen /> */}
 
-          <span className="filterControls">
-            <button
-              className={home ? "selected" : ""}
-              onClick={(e) => {
-                e.preventDefault();
-                router.push({ pathname: "/", query: persistingQuery });
-                /*setQuery({
+          <span className="nav-bar">
+            <div className="nav-bar-group">
+              <button
+                className={home ? "selected" : ""}
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push({ pathname: "/", query: persistingQuery });
+                  /*setQuery({
                   codeHash: undefined,
                   userId: undefined,
                   starredBy: undefined,
                   featured: undefined,
                   id: undefined,
                 });*/
-              }}
-            >
-              {" "}
-              Home
-            </button>
-            <button
-              className={!home && featured ? "selected" : ""}
-              onClick={(e) => {
-                e.preventDefault();
-                router.push({ pathname: "/featured", query: persistingQuery });
-                /*setQuery({
+                }}
+              >
+                {" "}
+                Home
+              </button>
+              <button
+                className={!home && featured ? "selected" : ""}
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push({
+                    pathname: "/featured",
+                    query: persistingQuery,
+                  });
+                  /*setQuery({
                   codeHash: undefined,
                   userId: undefined,
                   starredBy: undefined,
                   featured: true,
                   id: undefined,
                 });*/
-              }}
-            >
-              {" "}
-              Featured
-            </button>
+                }}
+              >
+                {" "}
+                Featured
+              </button>
 
-            <button
-              className={all ? "selected" : ""}
-              onClick={(e) => {
-                e.preventDefault();
-                router.push({ pathname: "/all", query: persistingQuery });
-                /*setQuery({
+              <button
+                className={all ? "selected" : ""}
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push({ pathname: "/all", query: persistingQuery });
+                  /*setQuery({
                   codeHash: undefined,
                   userId: undefined,
                   starredBy: undefined,
                   featured: false,
                   id: undefined,
                 });*/
-              }}
-            >
-              {" "}
-              All
-            </button>
-            {session && (
-              <>
+                }}
+              >
+                {" "}
+                All
+              </button>
+            </div>
+            <div className="nav-bar-group">
+              {session && (
                 <button
                   className={
                     !liked && userId === session.userId ? "selected" : ""
@@ -234,30 +239,8 @@ function Browse() {
                   {" "}
                   My Profile
                 </button>
-                <button
-                  className={
-                    liked && userId === session.userId ? "selected" : ""
-                  }
-                  onClick={(e) => {
-                    e.preventDefault();
-                    router.push({
-                      pathname: `/user/${session.userId}/likes`,
-                      query: persistingQuery,
-                    });
-                    /*setQuery({
-                      codeHash: undefined,
-                      userId: undefined,
-                      featured: false,
-                      starredBy: session.userId,
-                      id: undefined,
-                    });*/
-                  }}
-                >
-                  {" "}
-                  My Likes
-                </button>
-              </>
-            )}
+              )}
+            </div>
           </span>
 
           {!singlePost && !home && (
