@@ -17,7 +17,7 @@ const Home = () => {
           style={{ float: "left", margin: 3, marginTop: 6 }}
           src={session.user?.image}
         ></img>
-        <Link href={`/browse?userId=${session.userId}`}>My Posts</Link>
+        <Link href={`/user/${session.userId}`}>My Posts</Link>
         <a
           href=""
           type="button"

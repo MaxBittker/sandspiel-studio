@@ -40,11 +40,12 @@ export const BrowsePostLink = ({ post: initPost }) => {
     isStarred = isStarredOverride;
   }
 
-  const href = `${window.location.protocol}//${window.location.host}/?id=${post.id}`;
+  const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
     useStore.setState({
       postId: post.id,
     });
+    window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);
     e.preventDefault();
   };
 
@@ -121,27 +122,28 @@ export const BrowsePostLink = ({ post: initPost }) => {
               className="pfp"
               onClick={(e) => {
                 e.preventDefault();
-                setQuery({
+                router.push(`/user/${post.user.id}`);
+                /*setQuery({
                   codeHash: undefined,
                   userId: post.user.id,
                   featured: false,
                   id: undefined,
-                });
+                });*/
               }}
               src={post?.user?.image}
             ></img>
           ) : (
             <>
-              Author:{"\t\t"}
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  setQuery({
+                  router.push(`/user/${post.user.id}`);
+                  /*setQuery({
                     codeHash: undefined,
                     userId: post.user.id,
                     featured: false,
                     id: undefined,
-                  });
+                  });*/
                 }}
               >
                 {post?.user?.name ?? post?.user?.id.slice(0, 6)}
