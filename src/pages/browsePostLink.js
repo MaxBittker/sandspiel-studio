@@ -122,7 +122,9 @@ export const BrowsePostLink = ({ post: initPost }) => {
               className="pfp"
               onClick={(e) => {
                 e.preventDefault();
-                router.push(`/user/${post.user.id}`);
+                router.push(`/user/${post.user.id}`, undefined, {
+                  scroll: false,
+                });
                 /*setQuery({
                   codeHash: undefined,
                   userId: post.user.id,
@@ -137,7 +139,9 @@ export const BrowsePostLink = ({ post: initPost }) => {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  router.push(`/user/${post.user.id}`);
+                  router.push(`/user/${post.user.id}`, undefined, {
+                    scroll: false,
+                  });
                   /*setQuery({
                     codeHash: undefined,
                     userId: post.user.id,

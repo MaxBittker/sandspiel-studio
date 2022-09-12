@@ -86,7 +86,11 @@ function Browse() {
 
   // Backwards compatibility
   if (home && query.id !== undefined) {
-    router.push({ pathname: `/post/${query.id}`, query: persistingQuery });
+    router.push(
+      { pathname: `/post/${query.id}`, query: persistingQuery },
+      undefined,
+      { scroll: false }
+    );
   }
 
   if (singlePost) {
@@ -163,7 +167,11 @@ function Browse() {
                 className={home ? "selected" : ""}
                 onClick={(e) => {
                   e.preventDefault();
-                  router.push({ pathname: "/", query: persistingQuery });
+                  router.push(
+                    { pathname: "/", query: persistingQuery },
+                    undefined,
+                    { scroll: false }
+                  );
                   /*setQuery({
                   codeHash: undefined,
                   userId: undefined,
@@ -180,10 +188,14 @@ function Browse() {
                 className={!home && featured ? "selected" : ""}
                 onClick={(e) => {
                   e.preventDefault();
-                  router.push({
-                    pathname: "/featured",
-                    query: persistingQuery,
-                  });
+                  router.push(
+                    {
+                      pathname: "/featured",
+                      query: persistingQuery,
+                    },
+                    undefined,
+                    { scroll: false }
+                  );
                   /*setQuery({
                   codeHash: undefined,
                   userId: undefined,
@@ -201,7 +213,11 @@ function Browse() {
                 className={all ? "selected" : ""}
                 onClick={(e) => {
                   e.preventDefault();
-                  router.push({ pathname: "/all", query: persistingQuery });
+                  router.push(
+                    { pathname: "/all", query: persistingQuery },
+                    undefined,
+                    { scroll: false }
+                  );
                   /*setQuery({
                   codeHash: undefined,
                   userId: undefined,
@@ -223,10 +239,14 @@ function Browse() {
                   }
                   onClick={(e) => {
                     e.preventDefault();
-                    router.push({
-                      pathname: `/user/${session.userId}`,
-                      query: persistingQuery,
-                    });
+                    router.push(
+                      {
+                        pathname: `/user/${session.userId}`,
+                        query: persistingQuery,
+                      },
+                      undefined,
+                      { scroll: false }
+                    );
                     /*setQuery({
                       codeHash: undefined,
                       userId: session.userId,
