@@ -200,7 +200,7 @@ summary {
 .post.home {
   display: block;
   font-size: 19px;
-  margin-top: 1px;
+  margin-top: 0px;
 }
 
 .post.home > p {

@@ -47,5 +47,5 @@ button.editor-toggle {
 
 .filterControls {
   display: flex;
-  padding-top: 5px;
+  margin-bottom: 6px;
 }

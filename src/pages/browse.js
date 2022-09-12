@@ -88,7 +88,9 @@ function Browse() {
       const result = await axios("/api/query", {
         params: {
           ...query,
-          featured: query.featured === undefined ? true : query.featured,
+          featured: home ? true : query.featured,
+          order: home ? "top" : query.order,
+          days: home ? "30" : query.days,
           take: 20,
           skip: pageParam,
         },
@@ -235,8 +237,8 @@ function Browse() {
             )}
           </span>
 
-          <span className="filterControls">
-            {!home && query.id === undefined && (
+          {!home && query.id === undefined && (
+            <span className="filterControls">
               <Dropdown
                 options={options}
                 onChange={(e) => {
@@ -248,15 +250,16 @@ function Browse() {
                 }}
                 value={query.order}
               />
-            )}
-            {query.id === undefined && query.order === "top" && (
-              <Dropdown
-                options={optionsTime}
-                onChange={(e) => setQuery({ days: e.value })}
-                value={query.days}
-              />
-            )}
-          </span>
+
+              {query.id === undefined && query.order === "top" && (
+                <Dropdown
+                  options={optionsTime}
+                  onChange={(e) => setQuery({ days: e.value })}
+                  value={query.days}
+                />
+              )}
+            </span>
+          )}
           {isLoading && <Spinner></Spinner>}
           {error && <div>Error: {error}</div>}
 
