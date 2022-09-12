@@ -160,7 +160,7 @@ const ExtraUI = () => {
       </button> */}
       <br />
       <div>
-        <UploadButtons />
+        {session && <UploadButtons />}
 
         {/*!playMode && post?.views && "views: " + post.views*/}
 

@@ -81,8 +81,8 @@ const UploadButtons = () => {
       return;
     }
     setSharedState(" preparing...");
-    if (postPublic && !session) {
-      setSharedState("Sign in to post publicly");
+    if (!session) {
+      setSharedState("Please sign in to save & post :)");
       window.setTimeout(() => {
         setSharedState("");
       }, 3000);
