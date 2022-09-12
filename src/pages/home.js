@@ -7,13 +7,13 @@ export default function Home() {
         <b>Welcome to Sandspiel Studio! 🧪</b>
       </p>
       <p>
-        Sandspiel Studio is a new tool for creating & sharing Sandspiel
+        Sandspiel Studio is a new tool for creating {"&"} sharing Sandspiel
         elements.
       </p>
       <p>
-        Thank you for testing out Sandspiel Studio while it's in development!
-        We're working working hard to make it powerful and fun, and we're very
-        excited to see what you'll invent with it!
+        Thank you for testing out Sandspiel Studio while it{"'"}s in
+        development! We{"'"}re working working hard to make it powerful and fun,
+        and we{"'"}re very excited to see what you{"'"}ll invent with it!
       </p>
       <p>
         If you want to support the project, or join our private discord server,{" "}
