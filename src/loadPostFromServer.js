@@ -4,6 +4,10 @@ import { globalState, MAX_ELEMENTS, useStore } from "./store";
 import { width, height, sands, randomData } from "./simulation/SandApi";
 import { worldScaleMap } from "./simulation-controls/WorldSizeButtons.js";
 import * as Sentry from "@sentry/nextjs";
+import BlocklyJS from "blockly/javascript";
+import { Xml } from "blockly/core";
+import { generateCode } from "./blocks/generator.js";
+import { useRef } from "react";
 
 const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
@@ -24,6 +28,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
       disabled[i] = true;
     }
     useStore.setState({ disabled });
+    loadIntoEditor();
     return;
   }
 
@@ -137,5 +142,37 @@ export async function loadPostFromServer(postId, retrys = 0) {
           }
         }
       }
+
+      loadIntoEditor();
     });
 }
+
+const loadIntoEditor = async () => {
+  let ws = globalState.workspace;
+  BlocklyJS.init(ws);
+
+  const { setSelected } = useStore.getState();
+  for (let i = useStore.getState().elements.length - 1; i >= 0; i--) {
+    setSelected(i);
+
+    ws.clear();
+
+    await new Promise((resolve) => {
+      let cb = () => {
+        generateCode(i, ws);
+        ws.removeChangeListener(cb);
+        resolve();
+      };
+      ws.addChangeListener(cb);
+      let xml = useStore.getState().xmls[i];
+      let dom = Xml.textToDom(xml);
+      try {
+        Xml.domToWorkspace(dom, ws);
+      } catch (e) {
+        console.error(e);
+      }
+    });
+  }
+  setSelected(useStore.getState().initialSelected);
+  useStore.setState({ paused: useStore.getState().initialPaused });
+};

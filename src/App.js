@@ -35,18 +35,11 @@ const App = () => {
     edit: withDefault(BooleanParam, false),
     id: NumberParam,
   });
-  if (query.id !== undefined) {
-    useStore.setState({ postId: query.id });
-  }
   const playMode = !query.edit;
   let simpleWorkspace = useRef();
   const router = useRouter();
   const selectedElement = useStore((state) => state.selectedElement);
-  const setSelected = useStore((state) => state.setSelected);
-  const postId = useStore((state) => state.postId);
-
-  const [loaded, setLoaded] = useState(false);
-  const [fetchedData, setFetchedData] = useState(false);
+  const xmls = useStore.getState().xmls;
 
   /*useEffect(() => {
     useStore.setState({
@@ -54,8 +47,17 @@ const App = () => {
     });
   }, [router.query.id]);*/
 
+  useEffect(() => {
+    const { post } = useStore.getState();
+    let ws = simpleWorkspace.current.primaryWorkspace;
+    globalState.workspace = ws;
+    if (post !== null) return;
+    const postId = router.route === "/post/[id]" ? router.query.id : undefined;
+    loadPostFromServer(postId);
+  }, []);
+
   // Generate code when a post is loaded into the editor
-  useEffect(async () => {
+  /*useEffect(async () => {
     setFetchedData(false);
     if (postId === undefined) {
       setFetchedData(true);
@@ -63,10 +65,10 @@ const App = () => {
     }
     await loadPostFromServer(postId);
     setFetchedData(true);
-  }, [postId]);
+  }, [postId]);*/
 
   // Generate code when we start the editor
-  useEffect(async () => {
+  /*useEffect(async () => {
     if (!fetchedData || !simpleWorkspace.current) {
       return;
     }
@@ -98,11 +100,11 @@ const App = () => {
     setSelected(useStore.getState().initialSelected);
     setLoaded(true);
     useStore.setState({ paused: useStore.getState().initialPaused });
-  }, [simpleWorkspace, fetchedData]);
+  }, [simpleWorkspace, fetchedData]);*/
 
   // Generate code whenever you change something in the editor
   useEffect(() => {
-    if (simpleWorkspace.current && loaded && !playMode) {
+    if (simpleWorkspace.current && !playMode) {
       let ws = simpleWorkspace.current.primaryWorkspace;
       globalState.workspace = ws;
       let cb = () => generateCode(selectedElement, ws);
@@ -111,11 +113,11 @@ const App = () => {
         ws.removeChangeListener(cb);
       };
     }
-  }, [simpleWorkspace, selectedElement, loaded, playMode]);
+  }, [simpleWorkspace, selectedElement, playMode, xmls]);
 
   // When you change the selected element, show that element's code in the editor
   useEffect(() => {
-    if (!simpleWorkspace.current || !loaded || playMode) return;
+    if (!simpleWorkspace.current || playMode) return;
     simpleWorkspace.current.primaryWorkspace.clear();
     const xml =
       useStore.getState().xmls[useStore.getState().selectedElement ?? 0];
@@ -124,12 +126,13 @@ const App = () => {
       Xml.textToDom(xml),
       simpleWorkspace.current.primaryWorkspace
     );
-  }, [selectedElement, loaded, playMode]);
+  }, [selectedElement, playMode]);
 
-  let filter = ` brightness(1.0) contrast(0.1) saturate(0.1)`;
-  if (loaded) {
-    filter = "";
-  }
+  //let filter = ` brightness(1.0) contrast(0.1) saturate(0.1)`;
+  //if (loaded) {
+  //filter = "";
+  //}
+  let filter = "";
   return (
     <div className="App">
       <BlocklyComponent

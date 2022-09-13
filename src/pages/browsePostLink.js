@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import * as timeago from "timeago.js";
 
@@ -19,6 +19,7 @@ import axios from "axios";
 import { imageURLBase } from "../simulation-controls/ExtraUI";
 import useStore, { globalState } from "../store";
 import ElementButtons from "../simulation-controls/ElementButtons";
+import { loadPostFromServer } from "../loadPostFromServer.js";
 
 export const BrowsePostLink = ({ post: initPost }) => {
   const router = useRouter();
@@ -42,9 +43,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
 
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
-    useStore.setState({
-      postId: post.id,
-    });
+    loadPostFromServer(post.id);
     window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);
     e.preventDefault();
   };

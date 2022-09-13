@@ -94,9 +94,9 @@ function Browse() {
     );
   }
 
-  if (singlePost) {
+  /*if (singlePost) {
     useStore.setState({ postId });
-  }
+  }*/
 
   const {
     isLoading,
