@@ -87,3 +87,7 @@ label {
   color: darkslateblue;
   pointer-events: none;
 }
+
+.Dropdown-control {
+  padding-right: 35px !important;
+}
