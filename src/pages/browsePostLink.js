@@ -72,6 +72,8 @@ export const BrowsePostLink = ({ post: initPost }) => {
   let [adminFeaturingStatus, setAdminFeaturingStatus] = useState(null);
   let [adminPublishingStatus, setAdminPublishingStatus] = useState(null);
 
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
     <div
       className={classNames("post", {
@@ -89,10 +91,38 @@ export const BrowsePostLink = ({ post: initPost }) => {
           src={`${imageURLBase}${post.id}.gif`}
           width={300}
           height={300}
+          style={{
+            display: isHovering ? "inline" : "none",
+          }}
           onError={(e) => {
             if (e.target.src.endsWith("gif")) {
               e.target.src = `${imageURLBase}${post.id}.png`;
             }
+          }}
+          onMouseEnter={(e) => {
+            setIsHovering(true);
+          }}
+          onMouseOut={(e) => {
+            setIsHovering(false);
+          }}
+        ></img>
+        <img
+          src={`${imageURLBase}${post.id}.png`}
+          width={300}
+          height={300}
+          style={{
+            display: isHovering ? "none" : "inline",
+          }}
+          onError={(e) => {
+            if (e.target.src.endsWith("gif")) {
+              e.target.src = `${imageURLBase}${post.id}.png`;
+            }
+          }}
+          onMouseEnter={(e) => {
+            setIsHovering(true);
+          }}
+          onMouseOut={(e) => {
+            setIsHovering(false);
           }}
         ></img>
       </a>
