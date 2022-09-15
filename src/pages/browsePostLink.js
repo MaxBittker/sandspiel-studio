@@ -25,7 +25,8 @@ export const BrowsePostLink = ({ post: initPost }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [post, setPost] = useState(initPost);
-  const selected = useStore((state) => state.postId === post.id);
+  const expandedPostId = useStore((state) => state.expandedPostId);
+  const expanded = expandedPostId === post.id;
 
   let stars = post?._count?.stars;
   const [starsOverride, setStarsOverride] = useState(null);
@@ -77,7 +78,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
   return (
     <div
       className={classNames("post", {
-        selected,
+        selected: expanded,
         placeholder: post.placeholder,
       })}
     >
@@ -211,7 +212,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
             {post.featuredAt ? "🏆FEATURED" : ""}
           </span>
           <br></br>
-          {session?.role === "admin" && query.admin && (
+          {expanded && session?.role === "admin" && query.admin && (
             <div>
               Admin:&nbsp;
               <button
@@ -249,7 +250,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
           {/* <br></br> */}
           {/* Element Set:{"\t\t"} */}
           {/* <br></br> */}
-          {session && post?.user?.id == session.userId && (
+          {expanded && session && post?.user?.id == session.userId && (
             <button
               onClick={() => {
                 fetch("/api/updateProfile/", {

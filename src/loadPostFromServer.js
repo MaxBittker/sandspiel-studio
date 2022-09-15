@@ -18,6 +18,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
   // Only load the starter elements if no post is getting loaded
   if (isNaN(parseInt(id, 10)) || id.length < 1) {
     useStore.getState().setXmls(starterXMLs);
+    useStore.setState({ expandedPostId: null });
 
     const disabled = [];
     for (let i = 0; i < 4; i++) {
@@ -32,6 +33,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
     return;
   }
 
+  useStore.setState({ expandedPostId: parseInt(id) });
   await fetch("/api/getCreation/" + id)
     .then((response) => {
       if (response.status == 200) {
