@@ -137,6 +137,8 @@ const Sand = () => {
         return;
       }
       let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
+      globalState.t += 0.05;
+
       points.forEach(({ x, y }) => {
         x = Math.round(x);
         y = Math.round(y);
@@ -147,7 +149,11 @@ const Sand = () => {
             if (rr > r * r) {
               continue;
             }
-            initSand([Math.floor(x + dx), Math.floor(y + dy)], selectedElement);
+            initSand(
+              [Math.floor(x + dx), Math.floor(y + dy)],
+              selectedElement,
+              [dx * 4, dy * 4]
+            );
           }
         }
       });

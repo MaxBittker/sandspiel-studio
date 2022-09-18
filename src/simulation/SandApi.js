@@ -1,7 +1,7 @@
 import { UPDATE_SCHEMES } from "./updateSchemes";
 import { globalState, useStore } from "../store.js";
 import { ChebyshevRotate } from "../utils/Chebyshev.js";
-import noise from "../utils/perlin";
+import noise, { simplex2 } from "../utils/perlin";
 noise.seed(Math.random());
 
 let aX = 0;
@@ -36,7 +36,8 @@ export function popUndo() {
 let inertMode = false;
 globalState.t = 0;
 export function randomData(x, y) {
-  var value = noise.simplex3(x / 3, y / 3, globalState.t / 5);
+  var sk = simplex2(0, globalState.t / 5) * 3;
+  var value = noise.simplex3((x + sk) / 3, (y + sk) / 3, globalState.t / 5);
   let d = ((value + 1) * 50) | 0;
 
   return d;
@@ -246,13 +247,13 @@ function getSand(x, y, o = 0) {
   const index = getIndex(x, y) + o;
   return sands[index];
 }
-export function initSand([x, y], v) {
+export function initSand([x, y], v, [bx, by]) {
   const { worldWidth, worldHeight } = globalState;
   if (x < 0 || x >= worldWidth || y < 0 || y >= worldHeight) {
     return;
   }
 
-  setSand(x, y, v, randomData(x, y), 0, 0);
+  setSand(x, y, v, randomData(bx ?? x, by ?? y), 0, 0);
 }
 export function setSand(x, y, v, ra, rb, rc) {
   [x, y] = getWrappedPosition(x, y);
@@ -760,7 +761,7 @@ export const fireEvent = (offset) => {
 };
 
 export const tick = (drawer) => {
-  globalState.t++;
+  globalState.t += -0.1;
   const scheme = UPDATE_SCHEMES[globalState.updateScheme || "RANDOM_CYCLIC"];
   if (typeof scheme === "function") scheme(scheme, drawer);
   else scheme.tick(scheme, drawer);
