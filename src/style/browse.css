@@ -21,7 +21,11 @@ button.editor-toggle {
   height: 100%;
   overflow: scroll;
 }
-
+.browse.family {
+  margin: 0;
+  max-width: 700px;
+  width: 100%;
+}
 @media only screen and (max-width: 700px) {
   .browse-page {
     flex-direction: column-reverse;
@@ -29,14 +33,12 @@ button.editor-toggle {
   }
 
   .browse {
-    height: 85vh;
+    /* height: 85vh; */
+    overflow-y: hidden;
   }
-}
-
-.browse.family {
-  margin: 0;
-  max-width: 700px;
-  width: 100%;
+  .browse.family {
+    margin-top: 4px;
+  }
 }
 
 @media only screen and (max-width: 500px) {
@@ -58,4 +60,13 @@ button.editor-toggle {
 
 .nav-bar-group {
   display: flex;
+}
+.userCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.userCard p {
+  margin-left: 10px;
+  font-weight: 500;
 }

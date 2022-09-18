@@ -151,6 +151,7 @@ function Browse() {
       className="browse-page"
       style={{
         flexDirection: playMode ? "" : "column-reverse",
+        // flexDirection: "column-reverse",
       }}
     >
       {
@@ -270,6 +271,14 @@ function Browse() {
                   Sign In
                 </button>
               )}
+              <button
+                className="editor-toggle"
+                onClick={(e) => {
+                  setQuery({ edit: playMode ? 1 : undefined });
+                }}
+              >
+                {playMode ? "◀  Open Editor " : "▶ Close Editor"}
+              </button>
             </div>
           </span>
 

@@ -177,6 +177,19 @@ const Sand = () => {
           setIsDragging(true);
         }}
       ></div>
+      <button
+        className="editor-toggle"
+        style={{
+          position: "absolute",
+          left: -8,
+          transform: "translateX(-100%)",
+        }}
+        onClick={(e) => {
+          setQuery({ edit: playMode ? 1 : undefined });
+        }}
+      >
+        {playMode ? "◀  Open Editor " : "▶ Close Editor"}
+      </button>
       <WrappedElementButtons
         selectedElement={selectedElement}
         setSelected={setSelected}

@@ -217,14 +217,6 @@ const ExtraUI = () => {
           </button>
         )*/}
         <br />
-        <button
-          className="editor-toggle"
-          onClick={(e) => {
-            setQuery({ edit: playMode ? 1 : undefined });
-          }}
-        >
-          {playMode ? "Open Editor ➡" : "⬅ Close Editor"}
-        </button>
 
         {/*<Home />*/}
 

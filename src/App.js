@@ -138,7 +138,8 @@ const App = () => {
       <BlocklyComponent
         style={{
           filter,
-          display: playMode ? "none" : "",
+          opacity: playMode ? "0.0" : "1.0",
+          transition: "transform 0.5s ease-in-out, opacity 0.5s ease-in-out",
         }}
         ref={simpleWorkspace}
         collapse={false}
