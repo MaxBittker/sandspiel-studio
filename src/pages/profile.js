@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router.js";
@@ -6,6 +7,8 @@ export default function Profile() {
   const router = useRouter();
   const userId = router.query.userid;
   const { data: session, status } = useSession();
+  let [title, setTitle] = useState(session?.user?.name);
+
   if (status === "loading") {
     return (
       <div className="post splash">
@@ -19,14 +22,38 @@ export default function Profile() {
       {session && session.userId === userId && (
         <div className="post splash">
           <div className="profile">
-            <img
-              className="pfp"
-              style={{ margin: 3, marginTop: 6 }}
-              src={session.user?.image}
-            ></img>
-            {/*<p>
-              <b>{session.user.name}</b>
-            </p>*/}
+            <span className="userCard">
+              <img
+                className="pfp"
+                style={{ margin: 3, marginTop: 6 }}
+                src={session.user?.image}
+              ></img>
+              <a>{session?.user?.name} </a>
+            </span>
+            <span>
+              <input
+                type="text"
+                placeholder="new username"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <button
+                className="simulation-button"
+                onClick={() => {
+                  fetch("/api/updateProfile/", {
+                    method: "post",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      name: title,
+                    }),
+                  }).then((e) => window.location.reload());
+                }}
+              >
+                Save
+              </button>
+            </span>
             <button onClick={signOut} style={{ marginBottom: 6 }}>
               Sign Out
             </button>

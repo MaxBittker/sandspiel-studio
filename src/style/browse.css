@@ -25,6 +25,8 @@ button.editor-toggle {
   margin: 0;
   max-width: 700px;
   width: 100%;
+  overflow: overlay;
+  padding-right: 8px;
 }
 @media only screen and (max-width: 700px) {
   .browse-page {
@@ -60,13 +62,4 @@ button.editor-toggle {
 
 .nav-bar-group {
   display: flex;
-}
-.userCard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.userCard p {
-  margin-left: 10px;
-  font-weight: 500;
 }

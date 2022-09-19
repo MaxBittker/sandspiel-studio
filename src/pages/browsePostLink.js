@@ -18,7 +18,6 @@ import classNames from "classnames";
 import axios from "axios";
 import { imageURLBase } from "../simulation-controls/ExtraUI";
 import useStore, { globalState } from "../store";
-import ElementButtons from "../simulation-controls/ElementButtons";
 import { loadPostFromServer } from "../loadPostFromServer.js";
 
 export const BrowsePostLink = ({ post: initPost }) => {
@@ -44,6 +43,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
 
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
+    if (expanded) return;
     loadPostFromServer(post.id);
     window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);
     e.preventDefault();
@@ -66,7 +66,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
   let displayTime = new Date(post.createdAt).toLocaleDateString();
   let msAgo = new Date().getTime() - new Date(post.createdAt).getTime();
 
-  if (msAgo < 24 * 60 * 60 * 1000) {
+  if (msAgo < 7 * 24 * 60 * 60 * 1000) {
     displayTime = timeago.format(post.createdAt);
   }
 
@@ -81,19 +81,15 @@ export const BrowsePostLink = ({ post: initPost }) => {
         selected: expanded,
         placeholder: post.placeholder,
       })}
+      onClick={handleClick}
     >
-      <a
-        className="postThumbnail"
-        href={href}
-        style={{ fontSize: "1rem" }}
-        onClick={handleClick}
-      >
+      <a className="postThumbnail" href={href} style={{ fontSize: "1rem" }}>
         <img
           src={`${imageURLBase}${post.id}.gif`}
           width={300}
           height={300}
           style={{
-            display: isHovering ? "inline" : "none",
+            display: isHovering ? "block" : "none",
           }}
           onError={(e) => {
             if (e.target.src.endsWith("gif")) {
@@ -112,7 +108,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
           width={300}
           height={300}
           style={{
-            display: isHovering ? "none" : "inline",
+            display: isHovering ? "none" : "block",
           }}
           onError={(e) => {
             if (e.target.src.endsWith("gif")) {
@@ -147,67 +143,27 @@ export const BrowsePostLink = ({ post: initPost }) => {
         </button>*/}
 
         <div className="title-container">
-          {post?.user?.image ? (
-            <img
-              className="pfp"
+          {
+            <div
+              className="userCard"
               onClick={(e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 router.push(`/user/${post.user.id}`, undefined, {
                   scroll: false,
                 });
-                /*setQuery({
-                  codeHash: undefined,
-                  userId: post.user.id,
-                  featured: false,
-                  id: undefined,
-                });*/
               }}
-              src={post?.user?.image}
-            ></img>
-          ) : (
-            <>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.push(`/user/${post.user.id}`, undefined, {
-                    scroll: false,
-                  });
-                  /*setQuery({
-                    codeHash: undefined,
-                    userId: post.user.id,
-                    featured: false,
-                    id: undefined,
-                  });*/
-                }}
-              >
-                {post?.user?.name ?? post?.user?.id.slice(0, 6)}
-              </button>
-            </>
-          )}
-          <div className="title">{post.title}</div>
+            >
+              <img className="pfp" src={post?.user?.image}></img>
+              <a>{post?.user?.name ?? post?.user?.id?.slice(0, 8)} </a>
+            </div>
+          }
+          <div className="title">{`"${post.title}"`}</div>
         </div>
 
         <div style={{ textAlign: "justify" }}>
           {/*<button onClick={handleEdit}> Edit Code</button>*/}
-          <button
-            onClick={() => {
-              setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
-              setIsStarredOverride(!isStarred);
-              fetch("/api/star/" + post.id)
-                .then(function (response) {
-                  return response.json();
-                })
-                .then(function (new_post) {
-                  new_post.metadata = JSON.parse(new_post.metadata);
-                  setPost(new_post);
 
-                  setIsStarredOverride(null);
-                  setStarsOverride(null);
-                });
-            }}
-          >
-            {(isStarred ? "★: " : "☆: ") + stars}
-          </button>
           <span className="featured-flag">
             {post.featuredAt ? "🏆FEATURED" : ""}
           </span>
@@ -216,7 +172,9 @@ export const BrowsePostLink = ({ post: initPost }) => {
             <div>
               Admin:&nbsp;
               <button
-                onClick={async () => {
+                onClick={async (e) => {
+                  e.stopPropagation();
+
                   setAdminFeaturingStatus(" ...");
                   const result = await axios("/api/update/" + post.id, {
                     params: { featured: !post.featuredAt },
@@ -231,7 +189,9 @@ export const BrowsePostLink = ({ post: initPost }) => {
                 {adminFeaturingStatus}
               </button>
               <button
-                onClick={async () => {
+                onClick={async (e) => {
+                  e.stopPropagation();
+
                   setAdminPublishingStatus(" ...");
                   const result = await axios("/api/update/" + post.id, {
                     params: { public: !post.public },
@@ -252,7 +212,9 @@ export const BrowsePostLink = ({ post: initPost }) => {
           {/* <br></br> */}
           {expanded && session && post?.user?.id == session.userId && (
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
+
                 fetch("/api/updateProfile/", {
                   method: "post",
                   headers: {
@@ -279,7 +241,30 @@ export const BrowsePostLink = ({ post: initPost }) => {
           )}
           {
             <div className="browse-post-metadata-row">
-              <div>{post.views} plays</div>
+              <span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
+                    setIsStarredOverride(!isStarred);
+                    fetch("/api/star/" + post.id)
+                      .then(function (response) {
+                        return response.json();
+                      })
+                      .then(function (new_post) {
+                        new_post.metadata = JSON.parse(new_post.metadata);
+                        setPost(new_post);
+
+                        setIsStarredOverride(null);
+                        setStarsOverride(null);
+                      });
+                  }}
+                >
+                  {(isStarred ? "★ " : "☆ ") + stars}
+                </button>
+                <div>{post.views} plays</div>
+              </span>
               {/*<div className="featured-flag">
                 {post.featuredAt ? "🏆FEATURED" : ""}
               </div>*/}

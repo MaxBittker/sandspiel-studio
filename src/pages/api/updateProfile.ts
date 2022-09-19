@@ -15,15 +15,22 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
   const userId: string = session?.userId as string;
 
   try {
-    let postId: string = request.body.postId.toString();
+    let postId: string = request.body?.postId?.toString();
+    let name: string = request.body?.name?.toString();
 
+    let data = {};
+
+    if (postId) {
+      data["image"] = `${imageURLBase}${postId}.png`;
+    }
+    if (name) {
+      data["name"] = name.slice(0, 20);
+    }
     const newUser = await prisma.user.update({
       where: {
         id: userId,
       },
-      data: {
-        image: `${imageURLBase}${postId}.png`,
-      },
+      data,
     });
 
     response.status(200).json(newUser);

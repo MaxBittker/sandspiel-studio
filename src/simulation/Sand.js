@@ -182,6 +182,7 @@ const Sand = () => {
         style={{
           position: "absolute",
           left: -8,
+          zIndex: 9000,
           transform: "translateX(-100%)",
         }}
         onClick={(e) => {
