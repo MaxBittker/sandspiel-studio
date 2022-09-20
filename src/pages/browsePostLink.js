@@ -154,7 +154,9 @@ export const BrowsePostLink = ({ post: initPost }) => {
                 });
               }}
             >
-              <img className="pfp" src={post?.user?.image}></img>
+              {!post.placeholder && (
+                <img className="pfp" src={post?.user?.image}></img>
+              )}
               <a>
                 <b>{post?.user?.name ?? post?.user?.id?.slice(0, 8)}</b>
               </a>
@@ -265,15 +267,17 @@ export const BrowsePostLink = ({ post: initPost }) => {
                       });
                   }}
                 >
-                  {(isStarred ? "★ " : "☆ ") + stars}
+                  {(isStarred ? "★ " : "☆ ") + (post.placeholder ? "" : stars)}
                 </button>
-                <div>{post.views} plays</div>
+                {!post.placeholder && <div>{post.views} plays</div>}
               </span>
               {/*<div className="featured-flag">
                 {post.featuredAt ? "🏆FEATURED" : ""}
               </div>*/}
 
-              <div style={{ textAlign: "right" }}>{displayTime}</div>
+              {!post.placeholder && (
+                <div style={{ textAlign: "right" }}>{displayTime}</div>
+              )}
             </div>
           }
         </div>
