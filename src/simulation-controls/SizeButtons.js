@@ -11,7 +11,7 @@ const SizeButtons = ({}) => {
       {sizeMap.map((v, i) => (
         <button
           key={i}
-          className={v == size ? "selected" : ""}
+          className={"size-button" + (v == size ? " selected" : "")}
           onClick={(e) => setSize(v)}
           style={{
             padding: "0px",

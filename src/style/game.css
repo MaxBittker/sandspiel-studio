@@ -10,8 +10,11 @@ input {
   border-color: gainsboro;
   flex-grow: 1;
   fill: black;
-  /*line-height: 0px;*/
   user-select: none;
+}
+.size-button {
+  height: 30px;
+  line-height: 0px;
 }
 button {
   cursor: pointer;
