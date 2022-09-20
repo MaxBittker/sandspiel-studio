@@ -56,6 +56,7 @@ const optionsTime = [
 ];
 
 function Browse() {
+  const mobile = window.innerWidth <= 700;
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -278,7 +279,7 @@ function Browse() {
                   setQuery({ edit: playMode ? 1 : undefined });
                 }}
               >
-                {playMode ? "◀  Open Editor " : "▶ Close Editor"}
+                {mobile && playMode ? "◀  Open Editor " : "▶ Close Editor"}
               </button>
             </div>
           </span>
