@@ -28,7 +28,9 @@ export default function Profile() {
                 style={{ margin: 3, marginTop: 6 }}
                 src={session.user?.image}
               ></img>
-              <a>{session?.user?.name} </a>
+              <a>
+                <b>{session?.user?.name}</b>
+              </a>
             </span>
             <span>
               <input
