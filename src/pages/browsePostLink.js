@@ -158,7 +158,9 @@ export const BrowsePostLink = ({ post: initPost }) => {
               <a>{post?.user?.name ?? post?.user?.id?.slice(0, 8)} </a>
             </div>
           }
-          <div className="title">{`"${post.title}"`}</div>
+          <div className="title">
+            {post.title === "" ? "" : `"${post.title}"`}
+          </div>
         </div>
 
         <div style={{ textAlign: "justify" }}>
