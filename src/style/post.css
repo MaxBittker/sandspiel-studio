@@ -113,7 +113,7 @@
   border-right: 0;
   cursor: pointer;
 }
-.post:hover {
+.post:not(.splash):hover {
   background-color: rgba(250, 247, 247, 0.45);
 }
 .post.selected {
