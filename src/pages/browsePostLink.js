@@ -155,7 +155,9 @@ export const BrowsePostLink = ({ post: initPost }) => {
               }}
             >
               <img className="pfp" src={post?.user?.image}></img>
-              <a>{post?.user?.name ?? post?.user?.id?.slice(0, 8)} </a>
+              <a>
+                <b>{post?.user?.name ?? post?.user?.id?.slice(0, 8)}</b>
+              </a>
             </div>
           }
           <div className="title">
