@@ -273,14 +273,16 @@ function Browse() {
                   Sign In
                 </button>
               )}
-              <button
-                className="editor-toggle"
-                onClick={(e) => {
-                  setQuery({ edit: playMode ? 1 : undefined });
-                }}
-              >
-                {mobile && playMode ? "◀  Open Editor " : "▶ Close Editor"}
-              </button>
+              {!mobile && (
+                <button
+                  className="editor-toggle"
+                  onClick={(e) => {
+                    setQuery({ edit: playMode ? 1 : undefined });
+                  }}
+                >
+                  ◀ Open Editor
+                </button>
+              )}
             </div>
           </span>
 
