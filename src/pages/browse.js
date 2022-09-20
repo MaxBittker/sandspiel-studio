@@ -29,6 +29,7 @@ import Profile from "./profile.js";
 const placeholder = {
   id: 1,
   placeholder: true,
+  title: "",
   metadata: {
     elements: ["a", "b", "c"],
     disabled: [],
