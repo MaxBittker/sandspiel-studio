@@ -58,6 +58,7 @@ button.editor-toggle {
   display: flex;
   margin-bottom: 6px;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .nav-bar-group {
