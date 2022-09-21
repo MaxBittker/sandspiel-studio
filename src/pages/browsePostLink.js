@@ -19,11 +19,14 @@ import axios from "axios";
 import { imageURLBase } from "../simulation-controls/ExtraUI";
 import useStore, { globalState } from "../store";
 import { loadPostFromServer } from "../loadPostFromServer.js";
+import { useInfiniteQuery } from "react-query";
+import { Replies } from "./replies.js";
 
 export const BrowsePostLink = ({ post: initPost }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [post, setPost] = useState(initPost);
+  const [repliesVisible, setRepliesVisible] = useState(false);
   const expandedPostId = useStore((state) => state.expandedPostId);
   const expanded = expandedPostId === post.id;
 
@@ -76,56 +79,57 @@ export const BrowsePostLink = ({ post: initPost }) => {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
-    <div
-      className={classNames("post", {
-        selected: expanded,
-        placeholder: post.placeholder,
-      })}
-      onClick={handleClick}
-    >
-      <a className="postThumbnail" href={href} style={{ fontSize: "1rem" }}>
-        <img
-          src={`${imageURLBase}${post.id}.gif`}
-          width={300}
-          height={300}
-          style={{
-            display: isHovering ? "block" : "none",
-          }}
-          onError={(e) => {
-            if (e.target.src.endsWith("gif")) {
-              e.target.src = `${imageURLBase}${post.id}.png`;
-            }
-          }}
-          onMouseEnter={(e) => {
-            setIsHovering(true);
-          }}
-          onMouseOut={(e) => {
-            setIsHovering(false);
-          }}
-        ></img>
-        <img
-          src={`${imageURLBase}${post.id}.png`}
-          width={300}
-          height={300}
-          style={{
-            display: isHovering ? "none" : "block",
-          }}
-          onError={(e) => {
-            if (e.target.src.endsWith("gif")) {
-              e.target.src = `${imageURLBase}${post.id}.png`;
-            }
-          }}
-          onMouseEnter={(e) => {
-            setIsHovering(true);
-          }}
-          onMouseOut={(e) => {
-            setIsHovering(false);
-          }}
-        ></img>
-      </a>
+    <div className="post-family">
+      <div
+        className={classNames("post", {
+          selected: expanded,
+          placeholder: post.placeholder,
+        })}
+        onClick={handleClick}
+      >
+        <a className="postThumbnail" href={href} style={{ fontSize: "1rem" }}>
+          <img
+            src={`${imageURLBase}${post.id}.gif`}
+            width={300}
+            height={300}
+            style={{
+              display: isHovering ? "block" : "none",
+            }}
+            onError={(e) => {
+              if (e.target.src.endsWith("gif")) {
+                e.target.src = `${imageURLBase}${post.id}.png`;
+              }
+            }}
+            onMouseEnter={(e) => {
+              setIsHovering(true);
+            }}
+            onMouseOut={(e) => {
+              setIsHovering(false);
+            }}
+          ></img>
+          <img
+            src={`${imageURLBase}${post.id}.png`}
+            width={300}
+            height={300}
+            style={{
+              display: isHovering ? "none" : "block",
+            }}
+            onError={(e) => {
+              if (e.target.src.endsWith("gif")) {
+                e.target.src = `${imageURLBase}${post.id}.png`;
+              }
+            }}
+            onMouseEnter={(e) => {
+              setIsHovering(true);
+            }}
+            onMouseOut={(e) => {
+              setIsHovering(false);
+            }}
+          ></img>
+        </a>
 
-      <div className="browse-info">
-        {/*<button
+        <div className="browse-info">
+          {/*<button
           className="element-set-button"
           onClick={(e) => {
             e.preventDefault();
@@ -142,145 +146,159 @@ export const BrowsePostLink = ({ post: initPost }) => {
           ></ElementButtons>
         </button>*/}
 
-        <div className="title-container">
-          <div className="post-header-container">
-            <div
-              className="userCard"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                router.push(`/user/${post.user.id}`, undefined, {
-                  scroll: false,
-                });
-              }}
-            >
+          <div className="title-container">
+            <div className="post-header-container">
+              <div
+                className="userCard"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push(`/user/${post.user.id}`, undefined, {
+                    scroll: false,
+                  });
+                }}
+              >
+                {!post.placeholder && (
+                  <img className="pfp" src={post?.user?.image}></img>
+                )}
+                <a>
+                  <b>{post?.user?.name ?? post?.user?.id?.slice(0, 8)}</b>
+                </a>
+              </div>
               {!post.placeholder && (
-                <img className="pfp" src={post?.user?.image}></img>
+                <div className="timestamp">{displayTime}</div>
               )}
-              <a>
-                <b>{post?.user?.name ?? post?.user?.id?.slice(0, 8)}</b>
-              </a>
             </div>
-            {!post.placeholder && (
-              <div className="timestamp">{displayTime}</div>
-            )}
-          </div>
-          <div className="title">
-            {post.title === "" ? "" : `"${post.title}"`}
-          </div>
-        </div>
-
-        <div style={{ textAlign: "justify" }}>
-          {/*<button onClick={handleEdit}> Edit Code</button>*/}
-
-          <span className="featured-flag">
-            {post.featuredAt ? "🏆FEATURED" : ""}
-          </span>
-          <br></br>
-          {expanded && session?.role === "admin" && query.admin && (
-            <div>
-              Admin:&nbsp;
-              <button
-                onClick={async (e) => {
-                  e.stopPropagation();
-
-                  setAdminFeaturingStatus(" ...");
-                  const result = await axios("/api/update/" + post.id, {
-                    params: { featured: !post.featuredAt },
-                  });
-                  let results = result.data;
-                  results.metadata = JSON.parse(results.metadata);
-                  setPost(results);
-                  setAdminFeaturingStatus("");
-                }}
-              >
-                {post.featuredAt ? "Unfeature Post" : "Feature Post"}
-                {adminFeaturingStatus}
-              </button>
-              <button
-                onClick={async (e) => {
-                  e.stopPropagation();
-
-                  setAdminPublishingStatus(" ...");
-                  const result = await axios("/api/update/" + post.id, {
-                    params: { public: !post.public },
-                  });
-                  let results = result.data;
-                  results.metadata = JSON.parse(results.metadata);
-                  setPost(results);
-                  setAdminPublishingStatus("");
-                }}
-              >
-                {post.public === true ? "Make Private" : "Make Public"}
-                {adminPublishingStatus}
-              </button>
+            <div className="title">
+              {post.title === "" ? "" : `"${post.title}"`}
             </div>
-          )}
-          {/* <br></br> */}
-          {/* Element Set:{"\t\t"} */}
-          {/* <br></br> */}
-          {expanded && session && post?.user?.id == session.userId && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
+          </div>
 
-                fetch("/api/updateProfile/", {
-                  method: "post",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    postId: post.id,
-                  }),
-                })
-                  .then(function (response) {
-                    return response.json();
-                  })
-                  .then(function (post) {
-                    console.log(post);
+          <div style={{ textAlign: "justify" }}>
+            {/*<button onClick={handleEdit}> Edit Code</button>*/}
 
-                    useStore.setState({
-                      post,
-                    });
-                  });
-              }}
-            >
-              Set this post as my avatar
-            </button>
-          )}
-          {
-            <div className="browse-post-metadata-row">
-              <span>
+            <span className="featured-flag">
+              {post.featuredAt ? "🏆FEATURED" : ""}
+            </span>
+            <br></br>
+            {expanded && session?.role === "admin" && query.admin && (
+              <div>
+                Admin:&nbsp;
                 <button
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.stopPropagation();
 
-                    setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
-                    setIsStarredOverride(!isStarred);
-                    fetch("/api/star/" + post.id)
-                      .then(function (response) {
-                        return response.json();
-                      })
-                      .then(function (new_post) {
-                        new_post.metadata = JSON.parse(new_post.metadata);
-                        setPost(new_post);
-
-                        setIsStarredOverride(null);
-                        setStarsOverride(null);
-                      });
+                    setAdminFeaturingStatus(" ...");
+                    const result = await axios("/api/update/" + post.id, {
+                      params: { featured: !post.featuredAt },
+                    });
+                    let results = result.data;
+                    results.metadata = JSON.parse(results.metadata);
+                    setPost(results);
+                    setAdminFeaturingStatus("");
                   }}
                 >
-                  {(isStarred ? "★ " : "☆ ") + (post.placeholder ? "" : stars)}
+                  {post.featuredAt ? "Unfeature Post" : "Feature Post"}
+                  {adminFeaturingStatus}
                 </button>
-                {!post.placeholder && <div>{post.views} plays</div>}
-              </span>
-              {/*<div className="featured-flag">
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation();
+
+                    setAdminPublishingStatus(" ...");
+                    const result = await axios("/api/update/" + post.id, {
+                      params: { public: !post.public },
+                    });
+                    let results = result.data;
+                    results.metadata = JSON.parse(results.metadata);
+                    setPost(results);
+                    setAdminPublishingStatus("");
+                  }}
+                >
+                  {post.public === true ? "Make Private" : "Make Public"}
+                  {adminPublishingStatus}
+                </button>
+              </div>
+            )}
+            {/* <br></br> */}
+            {/* Element Set:{"\t\t"} */}
+            {/* <br></br> */}
+            {expanded && session && post?.user?.id == session.userId && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  fetch("/api/updateProfile/", {
+                    method: "post",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      postId: post.id,
+                    }),
+                  })
+                    .then(function (response) {
+                      return response.json();
+                    })
+                    .then(function (post) {
+                      console.log(post);
+
+                      useStore.setState({
+                        post,
+                      });
+                    });
+                }}
+              >
+                Set this post as my avatar
+              </button>
+            )}
+            {
+              <div className="browse-post-metadata-row">
+                <span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+
+                      setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
+                      setIsStarredOverride(!isStarred);
+                      fetch("/api/star/" + post.id)
+                        .then(function (response) {
+                          return response.json();
+                        })
+                        .then(function (new_post) {
+                          new_post.metadata = JSON.parse(new_post.metadata);
+                          setPost(new_post);
+
+                          setIsStarredOverride(null);
+                          setStarsOverride(null);
+                        });
+                    }}
+                  >
+                    {(isStarred ? "★ " : "☆ ") +
+                      (post.placeholder ? "" : stars)}
+                  </button>
+                  {!post.placeholder && <div>{post.views} plays</div>}
+                </span>
+                {/*<div className="featured-flag">
                 {post.featuredAt ? "🏆FEATURED" : ""}
               </div>*/}
-            </div>
-          }
+                {post.children && post.children.length > 0 && (
+                  <div
+                    className="replies-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setRepliesVisible(!repliesVisible);
+                    }}
+                  >{`${post.children.length} ${
+                    post.children.length > 1 ? "replies" : "reply"
+                  } ${repliesVisible ? "▲" : "▼"}`}</div>
+                )}
+              </div>
+            }
+          </div>
         </div>
       </div>
+      {repliesVisible && post.children && <Replies post={post} />}
     </div>
   );
 };
