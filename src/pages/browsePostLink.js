@@ -143,7 +143,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
         </button>*/}
 
         <div className="title-container">
-          {
+          <div className="post-header-container">
             <div
               className="userCard"
               onClick={(e) => {
@@ -161,7 +161,10 @@ export const BrowsePostLink = ({ post: initPost }) => {
                 <b>{post?.user?.name ?? post?.user?.id?.slice(0, 8)}</b>
               </a>
             </div>
-          }
+            {!post.placeholder && (
+              <div className="timestamp">{displayTime}</div>
+            )}
+          </div>
           <div className="title">
             {post.title === "" ? "" : `"${post.title}"`}
           </div>
@@ -274,10 +277,6 @@ export const BrowsePostLink = ({ post: initPost }) => {
               {/*<div className="featured-flag">
                 {post.featuredAt ? "🏆FEATURED" : ""}
               </div>*/}
-
-              {!post.placeholder && (
-                <div style={{ textAlign: "right" }}>{displayTime}</div>
-              )}
             </div>
           }
         </div>
