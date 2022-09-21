@@ -1,9 +1,64 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { useInfiniteQuery } from "react-query";
+import BrowsePostLink from "./browsePostLink.js";
 
 export const Replies = ({ post }) => {
+  const {
+    isLoading,
+    error,
+    data,
+    isFetching,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    [`repliesData${post.id}`],
+    async ({ pageParam = 0 }) => {
+      const result = await axios("/api/query", {
+        params: {
+          order: "new",
+          take: 10,
+          skip: pageParam,
+          id: post.id,
+          children: true,
+        },
+      });
+      let results = result.data;
+      results.posts = results.posts.map((r) => {
+        r.metadata = JSON.parse(r.metadata);
+        return r;
+      });
+      return results;
+    },
+    {
+      // placeholderData: { pages: [placeHolderPosts] },
+      getPreviousPageParam: (firstPage) => firstPage.offset || 0,
+      getNextPageParam: (lastPage) => {
+        return lastPage?.offset || 0;
+      },
+    }
+  );
+
   return (
-    <div style={{ textAlign: "center", marginBottom: "10px" }}>
-      Replies coming soon! 👀
+    <div className="replies-container">
+      {isLoading && (
+        <div style={{ textAlign: "center" }}>Loading replies...</div>
+      )}
+      {data?.pages.map((page, i) => (
+        <React.Fragment key={`replies${post.id}:page${i}`}>
+          {page.posts.map((d) => {
+            console.log(d.id);
+            return (
+              <BrowsePostLink
+                key={d.key === undefined ? d.id : d.key}
+                post={d}
+                full
+              />
+            );
+          })}
+        </React.Fragment>
+      ))}
     </div>
   );
 };

@@ -7,8 +7,18 @@ import authOptions from "./auth/options";
 import { prisma } from "../../db/prisma";
 
 async function handler(request: NextApiRequest, response: NextApiResponse) {
-  const { order, codeHash, userId, days, starredBy, featured, skip, take, id } =
-    request.query;
+  const {
+    order,
+    codeHash,
+    userId,
+    days,
+    starredBy,
+    featured,
+    skip,
+    take,
+    id,
+    children,
+  } = request.query;
 
   const idInt = parseInt(id as string);
 
@@ -57,6 +67,12 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
   if (!isNaN(idInt)) {
     where = {
       id: idInt,
+    };
+  }
+  if (children && !isNaN(idInt)) {
+    where = {
+      parentId: idInt,
+      public: true,
     };
   }
   if (starredBy) {

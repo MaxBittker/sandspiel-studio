@@ -19,7 +19,6 @@ import axios from "axios";
 import { imageURLBase } from "../simulation-controls/ExtraUI";
 import useStore, { globalState } from "../store";
 import { loadPostFromServer } from "../loadPostFromServer.js";
-import { useInfiniteQuery } from "react-query";
 import { Replies } from "./replies.js";
 
 export const BrowsePostLink = ({ post: initPost }) => {

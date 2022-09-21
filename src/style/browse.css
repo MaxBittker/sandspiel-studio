@@ -64,3 +64,8 @@ button.editor-toggle {
 .nav-bar-group {
   display: flex;
 }
+
+.replies-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
