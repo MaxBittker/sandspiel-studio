@@ -62,3 +62,5 @@ export const Replies = ({ post }) => {
     </div>
   );
 };
+
+export default Replies;
