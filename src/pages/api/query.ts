@@ -107,6 +107,9 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
           },
         },
         children: {
+          where: {
+            public: true,
+          },
           select: {
             id: true,
           },
