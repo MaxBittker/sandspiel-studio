@@ -96,6 +96,7 @@ const UploadButtons = () => {
     let gif = await exportGif();
 
     let id = useStore.getState().postId;
+    console.log(id);
 
     let buffer = encode({
       width,
@@ -173,6 +174,7 @@ const UploadButtons = () => {
 
         useStore.setState({
           post,
+          postId: post.id,
         });
 
         try {

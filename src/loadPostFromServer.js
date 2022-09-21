@@ -109,6 +109,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
       }
     });
 
+  useStore.setState({ postId: id });
   await fetch(`${imageURLBase}${id}.data.png`)
     .then((res) => res.blob())
     .then(async (blob) => {
