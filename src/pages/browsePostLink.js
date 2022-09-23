@@ -165,6 +165,9 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                 )}
                 <a>
                   <b>{post?.user?.name ?? post?.user?.id?.slice(0, 8)}</b>
+                  {!post.placeholder && (
+                    <div className="timestamp">{displayTime}</div>
+                  )}
                 </a>
               </div>
               {!isReply && !parentVisible && post.parent && (
@@ -175,9 +178,6 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                     setParentVisible(!parentVisible);
                   }}
                 >{`replying to ${parentVisible ? "▼" : "▲"}`}</div>
-              )}
-              {false && !post.placeholder && (
-                <div className="timestamp">{displayTime}</div>
               )}
             </div>
             <div className="title">

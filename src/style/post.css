@@ -166,7 +166,7 @@
 .userCard:hover .pfp {
   border: 1px solid;
 }
-.userCard:hover a {
+.userCard:hover a :not(.timestamp) {
   text-decoration: underline;
 }
 
