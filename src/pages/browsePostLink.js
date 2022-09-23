@@ -20,12 +20,14 @@ import { imageURLBase } from "../simulation-controls/ExtraUI";
 import useStore, { globalState } from "../store";
 import { loadPostFromServer } from "../loadPostFromServer.js";
 import { Replies } from "./replies.js";
+import Parent from "./parent.js";
 
-export const BrowsePostLink = ({ post: initPost }) => {
+export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const [post, setPost] = useState(initPost);
   const [repliesVisible, setRepliesVisible] = useState(false);
+  const [parentVisible, setParentVisible] = useState(false);
   const expandedPostId = useStore((state) => state.expandedPostId);
   const expanded = expandedPostId === post.id;
 
@@ -79,6 +81,7 @@ export const BrowsePostLink = ({ post: initPost }) => {
 
   return (
     <div className="post-family">
+      {parentVisible && post.parent && <Parent post={post} />}
       <div
         className={classNames("post", {
           selected: expanded,
@@ -164,7 +167,16 @@ export const BrowsePostLink = ({ post: initPost }) => {
                   <b>{post?.user?.name ?? post?.user?.id?.slice(0, 8)}</b>
                 </a>
               </div>
-              {!post.placeholder && (
+              {!isReply && !parentVisible && post.parent && (
+                <div
+                  className="replies-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setParentVisible(!parentVisible);
+                  }}
+                >{`replying to ${parentVisible ? "▼" : "▲"}`}</div>
+              )}
+              {false && !post.placeholder && (
                 <div className="timestamp">{displayTime}</div>
               )}
             </div>
@@ -281,17 +293,20 @@ export const BrowsePostLink = ({ post: initPost }) => {
                 {/*<div className="featured-flag">
                 {post.featuredAt ? "🏆FEATURED" : ""}
               </div>*/}
-                {post.children && post.children.length > 0 && (
-                  <div
-                    className="replies-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setRepliesVisible(!repliesVisible);
-                    }}
-                  >{`${post.children.length} ${
-                    post.children.length > 1 ? "replies" : "reply"
-                  } ${repliesVisible ? "▲" : "▼"}`}</div>
-                )}
+                {!isParent &&
+                  !repliesVisible &&
+                  post.children &&
+                  post.children.length > 0 && (
+                    <div
+                      className="replies-button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setRepliesVisible(!repliesVisible);
+                      }}
+                    >{`${post.children.length} ${
+                      post.children.length > 1 ? "replies" : "reply"
+                    } ${repliesVisible ? "▲" : "▼"}`}</div>
+                  )}
               </div>
             }
           </div>

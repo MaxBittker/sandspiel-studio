@@ -72,7 +72,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
   if (children && !isNaN(idInt)) {
     where = {
       parentId: idInt,
-      public: true,
+      //public: true,
     };
   }
   if (starredBy) {
@@ -120,14 +120,13 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         parent: {
           select: {
             id: true,
+            public: true,
           },
         },
         children: {
-          where: {
-            public: true,
-          },
           select: {
             id: true,
+            public: true,
           },
         },
         user: { select: { id: true, name: true, image: true } },

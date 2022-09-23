@@ -48,12 +48,12 @@ export const Replies = ({ post }) => {
       {data?.pages.map((page, i) => (
         <React.Fragment key={`replies${post.id}:page${i}`}>
           {page.posts.map((d) => {
-            console.log(d.id);
             return (
               <BrowsePostLink
                 key={d.key === undefined ? d.id : d.key}
                 post={d}
                 full
+                isReply
               />
             );
           })}

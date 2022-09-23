@@ -180,6 +180,10 @@
   justify-content: space-between;
 }
 
+.replies-button {
+  font-size: 16px;
+}
+
 .replies-button:hover {
   text-decoration: underline;
 }

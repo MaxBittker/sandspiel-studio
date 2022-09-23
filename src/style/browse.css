@@ -67,5 +67,10 @@ button.editor-toggle {
 
 .replies-container {
   margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.parent-container {
+  margin-top: 30px;
   margin-bottom: 20px;
 }
