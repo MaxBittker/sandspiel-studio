@@ -92,7 +92,6 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
         <a
           className="postThumbnail"
           style={{ fontSize: "1rem" }}
-          onClick={handleClick}
         >
           <img
             src={`${imageURLBase}${post.id}.gif`}
