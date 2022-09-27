@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useQueryParams, withDefault, BooleanParam } from "next-query-params";
+import { useRouter } from "next/router";
 
 import {
   seed,
@@ -38,6 +39,7 @@ function prepareExport() {
 }
 
 const ExtraUI = () => {
+  const router = useRouter();
   const [query, setQuery] = useQueryParams({
     edit: withDefault(BooleanParam, false),
     admin: withDefault(BooleanParam, true),
@@ -111,19 +113,6 @@ const ExtraUI = () => {
               Step
             </button>
           )}
-
-          {post ? (
-            <button
-              className="simulation-button"
-              onClick={() => {
-                reset();
-              }}
-            >
-              Restart
-            </button>
-          ) : (
-            ""
-          )}
         </span>
         <SizeButtons />
       </div>
@@ -146,105 +135,77 @@ const ExtraUI = () => {
       >
         Add Border
       </button> */}
-      <br />
-      <div>
-        {session && <UploadButtons />}
-
-        {/*!playMode && post?.views && "views: " + post.views*/}
-
-        {/*!playMode && stars !== undefined && (
-          <button
-            style={{ marginTop: "5px" }}
-            onClick={() => {
-              setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
-              setIsStarredOverride(!isStarred);
-              fetch("/api/star/" + post.id)
-                .then(function (response) {
-                  return response.json();
-                })
-                .then(function (post) {
-                  //console.log(post);
-
-                  useStore.setState({
-                    post,
+      {session ? (
+        <div>
+          {post && (
+            <div>
+              Replying to{" "}
+              <a
+                onClick={() => {
+                  router.push({
+                    pathname: `/post/${post.id}`,
                   });
+                }}
+              >
+                {post.user.name}'s post
+              </a>
+            </div>
+          )}
+          {session && <UploadButtons />}
 
-                  setIsStarredOverride(null);
-                  setStarsOverride(null);
-                });
-            }}
-          >
-            {(isStarred ? "★: " : "☆: ") + stars}
-          </button>
-        )*/}
-        {/*session && post?.user?.id == session.userId && (
-          <button
-            onClick={() => {
-              fetch("/api/updateProfile/", {
-                method: "post",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  postId: post.id,
-                }),
-              })
-                .then(function (response) {
-                  return response.json();
-                })
-                .then(function (post) {
-                  console.log(post);
-
-                  useStore.setState({
-                    post,
-                  });
-                });
-            }}
-          >
-            Set this post as my avatar
-          </button>
-        )*/}
-        <br />
-
-        {/*<Home />*/}
-
-        {!playMode &&
-          query.admin &&
-          window.location.host.includes("localhost") && (
+          {/*post ? (
             <button
               className="simulation-button"
               onClick={() => {
-                let json = prepareExport();
-
-                var data = [
-                  // eslint-disable-next-line no-undef
-                  new ClipboardItem({
-                    "text/plain": new Blob([json], { type: "text/plain" }),
-                  }),
-                ];
-                navigator.clipboard
-                  .write(data)
-                  .then(
-                    function () {
-                      setCopiedState(" ✓");
-                    },
-                    function () {
-                      setCopiedState("...Error");
-                    }
-                  )
-                  .finally(() => {
-                    window.setTimeout(() => {
-                      setCopiedState(null);
-                    }, 3000);
-                  });
+                reset();
               }}
             >
-              Export to Clipboard {copiedState}
+              Restart
             </button>
-          )}
+          ) : (
+            ""
+          )*/}
 
-        <img className="wordmark" src="/sandspiel.png"></img>
-      </div>
+          {!playMode &&
+            query.admin &&
+            window.location.host.includes("localhost") && (
+              <button
+                className="simulation-button"
+                onClick={() => {
+                  let json = prepareExport();
+
+                  var data = [
+                    // eslint-disable-next-line no-undef
+                    new ClipboardItem({
+                      "text/plain": new Blob([json], { type: "text/plain" }),
+                    }),
+                  ];
+                  navigator.clipboard
+                    .write(data)
+                    .then(
+                      function () {
+                        setCopiedState(" ✓");
+                      },
+                      function () {
+                        setCopiedState("...Error");
+                      }
+                    )
+                    .finally(() => {
+                      window.setTimeout(() => {
+                        setCopiedState(null);
+                      }, 3000);
+                    });
+                }}
+              >
+                Export to Clipboard {copiedState}
+              </button>
+            )}
+        </div>
+      ) : (
+        ""
+      )}
+
+      <img className="wordmark" src="/sandspiel.png"></img>
     </div>
   );
 };

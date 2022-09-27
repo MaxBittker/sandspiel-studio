@@ -64,11 +64,7 @@ const UploadButtons = () => {
 
   const post = useStore((state) => state.post);
   useEffect(() => {
-    if (post?.title) {
-      setTitle(post.title);
-    } else {
-      setTitle("");
-    }
+    setTitle("");
   }, [post]);
 
   let upload = async (postPublic = false) => {
@@ -235,7 +231,7 @@ const UploadButtons = () => {
     <>
       <input
         type="text"
-        placeholder="creation title"
+        placeholder={post ? "reply title..." : "post title..."}
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />

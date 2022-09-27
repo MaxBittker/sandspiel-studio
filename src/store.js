@@ -16,7 +16,7 @@ let useStore = create((set, get) => ({
   initialPaused: false,
 
   // PLAYGROUND
-  pos: [0, 0],
+  pos: [-1, -1],
   setPos: (e) => set(() => ({ pos: e })),
   selectedElement: 0,
   setSelected: (e) => set(() => ({ selectedElement: e })),

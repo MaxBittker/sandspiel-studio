@@ -77,6 +77,15 @@ button {
   right: 5px;
   bottom: 60px;
 }
+
+.extras-tray a {
+  font-weight: bold;
+}
+
+.extras-tray a:hover {
+  text-decoration: underline;
+}
+
 .controls-row {
   display: flex;
   justify-content: space-between;
