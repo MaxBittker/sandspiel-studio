@@ -81,8 +81,26 @@ const ExtraUI = () => {
   return (
     <div className="extras-tray">
       <div className="controls-row">
-        <div>
+        <span>
           <PlayPause />
+          <button
+            className="simulation-button"
+            onClick={() => {
+              popUndo();
+            }}
+          >
+            Undo
+          </button>
+
+          <button
+            className="simulation-button"
+            onClick={() => {
+              seed();
+              addBorder();
+            }}
+          >
+            Clear
+          </button>
           {paused && (
             <button
               className="simulation-button"
@@ -106,48 +124,18 @@ const ExtraUI = () => {
           ) : (
             ""
           )}
-        </div>
+        </span>
+        <SizeButtons />
+      </div>
+
+      <div className="controls-row">
         {!mobile && (
           <pre style={{ width: 120, height: "1em" }}>
             {t !== undefined &&
               `${elements[t]}\n${g} Color Fade\n${b} Hue Rotate\n${a} Extra`}
           </pre>
         )}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            flexDirection: "column",
-          }}
-        >
-          <SizeButtons />
-          <pre style={{ marginTop: "30px" }}>World Size</pre>
-        </div>
-      </div>
-
-      <div className="controls-row">
-        <button
-          className="simulation-button"
-          onClick={() => {
-            popUndo();
-          }}
-        >
-          Undo
-        </button>
-
         <WorldSizeButtons />
-      </div>
-
-      <div>
-        <button
-          className="simulation-button"
-          onClick={() => {
-            seed();
-            addBorder();
-          }}
-        >
-          Clear
-        </button>
       </div>
 
       {/* <button

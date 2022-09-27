@@ -20,6 +20,7 @@ const WorldSizeButtons = ({}) => {
 
   return (
     <span className="worldSizes">
+      <pre>World Size</pre>
       <Dropdown
         options={worldScaleNameMap.map((label, value) => ({ value, label }))}
         onChange={(e) => {

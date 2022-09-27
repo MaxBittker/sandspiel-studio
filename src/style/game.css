@@ -1,6 +1,6 @@
 button,
 input {
-  min-height: 30px;
+  height: 30px;
   min-width: 30px;
   font-size: 19px;
   padding: 1px 5px;
@@ -71,7 +71,6 @@ button {
   display: flex;
   padding: 5px;
   flex-direction: column;
-  flex-wrap: wrap;
 }
 .extras-tray .Auth {
   position: fixed;
@@ -81,13 +80,25 @@ button {
 .controls-row {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: top;
+  margin-bottom: 20px;
 }
+
 .controls-row span {
   display: flex;
 }
+
+.controls-row span:not(.sizes) {
+  flex-wrap: wrap;
+}
+
 .controls-row * {
   flex-grow: 0;
+}
+
+.worldSizes {
+  display: flex;
+  flex-direction: column;
 }
 
 textarea#json {
