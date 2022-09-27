@@ -147,7 +147,7 @@ const ExtraUI = () => {
                   });
                 }}
               >
-                {post.user.name}'s post
+                {post?.user?.name ?? post?.user?.id?.slice(0, 8)}'s post
               </a>
             </div>
           )}
