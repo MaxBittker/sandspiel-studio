@@ -11,6 +11,8 @@ input {
   flex-grow: 1;
   fill: black;
   user-select: none;
+  line-height: 0px;
+  white-space: nowrap;
 }
 .size-button {
   height: 30px;

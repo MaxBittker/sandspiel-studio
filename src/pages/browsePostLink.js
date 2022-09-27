@@ -49,7 +49,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   const handleClick = (e) => {
     if (expanded) return;
     loadPostFromServer(post.id);
-    window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);
+    //window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);
     e.preventDefault();
   };
 
@@ -89,7 +89,11 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
         })}
         onClick={handleClick}
       >
-        <a className="postThumbnail" href={href} style={{ fontSize: "1rem" }}>
+        <a
+          className="postThumbnail"
+          style={{ fontSize: "1rem" }}
+          onClick={handleClick}
+        >
           <img
             src={`${imageURLBase}${post.id}.gif`}
             width={300}
@@ -173,6 +177,9 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
               {!isReply && !parentVisible && post.parent && (
                 <div
                   className="replies-button"
+                  style={{
+                    textAlign: "right",
+                  }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setParentVisible(!parentVisible);
@@ -288,6 +295,17 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                     {(isStarred ? "★ " : "☆ ") +
                       (post.placeholder ? "" : stars)}
                   </button>
+                  {expanded && (
+                    <button
+                      onClick={() => {
+                        router.push({
+                          pathname: `/post/${post.id}`,
+                        });
+                      }}
+                    >
+                      Share
+                    </button>
+                  )}
                   {!post.placeholder && <div>{post.views} plays</div>}
                 </span>
                 {/*<div className="featured-flag">
@@ -299,6 +317,9 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                   post.children.length > 0 && (
                     <div
                       className="replies-button"
+                      style={{
+                        textAlign: "right",
+                      }}
                       onClick={(e) => {
                         e.stopPropagation();
                         setRepliesVisible(!repliesVisible);
