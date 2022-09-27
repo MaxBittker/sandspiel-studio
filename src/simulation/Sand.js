@@ -177,7 +177,7 @@ const Sand = () => {
           setIsDragging(true);
         }}
       ></div>
-      {!playMode && (
+      {
         <button
           className="editor-toggle"
           style={{
@@ -190,9 +190,9 @@ const Sand = () => {
             setQuery({ edit: playMode ? 1 : undefined });
           }}
         >
-          ▶ Close Editor
+          {playMode ? "◀  Open Editor " : "▶ Close Editor"}
         </button>
-      )}
+      }
       <WrappedElementButtons
         selectedElement={selectedElement}
         setSelected={setSelected}
