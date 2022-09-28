@@ -49,6 +49,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
   const handleClick = (e) => {
     if (expanded) return;
+    useStore.setState({ post });
     loadPostFromServer(post.id);
     //window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);
     e.preventDefault();
