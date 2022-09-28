@@ -7,7 +7,7 @@ import * as Sentry from "@sentry/nextjs";
 import BlocklyJS from "blockly/javascript";
 import { Xml } from "blockly/core";
 import { generateCode } from "./blocks/generator.js";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { getRandomColorName } from "./utils/theme.js";
 
 const imageURLBase =
@@ -35,6 +35,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
     return;
   }
 
+  const startTime = Date.now();
   const { loading } = useStore.getState();
   if (!loading) {
     useStore.setState({ curtainColor: "purple" /*getRandomColorName() */ });
@@ -169,6 +170,11 @@ export async function loadPostFromServer(postId, retrys = 0) {
         }
       }
 
+      const nowTime = Date.now();
+      const elapsedTime = nowTime - startTime;
+      if (elapsedTime < 500) {
+        await new Promise((r) => setTimeout(r, 500 - elapsedTime));
+      }
       await loadIntoEditor(idNumber);
       useStore.setState({ loading: false });
     });
