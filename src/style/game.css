@@ -68,6 +68,19 @@ button {
   transition: top 0.5s ease-out;
 }
 
+@media only screen and (max-width: 700px) {
+  .loading-curtain {
+    top: 0%;
+    left: -100%;
+    transition: left 0.5s ease-out;
+  }
+
+  .loading-curtain.visible {
+    left: 0%;
+    transition: left 0.5s ease-out;
+  }
+}
+
 .element-tray button {
   min-width: 80px;
 }
