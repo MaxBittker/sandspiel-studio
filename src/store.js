@@ -14,6 +14,7 @@ let useStore = create((set, get) => ({
   initialWorldSize: 75,
   initialWorldScale: 1 / 4,
   initialPaused: false,
+  loading: false,
 
   // PLAYGROUND
   pos: [-1, -1],

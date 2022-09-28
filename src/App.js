@@ -128,11 +128,8 @@ const App = () => {
     );
   }, [selectedElement, playMode]);
 
-  //let filter = ` brightness(1.0) contrast(0.1) saturate(0.1)`;
-  //if (loaded) {
-  //filter = "";
-  //}
-  let filter = "";
+  const loading = useStore((state) => state.loading);
+  let filter = loading ? `brightness(1.0) contrast(0.1) saturate(0.1)` : "";
   return (
     <div className="App">
       <BlocklyComponent

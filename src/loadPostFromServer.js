@@ -35,6 +35,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
   }
 
   useStore.setState({ expandedPostId: idNumber });
+  useStore.setState({ expandedPostId: idNumber });
   await fetch("/api/getCreation/" + id)
     .then((response) => {
       if (useStore.getState().expandedPostId !== idNumber) {
@@ -167,7 +168,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
     });
 }
 
-const loadIntoEditor = async (idNumber) => {
+const loadIntoEditor = async (idNumber = null) => {
   let ws = globalState.workspace;
   BlocklyJS.init(ws);
 
