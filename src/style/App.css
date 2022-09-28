@@ -1,3 +1,59 @@
+:root {
+  --black: #000000;
+  --white: #ffffff;
+  --off-white: #f8f6f3;
+  --fuschia: #f988da;
+  --purple: #a192ff;
+  --blue: #6aa4fa;
+  --sky: #bfe8ff;
+  --teal: #4ec5d4;
+  --green: #6eb987;
+  --lime: #eaf447;
+  --yellow: #ffe600;
+  --sand: #f5bb55;
+  --coral: #ff7c54;
+}
+
+.background-coral {
+  background-color: var(--coral);
+}
+
+.background-sand {
+  background-color: var(--sand);
+}
+
+.background-yellow {
+  background-color: var(--yellow);
+}
+
+.background-lime {
+  background-color: var(--lime);
+}
+
+.background-green {
+  background-color: var(--green);
+}
+
+.background-teal {
+  background-color: var(--teal);
+}
+
+.background-sky {
+  background-color: var(--sky);
+}
+
+.background-blue {
+  background-color: var(--blue);
+}
+
+.background-purple {
+  background-color: var(--purple);
+}
+
+.background-fuschia {
+  background-color: var(--fuschia);
+}
+
 pre {
   margin: 0;
 }
@@ -27,6 +83,12 @@ pre {
   flex-shrink: 0;
   background-image: url("/tiles/ScatterGray.png");
   background-size: 30px;
+  opacity: 100%;
+  transition: opacity 1s;
+}
+
+#world.loading {
+  opacity: 0%;
 }
 
 @media only screen and (max-width: 700px) {

@@ -10,6 +10,7 @@
 /* Placeholder */
 button.editor-toggle {
   background-color: #a192ff;
+  opacity: 100% !important;
 }
 
 .browse {

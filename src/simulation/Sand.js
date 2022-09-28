@@ -15,6 +15,7 @@ import {
 
 import { sands, width, height, tick, initSand, pushUndo } from "./SandApi";
 import { pointsAlongLine } from "../utils/utils";
+import LoadingCurtain from "../pages/loadingCurtain.js";
 let dpi = 4;
 
 globalState.updaters = useStore.getState().elements.map(() => {
@@ -168,6 +169,7 @@ const Sand = () => {
 
   return (
     <div id="world" style={{ width: playMode ? starterWidth : drawerWidth }}>
+      <LoadingCurtain />
       <div
         className="resizeHandle"
         style={{

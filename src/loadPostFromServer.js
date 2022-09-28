@@ -8,6 +8,7 @@ import BlocklyJS from "blockly/javascript";
 import { Xml } from "blockly/core";
 import { generateCode } from "./blocks/generator.js";
 import { useRef } from "react";
+import { getRandomColorName } from "./utils/theme.js";
 
 const imageURLBase =
   "https://storage.googleapis.com/sandspiel-studio/creations/";
@@ -34,7 +35,11 @@ export async function loadPostFromServer(postId, retrys = 0) {
     return;
   }
 
-  useStore.setState({ expandedPostId: idNumber });
+  const { loading } = useStore.getState();
+  if (!loading) {
+    useStore.setState({ curtainColor: getRandomColorName() });
+  }
+  useStore.setState({ loading: true });
   useStore.setState({ expandedPostId: idNumber });
   await fetch("/api/getCreation/" + id)
     .then((response) => {
@@ -164,7 +169,8 @@ export async function loadPostFromServer(postId, retrys = 0) {
         }
       }
 
-      loadIntoEditor(idNumber);
+      await loadIntoEditor(idNumber);
+      useStore.setState({ loading: false });
     });
 }
 

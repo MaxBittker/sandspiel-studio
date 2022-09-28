@@ -1,6 +1,7 @@
 import create from "zustand";
 import starterXMLs, { generatePlaceholder } from "./blocks/starterblocks";
 import { deriveColor, deriveName } from "./blocks/generator";
+import { getRandomColorName } from "./utils/theme.js";
 let bufferXMLs = starterXMLs;
 
 export const MAX_ELEMENTS = 15;
@@ -15,6 +16,7 @@ let useStore = create((set, get) => ({
   initialWorldScale: 1 / 4,
   initialPaused: false,
   loading: false,
+  curtainColor: getRandomColorName(),
 
   // PLAYGROUND
   pos: [-1, -1],
