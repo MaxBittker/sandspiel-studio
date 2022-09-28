@@ -21,6 +21,7 @@ import useStore, { globalState } from "../store";
 import { loadPostFromServer } from "../loadPostFromServer.js";
 import { Replies } from "./replies.js";
 import Parent from "./parent.js";
+import { copyTextToClipboard } from "../utils/clipboard.js";
 
 export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   const router = useRouter();
@@ -78,6 +79,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   let [adminPublishingStatus, setAdminPublishingStatus] = useState(null);
 
   const [isHovering, setIsHovering] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   return (
     <div className="post-family">
@@ -89,10 +91,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
         })}
         onClick={handleClick}
       >
-        <a
-          className="postThumbnail"
-          style={{ fontSize: "1rem" }}
-        >
+        <a className="postThumbnail" style={{ fontSize: "1rem" }}>
           <img
             src={`${imageURLBase}${post.id}.gif`}
             width={300}
@@ -297,12 +296,14 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                   {expanded && (
                     <button
                       onClick={() => {
-                        router.push({
-                          pathname: `/post/${post.id}`,
-                        });
+                        if (!copied) {
+                          copyTextToClipboard(href);
+                          setCopied(true);
+                          setTimeout(() => setCopied(false), 1000);
+                        }
                       }}
                     >
-                      Share
+                      {copied ? "Copied!" : "Copy Link"}
                     </button>
                   )}
                   {!post.placeholder && <div>{post.views} plays</div>}
