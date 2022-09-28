@@ -15,7 +15,11 @@ export const LoadingCurtain = () => {
         Loading...
         {post && (
           <div>
-            <b>"{post.title ? post.title : "Untitled"}"</b>
+            <b>
+              {'"'}
+              {post.title ? post.title : "Untitled"}
+              {'"'}
+            </b>
             <br />
             by {post.user.name ? post.user.name : post.user.id.slice(0, 6)}
           </div>
