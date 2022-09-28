@@ -14,9 +14,10 @@ const imageURLBase =
 
 export async function loadPostFromServer(postId, retrys = 0) {
   let id = postId;
+  const idNumber = parseInt(id, 10);
 
   // Only load the starter elements if no post is getting loaded
-  if (isNaN(parseInt(id, 10)) || id.length < 1) {
+  if (isNaN(idNumber) || id.length < 1) {
     useStore.getState().setXmls(starterXMLs);
     useStore.setState({ expandedPostId: null });
 
@@ -33,9 +34,12 @@ export async function loadPostFromServer(postId, retrys = 0) {
     return;
   }
 
-  useStore.setState({ expandedPostId: parseInt(id) });
+  useStore.setState({ expandedPostId: idNumber });
   await fetch("/api/getCreation/" + id)
     .then((response) => {
+      if (useStore.getState().expandedPostId !== idNumber) {
+        return "cancel";
+      }
       if (response.status == 200) {
         return response.text();
       } else {
@@ -44,6 +48,9 @@ export async function loadPostFromServer(postId, retrys = 0) {
       }
     })
     .then((raw) => {
+      if (raw === "cancel" || useStore.getState().expandedPostId !== idNumber) {
+        return "cancel";
+      }
       let data = JSON.parse(raw);
       console.log("loaded some code from " + id);
       let { code, metadata, ...post } = data;
@@ -101,6 +108,9 @@ export async function loadPostFromServer(postId, retrys = 0) {
     })
     .catch((err) => {
       console.error(err);
+      if (useStore.getState().expandedPostId !== idNumber) {
+        return "cancel";
+      }
       if (retrys < 5) {
         console.warn("retrying");
         return loadPostFromServer(postId, retrys + 1);
@@ -109,10 +119,17 @@ export async function loadPostFromServer(postId, retrys = 0) {
       }
     });
 
+  if (useStore.getState().expandedPostId !== idNumber) {
+    return "cancel";
+  }
+
   useStore.setState({ postId: id });
   await fetch(`${imageURLBase}${id}.data.png`)
     .then((res) => res.blob())
     .then(async (blob) => {
+      if (useStore.getState().expandedPostId !== idNumber) {
+        return "cancel";
+      }
       let ab = await blob.arrayBuffer();
       let { data } = decode(ab);
       useStore.setState({ initialSandsData: data });
@@ -146,11 +163,11 @@ export async function loadPostFromServer(postId, retrys = 0) {
         }
       }
 
-      loadIntoEditor();
+      loadIntoEditor(idNumber);
     });
 }
 
-const loadIntoEditor = async () => {
+const loadIntoEditor = async (idNumber) => {
   let ws = globalState.workspace;
   BlocklyJS.init(ws);
 
@@ -161,6 +178,9 @@ const loadIntoEditor = async () => {
     ws.clear();
 
     await new Promise((resolve) => {
+      if (useStore.getState().expandedPostId !== idNumber) {
+        return "cancel";
+      }
       let cb = () => {
         generateCode(i, ws);
         ws.removeChangeListener(cb);
