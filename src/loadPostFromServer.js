@@ -37,7 +37,7 @@ export async function loadPostFromServer(postId, retrys = 0) {
 
   const { loading } = useStore.getState();
   if (!loading) {
-    useStore.setState({ curtainColor: getRandomColorName() });
+    useStore.setState({ curtainColor: "purple" /*getRandomColorName() */ });
   }
   useStore.setState({ loading: true });
   useStore.setState({ expandedPostId: idNumber });
