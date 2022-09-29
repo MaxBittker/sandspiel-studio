@@ -100,15 +100,23 @@ button {
 }
 
 @media only screen and (max-width: 700px) {
-  .loading-curtain {
-    top: 0%;
-    left: -100%;
-    transition: left 0.5s ease-out;
+  .loading-curtain.loading-curtain-top {
+    transform: translateX(-100%);
   }
-
-  .loading-curtain.visible {
-    left: 0%;
-    transition: left 0.5s ease-out;
+  .loading-curtain.loading-curtain-bottom {
+    border-top: 2px solid rgb(148, 148, 148);
+  
+    justify-content: flex-start;
+    transform: translateX(100%);
+  }
+  
+  .loading-curtain-top.visible {
+    transition: transform 0.5s ease-out;
+    transform: translateX(0);
+  }
+  .loading-curtain-bottom.visible {
+    transition: transform 0.5s ease-out;
+    transform: translateX(0);
   }
 }
 
