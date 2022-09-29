@@ -139,13 +139,14 @@ export async function loadPostFromServer(postId, retrys = 0) {
       }
       let ab = await blob.arrayBuffer();
       let { data } = decode(ab);
-      useStore.setState({ initialSandsData: data });
-
+      
       const nowTime = Date.now();
       const elapsedTime = nowTime - startTime;
       if (elapsedTime < 500) {
         await new Promise((r) => setTimeout(r, 500 - elapsedTime));
       }
+
+      useStore.setState({ initialSandsData: data });
 
       if (id >= 1436) {
         for (var i = 0; i < width * height * 4; i++) {
