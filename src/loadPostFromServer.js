@@ -141,6 +141,12 @@ export async function loadPostFromServer(postId, retrys = 0) {
       let { data } = decode(ab);
       useStore.setState({ initialSandsData: data });
 
+      const nowTime = Date.now();
+      const elapsedTime = nowTime - startTime;
+      if (elapsedTime < 500) {
+        await new Promise((r) => setTimeout(r, 500 - elapsedTime));
+      }
+
       if (id >= 1436) {
         for (var i = 0; i < width * height * 4; i++) {
           sands[i] = data[i];
@@ -170,11 +176,6 @@ export async function loadPostFromServer(postId, retrys = 0) {
         }
       }
 
-      const nowTime = Date.now();
-      const elapsedTime = nowTime - startTime;
-      if (elapsedTime < 500) {
-        await new Promise((r) => setTimeout(r, 500 - elapsedTime));
-      }
       await loadIntoEditor(idNumber);
       useStore.setState({ loading: false });
     });
