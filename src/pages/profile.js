@@ -53,7 +53,7 @@ export default function Profile() {
                   }).then((e) => window.location.reload());
                 }}
               >
-                Save
+                Save Name
               </button>
             </span>
             <button onClick={signOut} style={{ marginBottom: 6 }}>

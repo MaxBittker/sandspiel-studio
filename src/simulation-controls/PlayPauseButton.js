@@ -29,7 +29,7 @@ const PlayPause = ({}) => {
           />
         </svg>
       ) : (
-        <svg height="13" width="15" id="d" viewBox="0 -50 300 300">
+        <svg height="13" width="15" id="d" viewBox="0 0 300 300">
           <polygon id="bar2" points="0,0 80,0 80,300 0,300" />
           <polygon id="bar1" points="190,0 270,0 270,300 190,300" />
         </svg>

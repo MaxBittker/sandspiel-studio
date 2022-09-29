@@ -192,7 +192,7 @@ const Sand = () => {
             setQuery({ edit: playMode ? 1 : undefined });
           }}
         >
-          {playMode ? "◀  Open Editor " : "▶ Close Editor"}
+          {playMode ? "<-  Open Editor " : "-> Close Editor"}
         </button>
       }
       <WrappedElementButtons

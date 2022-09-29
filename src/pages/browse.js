@@ -234,6 +234,29 @@ function Browse() {
                 {" "}
                 All
               </button>
+              {!singlePost && !home && (
+                <span className="filterControls">
+                  <Dropdown
+                    options={options}
+                    onChange={(e) => {
+                      if (e.value === "top") {
+                        setQuery({ order: e.value, days: "365" });
+                      } else {
+                        setQuery({ order: e.value, days: undefined });
+                      }
+                    }}
+                    value={query.order}
+                  />
+
+                  {query.order === "top" && (
+                    <Dropdown
+                      options={optionsTime}
+                      onChange={(e) => setQuery({ days: e.value })}
+                      value={query.days}
+                    />
+                  )}
+                </span>
+              )}
             </div>
             <div className="nav-bar-group">
               {session ? (
@@ -280,35 +303,12 @@ function Browse() {
                     setQuery({ edit: playMode ? 1 : undefined });
                   }}
                 >
-                  ◀ Open Editor
+                  {"<- Open Editor"}
                 </button>
               )}
             </div>
           </span>
 
-          {!singlePost && !home && (
-            <span className="filterControls">
-              <Dropdown
-                options={options}
-                onChange={(e) => {
-                  if (e.value === "top") {
-                    setQuery({ order: e.value, days: "365" });
-                  } else {
-                    setQuery({ order: e.value, days: undefined });
-                  }
-                }}
-                value={query.order}
-              />
-
-              {query.order === "top" && (
-                <Dropdown
-                  options={optionsTime}
-                  onChange={(e) => setQuery({ days: e.value })}
-                  value={query.days}
-                />
-              )}
-            </span>
-          )}
           {isLoading && <Spinner></Spinner>}
           {error && <div>Error: {error}</div>}
 

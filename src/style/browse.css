@@ -54,7 +54,11 @@ button.editor-toggle {
   display: flex;
   margin-bottom: 6px;
 }
-
+.filterControls .Dropdown-control {
+  height: 30px;
+  padding: 3px 6px;
+  font-family: "Inter", sans-serif;
+}
 .nav-bar {
   display: flex;
   margin-bottom: 6px;
@@ -67,11 +71,12 @@ button.editor-toggle {
 }
 
 .replies-container {
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin-top: 0px;
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
 
 .parent-container {
-  margin-top: 30px;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 0px;
 }
