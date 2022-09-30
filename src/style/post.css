@@ -120,10 +120,10 @@
   cursor: unset;
 }
 .post.selected {
-  border-color: #a192ff;
-
-  /* transform: translateX(8px); */
-  box-shadow: 8px 0px 0px 0px #a192ff;
+  box-shadow: 8px 0px 0px 0px rgba(250, 247, 247, 1);
+}
+.post:hover.selected {
+  box-shadow: 8px 0px 0px 0px rgba(250, 247, 247, 0.45);
 }
 
 .post.placeholder {

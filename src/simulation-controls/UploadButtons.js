@@ -39,6 +39,7 @@ function dataURItoBlob(dataURI) {
 
 const UploadButtons = () => {
   const router = useRouter();
+  const [isPublic, setIsPublic] = useState(true);
   const [query, setQuery] = useQueryParams({
     codeHash: StringParam,
     userId: StringParam,
@@ -235,12 +236,22 @@ const UploadButtons = () => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <button className="simulation-button" onClick={() => upload(false)}>
+      {/* <button className="simulation-button" onClick={() => upload(false)}>
         Save
+      </button> */}
+      <button
+        className="simulation-button postButton"
+        onClick={() => upload(isPublic)}
+      >
+        {isPublic ? "Post ↑" : "Save  ↑"}
       </button>
-      <button className="simulation-button" onClick={() => upload(true)}>
-        Post ↑
-      </button>
+      <br></br>
+      <label>Public:</label>
+      <input
+        type="checkbox"
+        checked={isPublic}
+        onChange={(e) => setIsPublic(!isPublic)}
+      />
       <span>{sharedState ?? ""}</span>
     </>
   );

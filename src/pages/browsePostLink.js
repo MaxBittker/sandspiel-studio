@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import * as timeago from "timeago.js";
+import useSound from "use-sound";
 
 import "react-dropdown/style.css";
 import {
@@ -47,8 +48,13 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   }
 
   const href = `${window.location.protocol}//${window.location.host}/post/${post.id}`;
+  const [play] = useSound("/media/delete.wav", {
+    volume: 0.15,
+  });
+
   const handleClick = (e) => {
     if (expanded) return;
+    play();
     useStore.setState({ post });
     loadPostFromServer(post.id);
     //window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);

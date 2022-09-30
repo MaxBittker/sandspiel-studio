@@ -43,6 +43,7 @@
     "timeago.js": "^4.0.2",
     "tinycolor2": "^1.4.2",
     "use-animation-frame": "^0.1.1",
+    "use-sound": "^4.0.1",
     "vkbeautify": "^0.99.3",
     "zustand": "^3.6.9"
   },

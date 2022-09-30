@@ -13,6 +13,33 @@ input {
   user-select: none;
   line-height: 0px;
   white-space: nowrap;
+  vertical-align: middle;
+}
+
+input[type="checkbox"] {
+  box-sizing: border-box;
+  margin-left: 0;
+  border: 2px solid whitesmoke;
+  border-color: gainsboro;
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+label {
+  background-color: whitesmoke;
+  color: black;
+  border: 2px solid whitesmoke;
+  border-color: gainsboro;
+  border-right: none;
+  height: 30px;
+  display: inline-block;
+  padding: 1px 5px;
+  margin-right: 0;
+  vertical-align: middle;
+  line-height: 23px;
+  font-family: "Inter", sans-serif;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .size-button {
   height: 30px;
@@ -21,7 +48,7 @@ input {
 button {
   font-family: "Inter", sans-serif;
   cursor: pointer;
-  margin-bottom: -2px;
+  /* margin-bottom: -2px; */
 }
 .simulation-button {
   z-index: 1;
@@ -68,16 +95,17 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background-color: rgba(220, 220, 220, 0.967);
-  backdrop-filter: blur(15px);
-
+  background-color: rgba(220, 220, 220, 1);
+  /* backdrop-filter: blur(15px); */
+  background-image: url("/tiles/ScatterGray.png");
+  background-size: 100px;
   text-align: center;
   color: var(--black);
   font-size: 24px;
   transition: transform 0.5s ease-in;
 }
 .loading-curtain.loading-curtain-top {
-  border-bottom: 2px solid rgb(148, 148, 148);
+  border-bottom: 1px solid rgb(148, 148, 148);
   top: 0;
   transform: translateY(-100%);
 }
@@ -91,11 +119,11 @@ button {
 }
 
 .loading-curtain-top.visible {
-  transition: transform 0.5s ease-out;
+  transition: transform 0.25s ease-out;
   transform: translateY(0);
 }
 .loading-curtain-bottom.visible {
-  transition: transform 0.5s ease-out;
+  transition: transform 0.25s ease-out;
   transform: translateY(0);
 }
 
@@ -105,11 +133,11 @@ button {
   }
   .loading-curtain.loading-curtain-bottom {
     border-top: 2px solid rgb(148, 148, 148);
-  
+
     justify-content: flex-start;
     transform: translateX(100%);
   }
-  
+
   .loading-curtain-top.visible {
     transition: transform 0.5s ease-out;
     transform: translateX(0);

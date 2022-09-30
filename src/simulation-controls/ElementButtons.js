@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 import { MAX_ELEMENTS, useStore } from "../store";
+import useSound from "use-sound";
 
 const ElementButton = ({
   i,
@@ -19,6 +20,10 @@ const ElementButton = ({
 
   let color = `hsla(${h * 360},${s * 100}%,${l * 100}%,0.5)`;
   let color2 = `hsla(${h2 * 360},${s2 * 100}%,${l2 * 100}%,0.5)`;
+  const [play] = useSound("/media/disconnect.wav", {
+    playbackRate: 0.2 + i / 15,
+    volume: 0.15,
+  });
 
   let background = `linear-gradient(45deg,
     ${color}, 
@@ -29,6 +34,7 @@ const ElementButton = ({
       className={classNames("simulation-button", { selected, shrink })}
       onClick={() => {
         if (!setSelected) return;
+        play();
         document.querySelector(".blocklyMainBackground").style.fill =
           background;
         color.replace("0.5", "0.3");
@@ -56,6 +62,7 @@ const ElementButtons = ({
 }) => {
   let enabledElements = elements.filter((_, i) => !disabled[i]);
   let [hovering, setHovering] = useState(null);
+  const [play] = useSound("/media/disconnect.wav", { volume: 0.25 });
 
   return (
     <div className="element-tray">
@@ -80,7 +87,10 @@ const ElementButtons = ({
           <button
             onMouseEnter={() => setHovering("-")}
             className={"simulation-button element-control"}
-            onClick={() => useStore.getState().deleteSelectedElement()}
+            onClick={() => {
+              play();
+              useStore.getState().deleteSelectedElement();
+            }}
           >
             -
           </button>
@@ -89,7 +99,10 @@ const ElementButtons = ({
             <button
               onMouseEnter={() => setHovering("+")}
               className={"simulation-button element-control "}
-              onClick={() => useStore.getState().newElement()}
+              onClick={() => {
+                play();
+                useStore.getState().newElement();
+              }}
             >
               +
             </button>

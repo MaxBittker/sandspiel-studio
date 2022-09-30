@@ -154,3 +154,8 @@ label {
 .Dropdown-control {
   padding-right: 30px !important;
 }
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.217);
+  border-radius: 0;
+  border: 1px solid gray;
+}
