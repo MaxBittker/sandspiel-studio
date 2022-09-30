@@ -17,8 +17,6 @@ export default function Profile() {
     );
   }
 
-  const user = session.user;
-
   return (
     <>
       {session && session.userId === userId && (
@@ -28,10 +26,10 @@ export default function Profile() {
               <img
                 className="pfp"
                 style={{ margin: 3, marginTop: 6 }}
-                src={user?.image}
+                src={session.user?.image}
               ></img>
               <a>
-                <b>{user?.name}</b>
+                <b>{session?.user?.name}</b>
               </a>
             </span>
             <span>
