@@ -185,6 +185,7 @@ button {
 
 .extras-tray a {
   font-weight: bold;
+  cursor: pointer;
 }
 
 .extras-tray a:hover {
