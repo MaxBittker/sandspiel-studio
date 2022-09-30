@@ -118,12 +118,11 @@
 }
 .post.selected {
   cursor: unset;
-}
-.post.selected {
   box-shadow: 8px 0px 0px 0px rgba(250, 247, 247, 1);
 }
 .post:hover.selected {
   box-shadow: 8px 0px 0px 0px rgba(250, 247, 247, 0.45);
+  background-color: rgba(250, 247, 247, 1);
 }
 
 .post.placeholder {
