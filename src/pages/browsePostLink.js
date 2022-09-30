@@ -286,6 +286,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                       marginBottom: -4,
                     }}
                     onClick={(e) => {
+                      if (!session || session.userId) return;
                       e.stopPropagation();
 
                       setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
