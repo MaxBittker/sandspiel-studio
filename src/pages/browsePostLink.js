@@ -279,6 +279,12 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
               <div className="browse-post-metadata-row">
                 <span>
                   <button
+                    style={{
+                      zoom: 1.25,
+                      border: "none",
+                      background: "none",
+                      marginBottom: -4,
+                    }}
                     onClick={(e) => {
                       e.stopPropagation();
 
