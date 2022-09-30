@@ -139,11 +139,11 @@ button {
   }
 
   .loading-curtain-top.visible {
-    transition: transform 0.5s ease-out;
+    transition: transform 0.25s ease-out;
     transform: translateX(0);
   }
   .loading-curtain-bottom.visible {
-    transition: transform 0.5s ease-out;
+    transition: transform 0.25s ease-out;
     transform: translateX(0);
   }
 }
