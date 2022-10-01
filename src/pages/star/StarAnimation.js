@@ -1,3 +1,5 @@
+import React from "react";
+
 const svgWidth = 96;
 const svgHeight = 96;
 const centerX = svgWidth / 2;

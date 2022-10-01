@@ -1,3 +1,4 @@
+import React from "react";
 import StarAnimation from "./StarAnimation";
 import StarIcon from "./StarIcon";
 
