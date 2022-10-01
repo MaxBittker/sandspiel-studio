@@ -89,8 +89,6 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const toggleStarred = () => setStarred((starred) => !starred);
-
   return (
     <div className="post-family">
       {parentVisible && post.parent && <Parent post={post} />}
