@@ -4,21 +4,22 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("PLANETSCALE_PRISMA_DATABASE_URL")
-
+    provider             = "mysql"
+    url                  = env("PLANETSCALE_PRISMA_DATABASE_URL")
     referentialIntegrity = "prisma"
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
-    createdAt DateTime @default(now()) @db.Timestamp(6)
-    metadata  String   @db.MediumText
-
-    codeHash   String    @default("")
-    code       String    @db.MediumText
-    public     Boolean   @default(false)
+    id         Int       @id @default(autoincrement())
+    createdAt  DateTime  @default(now()) @db.Timestamp(6)
+    deletedAt  DateTime? @db.Timestamp(6)
     featuredAt DateTime? @db.Timestamp(6)
+
+    metadata String @db.MediumText
+
+    codeHash String  @default("")
+    code     String  @db.MediumText
+    public   Boolean @default(false)
 
     title String? @db.VarChar(511)
 
@@ -55,11 +56,13 @@ model User {
     email         String?   @unique
     role          String?   @default("user")
     emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    Post          Post[]
-    Star          Star[]
+    bannedAt      DateTime?
+
+    image    String?
+    accounts Account[]
+    sessions Session[]
+    Post     Post[]
+    Star     Star[]
 }
 
 model Account {
