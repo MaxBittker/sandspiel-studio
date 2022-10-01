@@ -143,7 +143,7 @@ Blockly.JavaScript["vector_constant"] = function (block) {
 
 Blockly.JavaScript["string_literal"] = function (block) {
   const string = block.getFieldValue("VALUE");
-  const code = "`" + string + "`";
+  const code = "`" + (string ?? "").replace("`", "'") + "`";
   return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
@@ -708,7 +708,7 @@ Blockly.JavaScript["modify_r_cell_flexible"] = function (block) {
 };
 
 Blockly.JavaScript["comment"] = function (block) {
-  const comment = block.getFieldValue("DATA");
+  const comment = (block.getFieldValue("DATA") ?? "").replace("\n", " ");
   return `// ${comment}\n`;
 };
 
