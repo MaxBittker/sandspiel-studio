@@ -39,7 +39,7 @@ function dataURItoBlob(dataURI) {
 
 const UploadButtons = () => {
   const router = useRouter();
-  const [isPublic, setIsPublic] = useState(true);
+  const [isPublic, setIsPublic] = useState(false);
   const [query, setQuery] = useQueryParams({
     codeHash: StringParam,
     userId: StringParam,
