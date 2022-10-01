@@ -52,6 +52,9 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   const [play] = useSound("/media/delete.wav", {
     volume: 0.15,
   });
+  const [play2] = useSound("/media/block.wav", {
+    volume: 0.15,
+  });
 
   const handleClick = (e) => {
     if (expanded) return;
@@ -284,7 +287,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                     onClick={(e) => {
                       if (!session || !session.userId) return;
                       e.stopPropagation();
-                      play();
+                      play2();
                       setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
                       setIsStarredOverride(!isStarred);
                       fetch("/api/star/" + post.id)
