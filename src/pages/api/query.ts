@@ -93,6 +93,11 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       ),
     };
   }
+  where.user = {
+    bannedAt: {
+      equals: null,
+    },
+  };
   const skipN = parseInt(skip as string, 10) || 0;
   try {
     // todo cursor based pagination

@@ -19,7 +19,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
     // todo cursor based pagination
     let user = await prisma.user.findUnique({
       where: { id },
-      select: { id: true, name: true, image: true, Star: true },
+      select: { id: true, name: true, image: true, Star: true, bannedAt: true },
     });
 
     if (!user) {

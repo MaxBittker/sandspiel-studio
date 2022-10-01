@@ -27,7 +27,17 @@ export default function Profile() {
       </div>
     );
   }
-
+  function ban() {
+    fetch("/api/updateProfile/", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        banned: !user.bannedAt,
+      }),
+    }).then((e) => window.location.reload());
+  }
   return (
     <>
       <div className="post splash">
@@ -41,6 +51,22 @@ export default function Profile() {
             <a>
               <b>{user?.name}</b>
             </a>
+          </span>
+          <span>
+            {user.bannedAt ? (
+              <span style={{ color: "red", marginRight: "1em" }}>
+                ⚠ BANNED USER
+              </span>
+            ) : (
+              ""
+            )}
+            {session && session.role === "admin" && (
+              <>
+                <button onClick={ban} style={{ marginBottom: 6 }}>
+                  {user.bannedAt ? "forgive" : "ban"} this sucker
+                </button>
+              </>
+            )}
           </span>
           {session && session.userId === userId && (
             <>
