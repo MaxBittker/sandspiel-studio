@@ -1,0 +1,45 @@
+.StarButton {
+  line-height: 0;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.StarButton .StarAnimation {
+  position: absolute;
+  top: -32px;
+  left: -32px;
+  pointer-events: none;
+}
+
+.StarButton .StarIcon {
+  position: relative;
+  transition: transform 100ms;
+  stroke: #ababab;
+}
+.StarButton:active .StarIcon {
+  transform: scale(0.7);
+}
+.StarButton--starred .StarIcon,
+.StarButton--starred:hover .StarIcon {
+  animation: 650ms star-grow-rotate ease-out;
+  fill: #f7d527;
+  stroke: none;
+}
+
+@keyframes star-grow-rotate {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(1.5) rotate(120deg);
+  }
+
+  100% {
+    /* 72deg is a rotation by one spike. The star has 5 spikes. 360deg / 5 = 72 */
+    transform: scale(1) rotate(144deg);
+  }
+}

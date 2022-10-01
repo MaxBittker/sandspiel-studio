@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import * as timeago from "timeago.js";
 import useSound from "use-sound";
+import StarButton from "./star/StarButton";
 
 import "react-dropdown/style.css";
 import {
@@ -87,6 +88,8 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
 
   const [isHovering, setIsHovering] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  const toggleStarred = () => setStarred((starred) => !starred);
 
   return (
     <div className="post-family">
@@ -227,7 +230,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                 <button
                   onClick={async (e) => {
                     e.stopPropagation();
-
+                    play;
                     setAdminPublishingStatus(" ...");
                     const result = await axios("/api/update/" + post.id, {
                       params: { public: !post.public },
@@ -278,17 +281,12 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
             {
               <div className="browse-post-metadata-row">
                 <span>
-                  <button
-                    style={{
-                      zoom: 1.25,
-                      border: "none",
-                      background: "none",
-                      marginBottom: -4,
-                    }}
+                  <StarButton
+                    starred={isStarred}
                     onClick={(e) => {
                       if (!session || !session.userId) return;
                       e.stopPropagation();
-
+                      play();
                       setStarsOverride(stars + 1 * (isStarred ? -1 : 1));
                       setIsStarredOverride(!isStarred);
                       fetch("/api/star/" + post.id)
@@ -303,10 +301,20 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                           setStarsOverride(null);
                         });
                     }}
+                  />
+
+                  <span
+                    style={{
+                      zoom: 1.25,
+                      border: "none",
+                      background: "none",
+                      marginBottom: 0,
+                      fontSize: 23,
+                      marginRight: 8,
+                    }}
                   >
-                    {(isStarred ? "★ " : "☆ ") +
-                      (post.placeholder ? "" : stars)}
-                  </button>
+                    {post.placeholder ? "" : stars}
+                  </span>
                   {expanded && (
                     <button
                       onClick={() => {

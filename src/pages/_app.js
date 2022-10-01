@@ -11,6 +11,7 @@ import "../style/index.css";
 import "../style/App.css";
 import "../style/game.css";
 import "../style/post.css";
+import "../style/star.css";
 import "../style/browse.css";
 import "../Blockly/BlocklyComponent.css";
 const queryClient = new QueryClient();
