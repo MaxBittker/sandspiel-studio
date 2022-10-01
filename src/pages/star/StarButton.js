@@ -1,5 +1,5 @@
 import React from "react";
-import StarAnimation from "./StarAnimation";
+// import StarAnimation from "./StarAnimation";
 import StarIcon from "./StarIcon";
 
 function StarButton({ starred = false, ...rest }) {
@@ -9,7 +9,7 @@ function StarButton({ starred = false, ...rest }) {
       type="button"
       {...rest}
     >
-      <StarAnimation starred={starred} />
+      {/* <StarAnimation starred={starred} /> */}
       <StarIcon />
     </button>
   );

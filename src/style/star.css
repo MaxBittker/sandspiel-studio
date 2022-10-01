@@ -24,9 +24,9 @@
 }
 .StarButton--starred .StarIcon,
 .StarButton--starred:hover .StarIcon {
-  animation: 650ms star-grow-rotate ease-out;
+  animation: 500ms star-grow-rotate ease-out;
   fill: #f7d527;
-  stroke: none;
+  stroke: #ababab;
 }
 
 @keyframes star-grow-rotate {
