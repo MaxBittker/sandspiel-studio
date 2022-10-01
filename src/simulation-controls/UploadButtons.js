@@ -243,7 +243,7 @@ const UploadButtons = () => {
         className="simulation-button postButton"
         onClick={() => upload(isPublic)}
       >
-        {isPublic ? "Post ↑" : "Save  ↑"}
+        {isPublic ? "Post ↑" : post ? "Reply ↑" : "Save  ↑"}
       </button>
       <br></br>
       <label>Public:</label>
