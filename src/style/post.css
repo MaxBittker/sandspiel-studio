@@ -132,12 +132,8 @@
 }
 .postThumbnail,
 .postThumbnail img {
-  width: 300px;
-  height: 300px;
-  max-width: calc(20vw - 6px - 10px);
-  max-height: calc(20vw - 6px - 10px);
-  min-width: 100px;
-  min-height: 100px;
+  width: calc(clamp(100px, 20vw - 6px - 10px, 300px));
+  height: calc(clamp(100px, 20vw - 6px - 10px, 300px));
 }
 
 .userCard {
