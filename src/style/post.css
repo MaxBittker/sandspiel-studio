@@ -129,7 +129,6 @@
 .postThumbnail {
   position: relative;
   margin-right: 3px;
-  min-width: 100px;
 }
 .postThumbnail img {
   width: 300px;
