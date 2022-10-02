@@ -228,6 +228,7 @@ const UploadButtons = () => {
         }, 3000);
       });
   };
+  const postCount = post?.postCount ?? session.postCount ?? 0;
   return (
     <>
       <input
@@ -246,12 +247,19 @@ const UploadButtons = () => {
         {isPublic ? "Post ↑" : post ? "Reply ↑" : "Save  ↑"}
       </button>
       <br></br>
-      <label>Public:</label>
-      <input
-        type="checkbox"
-        checked={isPublic}
-        onChange={(e) => setIsPublic(!isPublic)}
-      />
+      <span className="publicPostToggle">
+        <label>Public:</label>
+
+        <input
+          type="checkbox"
+          disabled={postCount > 2}
+          checked={isPublic}
+          onChange={(e) => setIsPublic(!isPublic)}
+        />
+        <span className="explanation">
+          {postCount > 2 && `Maximum 3 public posts per 24hrs.`}
+        </span>
+      </span>
       <span>{sharedState ?? ""}</span>
     </>
   );

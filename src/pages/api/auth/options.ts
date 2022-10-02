@@ -56,6 +56,18 @@ const authOptions: NextAuthOptions = {
     session: async ({ session, user }) => {
       session.userId = user.id;
       session.role = user.role;
+      session.postCount = await prisma.post.count({
+        where: {
+          userId: user.id,
+          public: true,
+          createdAt: {
+            gte: new Date(
+              Date.now() - 1 * 24 * 60 * 60 * 1000 // 24 hours
+            ),
+          },
+        },
+      });
+
       return Promise.resolve(session);
     },
     async jwt({ token, user }) {

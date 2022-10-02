@@ -15,7 +15,20 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
     );
 
     const userId = session?.userId;
-
+    let postCount = 0;
+    if (userId) {
+      postCount = await prisma.post.count({
+        where: {
+          userId: userId,
+          public: true,
+          createdAt: {
+            gte: new Date(
+              Date.now() - 1 * 24 * 60 * 60 * 1000 // 24 hours
+            ),
+          },
+        },
+      });
+    }
     const post = await prisma.post.findUnique({
       where: {
         id,
@@ -61,6 +74,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
     if (!post) {
       response.status(404);
     } else {
+      post["postCount"] = postCount;
       response.status(200).json(post);
     }
   } catch (err) {

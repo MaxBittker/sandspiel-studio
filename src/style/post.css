@@ -178,3 +178,9 @@
 .replies-button:hover {
   text-decoration: underline;
 }
+.explanation {
+  display: none;
+}
+.publicPostToggle:hover .explanation {
+  display: block;
+}
