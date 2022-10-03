@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import useAnimationFrame from "use-animation-frame";
+import useSound from "use-sound";
 import { startWebGL } from "./Render";
 import useStore, { globalState } from "../store";
 import { fps } from "./fps";
@@ -41,6 +42,10 @@ const Sand = () => {
     }
   };
   resize();
+
+  const [play] = useSound("/media/clave1.wav", {
+    volume: 0.15,
+  });
 
   const selectedElement = useStore((state) => state.selectedElement);
   const updateScheme = useStore((state) => state.updateScheme);
@@ -189,6 +194,7 @@ const Sand = () => {
             transform: "translateX(-100%)",
           }}
           onClick={(e) => {
+            play();
             setQuery({ edit: playMode ? 1 : undefined });
           }}
         >

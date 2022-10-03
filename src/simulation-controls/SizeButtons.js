@@ -1,21 +1,27 @@
 import React from "react";
 let sizeMap = [1.5, 3, 5, 7, 19];
+import useSound from "use-sound";
+
 import { useStore } from "../store";
 
 const SizeButtons = ({}) => {
   const size = useStore((state) => state.size);
   const setSize = useStore((state) => state.setSize);
-
+  const [play] = useSound("/media/clave1.wav", {
+    volume: 0.05,
+  });
   return (
     <span className="sizes">
       {sizeMap.map((v, i) => (
         <button
           key={i}
           className={"size-button" + (v == size ? " selected" : "")}
-          onClick={(e) => setSize(v)}
+          onClick={(e) => {
+            play({ playbackRate: 2 / v });
+            setSize(v);
+          }}
           style={{
             padding: "0px",
-            marginRight: i === 0 ? 0 : -1,
             marginRight: i === sizeMap.length - 1 ? 2 : 0,
             borderTopRightRadius: i < sizeMap.length - 1 ? 0 : "",
             borderBottomRightRadius: i < sizeMap.length - 1 ? 0 : "",
