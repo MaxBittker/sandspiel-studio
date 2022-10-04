@@ -3,13 +3,23 @@ import React, { useCallback, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router.js";
 import { useQuery } from "react-query";
+import {
+  useQueryParams,
+  StringParam,
+  BooleanParam,
+  withDefault,
+  NumberParam,
+} from "next-query-params";
 import axios from "axios";
 
 export default function Profile() {
+  const [query, setQuery] = useQueryParams({
+    admin: withDefault(BooleanParam, true),
+  });
   const router = useRouter();
   const userId = router.query.userid;
   const { data: session, status } = useSession();
-  let [title, setTitle] = useState(session?.user?.name);
+  let [username, setUsername] = useState(session?.user?.name);
 
   const { isLoading, data: user } = useQuery([`user${userId}`], async () => {
     const result = await axios("/api/user", {
@@ -17,6 +27,7 @@ export default function Profile() {
         id: userId,
       },
     });
+    setUsername(result.data.name);
     return result.data;
   });
 
@@ -48,34 +59,13 @@ export default function Profile() {
               style={{ margin: 3, marginTop: 6 }}
               src={user?.image}
             ></img>
-            <a>
-              <b>{user?.name}</b>
-            </a>
-          </span>
-          <span>
-            {user.bannedAt ? (
-              <span style={{ color: "red", marginRight: "1em" }}>
-                ⚠ BANNED USER
-              </span>
-            ) : (
-              ""
-            )}
-            {session && session.role === "admin" && (
-              <>
-                <button onClick={ban} style={{ marginBottom: 6 }}>
-                  {user.bannedAt ? "forgive" : "ban"} this sucker
-                </button>
-              </>
-            )}
-          </span>
-          {session && session.userId === userId && (
-            <>
+            {session && session.userId === userId ? (
               <span>
                 <input
                   type="text"
-                  placeholder="new username..."
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={username}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
                 <button
                   className="simulation-button"
@@ -86,7 +76,7 @@ export default function Profile() {
                         "Content-Type": "application/json",
                       },
                       body: JSON.stringify({
-                        name: title,
+                        name: username,
                       }),
                     }).then((e) => window.location.reload());
                   }}
@@ -94,10 +84,40 @@ export default function Profile() {
                   Save Name
                 </button>
               </span>
+            ) : (
+              <a>
+                <b>{user?.name}</b>
+              </a>
+            )}
+          </span>
+
+          <div className="profile-stats" style={{ marginTop: "0px" }}>
+            <div>⭐{user.starsReceived}</div>
+            <div>🏆{user.trophiesReceived}</div>
+          </div>
+
+          <span>
+            {user.bannedAt ? (
+              <span style={{ color: "red", marginRight: "1em" }}>
+                ⚠ BANNED USER
+              </span>
+            ) : (
+              ""
+            )}
+            {session && session.role === "admin" && query.admin && (
+              <>
+                <button onClick={ban} style={{ marginBottom: 6 }}>
+                  {user.bannedAt ? "forgive" : "ban"} this sucker
+                </button>
+              </>
+            )}
+          </span>
+          {session && session.userId === userId && (
+            <div style={{ marginTop: "10px" }}>
               <button onClick={signOut} style={{ marginBottom: 6 }}>
                 Sign Out
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>

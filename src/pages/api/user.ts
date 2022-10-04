@@ -17,10 +17,42 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
 
   try {
     // todo cursor based pagination
-    let user = await prisma.user.findUnique({
+    const userPromise = prisma.user.findUnique({
       where: { id },
-      select: { id: true, name: true, image: true, Star: true, bannedAt: true },
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        bannedAt: true,
+        _count: {
+          select: { Star: true },
+        },
+      },
     });
+
+    const starsReceivedPromise = prisma.star.count({
+      where: {
+        post: { userId: id },
+      },
+    });
+
+    const trophiesReceivedPromise = prisma.post.count({
+      where: {
+        userId: id,
+        NOT: {
+          featuredAt: { equals: null },
+        },
+      },
+    });
+
+    const [user, starsReceived, trophiesReceived] = await Promise.all([
+      userPromise,
+      starsReceivedPromise,
+      trophiesReceivedPromise,
+    ]);
+
+    user["starsReceived"] = starsReceived;
+    user["trophiesReceived"] = trophiesReceived;
 
     if (!user) {
       response.status(404);

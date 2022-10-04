@@ -17,7 +17,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
   try {
     let postId: string = request.body?.postId?.toString();
     let name: string = request.body?.name?.toString();
-    let banned: string = request.body?.banned.toString();
+    let banned: string = request.body?.banned?.toString();
 
     let data = {};
 
