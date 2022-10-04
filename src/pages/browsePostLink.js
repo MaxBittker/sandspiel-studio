@@ -61,7 +61,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
     play();
     useStore.setState({ post });
     loadPostFromServer(post.id);
-    //window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);
+    window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);
     e.preventDefault();
   };
 
@@ -316,7 +316,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                   >
                     {post.placeholder ? "" : stars}
                   </span>
-                  {expanded && (
+                  {/*expanded && (
                     <button
                       onClick={() => {
                         if (!copied) {
@@ -328,7 +328,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                     >
                       {copied ? "Copied!" : "Copy Link"}
                     </button>
-                  )}
+                  )*/}
                   {!post.placeholder && <div>{post.views} plays</div>}
                 </span>
                 {/*<div className="featured-flag">
