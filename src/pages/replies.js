@@ -43,7 +43,9 @@ export const Replies = ({ post }) => {
   return (
     <div className="replies-container">
       {isLoading && (
-        <div style={{ textAlign: "center" }}>Loading replies...</div>
+        <div style={{ marginTop: "20px", textAlign: "center" }}>
+          Loading replies...
+        </div>
       )}
       {data?.pages.map((page, i) => (
         <React.Fragment key={`replies${post.id}:page${i}`}>

@@ -21,7 +21,9 @@ export const Parent = ({ post }) => {
   return (
     <div className="parent-container">
       {isLoading && (
-        <div style={{ textAlign: "center" }}>Loading parent...</div>
+        <div style={{ marginBottom: "20px", textAlign: "center" }}>
+          Loading parent...
+        </div>
       )}
       {data && (
         <BrowsePostLink
