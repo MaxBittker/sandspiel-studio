@@ -293,7 +293,7 @@ function Browse() {
                   options={options}
                   onChange={(e) => {
                     if (e.value === "top") {
-                      setQuery({ order: e.value, days: "365" });
+                      setQuery({ order: e.value, days: "1" });
                     } else {
                       setQuery({ order: e.value, days: undefined });
                     }

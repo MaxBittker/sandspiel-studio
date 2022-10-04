@@ -55,8 +55,9 @@ button.editor-toggle {
   margin-bottom: 6px;
 }
 .filterControls .Dropdown-control {
-  height: 30px;
-  padding: 3px 6px;
+  height: 35px;
+
+  padding: 6px 6px;
   font-family: "Inter", sans-serif;
 }
 .nav-bar {
