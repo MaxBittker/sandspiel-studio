@@ -61,7 +61,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
     play();
     useStore.setState({ post });
     loadPostFromServer(post.id);
-    window.history.pushState({}, "Sandspiel Studio", `/post/${post.id}`);
+    window.history.replaceState({}, document.title, `/post/${post.id}`);
     e.preventDefault();
   };
 
