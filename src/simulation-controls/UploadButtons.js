@@ -248,9 +248,10 @@ const UploadButtons = () => {
       </button>
       <br></br>
       <span className="publicPostToggle">
-        <label>Public:</label>
+        <label for="publicToggle">Public:</label>
 
         <input
+          id="publicToggle"
           type="checkbox"
           disabled={postCount > 2}
           checked={isPublic}
