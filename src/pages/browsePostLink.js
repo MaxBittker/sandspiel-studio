@@ -184,16 +184,14 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                 </a>
               </div>
               {!isReply && !parentVisible && post.parent && (
-                <div
+                <button
                   className="replies-button"
-                  style={{
-                    textAlign: "right",
-                  }}
+                  style={{}}
                   onClick={(e) => {
                     e.stopPropagation();
                     setParentVisible(!parentVisible);
                   }}
-                >{`replying to ${parentVisible ? "▼" : "▲"}`}</div>
+                >{`replying to ${parentVisible ? "▼" : "▲"}`}</button>
               )}
             </div>
             <div className="title">
@@ -338,7 +336,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                   !repliesVisible &&
                   post.children &&
                   post.children.length > 0 && (
-                    <div
+                    <button
                       className="replies-button"
                       style={{
                         textAlign: "right",
@@ -349,7 +347,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                       }}
                     >{`${post.children.length} ${
                       post.children.length > 1 ? "replies" : "reply"
-                    } ${repliesVisible ? "▲" : "▼"}`}</div>
+                    } ${repliesVisible ? "▲" : "▼"}`}</button>
                   )}
               </div>
             }

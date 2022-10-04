@@ -172,12 +172,11 @@
 
 .replies-button {
   font-size: 16px;
+  margin-left: 5px;
   cursor: pointer;
+  flex-grow: 0;
 }
 
-.replies-button:hover {
-  text-decoration: underline;
-}
 .explanation {
   display: none;
 }
