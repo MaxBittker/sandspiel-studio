@@ -36,7 +36,7 @@ button.editor-toggle {
   }
 
   .browse {
-    /* height: 85vh; */
+    height: 85vh;
     overflow-y: hidden;
   }
   .browse.family {
