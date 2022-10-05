@@ -235,6 +235,7 @@ const UploadButtons = () => {
         type="text"
         placeholder={post ? "reply title..." : "post title..."}
         value={title}
+        maxlength="500"
         onChange={(e) => setTitle(e.target.value)}
       />
       {/* <button className="simulation-button" onClick={() => upload(false)}>
