@@ -141,12 +141,6 @@ Blockly.JavaScript["vector_constant"] = function (block) {
 //   return code;
 // };
 
-Blockly.JavaScript["string_literal"] = function (block) {
-  const string = block.getFieldValue("VALUE");
-  const code = "`" + (string ?? "").replace("`", "'") + "`";
-  return [code, Blockly.JavaScript.ORDER_ATOMIC];
-};
-
 Blockly.JavaScript["change_into"] = function (block) {
   const cell = Blockly.JavaScript.valueToCode(
     block,

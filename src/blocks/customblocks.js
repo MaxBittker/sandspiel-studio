@@ -754,19 +754,6 @@ Blockly.Blocks["cursor_distance"] = {
   },
 };
 
-Blockly.Blocks["string_literal"] = {
-  init: function () {
-    this.appendDummyInput().appendField(
-      new Blockly.FieldTextInput("Hello world!"),
-      "VALUE"
-    );
-    this.setOutput(true, null);
-    this.setColour(300);
-    this.setTooltip("");
-    this.setHelpUrl("");
-  },
-};
-
 Blockly.Blocks["print"] = {
   init: function () {
     this.appendDummyInput().appendField("print");
