@@ -143,7 +143,7 @@ const Sand = () => {
         return;
       }
       let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
-      globalState.t += 0.05;
+      globalState.ttNoise += 0.05;
 
       points.forEach(({ x, y }) => {
         x = Math.round(x);

@@ -25,7 +25,6 @@
 // https://developers.google.com/blockly/guides/create-custom-blocks/generating-code
 
 import tinycolor2 from "tinycolor2";
-import { getEnvelopeEndpointWithUrlEncodedAuth } from "@sentry/core";
 import * as Blockly from "blockly/core";
 import { Xml } from "blockly/core";
 import BlocklyJS from "blockly/javascript";
