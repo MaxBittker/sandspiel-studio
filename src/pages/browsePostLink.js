@@ -191,7 +191,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                     e.stopPropagation();
                     setParentVisible(!parentVisible);
                   }}
-                >{`replying to ${parentVisible ? "▼" : "▲"}`}</button>
+                >{`reply to ${parentVisible ? "▼" : "▲"}`}</button>
               )}
             </div>
             <div className="title">

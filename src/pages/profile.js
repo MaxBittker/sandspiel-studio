@@ -92,8 +92,8 @@ export default function Profile() {
           </span>
 
           <div className="profile-stats" style={{ marginTop: "0px" }}>
-            {user.starsReceived > 0 && <div>⭐{user.starsReceived}</div>}
             {user.trophiesReceived > 0 && <div>🏆{user.trophiesReceived}</div>}
+            {user.starsReceived > 0 && <div>⭐{user.starsReceived}</div>}
           </div>
 
           <span>

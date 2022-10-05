@@ -172,9 +172,15 @@
 
 .replies-button {
   font-size: 16px;
-  margin-left: 5px;
+  margin-right: -6px;
+  margin-top: -10px;
   cursor: pointer;
   flex-grow: 0;
+  width: 95px;
+}
+.browse-post-metadata-row .replies-button {
+  margin-right: -7px;
+  margin-bottom: -13px;
 }
 
 .explanation {
@@ -182,4 +188,15 @@
 }
 .publicPostToggle:hover .explanation {
   display: block;
+}
+
+.profile-stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 0px 10px 0px;
+}
+.profile-stats div {
+  margin-right: 8px;
 }
