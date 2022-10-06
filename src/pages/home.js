@@ -9,13 +9,11 @@ export default function Home() {
         </p>
         <p>
           Sandspiel Studio is a new tool for creating {"&"} sharing Sandspiel
-          elements. We
-          {"'"}re very excited to see what you
-          {"'"}ll invent.
+          elements.
         </p>
         <p>
           Check out our{" "}
-          <a href="https://www.youtube.com/channel/UCnTuyZloqqOG6q1sodeLgBw/videost with it!">
+          <a href="https://www.youtube.com/watch?v=48-9jjndb2k">
             YouTube channel
           </a>{" "}
           for tutorials and updates, and if you want to support the project or
@@ -25,7 +23,10 @@ export default function Home() {
           </a>
           !
         </p>
-        <p>Please be respectful and kind towards other users.</p>
+        <p>
+          Please be respectful and kind towards other users. We are very excited
+          to see what you invent!
+        </p>
       </div>
     </>
   );
