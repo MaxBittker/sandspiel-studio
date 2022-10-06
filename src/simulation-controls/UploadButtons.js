@@ -61,7 +61,7 @@ const UploadButtons = () => {
 
   // let [id, setId] = useState(null);
   let [title, setTitle] = useState("");
-  let [sharedState, setSharedState] = useState(null);
+  let [sharedState, setSharedState] = useState("");
 
   const post = useStore((state) => state.post);
   useEffect(() => {
@@ -69,6 +69,7 @@ const UploadButtons = () => {
   }, [post]);
 
   let upload = async (postPublic = false) => {
+    if (sharedState !== "") return;
     if (
       sharedState === " saving..." ||
       sharedState === " posting..." ||
@@ -248,7 +249,7 @@ const UploadButtons = () => {
       </button>
       <br></br>
       <span className="publicPostToggle">
-        <label for="publicToggle">Public:</label>
+        <label htmlFor="publicToggle">Public:</label>
 
         <input
           id="publicToggle"
