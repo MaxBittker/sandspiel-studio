@@ -169,7 +169,7 @@ const Sand = () => {
               continue;
             }
             initSand(
-              [Math.floor(x + dx), Math.floor(y + dy)],
+              [Math.floor(x - 0.5 + dx), Math.floor(y - 0.5 + dy)],
               selectedElement,
               [dx * 4, dy * 4]
             );
