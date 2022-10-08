@@ -24,7 +24,7 @@ globalState.updaters = useStore.getState().elements.map(() => {
 });
 let holdInterval = null;
 let prevPos = [0, 0];
-
+let sI = 0;
 const Sand = () => {
   const [query, setQuery] = useQueryParams({
     edit: withDefault(BooleanParam, false),
@@ -47,6 +47,12 @@ const Sand = () => {
     volume: 0.15,
   });
 
+  // const [play2] = useSound("/media/clave1.wav", {
+  //   volume: 0.01,
+  // });
+  const [play2] = useSound("/media/clave1.wav", {
+    volume: 0.005,
+  });
   const selectedElement = useStore((state) => state.selectedElement);
   const updateScheme = useStore((state) => state.updateScheme);
   const taggedMode = useStore((state) => state.taggedMode);
@@ -143,9 +149,16 @@ const Sand = () => {
         return;
       }
       let points = pointsAlongLine(prevPos[0], prevPos[1], eX, eY, 1);
-      globalState.ttNoise += 0.05;
+      globalState.tNoise += 0.05;
 
-      points.forEach(({ x, y }) => {
+      points.forEach(({ x, y }, i) => {
+        if (i == 0 && sI % 30 == 0) {
+          play2({
+            playbackRate:
+              (0.7 + selectedElement / 10 + Math.sin((x + y) / 10) * 0.5) /
+              ((size + 5) / 5),
+          });
+        }
         x = Math.round(x);
         y = Math.round(y);
         let r = size / 2;
@@ -163,9 +176,13 @@ const Sand = () => {
           }
         }
       });
+      sI++;
+
       prevPos = [eX, eY];
       clearInterval(holdInterval);
       holdInterval = setInterval(() => {
+        sI = 0;
+
         mouseMoveCanvas(e, true);
       }, 60);
     },
