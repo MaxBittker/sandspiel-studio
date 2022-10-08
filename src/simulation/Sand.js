@@ -152,7 +152,7 @@ const Sand = () => {
       globalState.tNoise += 0.05;
 
       points.forEach(({ x, y }, i) => {
-        if (i == 0 && (sI % 6 == 0 || force)) {
+        if (i == 0 && (sI % 4 == 0 || force)) {
           play2({
             playbackRate:
               (0.7 + selectedElement / 10 + Math.sin((x + y) / 10) * 0.5) /
