@@ -152,7 +152,7 @@ const Sand = () => {
       globalState.tNoise += 0.05;
 
       points.forEach(({ x, y }, i) => {
-        if (i == 0 && sI % 30 == 0) {
+        if (i == 0 && (sI % 30 == 0 || force)) {
           play2({
             playbackRate:
               (0.7 + selectedElement / 10 + Math.sin((x + y) / 10) * 0.5) /
@@ -181,8 +181,6 @@ const Sand = () => {
       prevPos = [eX, eY];
       clearInterval(holdInterval);
       holdInterval = setInterval(() => {
-        sI = 0;
-
         mouseMoveCanvas(e, true);
       }, 60);
     },
