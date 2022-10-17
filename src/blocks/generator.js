@@ -33,10 +33,27 @@ import prettier from "prettier";
 import parserBabel from "prettier/parser-babel";
 import "blockly/javascript";
 
+const approvedCheckTypes = new Set([
+  "Any",
+  "Void",
+  "Number",
+  "Vector",
+  "Boolean",
+  "Element",
+  "Group",
+  "String",
+]);
+
 const getTypeOfCheck = (check) => {
   if (check === undefined) return "Any";
   if (check.length === 0) return "Void";
-  if (check.length === 1) return check[0];
+  if (check.length === 1) {
+    // Probably not needed, but let's check it's an approved type anyway
+    if (!approvedCheckTypes.has(check[0])) {
+      throw new TypeError(`Could not resolve unapproved type: ${check[0]}`);
+    }
+    return check[0];
+  }
   if (check.length === 2) {
     throw new Error(
       "Block was more than one type! This shouldn't be allowed! Please tell @todepond that you saw this error :)"
@@ -60,6 +77,7 @@ Blockly.JavaScript["sand_behavior_base"] = function (block) {
   return `const swaps = [];`;
 };
 
+// Field received from user - parseInt
 Blockly.JavaScript["number_literal"] = function (block) {
   const number = block.getFieldValue("VALUE");
   const code = parseInt(number);
@@ -69,9 +87,11 @@ Blockly.JavaScript["number_literal"] = function (block) {
 Blockly.JavaScript["number_literal_positive"] =
   Blockly.JavaScript["number_literal"];
 
+// Field received from user - parseInt
 Blockly.JavaScript["element_literal"] = function (block) {
   const value = block.getFieldValue("VALUE");
-  return [value, Blockly.JavaScript.ORDER_ATOMIC];
+  const code = parseInt(value);
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript["group"] = function (block) {
@@ -124,8 +144,14 @@ const DIRECTIONS = {
   KB: "this.getKeyBoardVector()",
 };
 
+const approvedDirectionNames = new Set(Object.keys(DIRECTIONS));
+
+// Field received from user - checked against approved list
 Blockly.JavaScript["vector_constant"] = function (block) {
   const directionName = block.getFieldValue("VALUE");
+  if (!approvedDirectionNames.has(directionName)) {
+    throw new TypeError(`Unapproved direction name: '${directionName}'`);
+  }
   const code = `${DIRECTIONS[directionName]}`;
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
@@ -161,6 +187,7 @@ Blockly.JavaScript["keyboard_vector"] = function (block) {
   return [`this.getKeyBoardVector()`, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["set_r_cell"] = function (block) {
   const cell = Blockly.JavaScript.valueToCode(
     block,
@@ -185,6 +212,7 @@ Blockly.JavaScript["set_r_cell"] = function (block) {
   }
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["set_r_cell_short"] = function (block) {
   const cell = "[0, 0]";
   const value = Blockly.JavaScript.valueToCode(
@@ -208,6 +236,8 @@ function getOffset(field) {
   if (field == "RB") return 2;
   if (field == "RC") return 3;
 }
+
+// Field received from user - not used in code
 Blockly.JavaScript["modify_r"] = function (block) {
   const cell = "[0, 0]";
   const value = Blockly.JavaScript.valueToCode(
@@ -227,6 +257,7 @@ Blockly.JavaScript["modify_r"] = function (block) {
   }
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["get_r_cell"] = function (block) {
   const cell = Blockly.JavaScript.valueToCode(
     block,
@@ -257,6 +288,7 @@ Blockly.JavaScript["get_r_cell"] = function (block) {
   }
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["get_r_cell_short"] = function (block) {
   const cell = "[0, 0]";
   const field = block.getFieldValue("DATA");
@@ -350,6 +382,7 @@ Blockly.JavaScript["one_in"] = function (block) {
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["bool_literal"] = function (block) {
   const boolName = block.getFieldValue("VALUE");
   const code = boolName === "TRUE" ? "true" : "false";
@@ -446,15 +479,30 @@ Blockly.JavaScript["rotated_by"] = function (block) {
   return code;
 };
 
+const approvedTransformationNames = new Set([
+  "ROTATION",
+  "REFLECTION",
+  "HORIZONTAL_REFLECTION",
+  "VERTICAL_REFLECTION",
+]);
+
+// Field received from user - checked against approved list
 Blockly.JavaScript["in_a_random"] = function (block) {
   const name = block.getFieldValue("NAME");
+  if (!approvedTransformationNames.has(name)) {
+    throw new TypeError(`Unapproved transformation name: '${name}'`);
+  }
   const statement = Blockly.JavaScript.statementToCode(block, "NAME");
   const code = `{const oldTransformation = this.getTransformation();\n this.setRandomTransformation("${name}");\n${statement}this.setTransformation(...oldTransformation);}\n`;
   return code;
 };
 
+// Field received from user - checked against approved list
 Blockly.JavaScript["for_all"] = function (block) {
   const name = block.getFieldValue("NAME");
+  if (!approvedTransformationNames.has(name)) {
+    throw new TypeError(`Unapproved transformation name: '${name}'`);
+  }
   const statement = Blockly.JavaScript.statementToCode(block, "NAME");
   const lines = [];
   lines.push(`{`);
@@ -476,6 +524,7 @@ const COMPARISON_FUNCTIONS = {
   SMALLER: "lessThan",
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["comparison"] = function (block) {
   const aType = getTypeOfValue(block, "A");
   const bType = getTypeOfValue(block, "B");
@@ -510,6 +559,7 @@ const OPERATION_FUNCTIONS = {
   DIFFERENCE: "difference",
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["operation"] = function (block) {
   const aType = getTypeOfValue(block, "A");
   const bType = getTypeOfValue(block, "B");
@@ -539,6 +589,7 @@ const BOOLEAN_OPERATORS = {
   OR: "||",
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["boolean_operation"] = function (block) {
   let a = Blockly.JavaScript.valueToCode(
     block,
@@ -609,13 +660,26 @@ Blockly.JavaScript["number_touching"] = function (block) {
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
 
+const approvedKeyNames = new Set([
+  "SPACE",
+  "ArrowRight",
+  "ArrowLeft",
+  "ArrowUp",
+  "ArrowDown",
+]);
+
+// Field received from user - checked against approved list
 Blockly.JavaScript["key_pressed"] = function (block) {
   let key = block.getFieldValue("KEY");
+  if (!approvedKeyNames.has(key)) {
+    throw new TypeError(`Unapproved key name: '${key}'`);
+  }
   if (key === "SPACE") key = " "; //Fix for serialization bug - blockly didn't like a whitespace value
   const code = `this.keys["${key}"]`;
   return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["get_r_cell_flexible"] = function (block) {
   let cell = Blockly.JavaScript.valueToCode(
     block,
@@ -648,6 +712,7 @@ Blockly.JavaScript["get_r_cell_flexible"] = function (block) {
   }
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["set_r_cell_flexible"] = function (block) {
   let cell = Blockly.JavaScript.valueToCode(
     block,
@@ -673,6 +738,7 @@ Blockly.JavaScript["set_r_cell_flexible"] = function (block) {
   }
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["modify_r_cell_flexible"] = function (block) {
   let cell = Blockly.JavaScript.valueToCode(
     block,
@@ -700,9 +766,10 @@ Blockly.JavaScript["modify_r_cell_flexible"] = function (block) {
   }
 };
 
+// Field received from user - not used in code
 Blockly.JavaScript["comment"] = function (block) {
-  const comment = (block.getFieldValue("DATA") ?? "").replace("\n", " ");
-  return `// ${comment}\n`;
+  //const comment = (block.getFieldValue("DATA") ?? "").replace("\n", " ");
+  return ``;
 };
 
 Blockly.JavaScript["after"] = function (block) {
@@ -711,6 +778,7 @@ Blockly.JavaScript["after"] = function (block) {
   return code;
 };
 
+// Field received from user - not used in code
 export function deriveColor(xmlString, b = "") {
   let pattern = `<field name="COLOR${b}">`;
   let pl = pattern.length;
@@ -720,6 +788,7 @@ export function deriveColor(xmlString, b = "") {
   return [color.h / 360, color.s, color.l];
 }
 
+// Field received from user - not used in code
 export function deriveName(xmlString) {
   const r = /<field name="ELEMENT_NAME">(.*?)<\/field>/;
   const match = r.exec(xmlString);
