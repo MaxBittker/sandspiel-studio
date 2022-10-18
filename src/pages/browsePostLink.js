@@ -61,7 +61,11 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
     play();
     useStore.setState({ post });
     loadPostFromServer(post.id);
-    window.history.replaceState({}, document.title, `/post/${post.id}`);
+    window.history.replaceState(
+      {},
+      document.title,
+      `/post/${post.id}${query.admin ? "" : "?admin=0"}`
+    );
     e.preventDefault();
   };
 
@@ -199,55 +203,46 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
             </div>
           </div>
 
+          {expanded && session?.role === "admin" && query.admin && (
+            <div>
+              <button
+                onClick={async (e) => {
+                  e.stopPropagation();
+
+                  setAdminFeaturingStatus(" ...");
+                  const result = await axios("/api/update/" + post.id, {
+                    params: { featured: !post.featuredAt },
+                  });
+                  let results = result.data;
+                  results.metadata = JSON.parse(results.metadata);
+                  setPost(results);
+                  setAdminFeaturingStatus("");
+                }}
+              >
+                {post.featuredAt ? "Unfeature" : "Feature"}
+                {adminFeaturingStatus}
+              </button>
+              <button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  play;
+                  setAdminPublishingStatus(" ...");
+                  const result = await axios("/api/update/" + post.id, {
+                    params: { public: !post.public },
+                  });
+                  let results = result.data;
+                  results.metadata = JSON.parse(results.metadata);
+                  setPost(results);
+                  setAdminPublishingStatus("");
+                }}
+              >
+                {post.public === true ? "Make Private" : "Make Public"}
+                {adminPublishingStatus}
+              </button>
+            </div>
+          )}
+
           <div style={{ textAlign: "justify" }}>
-            {/*<button onClick={handleEdit}> Edit Code</button>*/}
-
-            <span className="featured-flag">
-              {post.featuredAt ? "🏆FEATURED" : ""}
-            </span>
-            <br></br>
-            {expanded && session?.role === "admin" && query.admin && (
-              <div>
-                Admin:&nbsp;
-                <button
-                  onClick={async (e) => {
-                    e.stopPropagation();
-
-                    setAdminFeaturingStatus(" ...");
-                    const result = await axios("/api/update/" + post.id, {
-                      params: { featured: !post.featuredAt },
-                    });
-                    let results = result.data;
-                    results.metadata = JSON.parse(results.metadata);
-                    setPost(results);
-                    setAdminFeaturingStatus("");
-                  }}
-                >
-                  {post.featuredAt ? "Unfeature Post" : "Feature Post"}
-                  {adminFeaturingStatus}
-                </button>
-                <button
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    play;
-                    setAdminPublishingStatus(" ...");
-                    const result = await axios("/api/update/" + post.id, {
-                      params: { public: !post.public },
-                    });
-                    let results = result.data;
-                    results.metadata = JSON.parse(results.metadata);
-                    setPost(results);
-                    setAdminPublishingStatus("");
-                  }}
-                >
-                  {post.public === true ? "Make Private" : "Make Public"}
-                  {adminPublishingStatus}
-                </button>
-              </div>
-            )}
-            {/* <br></br> */}
-            {/* Element Set:{"\t\t"} */}
-            {/* <br></br> */}
             {expanded && session && post?.user?.id == session.userId && (
               <button
                 onClick={(e) => {
@@ -276,6 +271,12 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
               >
                 Set this post as my avatar
               </button>
+            )}
+            {post.featuredAt && (
+              <>
+                <br></br>
+                <span className="featured-flag">🏆FEATURED</span>
+              </>
             )}
             {
               <div className="browse-post-metadata-row">

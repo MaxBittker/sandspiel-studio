@@ -200,3 +200,7 @@
 .profile-stats div {
   margin-right: 8px;
 }
+
+.post:not(.splash) button {
+  font-size: 16px;
+}
