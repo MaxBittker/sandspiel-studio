@@ -71,7 +71,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         },
       },
     });
-    if (!post) {
+    if (!post || post.deletedAt !== null) {
       response.status(404);
     } else {
       post["postCount"] = postCount;

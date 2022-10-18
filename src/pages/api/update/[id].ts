@@ -23,7 +23,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       { req: request, res: response },
       authOptions
     );
-    const { featured, public: isPublic } = request.query;
+    const { featured, deleted, public: isPublic } = request.query;
 
     // Ensure user is logged in
     if (!session?.userId) {
@@ -37,6 +37,13 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
         return response.status(500).send("not admin");
       }
       data.featuredAt = featured === "true" ? new Date().toJSON() : null;
+    }
+
+    if (deleted !== undefined) {
+      if (session.role !== "admin") {
+        return response.status(500).send("not admin");
+      }
+      data.deletedAt = deleted === "true" ? new Date().toJSON() : null;
     }
 
     if (isPublic !== undefined) {

@@ -122,6 +122,7 @@ function Browse() {
           id: singlePost ? postId : undefined,
           userId: !liked ? userId : undefined,
           starredBy: liked ? userId : undefined,
+          admin: query.admin || query.admin === undefined ? true : undefined,
         },
       });
       let results = result.data;

@@ -2,14 +2,19 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import BrowsePostLink from "./browsePostLink.js";
+import { useQueryParams, withDefault, BooleanParam } from "next-query-params";
 
 export const Parent = ({ post }) => {
+  const [query, setQuery] = useQueryParams({
+    admin: BooleanParam,
+  });
   const { isLoading, data } = useQuery(
     [`parentData${post.id}`],
     async ({ pageParam = 0 }) => {
       const result = await axios("/api/query", {
         params: {
           id: post.parent.id,
+          admin: query.admin || query.admin === undefined ? true : undefined,
         },
       });
       const [parent] = result.data.posts;

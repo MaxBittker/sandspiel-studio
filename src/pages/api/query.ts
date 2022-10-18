@@ -18,6 +18,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
     take,
     id,
     children,
+    admin,
   } = request.query;
 
   const idInt = parseInt(id as string);
@@ -98,6 +99,33 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
       equals: null,
     },
   };
+
+  const childrenQuery = {
+    select: {
+      id: true,
+      public: true,
+    },
+  };
+
+  const parentQuery = {
+    select: {
+      id: true,
+      public: true,
+      deletedAt: true,
+    },
+  };
+
+  if (!session || session.role !== "admin" || !admin) {
+    where.deletedAt = {
+      equals: null,
+    };
+    childrenQuery["where"] = {
+      deletedAt: {
+        equals: null,
+      },
+    };
+  }
+
   const skipN = parseInt(skip as string, 10) || 0;
   try {
     // todo cursor based pagination
@@ -122,20 +150,11 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
             userId: session?.userId ?? "-1",
           },
         },
-        parent: {
-          select: {
-            id: true,
-            public: true,
-          },
-        },
-        children: {
-          select: {
-            id: true,
-            public: true,
-          },
-        },
+        parent: parentQuery,
+        children: childrenQuery,
         user: { select: { id: true, name: true, image: true } },
         featuredAt: true,
+        deletedAt: true,
       },
     });
 

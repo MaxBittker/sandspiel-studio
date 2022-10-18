@@ -92,6 +92,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
 
   let [adminFeaturingStatus, setAdminFeaturingStatus] = useState(null);
   let [adminPublishingStatus, setAdminPublishingStatus] = useState(null);
+  let [adminDeletingStatus, setAdminDeletingStatus] = useState(null);
 
   const [isHovering, setIsHovering] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -187,16 +188,20 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                   )}
                 </a>
               </div>
-              {!isReply && !parentVisible && post.parent && (
-                <button
-                  className="replies-button"
-                  style={{}}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setParentVisible(!parentVisible);
-                  }}
-                >{`reply to ${parentVisible ? "▼" : "▲"}`}</button>
-              )}
+              {!isReply &&
+                !parentVisible &&
+                post.parent &&
+                ((session?.role === "admin" && query.admin) ||
+                  post.parent.deletedAt === null) && (
+                  <button
+                    className="replies-button"
+                    style={{}}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setParentVisible(!parentVisible);
+                    }}
+                  >{`reply to ${parentVisible ? "▼" : "▲"}`}</button>
+                )}
             </div>
             <div className="title">
               {post.title === "" ? "" : `"${post.title}"`}
@@ -239,6 +244,23 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                 {post.public === true ? "Make Private" : "Make Public"}
                 {adminPublishingStatus}
               </button>
+              <button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  play;
+                  setAdminDeletingStatus(" ...");
+                  const result = await axios("/api/update/" + post.id, {
+                    params: { deleted: !post.deletedAt },
+                  });
+                  let results = result.data;
+                  results.metadata = JSON.parse(results.metadata);
+                  setPost(results);
+                  setAdminDeletingStatus("");
+                }}
+              >
+                {post.deletedAt ? "Undelete" : "Delete"}
+                {adminDeletingStatus}
+              </button>
             </div>
           )}
 
@@ -276,6 +298,12 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
               <>
                 <br></br>
                 <span className="featured-flag">🏆FEATURED</span>
+              </>
+            )}
+            {post.deletedAt && (
+              <>
+                <br></br>
+                <span className="featured-flag">❌DELETED</span>
               </>
             )}
             {

@@ -2,8 +2,13 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import BrowsePostLink from "./browsePostLink.js";
+import { useQueryParams, withDefault, BooleanParam } from "next-query-params";
 
 export const Replies = ({ post }) => {
+  const [query, setQuery] = useQueryParams({
+    admin: BooleanParam,
+  });
+
   const {
     isLoading,
     error,
@@ -13,7 +18,7 @@ export const Replies = ({ post }) => {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    [`repliesData${post.id}`],
+    [`repliesData${post.id}`, query],
     async ({ pageParam = 0 }) => {
       const result = await axios("/api/query", {
         params: {
@@ -22,6 +27,7 @@ export const Replies = ({ post }) => {
           skip: pageParam,
           id: post.id,
           children: true,
+          admin: query.admin || query.admin === undefined ? true : undefined,
         },
       });
       let results = result.data;
