@@ -159,8 +159,8 @@ const Sand = () => {
               ((size + 5) / 5),
           });
         }
-        x = Math.round(x);
-        y = Math.round(y);
+        x = Math.round(x - 0.5);
+        y = Math.round(y - 0.5);
         let r = size / 2;
         for (let dx = -r; dx <= r; dx += 1) {
           for (let dy = -r; dy <= r; dy += 1) {
@@ -169,7 +169,7 @@ const Sand = () => {
               continue;
             }
             initSand(
-              [Math.floor(x - 0.5 + dx), Math.floor(y - 0.5 + dy)],
+              [Math.floor(x + dx), Math.floor(y + dy)],
               selectedElement,
               [dx * 4, dy * 4]
             );
