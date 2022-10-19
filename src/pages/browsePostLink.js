@@ -283,11 +283,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                       return response.json();
                     })
                     .then(function (post) {
-                      console.log(post);
-
-                      useStore.setState({
-                        post,
-                      });
+                      window.location.reload();
                     });
                 }}
               >
