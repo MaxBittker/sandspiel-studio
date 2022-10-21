@@ -67,6 +67,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
       document.title,
       `/post/${post.id}${query.admin ? "" : "?admin=0"}`
     );
+    if (mobile) window.scrollTo(0, 0);
     e.preventDefault();
   };
 
