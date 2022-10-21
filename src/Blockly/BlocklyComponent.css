@@ -5,6 +5,13 @@
   top:310px;*/
   user-select: none;
 }
+
+@media only screen and (max-width: 700px) {
+  #blocklyDiv {
+    display: none;
+  }
+}
+
 .blocklyFlyout {
   height: 200vh;
   /* transform: translateX(-10%) !important; */
