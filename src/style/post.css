@@ -94,6 +94,7 @@
   font-size: 19px;
   margin-top: 0px;
   cursor: unset;
+  overflow:visible;
 }
 
 .post.splash p {
