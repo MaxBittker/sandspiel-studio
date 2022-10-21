@@ -19,7 +19,7 @@
   border: 1px solid gainsboro;
 }
 .family img:hover {
-  border: 1px solid blue;
+  border: 1px solid;
 }
 .family .title-container {
   margin: 0px;
@@ -154,10 +154,10 @@
   height: 50px !important;
   cursor: pointer;
 }
-.userCard:hover .pfp {
+.userCard.pfp:hover {
   border: 1px solid;
 }
-.userCard:hover a :not(.timestamp) {
+.userCard > a > .userName:hover  {
   text-decoration: underline;
 }
 

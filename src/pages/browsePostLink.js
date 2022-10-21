@@ -99,6 +99,14 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const handleUserClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/user/${post.user.id}`, undefined, {
+      scroll: false,
+    });
+  };
+
   return (
     <div className="post-family">
       {parentVisible && post.parent && <Parent post={post} />}
@@ -170,21 +178,18 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
 
           <div className="title-container">
             <div className="post-header-container">
-              <div
-                className="userCard"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  router.push(`/user/${post.user.id}`, undefined, {
-                    scroll: false,
-                  });
-                }}
-              >
+              <div className="userCard">
                 {!post.placeholder && (
-                  <img className="pfp" src={post?.user?.image}></img>
+                  <img
+                    onClick={handleUserClick}
+                    className="pfp"
+                    src={post?.user?.image}
+                  ></img>
                 )}
                 <a>
-                  <b>{post?.user?.name ?? post?.user?.id?.slice(0, 8)}</b>
+                  <b className="userName" onClick={handleUserClick}>
+                    {post?.user?.name ?? post?.user?.id?.slice(0, 8)}
+                  </b>
                   {!post.placeholder && (
                     <div className="timestamp">{displayTime}</div>
                   )}
