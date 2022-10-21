@@ -83,6 +83,10 @@
   margin-bottom: 6px;
   position: relative;
   display: flex;
+  border: 3px solid transparent;
+  border-right: 0;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .post.splash {
@@ -106,11 +110,7 @@
   box-shadow: 0 0 0 1px black inset;
   background-color: rgba(250, 247, 247, 1);
 }
-.post {
-  border: 3px solid transparent;
-  border-right: 0;
-  cursor: pointer;
-}
+
 .post:not(.splash):hover {
   background-color: rgba(250, 247, 247, 0.45);
 }
