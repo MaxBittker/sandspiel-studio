@@ -83,7 +83,7 @@
   margin-bottom: 6px;
   position: relative;
   display: flex;
-  border: 3px solid transparent;
+  border: 0px solid transparent;
   border-right: 0;
   cursor: pointer;
   overflow: hidden;
@@ -173,15 +173,24 @@
 
 .replies-button {
   font-size: 16px;
-  margin-right: -6px;
+  margin-right: -10px;
   margin-top: -10px;
   cursor: pointer;
   flex-grow: 0;
-  width: 95px;
+  width: 100px;
+  text-align: right;
 }
+
 .browse-post-metadata-row .replies-button {
-  margin-right: -7px;
-  margin-bottom: -13px;
+  margin-right: -10px;
+  margin-bottom: -10px;
+}
+
+@media only screen and (max-width: 700px) {
+  .replies-button {
+    width: 35px;
+    text-align: center;
+  }
 }
 
 .explanation {

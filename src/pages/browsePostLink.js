@@ -33,6 +33,7 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
   const [parentVisible, setParentVisible] = useState(false);
   const expandedPostId = useStore((state) => state.expandedPostId);
   const expanded = expandedPostId === post.id;
+  const mobile = window.innerWidth <= 700;
 
   let stars = post?._count?.stars;
   const [starsOverride, setStarsOverride] = useState(null);
@@ -195,12 +196,19 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                   post.parent.deletedAt === null) && (
                   <button
                     className="replies-button"
-                    style={{}}
                     onClick={(e) => {
                       e.stopPropagation();
                       setParentVisible(!parentVisible);
                     }}
-                  >{`reply to ${parentVisible ? "▼" : "▲"}`}</button>
+                  >
+                    {(() => {
+                      if (mobile) {
+                        return parentVisible ? "▼" : "▲";
+                      } else {
+                        return `reply to ${parentVisible ? "▼" : "▲"}`;
+                      }
+                    })()}
+                  </button>
                 )}
             </div>
             <div className="title">
@@ -363,16 +371,21 @@ export const BrowsePostLink = ({ post: initPost, isReply, isParent }) => {
                   post.children.length > 0 && (
                     <button
                       className="replies-button"
-                      style={{
-                        textAlign: "right",
-                      }}
                       onClick={(e) => {
                         e.stopPropagation();
                         setRepliesVisible(!repliesVisible);
                       }}
-                    >{`${post.children.length} ${
-                      post.children.length > 1 ? "replies" : "reply"
-                    } ${repliesVisible ? "▲" : "▼"}`}</button>
+                    >
+                      {(() => {
+                        if (mobile) {
+                          return repliesVisible ? "▲" : "▼";
+                        } else {
+                          return `${post.children.length} ${
+                            post.children.length > 1 ? "replies" : "reply"
+                          } ${repliesVisible ? "▲" : "▼"}`;
+                        }
+                      })()}
+                    </button>
                   )}
               </div>
             }
