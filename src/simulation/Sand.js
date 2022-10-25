@@ -137,12 +137,10 @@ const Sand = () => {
     (e, force = false) => {
       let bounds = canvas.current.getBoundingClientRect();
       const { worldWidth, worldHeight } = useStore.getState();
-      let eX = Math.round(
-        (e.clientX - bounds.left) * (worldWidth / bounds.width)
-      );
-      let eY = Math.round(
-        (e.clientY - bounds.top) * (worldHeight / bounds.height)
-      );
+      const cellWidth = (bounds.width - 6) / worldWidth;
+      const cellHeight = (bounds.height - 6) / worldHeight;
+      let eX = Math.floor((e.clientX - 3 - bounds.left) / cellWidth);
+      let eY = Math.floor((e.clientY - 3 - bounds.top) / cellHeight);
       let { size, setPos } = useStore.getState();
       setPos([eX, eY]);
       if (!isDrawing && !force) {
@@ -159,8 +157,7 @@ const Sand = () => {
               ((size + 5) / 5),
           });
         }
-        x = Math.round(x - 0.5);
-        y = Math.round(y - 0.5);
+
         let r = size / 2;
         for (let dx = -r; dx <= r; dx += 1) {
           for (let dy = -r; dy <= r; dy += 1) {
@@ -225,12 +222,10 @@ const Sand = () => {
         onMouseDown={(e) => {
           let bounds = canvas.current.getBoundingClientRect();
           const { worldWidth, worldHeight } = useStore.getState();
-          let eX = Math.round(
-            (e.clientX - bounds.left) * (worldWidth / bounds.width)
-          );
-          let eY = Math.round(
-            (e.clientY - bounds.top) * (worldHeight / bounds.height)
-          );
+          const cellWidth = (bounds.width - 6) / worldWidth;
+          const cellHeight = (bounds.height - 6) / worldHeight;
+          let eX = Math.floor((e.clientX - 3 - bounds.left) / cellWidth);
+          let eY = Math.floor((e.clientY - 3 - bounds.top) / cellHeight);
 
           prevPos = [eX, eY];
           pushUndo();
@@ -257,12 +252,10 @@ const Sand = () => {
 
           let bounds = canvas.current.getBoundingClientRect();
           const { worldWidth, worldHeight } = useStore.getState();
-          let eX = Math.round(
-            (touch.clientX - bounds.left) * (worldWidth / bounds.width)
-          );
-          let eY = Math.round(
-            (touch.clientY - bounds.top) * (worldHeight / bounds.height)
-          );
+          const cellWidth = (bounds.width - 6) / worldWidth;
+          const cellHeight = (bounds.height - 6) / worldHeight;
+          let eX = Math.floor((e.clientX - 3 - bounds.left) / cellWidth);
+          let eY = Math.floor((e.clientY - 3 - bounds.top) / cellHeight);
           pushUndo();
           clearInterval(holdInterval);
           e.clientX = touch.clientX;
