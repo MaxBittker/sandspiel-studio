@@ -31,7 +31,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
 
   let orderBy: PostWhereInput = { createdAt: "desc" };
   if (order === "top") {
-    orderBy = { stars: { _count: "desc" } };
+    orderBy = [{ stars: { _count: "desc" } }, { createdAt: "desc" }];
   }
   let where: PostWhereInput = {
     userId: {
@@ -88,11 +88,19 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
   }
 
   if (days) {
-    where.createdAt = {
-      gte: new Date(
-        Date.now() - parseInt(days as string, 10) * 24 * 60 * 60 * 1000
-      ),
-    };
+    if (featured) {
+      where.featuredAt = {
+        gte: new Date(
+          Date.now() - parseInt(days as string, 10) * 24 * 60 * 60 * 1000
+        ),
+      };
+    } else {
+      where.createdAt = {
+        gte: new Date(
+          Date.now() - parseInt(days as string, 10) * 24 * 60 * 60 * 1000
+        ),
+      };
+    }
   }
   where.user = {
     bannedAt: {
