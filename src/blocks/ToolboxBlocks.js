@@ -163,7 +163,7 @@ export function ToolboxBlocks() {
       <Block type="get_r_cell_flexible">
         <Field name="DATA">RA</Field>
       </Block>
-      <Block type="modify_r_cell_flexible">
+      <Block type="modify_r_cell_flexible_hue_fix">
         <Field name="DATA">RA</Field>
         <Value name="VALUE">
           <Shadow type="number_literal">
@@ -171,7 +171,7 @@ export function ToolboxBlocks() {
           </Shadow>
         </Value>
       </Block>
-      <Block type="set_r_cell_flexible">
+      <Block type="set_r_cell_flexible_hue_fix">
         <Field name="DATA">RA</Field>
         <Value name="VALUE">
           <Shadow type="number_literal_positive">

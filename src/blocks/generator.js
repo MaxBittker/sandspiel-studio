@@ -712,6 +712,7 @@ Blockly.JavaScript["get_r_cell_flexible"] = function (block) {
   }
 };
 
+// Legacy - for backwards compatibility with older posts
 // Field received from user - not used in code
 Blockly.JavaScript["set_r_cell_flexible"] = function (block) {
   let cell = Blockly.JavaScript.valueToCode(
@@ -739,6 +740,34 @@ Blockly.JavaScript["set_r_cell_flexible"] = function (block) {
 };
 
 // Field received from user - not used in code
+Blockly.JavaScript["set_r_cell_flexible_hue_fix"] = function (block) {
+  let cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+  if (cell === "") cell = "[0, 0]";
+  const value = Blockly.JavaScript.valueToCode(
+    block,
+    "VALUE",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const field = block.getFieldValue("DATA");
+  const limitingFuncName = field === "RB"? "wrap" : "clamp";
+  const valueCode = `this.${limitingFuncName}(${value}, 0, 100)`;
+  if (field === "ELEMENT") {
+    return `this.setSandRelative(${cell}, ${value}, undefined, undefined, undefined, false);\n`;
+  } else if (field === "RA") {
+    return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+  } else if (field === "RB") {
+    return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  } else if (field === "RC") {
+    return `this.setSandRelative(${cell}, undefined, undefined, undefined, ${valueCode});\n`;
+  }
+};
+
+// Legacy - for backwards compatibility with older posts
+// Field received from user - not used in code
 Blockly.JavaScript["modify_r_cell_flexible"] = function (block) {
   let cell = Blockly.JavaScript.valueToCode(
     block,
@@ -754,6 +783,35 @@ Blockly.JavaScript["modify_r_cell_flexible"] = function (block) {
   const field = block.getFieldValue("DATA");
   const offset = getOffset(field);
   const valueCode = `this.clamp(this.getSandRelative(${cell}, ${offset})  + ${value}, 0, 100) `;
+
+  if (field === "ELEMENT") {
+    return `this.setSandRelative(${cell}, this.getSandRelative(${cell}, ${offset})  + ${value});\n`;
+  } else if (field === "RA") {
+    return `this.setSandRelative(${cell}, undefined, ${valueCode});\n`;
+  } else if (field === "RB") {
+    return `this.setSandRelative(${cell}, undefined, undefined, ${valueCode});\n`;
+  } else if (field === "RC") {
+    return `this.setSandRelative(${cell}, undefined, undefined, undefined, ${valueCode});\n`;
+  }
+};
+
+// Field received from user - not used in code
+Blockly.JavaScript["modify_r_cell_flexible_hue_fix"] = function (block) {
+  let cell = Blockly.JavaScript.valueToCode(
+    block,
+    "CELL",
+    Blockly.JavaScript.ORDER_MEMBER
+  );
+  if (cell === "") cell = "[0, 0]";
+  const value = Blockly.JavaScript.valueToCode(
+    block,
+    "VALUE",
+    Blockly.JavaScript.ORDER_ATOMIC
+  );
+  const field = block.getFieldValue("DATA");
+  const offset = getOffset(field);
+  const limitingFuncName = field === "RB"? "wrap" : "clamp";
+  const valueCode = `this.${limitingFuncName}(this.getSandRelative(${cell}, ${offset}) + ${value}, 0, 100) `;
 
   if (field === "ELEMENT") {
     return `this.setSandRelative(${cell}, this.getSandRelative(${cell}, ${offset})  + ${value});\n`;

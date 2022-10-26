@@ -1516,6 +1516,42 @@ Blockly.defineBlocksWithJsonArray([
   },
 ]);
 
+Blockly.defineBlocksWithJsonArray([
+  {
+    type: "set_r_cell_flexible_hue_fix",
+    message0: "set %1 %2 %3 to %4 %5",
+    args0: [
+      {
+        type: "input_dummy",
+      },
+      {
+        type: "field_dropdown",
+        name: "DATA",
+        options: registers,
+      },
+      {
+        type: "input_dummy",
+      },
+      {
+        type: "input_dummy",
+        name: "TO",
+      },
+      {
+        type: "input_value",
+        name: "VALUE",
+        check: ["Number", "Vector", "Group", "Element"], //These don't actually matter - this input is rebuilt by the mutator anyway
+      },
+    ],
+    inputsInline: true,
+    previousStatement: null,
+    nextStatement: null,
+    colour: 210,
+    tooltip: "",
+    helpUrl: "",
+    mutator: "set_r_mutator",
+  },
+]);
+
 Blockly.Extensions.unregister("set_r_mutator");
 Blockly.Extensions.registerMutator("set_r_mutator", {
   mutationToDom() {
@@ -1613,6 +1649,42 @@ Blockly.Extensions.registerMutator("set_r_mutator", {
 Blockly.defineBlocksWithJsonArray([
   {
     type: "modify_r_cell_flexible",
+    message0: "increase %1 %2 %3 by %4 %5",
+    args0: [
+      {
+        type: "input_dummy",
+      },
+      {
+        type: "field_dropdown",
+        name: "DATA",
+        options: registers,
+      },
+      {
+        type: "input_dummy",
+      },
+      {
+        type: "input_dummy",
+        name: "BY",
+      },
+      {
+        type: "input_value",
+        name: "VALUE",
+        check: ["Number", "Vector"],
+      },
+    ],
+    inputsInline: true,
+    previousStatement: null,
+    nextStatement: null,
+    colour: 210,
+    tooltip: "",
+    helpUrl: "",
+    mutator: "modify_r_mutator",
+  },
+]);
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    type: "modify_r_cell_flexible_hue_fix",
     message0: "increase %1 %2 %3 by %4 %5",
     args0: [
       {

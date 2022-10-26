@@ -57,6 +57,13 @@ function clamp(value, min, max) {
   return value;
 }
 
+function wrap(value, min, max) {
+  const range = max - min;
+  while (value < min) value += range;
+  while (value > max) value -= range;
+  return value;
+}
+
 function turn(v, direction = -1) {
   return ChebyshevRotate(v, direction);
 }
@@ -698,6 +705,7 @@ globalState.getNumberTouching = getNumberTouching;
 globalState.isBlock = isBlock;
 globalState.add = add;
 globalState.clamp = clamp;
+globalState.wrap = wrap;
 globalState.subtract = subtract;
 globalState.multiply = multiply;
 globalState.difference = difference;
