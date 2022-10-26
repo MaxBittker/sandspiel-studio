@@ -88,7 +88,7 @@ async function handler(request: NextApiRequest, response: NextApiResponse) {
   }
 
   if (days) {
-    if (featured) {
+    if (featured === "true") {
       where.featuredAt = {
         gte: new Date(
           Date.now() - parseInt(days as string, 10) * 24 * 60 * 60 * 1000
