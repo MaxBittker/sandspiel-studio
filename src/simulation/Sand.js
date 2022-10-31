@@ -51,7 +51,7 @@ const Sand = () => {
   //   volume: 0.01,
   // });
   const [play2] = useSound("/media/clave1.wav", {
-    volume: 0.01,
+    volume: 0.05,
   });
   const selectedElement = useStore((state) => state.selectedElement);
   const updateScheme = useStore((state) => state.updateScheme);
