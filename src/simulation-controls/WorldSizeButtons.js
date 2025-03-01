@@ -7,7 +7,7 @@ import {
   seedWithBorder,
 } from "../simulation/SandApi.js";
 let worldScaleMap = [1 / 4, 1 / 2, 1];
-let worldScaleNameMap = ["small", "big", "MEGA"];
+let worldScaleNameMap = ["75x75", "150x150", "300x300"];
 import { globalState, useStore } from "../store";
 
 const WorldSizeButtons = ({}) => {
