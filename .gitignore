@@ -110,3 +110,4 @@ dist
 
 # Sentry
 .sentryclirc
+.env*
