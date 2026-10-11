@@ -4,30 +4,52 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import DiscordProvider from "next-auth/providers/discord";
 
-import nodemailer from "nodemailer";
-import sgTransport from "nodemailer-sendgrid-transport";
-// api key https://sendgrid.com/docs/Classroom/Send/api_keys.html
-var options = {
-  auth: {
-    api_key: process.env.SENDGRID_API_KEY,
-  },
-};
-
-var transport = nodemailer.createTransport(sgTransport(options));
+import axios from "axios";
 
 import { prisma } from "../../../db/prisma";
 
-async function sendVerificationRequest({
-  identifier: email,
-  url,
-  expires,
-  provider,
-  token,
-}) {
+const FROM = "noreply@sandspiel.club";
+
+// Uses Resend if RESEND_API_KEY is set, otherwise SendGrid's v3 API.
+async function sendEmail({ to, subject, text, html }) {
+  try {
+    if (process.env.RESEND_API_KEY) {
+      await axios.post(
+        "https://api.resend.com/emails",
+        { from: FROM, to, subject, text, html },
+        { headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}` } }
+      );
+    } else {
+      await axios.post(
+        "https://api.sendgrid.com/v3/mail/send",
+        {
+          personalizations: [{ to: [{ email: to }] }],
+          from: { email: FROM },
+          subject,
+          content: [
+            { type: "text/plain", value: text },
+            { type: "text/html", value: html },
+          ],
+        },
+        {
+          headers: { Authorization: `Bearer ${process.env.SENDGRID_API_KEY}` },
+        }
+      );
+    }
+  } catch (e) {
+    console.error(
+      "Failed to send sign-in email:",
+      e.response?.status,
+      JSON.stringify(e.response?.data ?? e.message)
+    );
+    throw e;
+  }
+}
+
+async function sendVerificationRequest({ identifier: email, url }) {
   const { host } = new URL(url);
-  await transport.sendMail({
+  await sendEmail({
     to: email,
-    from: "noreply@sandspiel.club",
     subject: `Sign in to ${host}`,
     text: text({ url, host }),
     html: html({ url, host, email }),
@@ -39,7 +61,7 @@ const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     EmailProvider({
-      from: "noreply@sandspiel.club",
+      from: FROM,
       sendVerificationRequest,
     }),
     DiscordProvider({
